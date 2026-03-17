@@ -1,0 +1,37 @@
+---
+import { Github } from '@lucide/astro';
+import ThemeToggle from './ThemeToggle.tsx';
+
+const githubUrl = import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com/nouploads/nouploads';
+---
+
+<header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+  <div class="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
+    <a href="/" class="flex items-center gap-2 font-bold text-lg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" stroke="currentColor" class="h-7 w-7 text-foreground">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M93.72 183.25C49.49 198.05 16 233.1 16 288c0 66 54 112 120 112h184.37m147.45-22.26C485.24 363.3 496 341.61 496 312c0-59.82-53-85.76-96-88c-8.89-89.54-71-144-144-144c-26.16 0-48.79 6.93-67.6 18.14"/>
+        <path stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M448 448L64 64"/>
+      </svg>
+      <span><span class="text-primary">No</span>Uploads</span>
+    </a>
+
+    <nav class="flex items-center gap-4">
+      <a href="/" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+        Tools
+      </a>
+      <a href="/about" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+        About
+      </a>
+      <a
+        href={githubUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+        aria-label="GitHub"
+      >
+        <Github class="h-5 w-5" />
+      </a>
+      <ThemeToggle client:load />
+    </nav>
+  </div>
+</header>

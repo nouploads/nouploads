@@ -1,0 +1,44 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+
+const title = 'Convert Images Online — PNG, JPG, WebP, AVIF | NoUploads';
+const description = 'Convert images between PNG, JPG, WebP, AVIF, GIF, BMP, and TIFF formats in your browser. No upload, no server, 100% private.';
+---
+
+<ToolLayout title={title} description={description}>
+  <h1 class="text-3xl font-bold mb-2">Convert Images</h1>
+  <p class="text-muted-foreground mb-6">
+    Convert between PNG, JPG, WebP, AVIF, GIF, BMP, and TIFF. Your files never leave your device.
+  </p>
+
+  <div class="rounded-lg border-2 border-dashed border-muted-foreground/25 p-12 text-center">
+    <p class="text-2xl mb-2">🔄</p>
+    <p class="font-medium text-lg">Coming soon</p>
+    <p class="text-sm text-muted-foreground mt-1">This tool is under development. Check back soon!</p>
+  </div>
+
+  <section class="mt-12 space-y-8 text-muted-foreground">
+    <div>
+      <h2 class="text-xl font-semibold text-foreground mb-2">How it works</h2>
+      <p>
+        NoUploads converts images between formats using the native Canvas API and WebAssembly decoders in your browser.
+        Select your target format, drop your image, and download the converted version instantly.
+        No server-side processing — everything runs locally.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-xl font-semibold text-foreground mb-2">Frequently asked questions</h2>
+      <div class="space-y-4">
+        <div>
+          <h3 class="font-medium text-foreground">Which formats are supported?</h3>
+          <p>Convert between PNG, JPG/JPEG, WebP, AVIF, GIF, BMP, and TIFF. Support depends on your browser — most modern browsers support all listed formats.</p>
+        </div>
+        <div>
+          <h3 class="font-medium text-foreground">What's the best format for the web?</h3>
+          <p>WebP offers the best compression-to-quality ratio for web use. AVIF is even better but has less browser support. JPG is the safest choice for universal compatibility.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</ToolLayout>

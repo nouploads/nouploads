@@ -1,17 +1,99 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ToolCard from '../components/ToolCard.astro';
+import { Lock, CircleCheck, Power } from '@lucide/astro';
 
+const title = 'NoUploads — Privacy-First File Tools | 100% Client-Side';
+const description = 'Free online file tools that run entirely in your browser. Convert, compress, resize images and more. No uploads, no servers, 100% private.';
+
+const tools = [
+  { title: 'HEIC to JPG', description: 'Convert iPhone HEIC photos to JPG format', href: '/image/heic-to-jpg', icon: '📸' },
+  { title: 'Image Compress', description: 'Reduce image file size with adjustable quality', href: '/image/compress', icon: '🗜️', comingSoon: true },
+  { title: 'Image Convert', description: 'Convert between PNG, JPG, WebP, AVIF, and more', href: '/image/convert', icon: '🔄', comingSoon: true },
+  { title: 'Image Resize', description: 'Resize images by pixels, percentage, or presets', href: '/image/resize', icon: '📐', comingSoon: true },
+  { title: 'EXIF Viewer', description: 'View and strip photo metadata', href: '/image/exif', icon: '🔍', comingSoon: true },
+  { title: 'Images to PDF', description: 'Combine multiple images into a single PDF', href: '/image/to-pdf', icon: '📄', comingSoon: true },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main class="mx-auto max-w-6xl px-4">
+    <!-- Hero -->
+    <section class="py-16 md:py-24 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+        Privacy-first file tools.
+        <br />
+        <span class="text-primary">Everything runs in your browser.</span>
+      </h1>
+      <p class="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+        Convert, compress, and transform your files without uploading them anywhere.
+        100% client-side processing using WebAssembly and native browser APIs.
+      </p>
+      <div class="flex items-center justify-center gap-3 text-sm text-muted-foreground">
+        <span class="flex items-center gap-1.5">
+          <Lock class="h-4 w-4 text-primary" />
+          No uploads
+        </span>
+        <span class="text-border">|</span>
+        <span class="flex items-center gap-1.5">
+          <CircleCheck class="h-4 w-4 text-primary" />
+          Free &amp; open source
+        </span>
+        <span class="text-border">|</span>
+        <span class="flex items-center gap-1.5">
+          <Power class="h-4 w-4 text-primary" />
+          Works offline
+        </span>
+      </div>
+    </section>
+
+    <!-- Tool Grid -->
+    <section class="pb-16">
+      <h2 class="text-2xl font-bold mb-6">Image Tools</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {tools.map((tool) => (
+          <ToolCard {...tool} />
+        ))}
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="pb-16 max-w-3xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6 text-center">How it works</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        <div>
+          <div class="text-3xl mb-2">1</div>
+          <h3 class="font-semibold mb-1">Choose a tool</h3>
+          <p class="text-sm text-muted-foreground">Pick from our growing collection of file conversion and manipulation tools.</p>
+        </div>
+        <div>
+          <div class="text-3xl mb-2">2</div>
+          <h3 class="font-semibold mb-1">Drop your files</h3>
+          <p class="text-sm text-muted-foreground">Drag and drop or select files. They stay on your device — nothing is uploaded.</p>
+        </div>
+        <div>
+          <div class="text-3xl mb-2">3</div>
+          <h3 class="font-semibold mb-1">Download results</h3>
+          <p class="text-sm text-muted-foreground">Processing happens instantly in your browser. Download the result when it's done.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="pb-16 text-center">
+      <p class="text-muted-foreground mb-2">
+        Don't trust us? <strong>Verify yourself.</strong>
+      </p>
+      <p class="text-sm text-muted-foreground max-w-xl mx-auto">
+        Open your browser's Network tab (F12 → Network) while using any tool. You'll see zero file uploads.
+        Or turn on airplane mode after the page loads — everything still works.
+      </p>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

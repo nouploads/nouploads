@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'About NoUploads — How It Works & Privacy Guarantee';
+const description = 'Learn how NoUploads processes files 100% in your browser. No uploads, no servers, no tracking. Verify our privacy claims yourself.';
+const githubUrl = import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com/nouploads/nouploads';
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main class="mx-auto max-w-3xl px-4 py-12">
+    <h1 class="text-3xl font-bold mb-8">About NoUploads</h1>
+
+    <div class="space-y-8 text-muted-foreground">
+      <section>
+        <h2 class="text-xl font-semibold text-foreground mb-3">Your files never leave your device</h2>
+        <p>
+          NoUploads is a collection of file tools — image converters, compressors, PDF utilities, and more —
+          that process everything <strong class="text-foreground">100% in your browser</strong>.
+        </p>
+        <p class="mt-2">
+          When you use a tool on NoUploads, your files are processed locally using JavaScript, WebAssembly,
+          and native browser APIs. Nothing is uploaded to any server. There is no backend. There is no API
+          that touches your files. The entire application is static HTML, CSS, and JavaScript.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-foreground mb-3">Verify it yourself</h2>
+        <p>
+          We don't ask you to trust us — we ask you to verify. Here's how:
+        </p>
+        <ol class="list-decimal list-inside mt-3 space-y-2">
+          <li>
+            <strong class="text-foreground">Check the Network tab.</strong> Open your browser's developer tools
+            (F12 → Network tab), then use any tool. You'll see zero file upload requests.
+          </li>
+          <li>
+            <strong class="text-foreground">Go offline.</strong> Turn on airplane mode after the page loads.
+            Every tool still works — because nothing depends on a server.
+          </li>
+          <li>
+            <strong class="text-foreground">Read the source code.</strong> NoUploads is fully open source.
+            Inspect every line at <a href={githubUrl} class="text-primary underline underline-offset-2" target="_blank" rel="noopener noreferrer">GitHub</a>.
+          </li>
+        </ol>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-foreground mb-3">How it works technically</h2>
+        <p>
+          The site is built with Astro (static site generator) and React (interactive components).
+          Each tool page is a static HTML file with an embedded React "island" for the interactive
+          file processing widget.
+        </p>
+        <p class="mt-2">
+          Processing libraries are loaded on demand — when you visit the HEIC converter, only the
+          HEIC conversion library is downloaded. Heavy libraries like video processing (ffmpeg.wasm)
+          or AI models are fetched from a CDN only when you use that specific tool, then cached by
+          your browser for instant subsequent use.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-foreground mb-3">Open source</h2>
+        <p>
+          NoUploads is open source under the
+          <a href={`${githubUrl}/blob/main/LICENSE`} class="text-primary underline underline-offset-2" target="_blank" rel="noopener noreferrer">AGPL-3.0 license</a>.
+          You can self-host it, inspect the code, and contribute improvements.
+        </p>
+        <p class="mt-2">
+          Self-hosting is simple — it's just static files. Serve the build output with any web server,
+          or use our Docker image.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-foreground mb-3">Self-hosting</h2>
+        <p>Run your own instance:</p>
+        <div class="mt-3 space-y-3">
+          <div>
+            <p class="font-medium text-foreground text-sm">Docker</p>
+            <code class="block bg-muted rounded px-3 py-2 text-sm mt-1">docker run -d -p 8080:80 ghcr.io/nouploads/nouploads:latest</code>
+          </div>
+          <div>
+            <p class="font-medium text-foreground text-sm">Build from source</p>
+            <code class="block bg-muted rounded px-3 py-2 text-sm mt-1">git clone {githubUrl}.git && cd nouploads && npm install && npm run build</code>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
