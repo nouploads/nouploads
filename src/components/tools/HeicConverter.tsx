@@ -1,10 +1,11 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { FileDropzone } from '../FileDropzone';
-import { ProgressBar } from '../ProgressBar';
 import { DownloadButton } from '../DownloadButton';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { heicToJpgBatch } from '../../processors/image/heic-to-jpg';
+import { Spinner } from '@/components/ui/spinner';
+import { ProgressBar } from '../ProgressBar';
+import { heicToJpg, heicToJpgBatch } from '../../processors/image/heic-to-jpg';
 import { Download, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 function formatFileSize(bytes: number): string {
@@ -22,53 +23,190 @@ interface BatchResult {
   output: Blob | Error;
 }
 
-export default function HeicConverter() {
-  const [quality, setQuality] = useState(92);
-  const [status, setStatus] = useState<'idle' | 'processing' | 'done'>('idle');
-  const [results, setResults] = useState<BatchResult[]>([]);
+// ─── Single-file mode: side-by-side preview with reactive quality ───
+
+function SingleFileView({
+  file,
+  quality,
+  onReset,
+}: {
+  file: File;
+  quality: number;
+  onReset: () => void;
+}) {
+  const [originalUrl, setOriginalUrl] = useState<string | null>(null);
+  const [originalLoading, setOriginalLoading] = useState(true);
+  const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [resultBlob, setResultBlob] = useState<Blob | null>(null);
+  const [converting, setConverting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [progress, setProgress] = useState({ completed: 0, total: 0 });
+  const convertRef = useRef(0); // track latest conversion to discard stale results
 
-  const handleFiles = useCallback(
-    async (files: File[]) => {
-      if (files.length === 0) return;
+  // Convert HEIC to a displayable preview at full quality (browsers can't render HEIC natively)
+  useEffect(() => {
+    setOriginalLoading(true);
+    heicToJpg(file, { quality: 1.0 })
+      .then((blob) => {
+        const url = URL.createObjectURL(blob);
+        setOriginalUrl((prev) => {
+          if (prev) URL.revokeObjectURL(prev);
+          return url;
+        });
+        setOriginalLoading(false);
+      })
+      .catch(() => {
+        setOriginalLoading(false);
+      });
+  }, [file]);
 
-      setResults([]);
-      setError(null);
-      setStatus('processing');
-      setProgress({ completed: 0, total: files.length });
-
-      try {
-        const outputs = await heicToJpgBatch(
-          files,
-          { quality: quality / 100 },
-          (completedIndex, totalCount) => {
-            setProgress({ completed: completedIndex + 1, total: totalCount });
-          }
-        );
-
-        setResults(
-          files.map((file, i) => ({ inputFile: file, output: outputs[i] }))
-        );
-        setStatus('done');
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : 'Failed to convert files. Make sure they are valid HEIC images.'
-        );
-        setStatus('idle');
-      }
-    },
-    [quality]
-  );
-
-  const reset = useCallback(() => {
-    setResults([]);
+  // Convert whenever file or quality changes
+  useEffect(() => {
+    const id = ++convertRef.current;
+    setConverting(true);
     setError(null);
-    setStatus('idle');
-    setProgress({ completed: 0, total: 0 });
-  }, []);
+
+    heicToJpg(file, { quality: quality / 100 })
+      .then((blob) => {
+        if (convertRef.current !== id) return; // stale
+        setResultBlob(blob);
+        setResultUrl((prev) => {
+          if (prev) URL.revokeObjectURL(prev);
+          return URL.createObjectURL(blob);
+        });
+        setConverting(false);
+      })
+      .catch((err) => {
+        if (convertRef.current !== id) return;
+        setError(err instanceof Error ? err.message : 'Conversion failed');
+        setResultBlob(null);
+        setResultUrl(null);
+        setConverting(false);
+      });
+  }, [file, quality]);
+
+  const outputFilename = toJpgFilename(file.name);
+
+  return (
+    <div className="space-y-4">
+      {/* Side-by-side preview */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Original */}
+        <div className="space-y-2">
+          <p className="text-sm font-medium">Original</p>
+          <div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center min-h-[200px]">
+            {originalLoading ? (
+              <div className="flex flex-col items-center gap-2 p-4">
+                <Spinner className="size-6" />
+                <p className="text-sm text-muted-foreground">Loading preview...</p>
+              </div>
+            ) : originalUrl ? (
+              <img
+                src={originalUrl}
+                alt="Original"
+                className="max-w-full max-h-[400px] object-contain"
+              />
+            ) : null}
+          </div>
+          <p className="text-xs text-muted-foreground">
+            {file.name} — {formatFileSize(file.size)}
+          </p>
+        </div>
+
+        {/* Result */}
+        <div className="space-y-2">
+          <p className="text-sm font-medium">Result</p>
+          <div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center min-h-[200px]">
+            {converting ? (
+              <div className="flex flex-col items-center gap-2 p-4">
+                <Spinner className="size-6" />
+                <p className="text-sm text-muted-foreground">Converting HEIC to JPG...</p>
+              </div>
+            ) : error ? (
+              <div className="flex flex-col items-center gap-2 p-4 text-center">
+                <AlertCircle className="h-6 w-6 text-destructive" />
+                <p className="text-sm text-destructive">{error}</p>
+              </div>
+            ) : resultUrl ? (
+              <img
+                src={resultUrl}
+                alt="Result"
+                className="max-w-full max-h-[400px] object-contain"
+              />
+            ) : null}
+          </div>
+          {resultBlob && !converting && (
+            <div className="space-y-1">
+              <p className="text-xs text-muted-foreground">
+                {outputFilename} — {formatFileSize(resultBlob.size)}
+                {' '}
+                {resultBlob.size < file.size ? (
+                  <span className="text-primary font-medium">
+                    ({Math.round((1 - resultBlob.size / file.size) * 100)}% smaller)
+                  </span>
+                ) : resultBlob.size > file.size ? (
+                  <span className="text-muted-foreground">
+                    ({Math.round((resultBlob.size / file.size - 1) * 100)}% larger)
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground">(same size)</span>
+                )}
+              </p>
+              <p className="text-sm font-medium">{outputFilename}</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="flex items-center gap-3">
+        {resultBlob && !converting && (
+          <DownloadButton blob={resultBlob} filename={outputFilename} />
+        )}
+        <Button variant="outline" onClick={onReset}>
+          Convert more
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Multi-file batch mode ──────────────────────────────────────
+
+function BatchView({
+  files,
+  quality,
+  onReset,
+}: {
+  files: File[];
+  quality: number;
+  onReset: () => void;
+}) {
+  const [status, setStatus] = useState<'processing' | 'done'>('processing');
+  const [results, setResults] = useState<BatchResult[]>([]);
+  const [progress, setProgress] = useState({ completed: 0, total: 0 });
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setStatus('processing');
+    setResults([]);
+    setProgress({ completed: 0, total: files.length });
+
+    heicToJpgBatch(
+      files,
+      { quality: quality / 100 },
+      (completedIndex, totalCount) => {
+        setProgress({ completed: completedIndex + 1, total: totalCount });
+      }
+    )
+      .then((outputs) => {
+        setResults(files.map((file, i) => ({ inputFile: file, output: outputs[i] })));
+        setStatus('done');
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : 'Batch conversion failed');
+        setStatus('done');
+      });
+  }, [files, quality]);
 
   const successfulResults = results.filter(
     (r): r is BatchResult & { output: Blob } => r.output instanceof Blob
@@ -88,55 +226,21 @@ export default function HeicConverter() {
   }, [successfulResults]);
 
   return (
-    <div className="space-y-6">
-      {/* Quality setting */}
-      <div className="space-y-2">
-        <label className="text-sm font-medium">
-          JPG Quality: {quality}%
-        </label>
-        <Slider
-          value={quality}
-          onValueChange={(v) => setQuality(typeof v === 'number' ? v : v[0])}
-          min={10}
-          max={100}
-          step={1}
-          className="max-w-sm"
-        />
-      </div>
-
-      {/* File input */}
-      {status === 'idle' && results.length === 0 && (
-        <FileDropzone
-          accept={{ 'image/heic': ['.heic', '.HEIC'] }}
-          onFiles={handleFiles}
-          multiple
-        />
-      )}
-
-      {/* Processing */}
-      {status === 'processing' && (
-        <ProgressBar
-          message={
-            progress.total > 1
-              ? `Converting ${progress.completed} of ${progress.total} files...`
-              : 'Converting HEIC to JPG...'
-          }
-        />
-      )}
-
-      {/* Error */}
+    <div className="space-y-3">
       {error && (
         <div className="rounded-lg border border-destructive/50 bg-destructive/5 p-4">
           <p className="text-sm text-destructive">{error}</p>
-          <Button variant="outline" size="sm" onClick={reset} className="mt-2">
-            Try again
-          </Button>
         </div>
       )}
 
-      {/* Results */}
+      {status === 'processing' && (
+        <ProgressBar
+          message={`Converting ${progress.completed} of ${progress.total} files...`}
+        />
+      )}
+
       {status === 'done' && results.length > 0 && (
-        <div className="space-y-3">
+        <>
           {results.map((r, i) => {
             const isSuccess = r.output instanceof Blob;
             const outputName = toJpgFilename(r.inputFile.name);
@@ -178,10 +282,7 @@ export default function HeicConverter() {
                   </div>
                 </div>
                 {isSuccess && (
-                  <DownloadButton
-                    blob={r.output as Blob}
-                    filename={outputName}
-                  />
+                  <DownloadButton blob={r.output as Blob} filename={outputName} />
                 )}
               </div>
             );
@@ -194,11 +295,67 @@ export default function HeicConverter() {
                 Download all ({successfulResults.length})
               </Button>
             )}
-            <Button variant="outline" onClick={reset}>
+            <Button variant="outline" onClick={onReset}>
               Convert more
             </Button>
           </div>
-        </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ─── Main component ─────────────────────────────────────────────
+
+export default function HeicConverter() {
+  const [quality, setQuality] = useState(92);
+  const [files, setFiles] = useState<File[]>([]);
+
+  const handleFiles = useCallback((incoming: File[]) => {
+    if (incoming.length > 0) setFiles(incoming);
+  }, []);
+
+  const reset = useCallback(() => {
+    setFiles([]);
+  }, []);
+
+  const isSingleFile = files.length === 1;
+  const isBatch = files.length > 1;
+
+  return (
+    <div className="space-y-6">
+      {/* Quality setting — always visible */}
+      <div className="space-y-2">
+        <label className="text-sm font-medium">
+          JPG Quality: {quality}%
+        </label>
+        <Slider
+          value={quality}
+          onValueChange={(v) => setQuality(typeof v === 'number' ? v : v[0])}
+          min={10}
+          max={100}
+          step={1}
+          className="max-w-sm"
+        />
+      </div>
+
+      {/* Dropzone — shown when no files loaded */}
+      {files.length === 0 && (
+        <FileDropzone
+          accept={{ 'image/heic': ['.heic', '.HEIC'] }}
+          onFiles={handleFiles}
+          multiple
+        />
+      )}
+
+      {/* Single file: side-by-side preview with reactive quality */}
+      {isSingleFile && (
+        <SingleFileView file={files[0]} quality={quality} onReset={reset} />
+      )}
+
+      {/* Multiple files: batch list */}
+      {isBatch && (
+        <BatchView files={files} quality={quality} onReset={reset} />
       )}
     </div>
   );
