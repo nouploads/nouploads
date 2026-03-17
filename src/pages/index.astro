@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import ToolCard from '../components/ToolCard.astro';
+import ToolSearch from '../components/ToolSearch.tsx';
 import { Lock, CircleCheck, Power } from '@lucide/astro';
 
 const title = 'NoUploads — Privacy-First File Tools | 100% Client-Side';
@@ -16,6 +16,10 @@ const tools = [
   { title: 'EXIF Viewer', description: 'View and strip photo metadata', href: '/image/exif', icon: '🔍', comingSoon: true },
   { title: 'Images to PDF', description: 'Combine multiple images into a single PDF', href: '/image/to-pdf', icon: '📄', comingSoon: true },
 ];
+
+const issuesUrl = import.meta.env.PUBLIC_GITHUB_URL
+  ? `${import.meta.env.PUBLIC_GITHUB_URL}/issues`
+  : 'https://github.com/nouploads/nouploads/issues';
 ---
 
 <BaseLayout title={title} description={description}>
@@ -51,14 +55,9 @@ const tools = [
       </div>
     </section>
 
-    <!-- Tool Grid -->
+    <!-- Tool Grid with Search -->
     <section class="pb-16">
-      <h2 class="text-2xl font-bold mb-6">Image Tools</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {tools.map((tool) => (
-          <ToolCard {...tool} />
-        ))}
-      </div>
+      <ToolSearch client:load tools={tools} issuesUrl={issuesUrl} />
     </section>
 
     <!-- How it works -->
