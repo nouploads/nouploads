@@ -4,7 +4,8 @@ import { ProgressBar } from '../ProgressBar';
 import { DownloadButton } from '../DownloadButton';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { heicToJpg } from '../../processors/image/heic-to-jpg';
+import { heicToJpgBatch } from '../../processors/image/heic-to-jpg';
+import { Download, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 function formatFileSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
@@ -12,34 +13,49 @@ function formatFileSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+function toJpgFilename(name: string): string {
+  return name.replace(/\.heic$/i, '.jpg');
+}
+
+interface BatchResult {
+  inputFile: File;
+  output: Blob | Error;
+}
+
 export default function HeicConverter() {
   const [quality, setQuality] = useState(92);
-  const [status, setStatus] = useState<'idle' | 'loading' | 'processing' | 'done'>('idle');
-  const [result, setResult] = useState<Blob | null>(null);
+  const [status, setStatus] = useState<'idle' | 'processing' | 'done'>('idle');
+  const [results, setResults] = useState<BatchResult[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [inputFile, setInputFile] = useState<File | null>(null);
+  const [progress, setProgress] = useState({ completed: 0, total: 0 });
 
   const handleFiles = useCallback(
     async (files: File[]) => {
-      const file = files[0];
-      if (!file) return;
+      if (files.length === 0) return;
 
-      setInputFile(file);
-      setResult(null);
+      setResults([]);
       setError(null);
-      setStatus('loading');
+      setStatus('processing');
+      setProgress({ completed: 0, total: files.length });
 
       try {
-        // Dynamic import happens inside heicToJpg — first call loads the library
-        setStatus('processing');
-        const output = await heicToJpg(file, { quality: quality / 100 });
-        setResult(output);
+        const outputs = await heicToJpgBatch(
+          files,
+          { quality: quality / 100 },
+          (completedIndex, totalCount) => {
+            setProgress({ completed: completedIndex + 1, total: totalCount });
+          }
+        );
+
+        setResults(
+          files.map((file, i) => ({ inputFile: file, output: outputs[i] }))
+        );
         setStatus('done');
       } catch (err) {
         setError(
           err instanceof Error
             ? err.message
-            : 'Failed to convert file. Make sure it is a valid HEIC image.'
+            : 'Failed to convert files. Make sure they are valid HEIC images.'
         );
         setStatus('idle');
       }
@@ -48,15 +64,28 @@ export default function HeicConverter() {
   );
 
   const reset = useCallback(() => {
-    setInputFile(null);
-    setResult(null);
+    setResults([]);
     setError(null);
     setStatus('idle');
+    setProgress({ completed: 0, total: 0 });
   }, []);
 
-  const outputFilename = inputFile
-    ? inputFile.name.replace(/\.heic$/i, '.jpg')
-    : 'converted.jpg';
+  const successfulResults = results.filter(
+    (r): r is BatchResult & { output: Blob } => r.output instanceof Blob
+  );
+
+  const downloadAll = useCallback(() => {
+    for (const r of successfulResults) {
+      const url = URL.createObjectURL(r.output);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = toJpgFilename(r.inputFile.name);
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  }, [successfulResults]);
 
   return (
     <div className="space-y-6">
@@ -76,16 +105,23 @@ export default function HeicConverter() {
       </div>
 
       {/* File input */}
-      {status === 'idle' && !result && (
+      {status === 'idle' && results.length === 0 && (
         <FileDropzone
           accept={{ 'image/heic': ['.heic', '.HEIC'] }}
           onFiles={handleFiles}
+          multiple
         />
       )}
 
-      {/* Loading / Processing */}
-      {(status === 'loading' || status === 'processing') && (
-        <ProgressBar message={status === 'loading' ? 'Loading converter...' : 'Converting HEIC to JPG...'} />
+      {/* Processing */}
+      {status === 'processing' && (
+        <ProgressBar
+          message={
+            progress.total > 1
+              ? `Converting ${progress.completed} of ${progress.total} files...`
+              : 'Converting HEIC to JPG...'
+          }
+        />
       )}
 
       {/* Error */}
@@ -98,33 +134,68 @@ export default function HeicConverter() {
         </div>
       )}
 
-      {/* Result */}
-      {result && inputFile && (
-        <div className="space-y-4 rounded-lg border bg-card p-4">
-          <div className="flex items-center justify-between text-sm">
-            <div>
-              <p className="font-medium">{inputFile.name}</p>
-              <p className="text-muted-foreground">
-                {formatFileSize(inputFile.size)} → {formatFileSize(result.size)}
-                {' '}
-                {result.size < inputFile.size ? (
-                  <span className="text-primary font-medium">
-                    ({Math.round((1 - result.size / inputFile.size) * 100)}% smaller)
-                  </span>
-                ) : result.size > inputFile.size ? (
-                  <span className="text-muted-foreground">
-                    ({Math.round((result.size / inputFile.size - 1) * 100)}% larger)
-                  </span>
-                ) : (
-                  <span className="text-muted-foreground">(same size)</span>
+      {/* Results */}
+      {status === 'done' && results.length > 0 && (
+        <div className="space-y-3">
+          {results.map((r, i) => {
+            const isSuccess = r.output instanceof Blob;
+            const outputName = toJpgFilename(r.inputFile.name);
+
+            return (
+              <div
+                key={i}
+                className="flex items-center justify-between rounded-lg border bg-card p-3 gap-3"
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  {isSuccess ? (
+                    <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                  ) : (
+                    <AlertCircle className="h-4 w-4 text-destructive shrink-0" />
+                  )}
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium truncate">{outputName}</p>
+                    {isSuccess ? (
+                      <p className="text-xs text-muted-foreground">
+                        {formatFileSize(r.inputFile.size)} → {formatFileSize((r.output as Blob).size)}
+                        {' '}
+                        {(r.output as Blob).size < r.inputFile.size ? (
+                          <span className="text-primary font-medium">
+                            ({Math.round((1 - (r.output as Blob).size / r.inputFile.size) * 100)}% smaller)
+                          </span>
+                        ) : (r.output as Blob).size > r.inputFile.size ? (
+                          <span className="text-muted-foreground">
+                            ({Math.round(((r.output as Blob).size / r.inputFile.size - 1) * 100)}% larger)
+                          </span>
+                        ) : (
+                          <span className="text-muted-foreground">(same size)</span>
+                        )}
+                      </p>
+                    ) : (
+                      <p className="text-xs text-destructive">
+                        Failed: {(r.output as Error).message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                {isSuccess && (
+                  <DownloadButton
+                    blob={r.output as Blob}
+                    filename={outputName}
+                  />
                 )}
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <DownloadButton blob={result} filename={outputFilename} />
+              </div>
+            );
+          })}
+
+          <div className="flex items-center gap-3 pt-2">
+            {successfulResults.length > 1 && (
+              <Button onClick={downloadAll} className="gap-2">
+                <Download className="h-4 w-4" />
+                Download all ({successfulResults.length})
+              </Button>
+            )}
             <Button variant="outline" onClick={reset}>
-              Convert another
+              Convert more
             </Button>
           </div>
         </div>

@@ -9,8 +9,10 @@ test.describe('HEIC to JPG Tool Page', () => {
     await expect(page.locator('h1')).toContainText('Convert HEIC to JPG');
   });
 
-  test('should display file dropzone', async ({ page }) => {
-    await expect(page.getByText(/drop a file/i)).toBeVisible();
+  test('should display file dropzone that accepts multiple files', async ({ page }) => {
+    await expect(page.getByText(/drop files here/i)).toBeVisible();
+    const input = page.locator('input[type="file"]');
+    await expect(input).toHaveAttribute('multiple', '');
   });
 
   test('should display quality slider', async ({ page }) => {

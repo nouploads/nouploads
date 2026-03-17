@@ -59,3 +59,65 @@ describe('heicToJpg processor', () => {
     await expect(heicToJpg(inputBlob)).rejects.toThrow('Invalid HEIC file');
   });
 });
+
+describe('heicToJpgBatch processor', () => {
+  it('should convert multiple blobs and return results array', async () => {
+    const { heicToJpgBatch } = await import('../../../src/processors/image/heic-to-jpg');
+
+    const input1 = new Blob(['heic-1'], { type: 'image/heic' });
+    const input2 = new Blob(['heic-2'], { type: 'image/heic' });
+    const output1 = new Blob(['jpg-1'], { type: 'image/jpeg' });
+    const output2 = new Blob(['jpg-2'], { type: 'image/jpeg' });
+
+    mockedHeic2any
+      .mockResolvedValueOnce(output1)
+      .mockResolvedValueOnce(output2);
+
+    const results = await heicToJpgBatch([input1, input2], { quality: 0.85 });
+
+    expect(results).toHaveLength(2);
+    expect(results[0]).toBe(output1);
+    expect(results[1]).toBe(output2);
+  });
+
+  it('should call onProgress with file index', async () => {
+    const { heicToJpgBatch } = await import('../../../src/processors/image/heic-to-jpg');
+
+    const input1 = new Blob(['heic-1'], { type: 'image/heic' });
+    const input2 = new Blob(['heic-2'], { type: 'image/heic' });
+
+    mockedHeic2any
+      .mockResolvedValueOnce(new Blob(['jpg-1']))
+      .mockResolvedValueOnce(new Blob(['jpg-2']));
+
+    const onProgress = vi.fn();
+    await heicToJpgBatch([input1, input2], { quality: 0.92 }, onProgress);
+
+    // Should be called with (completedIndex, totalCount)
+    expect(onProgress).toHaveBeenCalledWith(0, 2);
+    expect(onProgress).toHaveBeenCalledWith(1, 2);
+  });
+
+  it('should return partial results and errors for failed files', async () => {
+    const { heicToJpgBatch } = await import('../../../src/processors/image/heic-to-jpg');
+
+    const input1 = new Blob(['heic-1'], { type: 'image/heic' });
+    const input2 = new Blob(['bad-data'], { type: 'image/heic' });
+    const input3 = new Blob(['heic-3'], { type: 'image/heic' });
+    const output1 = new Blob(['jpg-1'], { type: 'image/jpeg' });
+    const output3 = new Blob(['jpg-3'], { type: 'image/jpeg' });
+
+    mockedHeic2any
+      .mockResolvedValueOnce(output1)
+      .mockRejectedValueOnce(new Error('Invalid HEIC file'))
+      .mockResolvedValueOnce(output3);
+
+    const results = await heicToJpgBatch([input1, input2, input3], { quality: 0.92 });
+
+    expect(results).toHaveLength(3);
+    expect(results[0]).toBe(output1);
+    expect(results[1]).toBeInstanceOf(Error);
+    expect((results[1] as Error).message).toBe('Invalid HEIC file');
+    expect(results[2]).toBe(output3);
+  });
+});

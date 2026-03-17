@@ -20,3 +20,28 @@ export async function heicToJpg(
   }
   return result;
 }
+
+/**
+ * Batch convert multiple HEIC blobs to JPG.
+ * Returns an array of results — each is either a Blob (success) or Error (failure).
+ * Failed files don't stop the batch; other files continue converting.
+ */
+export async function heicToJpgBatch(
+  inputs: Blob[],
+  options: HeicToJpgOptions = { quality: 0.92 },
+  onProgress?: (completedIndex: number, totalCount: number) => void
+): Promise<(Blob | Error)[]> {
+  const results: (Blob | Error)[] = [];
+
+  for (let i = 0; i < inputs.length; i++) {
+    try {
+      const output = await heicToJpg(inputs[i], options);
+      results.push(output);
+    } catch (err) {
+      results.push(err instanceof Error ? err : new Error(String(err)));
+    }
+    onProgress?.(i, inputs.length);
+  }
+
+  return results;
+}
