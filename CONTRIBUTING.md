@@ -12,7 +12,7 @@ By opening a PR, you confirm that you have read and agree to the CLA.
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 22.12+
 - npm
 
 ### Setup
@@ -109,6 +109,48 @@ import MyTool from '../../components/tools/MyTool.tsx';
   </section>
 </ToolLayout>
 ```
+
+### 4. Tests (TDD — specs first)
+
+Every new feature **must** have tests written **before** the implementation. We follow test-driven development:
+
+1. **Write spec files first** — create unit tests (Vitest) and/or e2e tests (Playwright) that describe the expected behavior.
+2. **Run tests to confirm they fail** — `npm test` should show your new tests failing.
+3. **Build the feature** — implement code until all tests pass.
+4. **Refactor** — clean up while keeping tests green.
+
+#### Unit tests (Vitest)
+
+Located in `tests/unit/`. Mirror the `src/` structure:
+
+```
+tests/unit/
+├── processors/     # Processor tests (pure logic)
+├── components/     # React component tests (@testing-library/react)
+└── hooks/          # Custom hook tests (renderHook)
+```
+
+```bash
+npm test          # Run once
+npm run test:watch # Watch mode
+```
+
+#### E2E tests (Playwright)
+
+Located in `tests/e2e/`. One spec per page or feature:
+
+```bash
+npm run test:e2e   # Run e2e tests (starts dev server automatically)
+npm run test:all   # Run both unit + e2e
+```
+
+#### What to test for a new tool
+
+| Layer | File | What to test |
+|---|---|---|
+| Processor | `tests/unit/processors/<category>/<tool>.test.ts` | Input/output, options, edge cases, error handling |
+| Component | `tests/unit/components/tools/<Tool>.test.tsx` | Rendering, user interactions, state transitions |
+| E2E | `tests/e2e/<tool>.spec.ts` | Full page load, file drop, conversion flow, download |
 
 ## Key Rules
 
