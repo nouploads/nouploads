@@ -1,11 +1,11 @@
 import type { LucideIcon } from "lucide-react";
 import {
-  Camera,
-  ArrowDownToLine,
-  RefreshCw,
-  Scaling,
-  ScanSearch,
-  FileImage,
+	ArrowDownToLine,
+	Camera,
+	FileImage,
+	RefreshCw,
+	Scaling,
+	ScanSearch,
 } from "lucide-react";
 
 /**
@@ -13,45 +13,47 @@ import {
  * Import only the icons you need to keep the bundle small.
  */
 const iconMap: Record<string, LucideIcon> = {
-  Camera,
-  ArrowDownToLine,
-  RefreshCw,
-  Scaling,
-  ScanSearch,
-  FileImage,
+	Camera,
+	ArrowDownToLine,
+	RefreshCw,
+	Scaling,
+	ScanSearch,
+	FileImage,
 };
 
 interface ToolIconProps {
-  icon: string;
-  iconColor: string;
-  iconBg: string;
-  size?: "sm" | "md";
+	icon: string;
+	iconColor: string;
+	iconBg: string;
+	size?: "sm" | "md";
 }
 
 export function ToolIcon({
-  icon,
-  iconColor,
-  iconBg,
-  size = "md",
+	icon,
+	iconColor,
+	iconBg,
+	size = "md",
 }: ToolIconProps) {
-  const LucideIcon = iconMap[icon];
-  if (!LucideIcon) {
-    if (import.meta.env.DEV) {
-      console.warn(`[ToolIcon] Missing icon "${icon}" — add it to iconMap in tool-icon.tsx`);
-    }
-    return null;
-  }
+	const LucideIcon = iconMap[icon];
+	if (!LucideIcon) {
+		if (import.meta.env.DEV) {
+			console.warn(
+				`[ToolIcon] Missing icon "${icon}" — add it to iconMap in tool-icon.tsx`,
+			);
+		}
+		return null;
+	}
 
-  const sizeClasses =
-    size === "sm" ? "h-8 w-8 rounded-md" : "h-11 w-11 rounded-xl";
+	const sizeClasses =
+		size === "sm" ? "h-8 w-8 rounded-md" : "h-11 w-11 rounded-xl";
 
-  const iconSize = size === "sm" ? "h-4 w-4" : "h-5 w-5";
+	const iconSize = size === "sm" ? "h-4 w-4" : "h-5 w-5";
 
-  return (
-    <div
-      className={`${sizeClasses} ${iconBg} flex items-center justify-center shrink-0`}
-    >
-      <LucideIcon className={`${iconSize} ${iconColor}`} />
-    </div>
-  );
+	return (
+		<div
+			className={`${sizeClasses} ${iconBg} flex items-center justify-center shrink-0`}
+		>
+			<LucideIcon className={`${iconSize} ${iconColor}`} />
+		</div>
+	);
 }
