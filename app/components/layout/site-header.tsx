@@ -1,8 +1,12 @@
+import { lazy, Suspense } from "react";
 import { Link } from "react-router";
 import { ThemeToggle } from "./theme-toggle";
 import { GitHubLink } from "./github-link";
-import { CommandPalette } from "./command-palette";
 import { tools } from "~/lib/tools";
+
+const CommandPalette = lazy(() =>
+  import("./command-palette").then((m) => ({ default: m.CommandPalette }))
+);
 
 const GITHUB_URL = "https://github.com/nouploads/nouploads";
 
@@ -37,7 +41,9 @@ export function SiteHeader() {
         </Link>
 
         <div className="flex items-center gap-2">
-          <CommandPalette tools={tools} />
+          <Suspense>
+            <CommandPalette tools={tools} />
+          </Suspense>
           <GitHubLink href={GITHUB_URL} />
           <ThemeToggle />
         </div>

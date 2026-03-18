@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Homepage', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'networkidle' });
   });
 
   test('should display hero section', async ({ page }) => {
@@ -49,7 +49,7 @@ test.describe('Homepage', () => {
   test('should filter tools when typing in search', async ({ page }) => {
     const input = page.getByPlaceholder(/filter tools/i);
     await input.fill('heic');
+    await expect(page.getByText(/1 of 6/)).toBeVisible();
     await expect(page.getByText('HEIC to JPG')).toBeVisible();
-    await expect(page.getByText('Image Compress')).not.toBeVisible();
   });
 });

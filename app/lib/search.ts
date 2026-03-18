@@ -1,4 +1,4 @@
-import Fuse from "fuse.js";
+import Fuse, { type IFuseOptions } from "fuse.js";
 
 export interface Tool {
   title: string;
@@ -10,7 +10,7 @@ export interface Tool {
   comingSoon?: boolean;
 }
 
-const fuseOptions: Fuse.IFuseOptions<Tool> = {
+const fuseOptions: IFuseOptions<Tool> = {
   keys: [
     { name: "title", weight: 2 },
     { name: "description", weight: 1 },

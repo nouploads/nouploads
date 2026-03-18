@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Tool Filter', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'networkidle' });
   });
 
   test('should have a search input', async ({ page }) => {
@@ -14,8 +14,9 @@ test.describe('Tool Filter', () => {
     const input = page.getByPlaceholder(/filter tools/i);
     await input.fill('heic');
 
+    // Wait for filter count indicator to confirm filter has applied
+    await expect(page.getByText(/1 of 6/)).toBeVisible();
     await expect(page.getByText('HEIC to JPG')).toBeVisible();
-    await expect(page.getByText('Image Compress')).not.toBeVisible();
   });
 
   test('should show no-results message for unmatched query', async ({ page }) => {
@@ -29,11 +30,12 @@ test.describe('Tool Filter', () => {
   test('should restore all tools when search is cleared', async ({ page }) => {
     const input = page.getByPlaceholder(/filter tools/i);
     await input.fill('heic');
-    // Wait for filter to take effect by checking the positive match first
-    await expect(page.getByText('HEIC to JPG')).toBeVisible();
-    await expect(page.getByText('Image Compress')).not.toBeVisible();
+    // Wait for filter count indicator to confirm filter has applied
+    await expect(page.getByText(/1 of 6/)).toBeVisible();
 
     await input.fill('');
+    // Count indicator disappears when showing all tools
+    await expect(page.getByText(/1 of 6/)).not.toBeVisible();
     await expect(page.getByText('Image Compress')).toBeVisible();
     await expect(page.getByText('HEIC to JPG')).toBeVisible();
   });

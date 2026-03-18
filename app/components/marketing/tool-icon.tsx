@@ -1,4 +1,21 @@
-import { icons } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import {
+  Camera,
+  ArrowDownToLine,
+  RefreshCw,
+  Scaling,
+  ScanSearch,
+  FileImage,
+} from "lucide-react";
+
+const iconMap: Record<string, LucideIcon> = {
+  Camera,
+  ArrowDownToLine,
+  RefreshCw,
+  Scaling,
+  ScanSearch,
+  FileImage,
+};
 
 interface ToolIconProps {
   icon: string;
@@ -13,7 +30,7 @@ export function ToolIcon({
   iconBg,
   size = "md",
 }: ToolIconProps) {
-  const LucideIcon = icons[icon as keyof typeof icons];
+  const LucideIcon = iconMap[icon];
   if (!LucideIcon) return null;
 
   const sizeClasses =
