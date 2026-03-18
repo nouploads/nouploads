@@ -7,6 +7,7 @@ import { Button } from "~/components/ui/button";
 import { Spinner } from "~/components/ui/spinner";
 import { Download, AlertCircle, CheckCircle2 } from "lucide-react";
 import { formatFileSize } from "~/lib/utils";
+import { ACCEPT_HEIC } from "~/lib/accept";
 import {
   heicToJpg,
   heicToJpgBatch,
@@ -394,7 +395,7 @@ export default function HeicToJpgTool() {
         {files.length === 0 && (
           <div className="h-[460px] flex items-center">
             <ToolDropzone
-              accept={{ "image/heic": [".heic", ".HEIC"] }}
+              accept={ACCEPT_HEIC}
               onFiles={handleFiles}
               multiple
             />

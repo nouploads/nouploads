@@ -15,8 +15,10 @@ Allowed to change:
 - app/routes/image/{tool-slug}.tsx
 - app/features/image-tools/components/{tool-slug}-tool.tsx
 - app/features/image-tools/processors/{tool-slug}.ts
+- app/lib/tools.ts (add tool entry, set comingSoon: false)
+- app/components/marketing/tool-icon.tsx (add icon to iconMap)
 - tests/unit/processors/{tool-slug}.test.ts
-- tests/component/features/{tool-slug}-tool.test.tsx
+- tests/unit/components/tools/{ToolName}Tool.test.tsx
 - tests/e2e/{tool-slug}.spec.ts
 - tests/fixtures/ (add test files as needed)
 - react-router.config.ts (add prerender entry)

@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, act, cleanup } from '@testing-library/react';
+import { dropFile, dropFiles } from '../../../helpers/drop-file';
 
 // Use vi.hoisted() so mocks are available when vi.mock factory runs (hoisted above imports)
 const { mockedHeicToJpg, mockedHeicToJpgBatch } = vi.hoisted(() => ({
@@ -23,16 +24,6 @@ globalThis.URL.createObjectURL = vi.fn(() => `blob:preview-${urlCounter++}`);
 globalThis.URL.revokeObjectURL = vi.fn();
 
 import HeicToJpgTool from '~/features/image-tools/components/heic-to-jpg-tool';
-
-function dropFile(file: File) {
-  const input = document.querySelector('input[type="file"]') as HTMLInputElement;
-  fireEvent.change(input, { target: { files: [file] } });
-}
-
-function dropFiles(files: File[]) {
-  const input = document.querySelector('input[type="file"]') as HTMLInputElement;
-  fireEvent.change(input, { target: { files } });
-}
 
 // ─── Single-file: live preview UX ─────────────────────────────
 

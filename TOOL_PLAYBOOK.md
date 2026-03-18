@@ -180,6 +180,14 @@ Prefer using shared SEO helpers.
 
 ---
 
+### Step 7b: Register tool in app/lib/tools.ts and tool-icon.tsx
+
+Add the tool entry to the `tools` array in `app/lib/tools.ts` with title, description, href, icon name, and colors. Set `comingSoon: false` (or remove the field).
+
+Then add the Lucide icon import to the `iconMap` in `app/components/marketing/tool-icon.tsx`. If you forget this step, the icon will silently fail in production (a dev-time console warning will remind you).
+
+---
+
 ### Step 8: Add prerender entry
 If the route is a public indexed page, add it to the prerender list in `react-router.config.ts`.
 

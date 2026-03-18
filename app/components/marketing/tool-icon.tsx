@@ -8,6 +8,10 @@ import {
   FileImage,
 } from "lucide-react";
 
+/**
+ * Icon registry — add new icons here when adding tools to app/lib/tools.ts.
+ * Import only the icons you need to keep the bundle small.
+ */
 const iconMap: Record<string, LucideIcon> = {
   Camera,
   ArrowDownToLine,
@@ -31,7 +35,12 @@ export function ToolIcon({
   size = "md",
 }: ToolIconProps) {
   const LucideIcon = iconMap[icon];
-  if (!LucideIcon) return null;
+  if (!LucideIcon) {
+    if (import.meta.env.DEV) {
+      console.warn(`[ToolIcon] Missing icon "${icon}" — add it to iconMap in tool-icon.tsx`);
+    }
+    return null;
+  }
 
   const sizeClasses =
     size === "sm" ? "h-8 w-8 rounded-md" : "h-11 w-11 rounded-xl";
