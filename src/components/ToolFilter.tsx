@@ -1,41 +1,22 @@
 import { useState, useMemo } from 'react';
-import Fuse from 'fuse.js';
 import { Search } from 'lucide-react';
+import { type Tool, createToolSearcher, searchTools } from '@/lib/search';
+import { ToolIcon } from './ToolIcon';
 
-interface Tool {
-  title: string;
-  description: string;
-  href: string;
-  icon: string;
-  comingSoon?: boolean;
-}
-
-interface ToolSearchProps {
+interface ToolFilterProps {
   tools: Tool[];
   issuesUrl: string;
 }
 
-export default function ToolSearch({ tools, issuesUrl }: ToolSearchProps) {
+export default function ToolFilter({ tools, issuesUrl }: ToolFilterProps) {
   const [query, setQuery] = useState('');
 
-  const fuse = useMemo(
-    () =>
-      new Fuse(tools, {
-        keys: [
-          { name: 'title', weight: 2 },
-          { name: 'description', weight: 1 },
-        ],
-        threshold: 0.4,
-        ignoreLocation: true,
-      }),
-    [tools]
-  );
+  const fuse = useMemo(() => createToolSearcher(tools), [tools]);
 
-  const filtered = useMemo(() => {
-    const q = query.trim();
-    if (!q) return tools;
-    return fuse.search(q).map((r) => r.item);
-  }, [query, tools, fuse]);
+  const filtered = useMemo(
+    () => searchTools(fuse, query, tools),
+    [query, tools, fuse]
+  );
 
   return (
     <div>
@@ -44,7 +25,7 @@ export default function ToolSearch({ tools, issuesUrl }: ToolSearchProps) {
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <input
           type="text"
-          placeholder="Search tools... (e.g. compress, resize, heic)"
+          placeholder="Filter tools... (e.g. compress, resize, jpg)"
           value={query}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
           className="h-10 w-full rounded-lg border border-input bg-transparent pl-10 pr-3 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 md:text-sm"
@@ -74,9 +55,7 @@ export default function ToolSearch({ tools, issuesUrl }: ToolSearchProps) {
                 }`}
               >
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl" role="img" aria-hidden="true">
-                    {tool.icon}
-                  </span>
+                  <ToolIcon icon={tool.icon} iconColor={tool.iconColor} iconBg={tool.iconBg} />
                   <div className="min-w-0">
                     <h3 className="font-semibold text-card-foreground group-hover:text-primary transition-colors flex items-center gap-2">
                       {tool.title}
