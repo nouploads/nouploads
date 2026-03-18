@@ -52,6 +52,19 @@ The agent must assume that consistency is more important than originality.
 
 ---
 
+## Formatting & Linting
+
+This project uses **Biome** for linting and formatting (configured in `biome.json` with opinionated defaults).
+
+After making code changes, the agent must run:
+- `npm run lint:fix` — to auto-fix lint issues and format code
+
+This catches style issues, import ordering, and lint violations early — before the final validation pass.
+
+Do not manually adjust formatting. Let Biome handle it.
+
+---
+
 ## Canonical Patterns
 
 Before adding a new tool or route, the agent must inspect the closest existing example and copy its structure.
@@ -403,6 +416,7 @@ Do not use feature work as an excuse for architectural experiments.
 Before claiming a task is complete, the agent must run or verify the relevant checks.
 
 Minimum expectation:
+- lint (`npm run lint`)
 - typecheck
 - unit tests for changed logic
 - component tests if relevant

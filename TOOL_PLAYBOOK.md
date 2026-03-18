@@ -426,7 +426,7 @@ Requirements:
 - invalid file behavior required
 - large file behavior required
 - preserve bundle boundaries
-- pass typecheck, Vitest, and Playwright
+- pass lint, typecheck, Vitest, and Playwright
 ```
 
 This keeps AI work scoped and reliable.
