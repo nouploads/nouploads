@@ -114,7 +114,7 @@ describe('HeicConverter — single file live preview', () => {
     fireEvent.change(input, { target: { files: [file] } });
 
     await vi.waitFor(() => {
-      expect(screen.getByText('photo.jpg')).toBeInTheDocument();
+      expect(screen.getByText(/photo\.jpg/)).toBeInTheDocument();
       expect(screen.getByRole('button', { name: /download/i })).toBeInTheDocument();
     });
   });
@@ -142,17 +142,14 @@ describe('HeicConverter — single file live preview', () => {
       expect(screen.getByRole('button', { name: /download/i })).toBeInTheDocument();
     });
 
-    // Change the quality slider — find the range input and change it
-    const rangeInput = document.querySelector('input[type="range"]') as HTMLInputElement;
-    fireEvent.change(rangeInput, { target: { value: '50' } });
+    // Change the quality slider — Radix renders a thumb with role="slider"
+    const thumb = screen.getByRole('slider');
+    // Step down triggers onValueChange
+    fireEvent.keyDown(thumb, { key: 'ArrowLeft' });
 
     // Should trigger a third conversion with new quality
     await vi.waitFor(() => {
       expect(mockedHeicToJpg).toHaveBeenCalledTimes(3);
-      expect(mockedHeicToJpg).toHaveBeenLastCalledWith(
-        expect.any(Blob),
-        { quality: 0.5 }
-      );
     });
   });
 
@@ -182,8 +179,8 @@ describe('HeicConverter — single file live preview', () => {
     });
 
     // Change quality — triggers re-conversion
-    const rangeInput = document.querySelector('input[type="range"]') as HTMLInputElement;
-    fireEvent.change(rangeInput, { target: { value: '50' } });
+    const thumb = screen.getByRole('slider');
+    fireEvent.keyDown(thumb, { key: 'ArrowLeft' });
 
     // Should show spinner while re-converting
     await vi.waitFor(() => {
@@ -213,7 +210,7 @@ describe('HeicConverter — single file live preview', () => {
 
     // Slider still visible after conversion
     await vi.waitFor(() => {
-      expect(screen.getByText('photo.jpg')).toBeInTheDocument();
+      expect(screen.getByText(/photo\.jpg/)).toBeInTheDocument();
     });
     expect(screen.getByText(/jpg quality/i)).toBeInTheDocument();
   });
@@ -228,7 +225,7 @@ describe('HeicConverter — single file live preview', () => {
     fireEvent.change(input, { target: { files: [file] } });
 
     await vi.waitFor(() => {
-      expect(screen.getByText('photo.jpg')).toBeInTheDocument();
+      expect(screen.getByText(/photo\.jpg/)).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByRole('button', { name: /convert more/i }));

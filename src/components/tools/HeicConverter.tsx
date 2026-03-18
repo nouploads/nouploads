@@ -93,7 +93,7 @@ function SingleFileView({
         {/* Original */}
         <div className="space-y-2">
           <p className="text-sm font-medium">Original</p>
-          <div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center min-h-[200px]">
+          <div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center h-[350px]">
             {originalLoading ? (
               <div className="flex flex-col items-center gap-2 p-4">
                 <Spinner className="size-6" />
@@ -103,11 +103,11 @@ function SingleFileView({
               <img
                 src={originalUrl}
                 alt="Original"
-                className="max-w-full max-h-[400px] object-contain"
+                className="max-w-full max-h-full object-contain"
               />
             ) : null}
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground h-5">
             {file.name} — {formatFileSize(file.size)}
           </p>
         </div>
@@ -115,7 +115,7 @@ function SingleFileView({
         {/* Result */}
         <div className="space-y-2">
           <p className="text-sm font-medium">Result</p>
-          <div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center min-h-[200px]">
+          <div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center h-[350px]">
             {converting ? (
               <div className="flex flex-col items-center gap-2 p-4">
                 <Spinner className="size-6" />
@@ -130,13 +130,13 @@ function SingleFileView({
               <img
                 src={resultUrl}
                 alt="Result"
-                className="max-w-full max-h-[400px] object-contain"
+                className="max-w-full max-h-full object-contain"
               />
             ) : null}
           </div>
-          {resultBlob && !converting && (
-            <div className="space-y-1">
-              <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground h-5">
+            {resultBlob && !converting ? (
+              <>
                 {outputFilename} — {formatFileSize(resultBlob.size)}
                 {' '}
                 {resultBlob.size < file.size ? (
@@ -144,21 +144,22 @@ function SingleFileView({
                     ({Math.round((1 - resultBlob.size / file.size) * 100)}% smaller)
                   </span>
                 ) : resultBlob.size > file.size ? (
-                  <span className="text-muted-foreground">
+                  <span>
                     ({Math.round((resultBlob.size / file.size - 1) * 100)}% larger)
                   </span>
                 ) : (
-                  <span className="text-muted-foreground">(same size)</span>
+                  <span>(same size)</span>
                 )}
-              </p>
-              <p className="text-sm font-medium">{outputFilename}</p>
-            </div>
-          )}
+              </>
+            ) : (
+              <>&nbsp;</>
+            )}
+          </p>
         </div>
       </div>
 
-      {/* Actions */}
-      <div className="flex items-center gap-3">
+      {/* Actions — always reserve space */}
+      <div className="flex items-center gap-3 h-9">
         {resultBlob && !converting && (
           <DownloadButton blob={resultBlob} filename={outputFilename} />
         )}
@@ -330,8 +331,8 @@ export default function HeicConverter() {
           JPG Quality: {quality}%
         </label>
         <Slider
-          value={quality}
-          onValueChange={(v) => setQuality(typeof v === 'number' ? v : v[0])}
+          value={[quality]}
+          onValueChange={(v) => setQuality(v[0])}
           min={10}
           max={100}
           step={1}
@@ -339,24 +340,28 @@ export default function HeicConverter() {
         />
       </div>
 
-      {/* Dropzone — shown when no files loaded */}
-      {files.length === 0 && (
-        <FileDropzone
-          accept={{ 'image/heic': ['.heic', '.HEIC'] }}
-          onFiles={handleFiles}
-          multiple
-        />
-      )}
+      <div className="min-h-[460px]">
+        {/* Dropzone — shown when no files loaded */}
+        {files.length === 0 && (
+          <div className="h-[460px] flex items-center">
+            <FileDropzone
+              accept={{ 'image/heic': ['.heic', '.HEIC'] }}
+              onFiles={handleFiles}
+              multiple
+            />
+          </div>
+        )}
 
-      {/* Single file: side-by-side preview with reactive quality */}
-      {isSingleFile && (
-        <SingleFileView file={files[0]} quality={quality} onReset={reset} />
-      )}
+        {/* Single file: side-by-side preview with reactive quality */}
+        {isSingleFile && (
+          <SingleFileView file={files[0]} quality={quality} onReset={reset} />
+        )}
 
-      {/* Multiple files: batch list */}
-      {isBatch && (
-        <BatchView files={files} quality={quality} onReset={reset} />
-      )}
+        {/* Multiple files: batch list */}
+        {isBatch && (
+          <BatchView files={files} quality={quality} onReset={reset} />
+        )}
+      </div>
     </div>
   );
 }
