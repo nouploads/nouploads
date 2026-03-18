@@ -64,7 +64,7 @@ npm install
 npm run build
 ```
 
-The `dist/` directory contains static files you can serve with any web server (Nginx, Caddy, Apache, or even `npx serve dist`).
+The `build/client/` directory contains static files you can serve with any web server (Nginx, Caddy, Apache, or even `npx serve build/client`).
 
 ### Development
 
@@ -77,8 +77,8 @@ npm run dev
 
 ## Tech Stack
 
-- **Astro** — Static site generation for SEO-optimized pages
-- **React** — Interactive tool components (Astro islands)
+- **React Router** — Framework with static pre-rendering for SEO
+- **React** — UI components and interactive tool widgets
 - **shadcn/ui** — Accessible, customizable UI components
 - **Tailwind CSS** — Utility-first styling
 - **WebAssembly** — High-performance file processing in the browser
@@ -103,7 +103,7 @@ NoUploads is designed to be easy to self-host. Because it's a fully static site 
 - **Docker** — Official image with Nginx
 - **Any static hosting** — S3, Cloudflare Pages, GitHub Pages, Netlify, Vercel
 - **Any web server** — Nginx, Caddy, Apache
-- **Build from source** — `npm run build` outputs to `dist/`
+- **Build from source** — `npm run build` outputs to `build/client/`
 
 Every route is a real `.html` file — no SPA routing configuration needed.
 

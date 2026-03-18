@@ -24,40 +24,43 @@ npm install
 npm run dev
 ```
 
-The dev server starts at `http://localhost:4321`.
+The dev server starts at `http://localhost:5173`.
 
 ### Build
 
 ```bash
-npm run build    # Production build → dist/
-npm run preview  # Preview the production build locally
+npm run build    # Production build → build/client/
+npm run start    # Serve the production build locally
 ```
 
 ## Project Structure
 
 ```
-src/
-├── pages/              # Astro pages (file-based routing)
-│   ├── index.astro     # Homepage
-│   └── image/          # Image tool pages
-├── layouts/            # Astro layouts (BaseLayout, ToolLayout)
+app/
+├── routes/                 # React Router routes (file-based)
+│   ├── home.tsx            # Homepage
+│   ├── about.tsx           # About page
+│   └── image/              # Image tool pages
 ├── components/
-│   ├── ui/             # shadcn/ui components (do not hand-edit)
-│   ├── tools/          # React tool components (interactive islands)
-│   ├── *.astro         # Static Astro components
-│   └── *.tsx           # Shared React components
-├── processors/         # Pure TypeScript processing logic
-│   └── image/          # Image processors
-├── hooks/              # Custom React hooks
-├── lib/                # Shared utilities
-└── styles/             # Global CSS
+│   ├── ui/                 # shadcn/ui components (do not hand-edit)
+│   ├── layout/             # Header, footer, privacy banner
+│   ├── tool/               # Shared tool UI (dropzone, download, progress)
+│   └── marketing/          # Tool filter, tool icon
+├── features/
+│   └── image-tools/
+│       ├── components/     # Tool-specific React components
+│       └── processors/     # Pure processing logic
+├── lib/                    # Shared utilities (search, SEO, tools registry)
+├── styles/                 # Global CSS
+├── root.tsx                # App shell (HTML document, theme script)
+└── routes.ts               # Route definitions
 ```
 
 ## How to Add a New Tool
 
-Each tool requires three files:
+Each tool requires three pieces:
 
-### 1. Processor (`src/processors/<category>/<tool>.ts`)
+### 1. Processor (`app/features/<category>/processors/<tool>.ts`)
 
 Pure TypeScript function. No React, no DOM, no browser globals.
 
@@ -66,7 +69,7 @@ export interface MyToolOptions {
   quality: number;
 }
 
-export async function myTool(input: Uint8Array, options: MyToolOptions): Promise<Uint8Array> {
+export async function myTool(input: Blob, options: MyToolOptions): Promise<Blob> {
   // Processing logic here
   // Dynamically import heavy libraries inside the function
   const lib = (await import('some-library')).default;
@@ -74,41 +77,52 @@ export async function myTool(input: Uint8Array, options: MyToolOptions): Promise
 }
 ```
 
-### 2. React Component (`src/components/tools/MyTool.tsx`)
+### 2. React Component (`app/features/<category>/components/<tool>.tsx`)
 
-Interactive widget using shadcn/ui. Calls the processor.
+Interactive widget using shadcn/ui. Imports the processor statically (code splitting is handled at the route level).
 
 ```tsx
-import { FileDropzone } from '../FileDropzone';
-import { DownloadButton } from '../DownloadButton';
-import { myTool } from '../../processors/category/my-tool';
+import { ToolDropzone } from '~/components/tool/tool-dropzone';
+import { DownloadButton } from '~/components/tool/tool-actions';
+import { myTool } from '~/features/category/processors/my-tool';
 
 export default function MyTool() {
-  // FileDropzone → call processor → show DownloadButton
+  // ToolDropzone → call processor → show DownloadButton
 }
 ```
 
-### 3. Astro Page (`src/pages/<category>/<tool>.astro`)
+### 3. Route (`app/routes/<category>/<tool>.tsx`)
 
-SEO-optimized page with static content.
+Lazy-loads the tool component. Includes SEO metadata and static content (FAQ).
 
-```astro
----
-import ToolLayout from '../../layouts/ToolLayout.astro';
-import MyTool from '../../components/tools/MyTool.tsx';
----
-<ToolLayout title="My Tool" description="Description for SEO">
-  <MyTool client:load />
+```tsx
+import { lazy, Suspense } from "react";
+import { buildMeta } from "~/lib/seo/meta";
+import { ToolPageLayout } from "~/components/tool/tool-page-layout";
 
-  <section class="prose">
-    <h2>How it works</h2>
-    <p>Explanation text...</p>
+const MyTool = lazy(() => import("~/features/category/components/my-tool"));
 
-    <h2>Frequently asked questions</h2>
-    <!-- Q&A content -->
-  </section>
-</ToolLayout>
+export function meta() {
+  return buildMeta({
+    title: "My Tool — NoUploads",
+    description: "Description for SEO.",
+    path: "/category/my-tool",
+  });
+}
+
+export default function MyToolPage() {
+  return (
+    <ToolPageLayout title="My Tool" description="Description for users.">
+      <Suspense fallback={<div>Loading...</div>}>
+        <MyTool />
+      </Suspense>
+      {/* FAQ section with shadcn Accordion */}
+    </ToolPageLayout>
+  );
+}
 ```
+
+Don't forget to add the route to `app/routes.ts` and `react-router.config.ts` (prerender list).
 
 ### 4. Tests (TDD — specs first)
 
@@ -121,13 +135,12 @@ Every new feature **must** have tests written **before** the implementation. We 
 
 #### Unit tests (Vitest)
 
-Located in `tests/unit/`. Mirror the `src/` structure:
+Located in `tests/unit/`. Mirror the `app/` structure:
 
 ```
 tests/unit/
 ├── processors/     # Processor tests (pure logic)
-├── components/     # React component tests (@testing-library/react)
-└── hooks/          # Custom hook tests (renderHook)
+└── components/     # React component tests (@testing-library/react)
 ```
 
 ```bash
@@ -156,9 +169,9 @@ npm run test:all   # Run both unit + e2e
 
 1. **Client-side only.** All file processing must happen in the browser. No server uploads. No external API calls with user data.
 2. **Processors are pure.** No React, no DOM, no `document`, no `window` in processor files. They should work in any JavaScript runtime.
-3. **Dynamic imports for heavy libraries.** Never import processing libraries at the top level. Use `await import()` inside the function.
+3. **Dynamic imports for heavy libraries.** Never import processing libraries at the top level of a processor. Use `await import()` inside the function.
 4. **Show loading states.** If a library is >500KB, show a progress bar while it loads.
-5. **Static content for SEO.** Every tool page must have explanation text and FAQ in the Astro template (not in the React component).
+5. **Static content for SEO.** Every tool page must have explanation text and FAQ in the route file (pre-rendered into HTML).
 
 ## Commit Conventions
 
