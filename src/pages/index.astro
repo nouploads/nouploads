@@ -2,20 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import ToolSearch from '../components/ToolSearch.tsx';
+import ToolFilter from '../components/ToolFilter.tsx';
 import { Lock, CircleCheck, Power } from '@lucide/astro';
+import { tools } from '@/lib/tools';
 
 const title = 'NoUploads — Privacy-First File Tools | 100% Client-Side';
 const description = 'Free online file tools that run entirely in your browser. Convert, compress, resize images and more. No uploads, no servers, 100% private.';
-
-const tools = [
-  { title: 'HEIC to JPG', description: 'Convert iPhone HEIC photos to JPG format', href: '/image/heic-to-jpg', icon: '📸' },
-  { title: 'Image Compress', description: 'Reduce image file size with adjustable quality', href: '/image/compress', icon: '🗜️', comingSoon: true },
-  { title: 'Image Convert', description: 'Convert between PNG, JPG, WebP, AVIF, and more', href: '/image/convert', icon: '🔄', comingSoon: true },
-  { title: 'Image Resize', description: 'Resize images by pixels, percentage, or presets', href: '/image/resize', icon: '📐', comingSoon: true },
-  { title: 'EXIF Viewer', description: 'View and strip photo metadata', href: '/image/exif', icon: '🔍', comingSoon: true },
-  { title: 'Images to PDF', description: 'Combine multiple images into a single PDF', href: '/image/to-pdf', icon: '📄', comingSoon: true },
-];
 
 const issuesUrl = import.meta.env.PUBLIC_GITHUB_URL
   ? `${import.meta.env.PUBLIC_GITHUB_URL}/issues`
@@ -25,7 +17,7 @@ const issuesUrl = import.meta.env.PUBLIC_GITHUB_URL
 <BaseLayout title={title} description={description}>
   <Header />
 
-  <main class="mx-auto max-w-6xl px-4">
+  <main class="mx-auto w-full max-w-6xl flex-1 px-4">
     <!-- Hero -->
     <section class="py-16 md:py-24 text-center">
       <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
@@ -34,8 +26,9 @@ const issuesUrl = import.meta.env.PUBLIC_GITHUB_URL
         <span class="text-primary">Everything runs in your browser.</span>
       </h1>
       <p class="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-        Convert, compress, and transform your files without uploading them anywhere.
-        100% client-side processing using WebAssembly and native browser APIs.
+        Other tools upload your files to someone else's server &mdash;<br class="hidden sm:inline" />
+        your personal photos, work documents, private files.<br />
+        We don't. Your files never leave your device.
       </p>
       <div class="flex items-center justify-center gap-3 text-sm text-muted-foreground">
         <span class="flex items-center gap-1.5">
@@ -55,9 +48,9 @@ const issuesUrl = import.meta.env.PUBLIC_GITHUB_URL
       </div>
     </section>
 
-    <!-- Tool Grid with Search -->
+    <!-- Tool Grid with Filter -->
     <section class="pb-16">
-      <ToolSearch client:load tools={tools} issuesUrl={issuesUrl} />
+      <ToolFilter client:load tools={tools} issuesUrl={issuesUrl} />
     </section>
 
     <!-- How it works -->
@@ -72,7 +65,7 @@ const issuesUrl = import.meta.env.PUBLIC_GITHUB_URL
         <div>
           <div class="text-3xl mb-2">2</div>
           <h3 class="font-semibold mb-1">Drop your files</h3>
-          <p class="text-sm text-muted-foreground">Drag and drop or select files. They stay on your device — nothing is uploaded.</p>
+          <p class="text-sm text-muted-foreground">Drag and drop your files. Nothing leaves your device. Ever.</p>
         </div>
         <div>
           <div class="text-3xl mb-2">3</div>
@@ -82,16 +75,20 @@ const issuesUrl = import.meta.env.PUBLIC_GITHUB_URL
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="pb-16 text-center">
-      <p class="text-muted-foreground mb-2">
-        Don't trust us? <strong>Verify yourself.</strong>
-      </p>
-      <p class="text-sm text-muted-foreground max-w-xl mx-auto">
-        Open your browser's Network tab (F12 → Network) while using any tool. You'll see zero file uploads.
-        Or turn on airplane mode after the page loads — everything still works.
-      </p>
+    <!-- Verify -->
+    <section class="pb-16 max-w-2xl mx-auto">
+      <div class="rounded-xl border-2 border-primary/20 bg-primary/5 p-8 text-center">
+        <h2 class="text-xl font-bold mb-2">Don't trust us? Verify yourself.</h2>
+        <p class="text-sm text-muted-foreground max-w-lg mx-auto mb-4">
+          Open your browser's Network tab (F12 &rarr; Network) while using any tool. You'll see zero file uploads.
+          Or turn on airplane mode after the page loads &mdash; everything still works.
+        </p>
+        <a href="/about" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 transition-colors">
+          Learn more &rarr;
+        </a>
+      </div>
     </section>
+
   </main>
 
   <Footer />
