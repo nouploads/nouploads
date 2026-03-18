@@ -5,7 +5,7 @@ vi.mock('heic2any', () => ({
   default: vi.fn(),
 }));
 
-import { heicToJpg } from '../../../src/processors/image/heic-to-jpg';
+import { heicToJpg } from '~/features/image-tools/processors/heic-to-jpg';
 import heic2any from 'heic2any';
 
 const mockedHeic2any = vi.mocked(heic2any);
@@ -62,7 +62,7 @@ describe('heicToJpg processor', () => {
 
 describe('heicToJpgBatch processor', () => {
   it('should convert multiple blobs and return results array', async () => {
-    const { heicToJpgBatch } = await import('../../../src/processors/image/heic-to-jpg');
+    const { heicToJpgBatch } = await import('~/features/image-tools/processors/heic-to-jpg');
 
     const input1 = new Blob(['heic-1'], { type: 'image/heic' });
     const input2 = new Blob(['heic-2'], { type: 'image/heic' });
@@ -81,7 +81,7 @@ describe('heicToJpgBatch processor', () => {
   });
 
   it('should call onProgress with file index', async () => {
-    const { heicToJpgBatch } = await import('../../../src/processors/image/heic-to-jpg');
+    const { heicToJpgBatch } = await import('~/features/image-tools/processors/heic-to-jpg');
 
     const input1 = new Blob(['heic-1'], { type: 'image/heic' });
     const input2 = new Blob(['heic-2'], { type: 'image/heic' });
@@ -99,7 +99,7 @@ describe('heicToJpgBatch processor', () => {
   });
 
   it('should return partial results and errors for failed files', async () => {
-    const { heicToJpgBatch } = await import('../../../src/processors/image/heic-to-jpg');
+    const { heicToJpgBatch } = await import('~/features/image-tools/processors/heic-to-jpg');
 
     const input1 = new Blob(['heic-1'], { type: 'image/heic' });
     const input2 = new Blob(['bad-data'], { type: 'image/heic' });

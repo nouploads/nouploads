@@ -1,13 +1,18 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import ToolFilter from '../../../src/components/ToolFilter';
-import { tools } from '../../../src/lib/tools';
+import { MemoryRouter } from 'react-router';
+import ToolFilter from '~/components/marketing/tool-filter';
+import { tools } from '~/lib/tools';
 
 const issuesUrl = 'https://github.com/nouploads/nouploads/issues';
 
+function renderWithRouter(ui: React.ReactElement) {
+  return render(<MemoryRouter>{ui}</MemoryRouter>);
+}
+
 describe('ToolFilter', () => {
   it('should render all tools when no search query', () => {
-    render(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
+    renderWithRouter(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
 
     expect(screen.getByText('HEIC to JPG')).toBeInTheDocument();
     expect(screen.getByText('Image Compress')).toBeInTheDocument();
@@ -18,14 +23,14 @@ describe('ToolFilter', () => {
   });
 
   it('should render a search input with placeholder', () => {
-    render(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
+    renderWithRouter(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
 
     const input = screen.getByPlaceholderText(/filter tools/i);
     expect(input).toBeInTheDocument();
   });
 
   it('should filter tools by exact match', () => {
-    render(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
+    renderWithRouter(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
 
     const input = screen.getByPlaceholderText(/filter tools/i);
     fireEvent.change(input, { target: { value: 'heic' } });
@@ -36,7 +41,7 @@ describe('ToolFilter', () => {
   });
 
   it('should filter tools by description match', () => {
-    render(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
+    renderWithRouter(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
 
     const input = screen.getByPlaceholderText(/filter tools/i);
     fireEvent.change(input, { target: { value: 'metadata' } });
@@ -46,7 +51,7 @@ describe('ToolFilter', () => {
   });
 
   it('should handle fuzzy search with typos', () => {
-    render(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
+    renderWithRouter(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
 
     const input = screen.getByPlaceholderText(/filter tools/i);
     fireEvent.change(input, { target: { value: 'heix' } });
@@ -55,7 +60,7 @@ describe('ToolFilter', () => {
   });
 
   it('should show result count when searching', () => {
-    render(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
+    renderWithRouter(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
 
     const input = screen.getByPlaceholderText(/filter tools/i);
     fireEvent.change(input, { target: { value: 'image' } });
@@ -64,7 +69,7 @@ describe('ToolFilter', () => {
   });
 
   it('should show no-results message with issue link for unmatched query', () => {
-    render(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
+    renderWithRouter(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
 
     const input = screen.getByPlaceholderText(/filter tools/i);
     fireEvent.change(input, { target: { value: 'xyznonexistent' } });
@@ -76,7 +81,7 @@ describe('ToolFilter', () => {
   });
 
   it('should show all tools again when search is cleared', () => {
-    render(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
+    renderWithRouter(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
 
     const input = screen.getByPlaceholderText(/filter tools/i);
     fireEvent.change(input, { target: { value: 'heic' } });
@@ -88,19 +93,19 @@ describe('ToolFilter', () => {
   });
 
   it('should mark coming-soon tools with a "Soon" badge', () => {
-    render(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
+    renderWithRouter(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
 
     const badges = screen.getAllByText('Soon');
     expect(badges.length).toBe(5); // all except HEIC to JPG
   });
 
-  it('should not link coming-soon tools', () => {
-    render(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
+  it('should use Link for active tools and div for coming-soon tools', () => {
+    renderWithRouter(<ToolFilter tools={tools} issuesUrl={issuesUrl} />);
 
     const heicLink = screen.getByText('HEIC to JPG').closest('a');
     expect(heicLink).toHaveAttribute('href', '/image/heic-to-jpg');
 
-    const compressLink = screen.getByText('Image Compress').closest('a');
-    expect(compressLink).not.toHaveAttribute('href');
+    const compressEl = screen.getByText('Image Compress').closest('a');
+    expect(compressEl).toBeNull(); // coming-soon uses div, not Link
   });
 });

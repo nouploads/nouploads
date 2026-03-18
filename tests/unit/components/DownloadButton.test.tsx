@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { DownloadButton } from '../../../src/components/DownloadButton';
+import { DownloadButton } from '~/components/tool/tool-actions';
 
 describe('DownloadButton', () => {
   it('should render with file size', () => {
@@ -38,7 +38,6 @@ describe('DownloadButton', () => {
     globalThis.URL.createObjectURL = createObjectURL;
     globalThis.URL.revokeObjectURL = revokeObjectURL;
 
-    const clickSpy = vi.fn();
     const appendChildSpy = vi.spyOn(document.body, 'appendChild');
     const removeChildSpy = vi.spyOn(document.body, 'removeChild');
 
@@ -48,7 +47,6 @@ describe('DownloadButton', () => {
 
     expect(createObjectURL).toHaveBeenCalledWith(blob);
     expect(appendChildSpy).toHaveBeenCalled();
-    // Find the anchor element among all appendChild calls (render also calls appendChild)
     const anchor = appendChildSpy.mock.calls
       .map((call) => call[0])
       .find((el): el is HTMLAnchorElement => el instanceof HTMLAnchorElement);

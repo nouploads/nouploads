@@ -6,7 +6,7 @@ test.describe('Navigation', () => {
 
     await page.getByText('HEIC to JPG').click();
     await expect(page).toHaveURL('/image/heic-to-jpg');
-    await expect(page.locator('h1')).toContainText('Convert HEIC to JPG');
+    await expect(page.locator('h1')).toContainText('HEIC to JPG');
   });
 
   test('should not navigate for coming-soon tools', async ({ page }) => {

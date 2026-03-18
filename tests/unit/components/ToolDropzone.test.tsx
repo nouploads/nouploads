@@ -1,23 +1,23 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { FileDropzone } from '../../../src/components/FileDropzone';
+import { ToolDropzone } from '~/components/tool/tool-dropzone';
 
-describe('FileDropzone', () => {
+describe('ToolDropzone', () => {
   it('should render default drop message', () => {
-    render(<FileDropzone onFiles={() => {}} />);
+    render(<ToolDropzone onFiles={() => {}} />);
 
     expect(screen.getByText(/drop a file here/i)).toBeInTheDocument();
   });
 
   it('should show "files" for multi-file mode', () => {
-    render(<FileDropzone onFiles={() => {}} multiple />);
+    render(<ToolDropzone onFiles={() => {}} multiple />);
 
     expect(screen.getByText(/drop files here/i)).toBeInTheDocument();
   });
 
   it('should display accepted file extensions', () => {
     render(
-      <FileDropzone
+      <ToolDropzone
         accept={{ 'image/heic': ['.heic', '.HEIC'] }}
         onFiles={() => {}}
       />
@@ -27,14 +27,14 @@ describe('FileDropzone', () => {
   });
 
   it('should display max file size', () => {
-    render(<FileDropzone onFiles={() => {}} maxSizeMB={10} />);
+    render(<ToolDropzone onFiles={() => {}} maxSizeMB={10} />);
 
     expect(screen.getByText(/max 10mb/i)).toBeInTheDocument();
   });
 
   it('should call onFiles when a file is selected', () => {
     const onFiles = vi.fn();
-    render(<FileDropzone onFiles={onFiles} />);
+    render(<ToolDropzone onFiles={onFiles} />);
 
     const input = document.querySelector('input[type="file"]') as HTMLInputElement;
     const file = new File(['test'], 'test.heic', { type: 'image/heic' });
@@ -46,10 +46,9 @@ describe('FileDropzone', () => {
 
   it('should reject files exceeding size limit', () => {
     const onFiles = vi.fn();
-    render(<FileDropzone onFiles={onFiles} maxSizeMB={1} />);
+    render(<ToolDropzone onFiles={onFiles} maxSizeMB={1} />);
 
     const input = document.querySelector('input[type="file"]') as HTMLInputElement;
-    // Create a file object with a size property > 1MB
     const file = new File(['x'.repeat(2 * 1024 * 1024)], 'big.heic', { type: 'image/heic' });
 
     fireEvent.change(input, { target: { files: [file] } });
@@ -60,9 +59,9 @@ describe('FileDropzone', () => {
 
   it('should render custom children when provided', () => {
     render(
-      <FileDropzone onFiles={() => {}}>
+      <ToolDropzone onFiles={() => {}}>
         <p>Custom content</p>
-      </FileDropzone>
+      </ToolDropzone>
     );
 
     expect(screen.getByText('Custom content')).toBeInTheDocument();
@@ -70,7 +69,7 @@ describe('FileDropzone', () => {
   });
 
   it('should apply disabled state', () => {
-    render(<FileDropzone onFiles={() => {}} disabled />);
+    render(<ToolDropzone onFiles={() => {}} disabled />);
 
     const dropzone = screen.getByRole('button');
     expect(dropzone.className).toContain('opacity-50');
