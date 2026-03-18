@@ -1,5 +1,6 @@
 import {
   isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
@@ -56,12 +57,13 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let details = "An unexpected error occurred.";
   let stack: string | undefined;
 
+  const is404 = isRouteErrorResponse(error) && error.status === 404;
+
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
+    message = is404 ? "404" : "Error";
+    details = is404
+      ? "Page not found"
+      : error.statusText || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
     stack = error.stack;
@@ -71,6 +73,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     <main className="mx-auto max-w-6xl px-4 pt-16">
       <h1 className="text-4xl font-bold mb-4">{message}</h1>
       <p className="text-muted-foreground">{details}</p>
+      {is404 && (
+        <Link to="/" className="mt-4 inline-block text-primary hover:underline">
+          Back to tools
+        </Link>
+      )}
       {stack && (
         <pre className="mt-4 w-full overflow-x-auto rounded-lg bg-muted p-4 text-sm">
           <code>{stack}</code>

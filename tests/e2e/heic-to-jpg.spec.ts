@@ -16,7 +16,7 @@ test.describe('HEIC to JPG Tool Page', () => {
   });
 
   test('should display quality slider', async ({ page }) => {
-    await expect(page.getByText(/quality/i)).toBeVisible();
+    await expect(page.getByText(/JPG Quality:/i)).toBeVisible();
   });
 
   test('should display FAQ section', async ({ page }) => {

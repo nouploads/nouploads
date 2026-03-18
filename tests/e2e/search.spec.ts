@@ -29,6 +29,8 @@ test.describe('Tool Filter', () => {
   test('should restore all tools when search is cleared', async ({ page }) => {
     const input = page.getByPlaceholder(/filter tools/i);
     await input.fill('heic');
+    // Wait for filter to take effect by checking the positive match first
+    await expect(page.getByText('HEIC to JPG')).toBeVisible();
     await expect(page.getByText('Image Compress')).not.toBeVisible();
 
     await input.fill('');

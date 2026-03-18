@@ -28,7 +28,7 @@ test.describe('Homepage', () => {
   test('should display "How it works" section', async ({ page }) => {
     await expect(page.getByText('How it works')).toBeVisible();
     await expect(page.getByText('Choose a tool')).toBeVisible();
-    await expect(page.getByText('Drop your files')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Drop your files' })).toBeVisible();
     await expect(page.getByText('Download results')).toBeVisible();
   });
 
