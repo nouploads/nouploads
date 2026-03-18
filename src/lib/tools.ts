@@ -1,0 +1,57 @@
+import type { Tool } from './search';
+
+export const tools: Tool[] = [
+  {
+    title: 'HEIC to JPG',
+    description: 'Convert iPhone HEIC photos to JPG format',
+    href: '/image/heic-to-jpg',
+    icon: 'Camera',
+    iconColor: 'text-pink-500',
+    iconBg: 'bg-pink-50 dark:bg-pink-950/40',
+  },
+  {
+    title: 'Image Compress',
+    description: 'Reduce image file size with adjustable quality',
+    href: '/image/compress',
+    icon: 'ArrowDownToLine',
+    iconColor: 'text-blue-500',
+    iconBg: 'bg-blue-50 dark:bg-blue-950/40',
+    comingSoon: true,
+  },
+  {
+    title: 'Image Convert',
+    description: 'Convert between PNG, JPG, WebP, AVIF, and more',
+    href: '/image/convert',
+    icon: 'RefreshCw',
+    iconColor: 'text-violet-500',
+    iconBg: 'bg-violet-50 dark:bg-violet-950/40',
+    comingSoon: true,
+  },
+  {
+    title: 'Image Resize',
+    description: 'Resize images by pixels, percentage, or presets',
+    href: '/image/resize',
+    icon: 'Scaling',
+    iconColor: 'text-orange-500',
+    iconBg: 'bg-orange-50 dark:bg-orange-950/40',
+    comingSoon: true,
+  },
+  {
+    title: 'EXIF Viewer',
+    description: 'View and strip photo metadata',
+    href: '/image/exif',
+    icon: 'ScanSearch',
+    iconColor: 'text-teal-500',
+    iconBg: 'bg-teal-50 dark:bg-teal-950/40',
+    comingSoon: true,
+  },
+  {
+    title: 'Images to PDF',
+    description: 'Combine multiple images into a single PDF',
+    href: '/image/to-pdf',
+    icon: 'FileImage',
+    iconColor: 'text-rose-500',
+    iconBg: 'bg-rose-50 dark:bg-rose-950/40',
+    comingSoon: true,
+  },
+];

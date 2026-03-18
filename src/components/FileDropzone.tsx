@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from 'react';
-import { Upload } from 'lucide-react';
+import { FileInput } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export interface FileDropzoneProps {
@@ -111,7 +111,7 @@ export function FileDropzone({
 
         {children || (
           <>
-            <Upload className="h-10 w-10 text-muted-foreground mb-3" strokeWidth={1.5} />
+            <FileInput className="h-10 w-10 text-muted-foreground mb-3" strokeWidth={1.5} />
             <p className="text-sm font-medium">
               Drop {multiple ? 'files' : 'a file'} here, or click to browse
             </p>
