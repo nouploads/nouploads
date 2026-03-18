@@ -2,7 +2,7 @@
 node_modules/
 
 # Build output
-dist/
+build/
 
 # Environment variables
 .env
@@ -20,8 +20,8 @@ Thumbs.db
 *.swo
 *~
 
-# Astro
-.astro/
+# React Router
+.react-router/
 
 # Debug
 npm-debug.log*
