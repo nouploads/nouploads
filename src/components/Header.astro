@@ -1,6 +1,8 @@
 ---
-import { Github } from '@lucide/astro';
 import ThemeToggle from './ThemeToggle.tsx';
+import CommandPalette from './CommandPalette.tsx';
+import GitHubLink from './GitHubLink.tsx';
+import { tools } from '@/lib/tools';
 
 const githubUrl = import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com/nouploads/nouploads';
 ---
@@ -15,23 +17,16 @@ const githubUrl = import.meta.env.PUBLIC_GITHUB_URL || 'https://github.com/noupl
       <span><span class="text-primary">No</span>Uploads</span>
     </a>
 
-    <nav class="flex items-center gap-4">
-      <a href="/" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
-        Tools
-      </a>
-      <a href="/about" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
-        About
-      </a>
-      <a
-        href={githubUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-sm text-muted-foreground hover:text-foreground transition-colors"
-        aria-label="GitHub"
-      >
-        <Github class="h-5 w-5" />
-      </a>
-      <ThemeToggle client:load />
-    </nav>
+    <div class="flex items-center gap-2">
+      <CommandPalette client:load tools={tools} />
+
+      <div class="h-9 w-9">
+        <GitHubLink client:load href={githubUrl} />
+      </div>
+
+      <div class="h-9 w-9">
+        <ThemeToggle client:load />
+      </div>
+    </div>
   </div>
 </header>
