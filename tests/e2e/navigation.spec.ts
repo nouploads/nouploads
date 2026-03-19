@@ -1,21 +1,39 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Navigation", () => {
-	test("should navigate to HEIC to JPG tool from homepage", async ({
+	test("should navigate to Image Compress tool from homepage", async ({
 		page,
 	}) => {
 		await page.goto("/");
 
-		await page.getByText("HEIC to JPG").click();
-		await expect(page).toHaveURL("/image/heic-to-jpg");
-		await expect(page.locator("h1")).toContainText("HEIC to JPG");
+		await page.getByText("Image Compress").click();
+		await expect(page).toHaveURL("/image/compress");
+		await expect(page.locator("h1")).toContainText("Compress Images");
+	});
+
+	test("should navigate to Image Convert tool from homepage", async ({
+		page,
+	}) => {
+		await page.goto("/");
+
+		await page.getByText("Image Convert").click();
+		await expect(page).toHaveURL("/image/convert");
+		await expect(page.locator("h1")).toContainText("Convert Images");
+	});
+
+	test("should navigate to Color Picker from homepage", async ({ page }) => {
+		await page.goto("/");
+
+		await page.getByText("Color Picker").click();
+		await expect(page).toHaveURL("/developer/color-picker");
+		await expect(page.locator("h1")).toContainText("Color Picker");
 	});
 
 	test("should not navigate for coming-soon tools", async ({ page }) => {
 		await page.goto("/");
 
-		const compressCard = page.getByText("Image Compress");
-		await compressCard.click();
+		const resizeCard = page.getByText("Image Resize");
+		await resizeCard.click();
 
 		// Should still be on homepage
 		await expect(page).toHaveURL("/");

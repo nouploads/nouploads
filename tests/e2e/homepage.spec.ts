@@ -19,12 +19,12 @@ test.describe("Homepage", () => {
 	});
 
 	test("should display all tools in the grid", async ({ page }) => {
-		await expect(page.getByText("HEIC to JPG")).toBeVisible();
-		await expect(page.getByText("Image Compress")).toBeVisible();
 		await expect(page.getByText("Image Convert")).toBeVisible();
+		await expect(page.getByText("Image Compress")).toBeVisible();
 		await expect(page.getByText("Image Resize")).toBeVisible();
 		await expect(page.getByText("EXIF Viewer")).toBeVisible();
 		await expect(page.getByText("Images to PDF")).toBeVisible();
+		await expect(page.getByText("Color Picker")).toBeVisible();
 	});
 
 	test('should display "How it works" section', async ({ page }) => {
@@ -52,8 +52,8 @@ test.describe("Homepage", () => {
 
 	test("should filter tools when typing in search", async ({ page }) => {
 		const input = page.getByPlaceholder(/filter tools/i);
-		await input.fill("heic");
+		await input.fill("exif");
 		await expect(page.getByText(/1 of 6/)).toBeVisible();
-		await expect(page.getByText("HEIC to JPG")).toBeVisible();
+		await expect(page.getByText("EXIF Viewer")).toBeVisible();
 	});
 });

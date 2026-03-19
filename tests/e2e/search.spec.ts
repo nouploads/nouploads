@@ -12,11 +12,11 @@ test.describe("Tool Filter", () => {
 
 	test("should filter tools when typing", async ({ page }) => {
 		const input = page.getByPlaceholder(/filter tools/i);
-		await input.fill("heic");
+		await input.fill("exif");
 
 		// Wait for filter count indicator to confirm filter has applied
 		await expect(page.getByText(/1 of 6/)).toBeVisible();
-		await expect(page.getByText("HEIC to JPG")).toBeVisible();
+		await expect(page.getByText("EXIF Viewer")).toBeVisible();
 	});
 
 	test("should show no-results message for unmatched query", async ({
@@ -33,7 +33,7 @@ test.describe("Tool Filter", () => {
 
 	test("should restore all tools when search is cleared", async ({ page }) => {
 		const input = page.getByPlaceholder(/filter tools/i);
-		await input.fill("heic");
+		await input.fill("exif");
 		// Wait for filter count indicator to confirm filter has applied
 		await expect(page.getByText(/1 of 6/)).toBeVisible();
 
@@ -41,13 +41,13 @@ test.describe("Tool Filter", () => {
 		// Count indicator disappears when showing all tools
 		await expect(page.getByText(/1 of 6/)).not.toBeVisible();
 		await expect(page.getByText("Image Compress")).toBeVisible();
-		await expect(page.getByText("HEIC to JPG")).toBeVisible();
+		await expect(page.getByText("EXIF Viewer")).toBeVisible();
 	});
 
 	test("should handle fuzzy search with typos", async ({ page }) => {
 		const input = page.getByPlaceholder(/filter tools/i);
-		await input.fill("heix");
+		await input.fill("resiz");
 
-		await expect(page.getByText("HEIC to JPG")).toBeVisible();
+		await expect(page.getByText("Image Resize")).toBeVisible();
 	});
 });
