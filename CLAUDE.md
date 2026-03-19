@@ -162,6 +162,26 @@ If route logic grows, move logic into:
 
 ---
 
+## Category Pages
+
+When a new tool category is created (e.g. `/pdf`, `/video`, `/audio`, `/developer`), create a category listing page at the category root URL.
+
+Every category page must have:
+- **Title**: "[Category] Tools — Free Online [Category-specific keywords] | NoUploads"
+- **Meta description**: One sentence about the category + privacy angle. Under 160 characters.
+- **Keywords**: Category-specific keywords
+- **JSON-LD**: `CollectionPage` schema
+- **Canonical URL**
+- **Short intro**: 2-3 sentences at the top. What the tools do + privacy + free/unlimited. No fluff.
+- **Tool grid**: All tools in that category with names, descriptions, links
+- **No FAQ**: FAQs belong on individual tool pages, not category pages
+- **Sitemap**: Add the category URL to the sitemap (via `react-router.config.ts` prerender list)
+- **Homepage link**: Make the category heading on the homepage link to the category page
+
+Write unique intro copy for each category. Do not template-swap the same sentence with different category names.
+
+---
+
 ## SEO Rules
 
 Every public route must be SEO-ready.
@@ -180,15 +200,81 @@ The agent must not hand-roll inconsistent metadata if a shared helper exists.
 
 ---
 
+## Tool Page Copy Requirements
+
+Every tool page — existing and new — MUST include these content elements. Follow these rules automatically when creating or modifying a tool page.
+
+### Subtitle format
+
+The subtitle (directly under the tool name) must follow:
+"[What the tool does] — free, private, no upload required."
+
+Naturally include primary search keywords. One line.
+
+### About this tool section
+
+Between the tool widget and FAQ, include a short "About this tool" paragraph (2-3 sentences):
+- What the tool does (specific format/action names)
+- Who it's for or when you'd use it
+- Privacy differentiator (client-side, no upload, no server)
+- One concrete detail (batch support, quality control, format options, etc.)
+
+Write unique copy per tool. NEVER use a template with swapped words — Google penalizes templated content.
+
+### FAQ section
+
+Every tool page must have a FAQ with:
+- 3-5 relevant questions with natural, helpful answers
+- Keywords embedded naturally (not stuffed)
+- One required entry: "Why use NoUploads instead of other [tool category] tools?" mentioning: privacy (files stay on device), no upload/no server, free and unlimited, open source, works offline, no signup. Write this answer uniquely per tool — vary wording and emphasis.
+
+### Meta tags
+
+Every tool route must export meta via `buildMeta()` with:
+- `title`: "[Tool Name] Online — Free, Private, No Upload | NoUploads"
+- `description`: One sentence, what the tool does + privacy angle. Under 160 characters.
+
+Unique per tool. Never duplicate meta descriptions.
+
+### Content rules — what NOT to do
+
+- No long-form articles, "10 reasons why..." sections, or listicle-style filler
+- No keyword-stuffed paragraphs repeating the same phrase
+- No identical or near-identical copy across tool pages
+- No walls of text — keep everything concise and scannable
+- No marketing superlatives ("the best," "the ultimate," "the most powerful")
+
+### Library attribution
+
+Every tool page must include a muted attribution line below the FAQ section:
+- If the tool uses an open-source library: "Powered by [library name linked to repo] · [License]"
+- If the tool uses only browser APIs: "Processed using the browser's built-in [API name linked to MDN] — no external libraries"
+
+Style: `text-xs text-muted-foreground mt-8` with underlined links.
+
+**How to find the correct GitHub link:**
+1. Check `node_modules/<library>/package.json` — the `repository` field has the canonical URL
+2. Or run `npm info <library> repository.url` to get it from the npm registry
+3. NEVER guess or infer a GitHub URL from the author's name. Always verify programmatically.
+4. After adding the link, verify it resolves to a real page (not a 404)
+
+### Content audience
+
+Copy serves three audiences:
+1. **Users** — clean, minimal, understandable in 2 seconds
+2. **Search engine crawlers** — keyword-rich enough to rank for "[action] [format] online free" queries
+3. **AI crawlers (ChatGPT, Claude, Gemini)** — quotable descriptions that make AI recommend NoUploads
+
+---
+
 ## Tool Rules
 
 Each tool must follow the standard structure:
 
-- route file
+- route file (with meta, subtitle, about section, FAQ — see Tool Page Copy Requirements)
 - feature component
 - processor module
 - tests
-- route metadata
 - prerender configuration if public
 
 The agent must use shared tool UI patterns:
@@ -197,6 +283,52 @@ The agent must use shared tool UI patterns:
 - shared error/processing/empty states where available
 
 Do not invent one-off page structures unless explicitly required.
+
+### New tool checklist
+
+When adding any new tool, create these files:
+1. **Processor** (`app/features/<category>/processors/<tool>.ts`) — pure processing logic
+2. **Feature component** (`app/features/<category>/components/<tool>.tsx`) — interactive UI calling the processor
+3. **Route page** (`app/routes/<category>/<tool>.tsx`) — meta export, subtitle, about section, FAQ
+4. **Tests** — unit tests for processor, component tests for UI, Playwright happy-path
+5. **Homepage entry** — add to `app/lib/tools.ts`
+6. **Prerender config** — add route to `react-router.config.ts`
+
+Verify: `npm run build` succeeds, prerendered HTML contains static content, meta tags correct.
+
+### Bidirectional conversion rule
+
+When creating an X→Y format conversion tool, also create the reverse Y→X tool at the same time. Both directions get their own route, component, processor, tests, and SEO — following the "separate pages per tool" rule.
+
+This applies only when both directions are technically feasible in-browser. Known exceptions:
+- **HEIC encoding** is not possible in-browser (HEVC patents, no JS library) — HEIC→JPG is one-way only
+
+Both tools should share processor infrastructure where possible (e.g. Canvas-based conversion handles both directions with the same code path).
+
+Feasible pairs include: PNG↔JPG, PNG↔WebP, JPG↔WebP, JPG↔PNG.
+
+### Universal tools with format-specific landing pages
+
+When a tool supports multiple input/output format combinations (image conversion, document conversion, video conversion):
+
+1. Build ONE universal tool component with props for default format selection
+2. Create ONE universal tool page (e.g., `/image/convert`) targeting broad search queries
+3. Create format-specific landing pages for high-volume search pairs (e.g., `/image/jpg-to-png`)
+4. Each landing page reuses the same component but MUST have completely unique text content — title, description, keywords, About section, FAQ, "Why NoUploads" entry
+5. NEVER template-swap text by just changing format names. Write genuinely different copy for each page. Google penalizes near-duplicate text.
+6. Format-specific pages appear in the sitemap but NOT on the homepage tool grid. They're SEO entry points, not top-level navigation items.
+7. The `/image` (or equivalent category) page can list popular format pairs as quick links below the main tool grid.
+8. Only create landing pages for format pairs with real search volume. Don't create pages nobody will ever search for.
+
+### Homepage and category page tile rules
+
+The homepage and category pages show ONE card per tool type (convert, compress, resize, etc.), never per format or per format pair. Format-specific pages are SEO landing pages — they surface through:
+1. "Popular Conversions/Compressions" quick-link pill sections on category pages
+2. Command palette search results
+3. Google/AI search landing
+4. Direct URL
+
+When a new tool type is added (e.g., "Video Compress"), it gets ONE card on the homepage. Format-specific variants (e.g., "Compress MP4", "Compress MOV") are landing pages with unique SEO copy, not homepage cards.
 
 ---
 
@@ -207,6 +339,7 @@ Processors must be:
 - explicit
 - isolated from route files
 - isolated from visual rendering concerns
+- portable (no React imports, no DOM globals like document/window/navigator)
 
 Processors must not:
 - directly manipulate React state
@@ -214,11 +347,108 @@ Processors must not:
 - trigger toasts or navigation
 - import large UI components
 
+If a browser API is needed (like Canvas), accept it as an injected dependency.
+
 If possible, processors should:
-- accept typed input
+- accept typed input (`Uint8Array`, `File`, `Blob`)
 - return typed success/error results
 - handle invalid input explicitly
 - be deterministic
+
+---
+
+## Web Worker Rules
+
+All CPU-intensive processing must run in Web Workers to keep the main thread responsive. This includes WASM encoding, pixel manipulation, color quantization, heavy library calls (heic2any, image-q, etc.), and any operation that could block the UI for more than ~50ms.
+
+Every processor that spawns a Web Worker must:
+- Create a dedicated `.worker.ts` file per processor (e.g. `compress-png.worker.ts`)
+- Keep the main processor `.ts` file as a thin wrapper that spawns the worker and returns a Promise
+- Support `AbortSignal` for in-flight cancellation — when aborted, call `worker.terminate()` immediately to avoid zombie CPU usage
+- Clean up the abort listener on completion to prevent memory leaks
+- Use `OffscreenCanvas` + `convertToBlob()` instead of DOM canvas in workers (`document.createElement("canvas")` is unavailable in workers)
+
+Follow the established pattern from `avif-encode.worker.ts` and `encodeAvifInWorker()` in `convert-image.ts`:
+1. Worker file: imports library, listens on `self.onmessage`, posts result or error back
+2. Caller: creates `new Worker(new URL("./foo.worker.ts", import.meta.url), { type: "module" })`, wraps in Promise with abort support
+3. Worker is terminated after each use (short-lived, one operation per worker instance)
+
+Vite config already has `worker: { format: "es" }` and `optimizeDeps.exclude` for WASM packages.
+
+Unit tests for worker-based processors should mock the `Worker` constructor (see `tests/unit/helpers/mock-worker.ts`), not Canvas/DOM APIs. E2E tests run in a real browser where Workers work natively.
+
+---
+
+## Frontend Abort Rules ("One Job at a Time")
+
+Every `useEffect` that triggers a processor (compress, convert, decode, etc.) must follow the **one-job-at-a-time** pattern:
+
+1. Create a new `AbortController` at the top of the effect
+2. Pass `controller.signal` through the config/processor call chain all the way to the worker
+3. Check `controller.signal.aborted` after each `await` before updating state
+4. Return a cleanup function that calls `controller.abort()` — React calls this before re-running the effect, so the previous job is always cancelled before a new one starts
+
+This guarantees exactly one in-flight operation per effect. When the user changes parameters (quality slider, output format, selects a new file, navigates away), React re-runs the effect, the cleanup aborts the old worker, and the new effect starts fresh. No zombie workers, no stale state updates.
+
+**Pattern:**
+```tsx
+useEffect(() => {
+  const controller = new AbortController();
+  setProcessing(true);
+
+  (async () => {
+    try {
+      const result = await processor(input, { signal: controller.signal });
+      if (controller.signal.aborted) return;
+      setResult(result);
+      setProcessing(false);
+    } catch (err) {
+      if (controller.signal.aborted) return;
+      setError(err instanceof Error ? err.message : "Failed");
+      setProcessing(false);
+    }
+  })();
+
+  return () => controller.abort();
+}, [input, options]);
+```
+
+**Rules:**
+- Never use `useRef` counters (e.g. `convertRef.current`) for staleness checks — use `AbortController` instead
+- Every processor function in the config interface must accept an optional `signal?: AbortSignal` parameter and pass it through
+- Batch operations also need abort — the signal propagates to each sequential worker call
+- Do not swallow AbortError silently in the processor — let it propagate so the effect's catch block handles it uniformly
+
+---
+
+## Tool Page UX Rules (Single-File Preview)
+
+Every single-file image tool must follow the gold-standard UX pattern from `image-converter-tool.tsx`:
+
+### Result label (always visible once file is dropped)
+
+- The "Result" header and subtitle render immediately when a file is selected — they do not wait for processing to finish.
+- The subtitle uses cross-fading between two spans:
+  - A "processing" span (`{filename} — <Spinner /> Compressing...`) with `transition-opacity duration-300`, opacity 1 when processing, 0 when done.
+  - A "result" span (rendered only when resultBlob exists) with `absolute right-0 top-0 whitespace-nowrap transition-opacity duration-300`, opacity 0 when processing, 1 when done.
+- Both spans occupy the same space via absolute positioning so they cross-fade smoothly.
+
+### Preview area states
+
+Four mutually exclusive states, checked in order:
+
+1. **Initial load** (`converting && !hasResult`): Original image shown at opacity-60 with a centered "Loading preview..." overlay. If no original URL is available yet, show a centered spinner with "Loading preview..." text.
+2. **Error** (`error`): Centered error icon and message.
+3. **Compare slider** (`originalUrl && resultUrl`): The `ImageCompareSlider` wrapped in a relative container. During re-processing (`converting` is true), the slider fades to opacity 0.25 and a centered `<Spinner className="size-10" />` overlay fades in. Both use `transition-opacity duration-300`.
+4. **Original only** (`originalUrl`): Fallback showing just the original image.
+
+### Key behavior: re-processing keeps the compare slider visible
+
+When the user changes a parameter (quality, format) and a previous result exists, the compare slider remains visible but dims. It does NOT get replaced by a full-screen loading overlay. This gives the user visual continuity.
+
+### Transitions
+
+All opacity transitions use `transition-opacity duration-300` (Tailwind). No pulse animations. No other transition properties on color preview boxes (use `transition-none` to avoid lag).
 
 ---
 
@@ -236,10 +466,13 @@ The agent must not:
 - import heavy dependencies in root layout
 - import heavy dependencies in shared layout
 - import heavy dependencies through broad barrel exports
+- import a heavy processing library at the top level of a component
 
 Preferred approach:
 - route-level code split
-- dynamic import for heavy processor/runtime when appropriate
+- dynamic `import()` or runtime `fetch()` inside the component or a hook
+- show a loading state with progress for any library >500KB
+- use Web Workers for CPU-intensive operations (video, AI inference)
 
 Users of one tool must not download another tool's engine.
 
@@ -272,7 +505,9 @@ Avoid:
 
 ---
 
-## Test-First Preference
+## Testing Rules
+
+### Test-first preference
 
 For logic-heavy work, the agent should prefer TDD.
 
@@ -291,25 +526,48 @@ This is especially required for:
 - state transitions
 - output contracts
 
----
+### Two levels of testing
 
-## Required Test Coverage
+**Level 1: Playwright E2E tests** (`tests/e2e/`)
 
-For each new tool or processor, the agent must ensure:
+Test the full user flow in a real browser. Every tool must have an E2E test that:
 
-- unit tests for processor/helper logic
-- component/integration test for primary UI behavior where relevant
-- Playwright happy-path test for user-facing tools
-- invalid-input test
-- large-input or guardrail behavior test where relevant
+1. Navigates to the tool page
+2. Uploads a test fixture file from `tests/e2e/fixtures/`
+3. Waits for processing to complete (wait for download button to appear)
+4. Clicks download and captures the output file
+5. Asserts: file exists, correct file extension, non-zero file size, valid magic bytes for the output format
 
-If a task does not need all of these, follow the smallest existing pattern in the repo.
+Magic bytes reference:
+- JPG: starts with `FF D8 FF`
+- PNG: starts with `89 50 4E 47`
+- WebP: starts with `52 49 46 46` ... `57 45 42 50`
+- PDF: starts with `25 50 44 46`
+- GIF: starts with `47 49 46 38`
 
-Do not skip tests merely because manual testing "looks fine."
+Do NOT:
+- Compare pixels between input and output
+- Use golden file / snapshot comparison
+- Take screenshots for visual comparison
+- Assert exact file sizes (they vary by platform)
 
----
+**Level 2: Vitest unit tests** (`tests/unit/`)
 
-## Playwright Rules
+Test processor functions directly without a browser. Every processor must have a unit test that:
+
+1. Reads a fixture file into `Uint8Array`
+2. Calls the processor function with default options
+3. Asserts: output is not empty, valid magic bytes for the expected format, output size is within a reasonable range
+4. For compression tools: assert output size < input size
+5. For resize tools: decode output and check dimensions match requested dimensions
+6. For conversion tools: assert output magic bytes match the target format
+
+Do NOT:
+- Compare pixel-by-pixel output
+- Assert exact output file sizes
+- Use snapshot testing for binary output
+
+### Playwright rules
 
 For E2E tests, prefer:
 - one happy path
@@ -325,6 +583,43 @@ Focus on:
 - success result visible
 - download action available
 - invalid input handled
+
+### Test fixture files
+
+Keep real test files in `tests/e2e/fixtures/`. Requirements:
+- Real files, not programmatically generated
+- Under 200KB each to keep the repo light (exceptions allowed with justification)
+- CC0 or public domain licensed where possible
+- One file per format: sample.heic, sample.jpg, sample.png, sample.webp, sample.pdf, etc.
+- Add new fixture files as new format support is added
+
+### When to write tests
+
+- Write E2E tests when a tool is complete and working
+- Write unit tests when a processor is complete and stable
+- Run `npm test` before committing changes to processors
+- Run `npm run test:e2e` before deploying to production
+
+### New tool testing checklist
+
+When adding a new tool, also add:
+1. A fixture file in `tests/e2e/fixtures/` if the format is not already covered
+2. A unit test in `tests/unit/processors/<tool>.test.ts` for the processor
+3. An E2E test in `tests/e2e/<tool>.spec.ts` for the full flow
+
+### Required test coverage
+
+For each new tool or processor, the agent must ensure:
+
+- unit tests for processor/helper logic
+- component/integration test for primary UI behavior where relevant
+- Playwright happy-path test for user-facing tools
+- invalid-input test
+- large-input or guardrail behavior test where relevant
+
+If a task does not need all of these, follow the smallest existing pattern in the repo.
+
+Do not skip tests merely because manual testing "looks fine."
 
 ---
 
