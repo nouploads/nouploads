@@ -1,5 +1,5 @@
-import { FileInput } from "lucide-react";
-import { useCallback, useRef, useState } from "react";
+import { FileInput, ShieldCheck } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface ToolDropzoneProps {
 	accept?: Record<string, string[]>;
@@ -45,6 +45,20 @@ export function ToolDropzone({
 		[maxSizeMB, multiple, onFiles],
 	);
 
+	// Native change listener ensures programmatic file setting (e.g. Playwright's
+	// setInputFiles) triggers handleFiles even when React's synthetic onChange misses it.
+	useEffect(() => {
+		const input = inputRef.current;
+		if (!input) return;
+		const onNativeChange = () => handleFiles(input.files);
+		input.addEventListener("change", onNativeChange);
+		input.dataset.listenerReady = "true";
+		return () => {
+			input.removeEventListener("change", onNativeChange);
+			delete input.dataset.listenerReady;
+		};
+	}, [handleFiles]);
+
 	const handleDragOver = useCallback(
 		(e: React.DragEvent) => {
 			e.preventDefault();
@@ -68,7 +82,7 @@ export function ToolDropzone({
 	);
 
 	return (
-		<div className="space-y-2">
+		<div className="space-y-2 h-full">
 			{/* biome-ignore lint/a11y/useSemanticElements: div with role="button" needed for dropzone drag-and-drop styling */}
 			<div
 				role="button"
@@ -84,7 +98,7 @@ export function ToolDropzone({
 				onDragLeave={handleDragLeave}
 				onDrop={handleDrop}
 				className={`
-          relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 transition-colors cursor-pointer
+          relative flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-8 transition-colors cursor-pointer h-full
           ${isDragging ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-primary/40"}
           ${disabled ? "opacity-50 cursor-not-allowed" : ""}
         `}
@@ -115,6 +129,10 @@ export function ToolDropzone({
 						)}
 						<p className="text-xs text-muted-foreground mt-1">
 							Max {maxSizeMB}MB per file
+						</p>
+						<p className="text-xs text-muted-foreground mt-3 flex items-center gap-1">
+							<ShieldCheck className="h-3 w-3" />
+							Private and secure — files stay with you
 						</p>
 					</>
 				)}

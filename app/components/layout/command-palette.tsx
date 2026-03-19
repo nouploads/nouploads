@@ -78,7 +78,7 @@ export function CommandPalette({ tools }: { tools: Tool[] }) {
 					<kbd className="inline-flex h-5 items-center align-middle rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
 						/
 					</kbd>{" "}
-					to search
+					to search tools
 				</span>
 			</button>
 

@@ -1,31 +1,29 @@
 import type { Tool } from "./search";
 
-export const tools: Tool[] = [
+/**
+ * Tools shown as cards in the homepage and category page grids.
+ * One card per tool TYPE — not per format or format pair.
+ */
+export const gridTools: Tool[] = [
 	{
-		title: "HEIC to JPG",
-		description: "Convert iPhone HEIC photos to JPG format",
-		href: "/image/heic-to-jpg",
-		icon: "Camera",
-		iconColor: "text-pink-500",
-		iconBg: "bg-pink-50 dark:bg-pink-950/40",
+		title: "Image Convert",
+		description: "Convert between HEIC, PNG, JPG, WebP, AVIF, and more",
+		href: "/image/convert",
+		icon: "RefreshCw",
+		iconColor: "text-violet-500",
+		iconBg: "bg-violet-50 dark:bg-violet-950/40",
+		category: "Image Tools",
+		categoryHref: "/image",
 	},
 	{
 		title: "Image Compress",
 		description: "Reduce image file size with adjustable quality",
 		href: "/image/compress",
-		icon: "ArrowDownToLine",
+		icon: "FileArchive",
 		iconColor: "text-blue-500",
 		iconBg: "bg-blue-50 dark:bg-blue-950/40",
-		comingSoon: true,
-	},
-	{
-		title: "Image Convert",
-		description: "Convert between PNG, JPG, WebP, AVIF, and more",
-		href: "/image/convert",
-		icon: "RefreshCw",
-		iconColor: "text-violet-500",
-		iconBg: "bg-violet-50 dark:bg-violet-950/40",
-		comingSoon: true,
+		category: "Image Tools",
+		categoryHref: "/image",
 	},
 	{
 		title: "Image Resize",
@@ -35,6 +33,8 @@ export const tools: Tool[] = [
 		iconColor: "text-orange-500",
 		iconBg: "bg-orange-50 dark:bg-orange-950/40",
 		comingSoon: true,
+		category: "Image Tools",
+		categoryHref: "/image",
 	},
 	{
 		title: "EXIF Viewer",
@@ -44,6 +44,8 @@ export const tools: Tool[] = [
 		iconColor: "text-teal-500",
 		iconBg: "bg-teal-50 dark:bg-teal-950/40",
 		comingSoon: true,
+		category: "Image Tools",
+		categoryHref: "/image",
 	},
 	{
 		title: "Images to PDF",
@@ -53,5 +55,139 @@ export const tools: Tool[] = [
 		iconColor: "text-rose-500",
 		iconBg: "bg-rose-50 dark:bg-rose-950/40",
 		comingSoon: true,
+		category: "Image Tools",
+		categoryHref: "/image",
+	},
+	{
+		title: "Color Picker",
+		description: "Pick colors and convert between HEX, RGB, HSL, OKLCH",
+		href: "/developer/color-picker",
+		icon: "Palette",
+		iconColor: "text-fuchsia-500",
+		iconBg: "bg-fuchsia-50 dark:bg-fuchsia-950/40",
+		category: "Developer Tools",
+		categoryHref: "/developer",
+	},
+];
+
+/**
+ * All tools including format-specific landing pages.
+ * Used by the command palette and search so users can find any page.
+ */
+export const allTools: Tool[] = [
+	...gridTools,
+	// Format-specific conversion landing pages
+	{
+		title: "HEIC to JPG",
+		description: "Convert iPhone HEIC photos to JPG format",
+		href: "/image/heic-to-jpg",
+		icon: "Camera",
+		iconColor: "text-pink-500",
+		iconBg: "bg-pink-50 dark:bg-pink-950/40",
+	},
+	{
+		title: "JPG to PNG",
+		description: "Convert JPG images to lossless PNG format",
+		href: "/image/jpg-to-png",
+		icon: "RefreshCw",
+		iconColor: "text-violet-500",
+		iconBg: "bg-violet-50 dark:bg-violet-950/40",
+	},
+	{
+		title: "PNG to JPG",
+		description: "Convert PNG images to compact JPG format",
+		href: "/image/png-to-jpg",
+		icon: "RefreshCw",
+		iconColor: "text-violet-500",
+		iconBg: "bg-violet-50 dark:bg-violet-950/40",
+	},
+	{
+		title: "WebP to JPG",
+		description: "Convert WebP images to universally compatible JPG",
+		href: "/image/webp-to-jpg",
+		icon: "RefreshCw",
+		iconColor: "text-violet-500",
+		iconBg: "bg-violet-50 dark:bg-violet-950/40",
+	},
+	{
+		title: "WebP to PNG",
+		description: "Convert WebP images to lossless PNG with transparency",
+		href: "/image/webp-to-png",
+		icon: "RefreshCw",
+		iconColor: "text-violet-500",
+		iconBg: "bg-violet-50 dark:bg-violet-950/40",
+	},
+	{
+		title: "JPG to WebP",
+		description: "Convert JPG images to modern WebP format",
+		href: "/image/jpg-to-webp",
+		icon: "RefreshCw",
+		iconColor: "text-violet-500",
+		iconBg: "bg-violet-50 dark:bg-violet-950/40",
+	},
+	{
+		title: "PNG to WebP",
+		description: "Convert PNG images to efficient WebP format",
+		href: "/image/png-to-webp",
+		icon: "RefreshCw",
+		iconColor: "text-violet-500",
+		iconBg: "bg-violet-50 dark:bg-violet-950/40",
+	},
+	{
+		title: "SVG to PNG",
+		description: "Rasterize SVG vector graphics to PNG images",
+		href: "/image/svg-to-png",
+		icon: "RefreshCw",
+		iconColor: "text-violet-500",
+		iconBg: "bg-violet-50 dark:bg-violet-950/40",
+	},
+	{
+		title: "AVIF to JPG",
+		description: "Convert AVIF images to widely compatible JPG",
+		href: "/image/avif-to-jpg",
+		icon: "RefreshCw",
+		iconColor: "text-violet-500",
+		iconBg: "bg-violet-50 dark:bg-violet-950/40",
+	},
+	{
+		title: "AVIF to PNG",
+		description: "Convert AVIF images to lossless PNG format",
+		href: "/image/avif-to-png",
+		icon: "RefreshCw",
+		iconColor: "text-violet-500",
+		iconBg: "bg-violet-50 dark:bg-violet-950/40",
+	},
+	{
+		title: "GIF to JPG",
+		description: "Convert GIF images to compact JPG format",
+		href: "/image/gif-to-jpg",
+		icon: "RefreshCw",
+		iconColor: "text-violet-500",
+		iconBg: "bg-violet-50 dark:bg-violet-950/40",
+	},
+	// Format-specific compression landing pages
+	{
+		title: "Compress JPG",
+		description: "Reduce JPG file size with adjustable quality",
+		href: "/image/compress-jpg",
+		icon: "FileArchive",
+		iconColor: "text-blue-500",
+		iconBg: "bg-blue-50 dark:bg-blue-950/40",
+	},
+	{
+		title: "Compress PNG",
+		description: "Reduce PNG file size with color quantization",
+		href: "/image/compress-png",
+		icon: "FileArchive",
+		iconColor: "text-emerald-500",
+		iconBg: "bg-emerald-50 dark:bg-emerald-950/40",
+	},
+	{
+		title: "Compress WebP",
+		description: "Reduce WebP file size with adjustable quality",
+		href: "/image/compress-webp",
+		icon: "FileArchive",
+		iconColor: "text-cyan-500",
+		iconBg: "bg-cyan-50 dark:bg-cyan-950/40",
 	},
 ];

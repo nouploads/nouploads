@@ -4,7 +4,7 @@ import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
 import ToolFilter from "~/components/marketing/tool-filter";
 import { buildMeta } from "~/lib/seo/meta";
-import { tools } from "~/lib/tools";
+import { gridTools } from "~/lib/tools";
 import type { Route } from "./+types/home";
 
 const issuesUrl = import.meta.env.VITE_GITHUB_URL
@@ -13,10 +13,40 @@ const issuesUrl = import.meta.env.VITE_GITHUB_URL
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "NoUploads — Privacy-First File Tools | 100% Client-Side",
+		title: "NoUploads — Free Online File Tools | Private & No Upload Required",
 		description:
-			"Free online file tools that run entirely in your browser. Convert, compress, resize images and more. No uploads, no servers, 100% private.",
+			"Free online file tools that run 100% in your browser. Convert, compress, and resize images with no upload, no signup, no servers. Open source and works offline.",
 		path: "/",
+		keywords:
+			"online file tools, free image converter, compress image online, privacy file tools, no upload file converter, client-side file tools, browser-based file tools, open source file tools, offline file tools, NoUploads",
+		jsonLd: [
+			{
+				"@context": "https://schema.org",
+				"@type": "WebSite",
+				name: "NoUploads",
+				url: "https://nouploads.com",
+				description:
+					"Free online file tools that run 100% in your browser. Convert, compress, and resize images with no upload, no signup, no servers. Open source and works offline.",
+				potentialAction: {
+					"@type": "SearchAction",
+					target: "https://nouploads.com/?q={search_term_string}",
+					"query-input": "required name=search_term_string",
+				},
+				creator: {
+					"@type": "Organization",
+					name: "NoUploads",
+					url: "https://nouploads.com",
+				},
+			},
+			{
+				"@context": "https://schema.org",
+				"@type": "Organization",
+				name: "NoUploads",
+				url: "https://nouploads.com",
+				logo: "https://nouploads.com/favicon.svg",
+				sameAs: ["https://github.com/nouploads/nouploads"],
+			},
+		],
 	});
 }
 
@@ -61,7 +91,7 @@ export default function HomePage() {
 
 				{/* Tool Grid with Filter */}
 				<section className="pb-16">
-					<ToolFilter tools={tools} issuesUrl={issuesUrl} />
+					<ToolFilter tools={gridTools} issuesUrl={issuesUrl} />
 				</section>
 
 				{/* How it works */}

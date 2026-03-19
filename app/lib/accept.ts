@@ -9,7 +9,7 @@
  */
 
 export const ACCEPT_HEIC: Record<string, string[]> = {
-	"image/heic": [".heic", ".HEIC"],
+	"image/heic": [".heic"],
 };
 
 export const ACCEPT_IMAGES: Record<string, string[]> = {
@@ -21,6 +21,7 @@ export const ACCEPT_IMAGES: Record<string, string[]> = {
 	"image/bmp": [".bmp"],
 	"image/tiff": [".tiff", ".tif"],
 	"image/svg+xml": [".svg"],
+	"image/heic": [".heic"],
 };
 
 export const ACCEPT_IMAGES_RASTER: Record<string, string[]> = {
@@ -31,6 +32,13 @@ export const ACCEPT_IMAGES_RASTER: Record<string, string[]> = {
 	"image/gif": [".gif"],
 	"image/bmp": [".bmp"],
 	"image/tiff": [".tiff", ".tif"],
+};
+
+export const ACCEPT_COMPRESSIBLE: Record<string, string[]> = {
+	"image/png": [".png"],
+	"image/jpeg": [".jpg", ".jpeg"],
+	"image/webp": [".webp"],
+	"image/avif": [".avif"],
 };
 
 export const ACCEPT_PDF: Record<string, string[]> = {

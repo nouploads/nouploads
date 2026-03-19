@@ -8,6 +8,8 @@ export interface Tool {
 	iconColor: string;
 	iconBg: string;
 	comingSoon?: boolean;
+	category?: string;
+	categoryHref?: string;
 }
 
 const fuseOptions: IFuseOptions<Tool> = {

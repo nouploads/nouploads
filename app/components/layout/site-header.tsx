@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router";
-import { tools } from "~/lib/tools";
+import { allTools } from "~/lib/tools";
 import { GitHubLink } from "./github-link";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -43,7 +43,7 @@ export function SiteHeader() {
 
 				<div className="flex items-center gap-2">
 					<Suspense>
-						<CommandPalette tools={tools} />
+						<CommandPalette tools={allTools} />
 					</Suspense>
 					<GitHubLink href={GITHUB_URL} />
 					<ThemeToggle />
