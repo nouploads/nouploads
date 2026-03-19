@@ -1,24 +1,48 @@
 export interface HeicToJpgOptions {
 	quality: number; // 0.0 to 1.0
+	/** Signal to abort the conversion. */
+	signal?: AbortSignal;
+}
+
+/**
+ * Decode a HEIC blob using heic2any on the main thread.
+ *
+ * heic2any requires DOM canvas (document.createElement("canvas")) so it
+ * cannot run in a Web Worker. AbortSignal support is still provided —
+ * if aborted, the result is discarded (heic2any itself is not cancellable,
+ * but the caller won't receive stale results).
+ */
+async function decodeHeic(
+	blob: Blob,
+	toType: string,
+	quality: number,
+	signal?: AbortSignal,
+): Promise<Blob> {
+	if (signal?.aborted) {
+		throw new DOMException("Aborted", "AbortError");
+	}
+
+	const heic2any = (await import("heic2any")).default;
+
+	if (signal?.aborted) {
+		throw new DOMException("Aborted", "AbortError");
+	}
+
+	const result = await heic2any({ blob, toType, quality });
+	const output = Array.isArray(result) ? result[0] : result;
+
+	if (signal?.aborted) {
+		throw new DOMException("Aborted", "AbortError");
+	}
+
+	return output;
 }
 
 export async function heicToJpg(
 	input: Blob,
 	options: HeicToJpgOptions = { quality: 0.92 },
 ): Promise<Blob> {
-	const heic2any = (await import("heic2any")).default;
-
-	const result = await heic2any({
-		blob: input,
-		toType: "image/jpeg",
-		quality: options.quality,
-	});
-
-	// heic2any can return a single Blob or an array of Blobs (for multi-image HEIC)
-	if (Array.isArray(result)) {
-		return result[0];
-	}
-	return result;
+	return decodeHeic(input, "image/jpeg", options.quality, options.signal);
 }
 
 /**

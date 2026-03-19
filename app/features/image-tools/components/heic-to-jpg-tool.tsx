@@ -1,5 +1,6 @@
 import { AlertCircle, CheckCircle2, Download } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { ImageCompareSlider } from "~/components/tool/image-compare-slider";
 import { DownloadButton } from "~/components/tool/tool-actions";
 import { ToolDropzone } from "~/components/tool/tool-dropzone";
 import { ToolProgress } from "~/components/tool/tool-progress";
@@ -22,7 +23,7 @@ interface BatchResult {
 	output: Blob | Error;
 }
 
-// ─── Single-file mode: side-by-side preview with reactive quality ───
+// ─── Single-file mode: before/after compare slider ──────────
 
 function SingleFileView({
 	file,
@@ -34,49 +35,48 @@ function SingleFileView({
 	onReset: () => void;
 }) {
 	const [originalUrl, setOriginalUrl] = useState<string | null>(null);
-	const [originalLoading, setOriginalLoading] = useState(true);
 	const [resultUrl, setResultUrl] = useState<string | null>(null);
 	const [resultBlob, setResultBlob] = useState<Blob | null>(null);
 	const [converting, setConverting] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const convertRef = useRef(0);
+	const hasResult = resultUrl !== null;
 
-	// Convert HEIC to a displayable preview at full quality
+	// Convert HEIC to a displayable preview at full quality (lossless reference)
 	useEffect(() => {
-		let cancelled = false;
-		setOriginalLoading(true);
+		const controller = new AbortController();
 
 		(async () => {
 			try {
-				const blob = await heicToJpg(file, { quality: 1.0 });
-				if (cancelled) return;
-				const url = URL.createObjectURL(blob);
+				const blob = await heicToJpg(file, {
+					quality: 1.0,
+					signal: controller.signal,
+				});
+				if (controller.signal.aborted) return;
 				setOriginalUrl((prev) => {
 					if (prev) URL.revokeObjectURL(prev);
-					return url;
+					return URL.createObjectURL(blob);
 				});
 			} catch {
-				// Preview unavailable
-			} finally {
-				if (!cancelled) setOriginalLoading(false);
+				// Preview unavailable or aborted
 			}
 		})();
 
-		return () => {
-			cancelled = true;
-		};
+		return () => controller.abort();
 	}, [file]);
 
 	// Convert whenever file or quality changes
 	useEffect(() => {
-		const id = ++convertRef.current;
+		const controller = new AbortController();
 		setConverting(true);
 		setError(null);
 
 		(async () => {
 			try {
-				const blob = await heicToJpg(file, { quality: quality / 100 });
-				if (convertRef.current !== id) return;
+				const blob = await heicToJpg(file, {
+					quality: quality / 100,
+					signal: controller.signal,
+				});
+				if (controller.signal.aborted) return;
 				setResultBlob(blob);
 				setResultUrl((prev) => {
 					if (prev) URL.revokeObjectURL(prev);
@@ -84,71 +84,43 @@ function SingleFileView({
 				});
 				setConverting(false);
 			} catch (err) {
-				if (convertRef.current !== id) return;
+				if (controller.signal.aborted) return;
 				setError(err instanceof Error ? err.message : "Conversion failed");
 				setResultBlob(null);
 				setResultUrl(null);
 				setConverting(false);
 			}
 		})();
+
+		return () => controller.abort();
 	}, [file, quality]);
 
 	const outputFilename = toJpgFilename(file.name);
 
 	return (
 		<div className="space-y-4">
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-				{/* Original */}
-				<div className="space-y-2">
+			<div className="flex justify-between">
+				<div>
 					<p className="text-sm font-medium">Original</p>
-					<div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center h-[350px]">
-						{originalLoading ? (
-							<div className="flex flex-col items-center gap-2 p-4">
-								<Spinner className="size-6" />
-								<p className="text-sm text-muted-foreground">
-									Loading preview...
-								</p>
-							</div>
-						) : originalUrl ? (
-							<img
-								src={originalUrl}
-								alt="Original"
-								className="max-w-full max-h-full object-contain"
-							/>
-						) : null}
-					</div>
-					<p className="text-xs text-muted-foreground h-5">
+					<p className="text-xs text-muted-foreground">
 						{file.name} — {formatFileSize(file.size)}
 					</p>
 				</div>
-
-				{/* Result */}
-				<div className="space-y-2">
+				<div className="text-right">
 					<p className="text-sm font-medium">Result</p>
-					<div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center h-[350px]">
-						{converting ? (
-							<div className="flex flex-col items-center gap-2 p-4">
-								<Spinner className="size-6" />
-								<p className="text-sm text-muted-foreground">
-									Converting HEIC to JPG...
-								</p>
-							</div>
-						) : error ? (
-							<div className="flex flex-col items-center gap-2 p-4 text-center">
-								<AlertCircle className="h-6 w-6 text-destructive" />
-								<p className="text-sm text-destructive">{error}</p>
-							</div>
-						) : resultUrl ? (
-							<img
-								src={resultUrl}
-								alt="Result"
-								className="max-w-full max-h-full object-contain"
-							/>
-						) : null}
-					</div>
-					<p className="text-xs text-muted-foreground h-5">
-						{resultBlob && !converting ? (
-							<>
+					<p className="text-xs text-muted-foreground relative">
+						<span
+							className="inline-flex items-center gap-1.5 transition-opacity duration-300"
+							style={{ opacity: converting ? 1 : 0 }}
+						>
+							{outputFilename} — <Spinner className="size-3 inline" />{" "}
+							Converting...
+						</span>
+						{resultBlob && (
+							<span
+								className="absolute right-0 top-0 whitespace-nowrap transition-opacity duration-300"
+								style={{ opacity: converting ? 0 : 1 }}
+							>
 								{outputFilename} — {formatFileSize(resultBlob.size)}{" "}
 								{resultBlob.size < file.size ? (
 									<span className="text-primary font-medium">
@@ -163,13 +135,79 @@ function SingleFileView({
 								) : (
 									<span>(same size)</span>
 								)}
-							</>
-						) : (
-							<>&nbsp;</>
+							</span>
 						)}
 					</p>
 				</div>
 			</div>
+
+			{converting && !hasResult ? (
+				<div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center h-[400px]">
+					{originalUrl ? (
+						<div className="relative h-full w-full">
+							<img
+								src={originalUrl}
+								alt="Original"
+								className="h-full w-full object-contain opacity-60"
+							/>
+							<div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/50">
+								<Spinner className="size-6" />
+								<p className="text-sm text-muted-foreground">
+									Loading preview...
+								</p>
+							</div>
+						</div>
+					) : (
+						<div className="flex flex-col items-center gap-2 p-4">
+							<Spinner className="size-6" />
+							<p className="text-sm text-muted-foreground">
+								Loading preview...
+							</p>
+						</div>
+					)}
+				</div>
+			) : error ? (
+				<div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center h-[400px]">
+					<div className="flex flex-col items-center gap-2 p-4 text-center">
+						<AlertCircle className="h-6 w-6 text-destructive" />
+						<p className="text-sm text-destructive">{error}</p>
+					</div>
+				</div>
+			) : originalUrl && resultUrl ? (
+				<div className="relative">
+					<div
+						className="transition-opacity duration-300"
+						style={{ opacity: converting ? 0.25 : 1 }}
+					>
+						<ImageCompareSlider
+							originalSrc={originalUrl}
+							resultSrc={resultUrl}
+							height={400}
+						/>
+					</div>
+					<div
+						className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300"
+						style={{ opacity: converting ? 1 : 0 }}
+					>
+						<Spinner className="size-10" />
+					</div>
+				</div>
+			) : originalUrl ? (
+				<div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center h-[400px]">
+					<img
+						src={originalUrl}
+						alt="Original"
+						className="max-w-full max-h-full object-contain"
+					/>
+				</div>
+			) : (
+				<div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center h-[400px]">
+					<div className="flex flex-col items-center gap-2 p-4">
+						<Spinner className="size-6" />
+						<p className="text-sm text-muted-foreground">Loading preview...</p>
+					</div>
+				</div>
+			)}
 
 			<div className="flex items-center gap-3 h-9">
 				{resultBlob && !converting && (
@@ -200,6 +238,7 @@ function BatchView({
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
+		const controller = new AbortController();
 		setStatus("processing");
 		setResults([]);
 		setProgress({ completed: 0, total: files.length });
@@ -208,7 +247,7 @@ function BatchView({
 			try {
 				const outputs = await heicToJpgBatch(
 					files,
-					{ quality: quality / 100 },
+					{ quality: quality / 100, signal: controller.signal },
 					(completedIndex, totalCount) => {
 						setProgress({
 							completed: completedIndex + 1,
@@ -216,17 +255,21 @@ function BatchView({
 						});
 					},
 				);
+				if (controller.signal.aborted) return;
 				setResults(
 					files.map((file, i) => ({ inputFile: file, output: outputs[i] })),
 				);
 				setStatus("done");
 			} catch (err) {
+				if (controller.signal.aborted) return;
 				setError(
 					err instanceof Error ? err.message : "Batch conversion failed",
 				);
 				setStatus("done");
 			}
 		})();
+
+		return () => controller.abort();
 	}, [files, quality]);
 
 	const successfulResults = results.filter(
@@ -375,7 +418,7 @@ export default function HeicToJpgTool() {
 
 			<div className="min-h-[460px]">
 				{files.length === 0 && (
-					<div className="h-[460px] flex items-center">
+					<div className="h-[460px]">
 						<ToolDropzone accept={ACCEPT_HEIC} onFiles={handleFiles} multiple />
 					</div>
 				)}

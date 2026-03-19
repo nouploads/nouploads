@@ -104,7 +104,6 @@ describe("HeicToJpgTool — single file live preview", () => {
 
 		await vi.waitFor(
 			() => {
-				expect(screen.getByText(/photo\.jpg/)).toBeInTheDocument();
 				expect(
 					screen.getByRole("button", { name: /download/i }),
 				).toBeInTheDocument();
@@ -131,8 +130,8 @@ describe("HeicToJpgTool — single file live preview", () => {
 
 		// Check the quality arguments
 		const calls = mockedHeicToJpg.mock.calls;
-		expect(calls[0][1]).toEqual({ quality: 1.0 }); // preview
-		expect(calls[1][1]).toEqual({ quality: 0.92 }); // result (92% default)
+		expect(calls[0][1]).toMatchObject({ quality: 1.0 }); // preview
+		expect(calls[1][1]).toMatchObject({ quality: 0.92 }); // result (92% default)
 	});
 
 	it("should re-convert when quality slider changes", async () => {

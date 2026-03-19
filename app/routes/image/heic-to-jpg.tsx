@@ -18,8 +18,11 @@ export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
 		title: "Convert HEIC to JPG Online — Free, Private, No Upload | NoUploads",
 		description:
-			"Convert iPhone HEIC photos to JPG format instantly in your browser. No upload, no server, 100% private. Works offline.",
+			"Convert iPhone HEIC photos to JPG online for free. No upload, no signup — files never leave your device.",
 		path: "/image/heic-to-jpg",
+		keywords:
+			"heic to jpg, convert heic, heic converter, iphone photo converter, heic to jpeg online, free heic converter, private file converter, batch heic convert",
+		jsonLdName: "HEIC to JPG Converter",
 	});
 }
 
@@ -49,13 +52,18 @@ const faqItems = [
 		answer:
 			"Yes. After the page loads once, the conversion engine is cached in your browser. You can convert HEIC files even without an internet connection.",
 	},
+	{
+		question: "Why use NoUploads instead of other HEIC converters?",
+		answer:
+			"Most online HEIC converters upload your photos to their servers for processing. NoUploads is different — all conversion runs locally in your browser using WebAssembly. Your photos never leave your device. There's no signup, no file size limit, no daily usage cap, and it works offline after the first page load. It's also free and open source.",
+	},
 ];
 
 export default function HeicToJpgPage() {
 	return (
 		<ToolPageLayout
 			title="HEIC to JPG"
-			description="Convert HEIC images to JPG right in your browser."
+			description="Convert HEIC images to JPG online — free, private, no upload required."
 		>
 			<Suspense
 				fallback={
@@ -67,7 +75,19 @@ export default function HeicToJpgPage() {
 				<HeicToJpgTool />
 			</Suspense>
 
-			<section className="mt-12">
+			<section className="mt-12 mb-8">
+				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
+				<p className="text-muted-foreground">
+					NoUploads HEIC to JPG converter transforms iPhone and iPad HEIC photos
+					into universally compatible JPG format. Unlike other online
+					converters, your files are processed entirely in your browser —
+					nothing is uploaded to any server. Convert single files or batch
+					convert hundreds of HEIC photos at once, with adjustable quality
+					settings.
+				</p>
+			</section>
+
+			<section>
 				<h2 className="text-lg font-semibold mb-4">
 					Frequently Asked Questions
 				</h2>
@@ -83,6 +103,19 @@ export default function HeicToJpgPage() {
 					))}
 				</Accordion>
 			</section>
+
+			<p className="text-xs text-muted-foreground mt-8">
+				Powered by{" "}
+				<a
+					href="https://github.com/alexcorvi/heic2any"
+					target="_blank"
+					rel="noopener noreferrer"
+					className="underline hover:text-foreground transition-colors"
+				>
+					heic2any
+				</a>{" "}
+				· MIT License
+			</p>
 		</ToolPageLayout>
 	);
 }
