@@ -1,5 +1,6 @@
 import { AlertCircle, CheckCircle2, Download } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FrameScrubber } from "~/components/tool/frame-scrubber";
 import { ImageCompareSlider } from "~/components/tool/image-compare-slider";
 import { DownloadButton } from "~/components/tool/tool-actions";
 import { ToolDropzone } from "~/components/tool/tool-dropzone";
@@ -8,6 +9,11 @@ import { Button } from "~/components/ui/button";
 import { Slider } from "~/components/ui/slider";
 import { Spinner } from "~/components/ui/spinner";
 import { formatFileSize } from "~/lib/utils";
+import {
+	type GifFrameData,
+	parseGifFrames,
+	revokeGifFrameUrls,
+} from "../processors/parse-gif-frames";
 
 interface CompressResult {
 	blob: Blob;
@@ -73,6 +79,118 @@ function SingleFileView({
 	const [error, setError] = useState<string | null>(null);
 	const hasResult = resultUrl !== null;
 
+	// ─── GIF frame scrubbing ─────────────────────────────────
+	const isGif = file.type === "image/gif";
+	const [originalFrames, setOriginalFrames] = useState<GifFrameData | null>(
+		null,
+	);
+	const [resultFrames, setResultFrames] = useState<GifFrameData | null>(null);
+	const [selectedFrameIndex, setSelectedFrameIndex] = useState(0);
+	const [parsingOriginal, setParsingOriginal] = useState(false);
+	const [parsingResult, setParsingResult] = useState(false);
+	// Track which resultBlob the current resultFrames were parsed from
+	const resultFramesBlobRef = useRef<Blob | null>(null);
+
+	// Parse original GIF frames
+	useEffect(() => {
+		if (!isGif) return;
+		const controller = new AbortController();
+		setParsingOriginal(true);
+		setOriginalFrames(null);
+		setSelectedFrameIndex(0);
+
+		(async () => {
+			try {
+				const data = await parseGifFrames(file, controller.signal);
+				if (controller.signal.aborted) return;
+				setOriginalFrames(data);
+				setParsingOriginal(false);
+			} catch (err) {
+				if (controller.signal.aborted) return;
+				setParsingOriginal(false);
+			}
+		})();
+
+		return () => {
+			controller.abort();
+		};
+	}, [file, isGif]);
+
+	// Cleanup original frame URLs
+	const prevOrigFramesRef = useRef<GifFrameData | null>(null);
+	useEffect(() => {
+		if (originalFrames) {
+			if (prevOrigFramesRef.current) {
+				revokeGifFrameUrls(prevOrigFramesRef.current.frames);
+			}
+			prevOrigFramesRef.current = originalFrames;
+		}
+		return () => {
+			if (prevOrigFramesRef.current) {
+				revokeGifFrameUrls(prevOrigFramesRef.current.frames);
+				prevOrigFramesRef.current = null;
+			}
+		};
+	}, [originalFrames]);
+
+	// Parse result GIF frames when compression finishes
+	useEffect(() => {
+		if (!isGif || !resultBlob || converting) return;
+		const controller = new AbortController();
+		setParsingResult(true);
+		// Keep old resultFrames visible (dimmed) while new ones parse
+
+		(async () => {
+			try {
+				const data = await parseGifFrames(resultBlob, controller.signal);
+				if (controller.signal.aborted) return;
+				resultFramesBlobRef.current = resultBlob;
+				setResultFrames(data);
+				setParsingResult(false);
+			} catch (err) {
+				if (controller.signal.aborted) return;
+				setParsingResult(false);
+			}
+		})();
+
+		return () => {
+			controller.abort();
+		};
+	}, [isGif, resultBlob, converting]);
+
+	// Cleanup result frame URLs
+	const prevResultFramesRef = useRef<GifFrameData | null>(null);
+	useEffect(() => {
+		if (resultFrames) {
+			if (prevResultFramesRef.current) {
+				revokeGifFrameUrls(prevResultFramesRef.current.frames);
+			}
+			prevResultFramesRef.current = resultFrames;
+		}
+		return () => {
+			if (prevResultFramesRef.current) {
+				revokeGifFrameUrls(prevResultFramesRef.current.frames);
+				prevResultFramesRef.current = null;
+			}
+		};
+	}, [resultFrames]);
+
+	// Determine compare slider sources — static frame PNGs for GIFs
+	const hasGifFrames =
+		isGif && originalFrames && originalFrames.frames.length > 1;
+	const clampedIndex = hasGifFrames
+		? Math.min(selectedFrameIndex, originalFrames.frames.length - 1)
+		: 0;
+	const compareOriginalSrc = hasGifFrames
+		? originalFrames.frames[clampedIndex].previewUrl
+		: originalUrl;
+	// For GIFs, never use the animated blob URL — only show static frame PNGs
+	const compareResultSrc = hasGifFrames
+		? (resultFrames?.frames[
+				Math.min(clampedIndex, resultFrames.frames.length - 1)
+			]?.previewUrl ?? null)
+		: resultUrl;
+
 	useEffect(() => {
 		const url = URL.createObjectURL(file);
 		setOriginalUrl(url);
@@ -112,6 +230,16 @@ function SingleFileView({
 
 	const outputFilename = toOutputFilename(file.name, config.fileExtension);
 
+	// Show processing state for GIFs while compressing, parsing result frames,
+	// or when result frames are stale (parsed from a previous blob)
+	const gifStaleFrames =
+		isGif &&
+		hasGifFrames &&
+		resultBlob !== null &&
+		resultFramesBlobRef.current !== resultBlob;
+	const showProcessing =
+		converting || (isGif && hasGifFrames && (parsingResult || gifStaleFrames));
+
 	return (
 		<div className="space-y-4">
 			<div className="flex justify-between">
@@ -126,7 +254,7 @@ function SingleFileView({
 					<p className="text-xs text-muted-foreground relative">
 						<span
 							className="inline-flex items-center gap-1.5 transition-opacity duration-300"
-							style={{ opacity: converting ? 1 : 0 }}
+							style={{ opacity: showProcessing ? 1 : 0 }}
 						>
 							{outputFilename} — <Spinner className="size-3 inline" />{" "}
 							Compressing...
@@ -134,7 +262,7 @@ function SingleFileView({
 						{resultBlob && (
 							<span
 								className="absolute right-0 top-0 whitespace-nowrap transition-opacity duration-300"
-								style={{ opacity: converting ? 0 : 1 }}
+								style={{ opacity: showProcessing ? 0 : 1 }}
 							>
 								{outputFilename} — {formatFileSize(resultBlob.size)}{" "}
 								{resultBlob.size < file.size ? (
@@ -156,30 +284,14 @@ function SingleFileView({
 				</div>
 			</div>
 
-			{converting && !hasResult ? (
+			{(converting || parsingOriginal) && !hasResult ? (
 				<div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center h-[400px]">
-					{originalUrl ? (
-						<div className="relative h-full w-full">
-							<img
-								src={originalUrl}
-								alt="Original"
-								className="h-full w-full object-contain opacity-60"
-							/>
-							<div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/50">
-								<Spinner className="size-6" />
-								<p className="text-sm text-muted-foreground">
-									Loading preview...
-								</p>
-							</div>
-						</div>
-					) : (
-						<div className="flex flex-col items-center gap-2 p-4">
-							<Spinner className="size-6" />
-							<p className="text-sm text-muted-foreground">
-								Loading preview...
-							</p>
-						</div>
-					)}
+					<div className="flex flex-col items-center gap-2 p-4">
+						<Spinner className="size-6" />
+						<p className="text-sm text-muted-foreground">
+							{parsingOriginal ? "Extracting frames..." : "Compressing..."}
+						</p>
+					</div>
 				</div>
 			) : error ? (
 				<div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center h-[400px]">
@@ -188,22 +300,33 @@ function SingleFileView({
 						<p className="text-sm text-destructive">{error}</p>
 					</div>
 				</div>
-			) : originalUrl && resultUrl ? (
+			) : compareOriginalSrc && compareResultSrc ? (
 				<div className="relative">
 					<div
 						className="transition-opacity duration-300"
-						style={{ opacity: converting ? 0.25 : 1 }}
+						style={{ opacity: showProcessing ? 0.25 : 1 }}
 					>
 						<ImageCompareSlider
-							originalSrc={originalUrl}
-							resultSrc={resultUrl}
+							originalSrc={compareOriginalSrc}
+							resultSrc={compareResultSrc}
 							height={400}
 						/>
 					</div>
-					<div
-						className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300"
-						style={{ opacity: converting ? 1 : 0 }}
-					>
+					{showProcessing && (
+						<div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+							<Spinner className="size-10" />
+						</div>
+					)}
+				</div>
+			) : compareOriginalSrc && hasGifFrames ? (
+				/* GIF re-processing: show static original frame with spinner instead of animated GIF */
+				<div className="relative rounded-lg border bg-muted/30 overflow-hidden h-[400px]">
+					<img
+						src={compareOriginalSrc}
+						alt="Original"
+						className="absolute inset-0 h-full w-full object-contain opacity-25"
+					/>
+					<div className="absolute inset-0 flex items-center justify-center">
 						<Spinner className="size-10" />
 					</div>
 				</div>
@@ -217,8 +340,16 @@ function SingleFileView({
 				</div>
 			) : null}
 
+			{hasGifFrames && (
+				<FrameScrubber
+					frames={originalFrames.frames}
+					selectedIndex={clampedIndex}
+					onFrameChange={setSelectedFrameIndex}
+				/>
+			)}
+
 			<div className="flex items-center gap-3 h-9">
-				{resultBlob && !converting && (
+				{resultBlob && !showProcessing && (
 					<DownloadButton blob={resultBlob} filename={outputFilename} />
 				)}
 				<Button variant="outline" onClick={onReset}>
