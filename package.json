@@ -29,6 +29,8 @@
 		"cmdk": "^1.1.1",
 		"culori": "^4.0.2",
 		"fuse.js": "^7.1.0",
+		"gifsicle-wasm-browser": "^1.5.19",
+		"gifuct-js": "^2.1.2",
 		"heic2any": "^0.0.4",
 		"image-q": "^4.0.0",
 		"isbot": "^5.1.31",
