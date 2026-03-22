@@ -39,6 +39,7 @@ export const ACCEPT_COMPRESSIBLE: Record<string, string[]> = {
 	"image/jpeg": [".jpg", ".jpeg"],
 	"image/webp": [".webp"],
 	"image/avif": [".avif"],
+	"image/gif": [".gif"],
 };
 
 export const ACCEPT_PDF: Record<string, string[]> = {
