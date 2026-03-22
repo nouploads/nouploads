@@ -17,7 +17,7 @@ const fuseOptions: IFuseOptions<Tool> = {
 		{ name: "title", weight: 2 },
 		{ name: "description", weight: 1 },
 	],
-	threshold: 0.4,
+	threshold: 0.3,
 	ignoreLocation: true,
 };
 
