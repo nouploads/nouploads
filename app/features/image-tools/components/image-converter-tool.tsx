@@ -1,4 +1,4 @@
-import { AlertCircle, CheckCircle2, Download } from "lucide-react";
+import { AlertCircle, CheckCircle2, Download, Pipette } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { ImageCompareSlider } from "~/components/tool/image-compare-slider";
@@ -33,6 +33,7 @@ import {
 	extensionForFormat,
 	formatRequiresBackground,
 } from "../processors/convert-image";
+import { GifFrameSelector } from "./gif-frame-selector";
 import { FORMAT_QUALITY, QualitySlider } from "./quality-slider";
 
 const OUTPUT_FORMATS: { value: ConvertOutputFormat; label: string }[] = [
@@ -100,14 +101,20 @@ function SingleFileView({
 	const [resultBlob, setResultBlob] = useState<Blob | null>(null);
 	const [converting, setConverting] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [frameBlob, setFrameBlob] = useState<Blob | null>(null);
 	const hasResult = resultUrl !== null;
+
+	const showFrameSelector = file.type === "image/gif";
+
+	// When frame selector provides a frame blob, use it for the "original" preview
+	const previewSource = frameBlob ?? file;
 
 	useEffect(() => {
 		const controller = new AbortController();
 		let revoke: string | null = null;
 		(async () => {
 			try {
-				const decoded = await ensureDecodable(file, controller.signal);
+				const decoded = await ensureDecodable(previewSource, controller.signal);
 				if (controller.signal.aborted) return;
 				const url = URL.createObjectURL(decoded);
 				revoke = url;
@@ -120,13 +127,18 @@ function SingleFileView({
 			controller.abort();
 			if (revoke) URL.revokeObjectURL(revoke);
 		};
-	}, [file]);
+	}, [previewSource]);
 
 	useEffect(() => {
+		// When frame selector is active, wait until a frame blob is available
+		if (showFrameSelector && !frameBlob) return;
+
 		const controller = new AbortController();
 		setConverting(true);
 		setError(null);
 		// Keep previous resultUrl/resultBlob visible until the new one is ready
+
+		const convertInput = frameBlob ?? file;
 
 		(async () => {
 			try {
@@ -135,7 +147,7 @@ function SingleFileView({
 				const isPng = outputFormat === "image/png";
 				const canvasQuality = isPng ? undefined : quality / 100;
 
-				const result = await convertImage(file, {
+				const result = await convertImage(convertInput, {
 					outputFormat,
 					backgroundColor,
 					quality: canvasQuality,
@@ -173,7 +185,14 @@ function SingleFileView({
 		})();
 
 		return () => controller.abort();
-	}, [file, outputFormat, backgroundColor, quality]);
+	}, [
+		file,
+		outputFormat,
+		backgroundColor,
+		quality,
+		frameBlob,
+		showFrameSelector,
+	]);
 
 	const outputFilename = toOutputFilename(file.name, outputFormat);
 	const formatLabel =
@@ -279,6 +298,10 @@ function SingleFileView({
 					/>
 				</div>
 			) : null}
+
+			{showFrameSelector && (
+				<GifFrameSelector file={file} onFrameSelect={setFrameBlob} />
+			)}
 
 			<div className="flex items-center gap-3 h-9">
 				{resultBlob && !converting && (
@@ -531,6 +554,23 @@ function BackgroundColorPicker({
 	const [fmt, setFmt] = useState<ColorFormat>("hex");
 	const [inputValue, setInputValue] = useState(color);
 	const [inputDirty, setInputDirty] = useState(false);
+	const [eyeDropperSupported, setEyeDropperSupported] = useState(false);
+
+	useEffect(() => {
+		setEyeDropperSupported("EyeDropper" in window);
+	}, []);
+
+	const handleEyeDropper = useCallback(async () => {
+		try {
+			// @ts-expect-error EyeDropper API not yet in all TS libs
+			const dropper = new EyeDropper();
+			const result = await dropper.open();
+			const picked = parseToHex(result.sRGBHex);
+			if (picked) onChange(picked);
+		} catch {
+			// User cancelled
+		}
+	}, [onChange]);
 
 	// Load format preference on mount only
 	// biome-ignore lint/correctness/useExhaustiveDependencies: intentionally mount-only — subsequent color changes are handled by the sync effect below
@@ -622,7 +662,7 @@ function BackgroundColorPicker({
 									aria-label="Background color value"
 								/>
 							</div>
-							<div className="mt-2 flex gap-1">
+							<div className="mt-2 flex items-center gap-1">
 								{["#ffffff", "#000000", "#f8f8f8", "#e2e2e2"].map((preset) => (
 									<button
 										key={preset}
@@ -633,6 +673,16 @@ function BackgroundColorPicker({
 										title={preset}
 									/>
 								))}
+								{eyeDropperSupported && (
+									<button
+										type="button"
+										onClick={handleEyeDropper}
+										className="ml-auto h-6 w-6 rounded border flex items-center justify-center transition-colors hover:bg-muted"
+										title="Pick from screen"
+									>
+										<Pipette className="h-3.5 w-3.5 text-muted-foreground" />
+									</button>
+								)}
 							</div>
 						</div>
 					)}
