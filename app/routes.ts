@@ -9,6 +9,7 @@ export default [
 	route("image/compress-jpg", "routes/image/compress-jpg.tsx"),
 	route("image/compress-png", "routes/image/compress-png.tsx"),
 	route("image/compress-webp", "routes/image/compress-webp.tsx"),
+	route("image/compress-gif", "routes/image/compress-gif.tsx"),
 	route("image/convert", "routes/image/convert.tsx"),
 	route("image/jpg-to-png", "routes/image/jpg-to-png.tsx"),
 	route("image/png-to-jpg", "routes/image/png-to-jpg.tsx"),

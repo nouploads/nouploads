@@ -1,0 +1,106 @@
+import { lazy, Suspense } from "react";
+import { LibraryAttribution } from "~/components/tool/library-attribution";
+import { ToolPageLayout } from "~/components/tool/tool-page-layout";
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "~/components/ui/accordion";
+import { Spinner } from "~/components/ui/spinner";
+import { buildMeta } from "~/lib/seo/meta";
+import type { Route } from "./+types/compress-gif";
+
+const CompressGifTool = lazy(
+	() => import("~/features/image-tools/components/compress-gif-tool"),
+);
+
+export function meta(_args: Route.MetaArgs) {
+	return buildMeta({
+		title: "Compress GIF Online — Free, Private, No Upload | NoUploads",
+		description:
+			"Compress animated GIFs with lossy LZW compression and transparency optimization. Free, private, no upload — files stay on your device.",
+		path: "/image/compress-gif",
+		keywords:
+			"compress gif, reduce gif size, gif compressor, optimize gif, lossy gif compression, gif optimizer online, shrink gif file size",
+		jsonLdName: "GIF Compressor",
+	});
+}
+
+const faqItems = [
+	{
+		question: "How does GIF compression work?",
+		answer:
+			"This tool uses gifsicle's lossy LZW compression, which subtly modifies pixel data so the LZW algorithm can compress it more efficiently. It also optimizes transparency — replacing duplicate pixels between frames with transparent ones so there's less data to store. The result is a smaller GIF that looks nearly identical to the original.",
+	},
+	{
+		question: "What does the quality slider control?",
+		answer:
+			"The slider controls quality from 10% (maximum compression, smallest file, most artifacts) to 100% (minimal compression, largest file, best quality). For most GIFs, 70–85% gives a good balance between file size and visual fidelity. Start at the default (80%) and adjust based on the preview.",
+	},
+	{
+		question: "Will my animated GIF still animate after compression?",
+		answer:
+			"Yes. The compression preserves all frames, timing, and loop settings. It reduces file size by optimizing how frame data is stored, not by removing frames. The output is still a fully animated GIF.",
+	},
+	{
+		question: "Can I compress multiple GIFs at once?",
+		answer:
+			"Yes. Drop or select several GIF files and they'll all be compressed in a batch at the same compression level. Download each individually or grab everything at once.",
+	},
+	{
+		question: "Why use NoUploads instead of other GIF compressors?",
+		answer:
+			"Most GIF compression sites upload your files to their servers for processing. NoUploads runs gifsicle entirely in your browser via WebAssembly — your GIFs never leave your device. There's no queue, no daily limit, no watermark, and it works offline. It's free, open source, and you can verify the code yourself.",
+	},
+];
+
+export default function CompressGifPage() {
+	return (
+		<ToolPageLayout
+			title="Compress GIF"
+			description="Compress animated GIFs with lossy LZW compression — free, private, no upload required."
+		>
+			<Suspense
+				fallback={
+					<div className="flex items-center justify-center h-[460px]">
+						<Spinner className="size-6" />
+					</div>
+				}
+			>
+				<CompressGifTool />
+			</Suspense>
+
+			<section className="mt-12 mb-8">
+				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
+				<p className="text-muted-foreground">
+					The NoUploads GIF Compressor shrinks animated GIF files using
+					gifsicle's lossy LZW compression and transparency optimization,
+					running entirely in your browser via WebAssembly. Drag and drop any
+					GIF, adjust the compression slider, and compare the before and after
+					side by side. Handles single files and large batches with no signup or
+					file size restrictions.
+				</p>
+			</section>
+
+			<section>
+				<h2 className="text-lg font-semibold mb-4">
+					Frequently Asked Questions
+				</h2>
+				<Accordion type="multiple">
+					{faqItems.map((item, i) => (
+						// biome-ignore lint/suspicious/noArrayIndexKey: static FAQ list never changes
+						<AccordionItem key={i} value={`faq-${i}`}>
+							<AccordionTrigger>{item.question}</AccordionTrigger>
+							<AccordionContent>
+								<p className="text-muted-foreground">{item.answer}</p>
+							</AccordionContent>
+						</AccordionItem>
+					))}
+				</Accordion>
+			</section>
+
+			<LibraryAttribution packages={["gifsicle-wasm-browser"]} />
+		</ToolPageLayout>
+	);
+}

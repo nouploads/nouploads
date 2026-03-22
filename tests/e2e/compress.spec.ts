@@ -92,6 +92,40 @@ test.describe("Compress WebP Page", () => {
 	});
 });
 
+test.describe("Compress GIF Page", () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto("/image/compress-gif");
+	});
+
+	test("should display tool heading", async ({ page }) => {
+		await expect(page.locator("h1")).toContainText("Compress GIF");
+	});
+
+	test("should display quality slider", async ({ page }) => {
+		await expect(page.getByText(/Quality:/i)).toBeVisible();
+	});
+
+	test("should display FAQ section", async ({ page }) => {
+		await expect(
+			page.getByText("How does GIF compression work?"),
+		).toBeVisible();
+	});
+
+	test("should have SEO meta description", async ({ page }) => {
+		const description = await page
+			.locator('meta[name="description"]')
+			.getAttribute("content");
+		expect(description).toContain("GIF");
+	});
+
+	test("should have canonical link", async ({ page }) => {
+		const canonical = await page
+			.locator('link[rel="canonical"]')
+			.getAttribute("href");
+		expect(canonical).toContain("/image/compress-gif");
+	});
+});
+
 test.describe("Universal compress page", () => {
 	test("should load /image/compress as a standalone page", async ({ page }) => {
 		await page.goto("/image/compress");

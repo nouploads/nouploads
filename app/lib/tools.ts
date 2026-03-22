@@ -190,4 +190,12 @@ export const allTools: Tool[] = [
 		iconColor: "text-cyan-500",
 		iconBg: "bg-cyan-50 dark:bg-cyan-950/40",
 	},
+	{
+		title: "Compress GIF",
+		description: "Reduce animated GIF file size with lossy compression",
+		href: "/image/compress-gif",
+		icon: "FileArchive",
+		iconColor: "text-amber-500",
+		iconBg: "bg-amber-50 dark:bg-amber-950/40",
+	},
 ];

@@ -54,6 +54,7 @@ const compressionLinks = [
 	{ href: "/image/compress-jpg", label: "Compress JPG" },
 	{ href: "/image/compress-png", label: "Compress PNG" },
 	{ href: "/image/compress-webp", label: "Compress WebP" },
+	{ href: "/image/compress-gif", label: "Compress GIF" },
 ];
 
 function PillLinks({ links }: { links: { href: string; label: string }[] }) {

@@ -11,6 +11,7 @@ export default {
 		"/image/compress-jpg",
 		"/image/compress-png",
 		"/image/compress-webp",
+		"/image/compress-gif",
 		"/image/convert",
 		"/image/jpg-to-png",
 		"/image/png-to-jpg",
