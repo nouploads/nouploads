@@ -1,4 +1,4 @@
-import { Check, Clipboard, Dices } from "lucide-react";
+import { Check, Clipboard, Dices, Pipette } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { Button } from "~/components/ui/button";
@@ -159,6 +159,27 @@ export default function ColorPickerTool() {
 		setInputValue(formatColor(newHex, format));
 	}, [format]);
 
+	const [eyeDropperSupported, setEyeDropperSupported] = useState(false);
+	useEffect(() => {
+		setEyeDropperSupported("EyeDropper" in window);
+	}, []);
+
+	const handleEyeDropper = useCallback(async () => {
+		try {
+			// @ts-expect-error EyeDropper API not yet in all TS libs
+			const dropper = new EyeDropper();
+			const result = await dropper.open();
+			const picked = parseToHex(result.sRGBHex);
+			if (picked) {
+				setHex(picked);
+				setInputDirty(false);
+				setInputValue(formatColor(picked, format));
+			}
+		} catch {
+			// User cancelled — do nothing
+		}
+	}, [format]);
+
 	const formats = allFormats(hex);
 	const textColor = bestTextColor(hex);
 	const ratio = contrastRatio(hex, textColor);
@@ -203,14 +224,26 @@ export default function ColorPickerTool() {
 						/>
 						<CopyButton text={inputValue} size="icon" />
 					</div>
-					<Button
-						variant="outline"
-						onClick={handleRandom}
-						className="gap-2 w-[360px]"
-					>
-						<Dices className="h-4 w-4" />
-						Random color
-					</Button>
+					<div className="flex gap-2 w-[360px]">
+						{eyeDropperSupported && (
+							<Button
+								variant="outline"
+								onClick={handleEyeDropper}
+								className="gap-2 flex-1"
+							>
+								<Pipette className="h-4 w-4" />
+								Pick from screen
+							</Button>
+						)}
+						<Button
+							variant="outline"
+							onClick={handleRandom}
+							className="gap-2 flex-1"
+						>
+							<Dices className="h-4 w-4" />
+							Random color
+						</Button>
+					</div>
 				</div>
 
 				{/* Large color swatch + contrast */}

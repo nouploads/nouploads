@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { LibraryAttribution } from "~/components/tool/library-attribution";
 import { ToolPageLayout } from "~/components/tool/tool-page-layout";
 import {
 	Accordion,
@@ -102,27 +103,9 @@ export default function ColorPickerPage() {
 				</Accordion>
 			</section>
 
-			<p className="text-xs text-muted-foreground mt-8">
-				Powered by{" "}
-				<a
-					href="https://github.com/omgovich/react-colorful"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="underline hover:text-foreground transition-colors"
-				>
-					react-colorful
-				</a>{" "}
-				· MIT License · Color math by{" "}
-				<a
-					href="https://github.com/Evercoder/culori"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="underline hover:text-foreground transition-colors"
-				>
-					culori
-				</a>{" "}
-				· MIT License
-			</p>
+			<LibraryAttribution
+				packages={["react-colorful", { id: "culori", prefix: "Color math by" }]}
+			/>
 		</ToolPageLayout>
 	);
 }
