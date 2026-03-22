@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { LibraryAttribution } from "~/components/tool/library-attribution";
 import { ToolPageLayout } from "~/components/tool/tool-page-layout";
 import {
 	Accordion,
@@ -98,18 +99,7 @@ export default function CompressPngPage() {
 				</Accordion>
 			</section>
 
-			<p className="text-xs text-muted-foreground mt-8">
-				Powered by{" "}
-				<a
-					href="https://github.com/ibezkrovnyi/image-quantization"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="underline hover:text-foreground transition-colors"
-				>
-					image-q
-				</a>{" "}
-				· MIT License
-			</p>
+			<LibraryAttribution packages={["image-q"]} />
 		</ToolPageLayout>
 	);
 }

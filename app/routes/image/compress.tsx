@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { LibraryAttribution } from "~/components/tool/library-attribution";
 import { ToolPageLayout } from "~/components/tool/tool-page-layout";
 import {
 	Accordion,
@@ -18,10 +19,10 @@ export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
 		title: "Compress Images Online — Free, Private, No Upload | NoUploads",
 		description:
-			"Compress JPG, PNG, and WebP images online for free. Adjust quality, see before and after. Files never leave your device.",
+			"Compress JPG, PNG, WebP, and GIF images online for free. Adjust quality, see before and after. Files never leave your device.",
 		path: "/image/compress",
 		keywords:
-			"compress image, reduce image size, image compressor online, free image compressor, compress jpg png webp, private image compression, batch compress images",
+			"compress image, reduce image size, image compressor online, free image compressor, compress jpg png webp gif, private image compression, batch compress images",
 		jsonLdName: "Image Compressor",
 	});
 }
@@ -30,7 +31,7 @@ const faqItems = [
 	{
 		question: "Which image formats can I compress?",
 		answer:
-			"You can compress JPG, PNG, WebP, and AVIF images. The tool re-encodes each file in its original format at the quality level you choose, keeping the same file type while reducing size.",
+			"You can compress JPG, PNG, WebP, AVIF, and GIF images. Static formats are re-encoded at the quality level you choose, while animated GIFs are compressed using lossy LZW optimization via gifsicle — keeping the same file type while reducing size.",
 	},
 	{
 		question: "How does the quality slider work?",
@@ -58,7 +59,7 @@ export default function CompressPage() {
 	return (
 		<ToolPageLayout
 			title="Compress Images"
-			description="Compress JPG, PNG, and WebP images online — reduce file size with adjustable quality, free and private."
+			description="Compress JPG, PNG, WebP, and GIF images online — reduce file size with adjustable quality, free and private."
 		>
 			<Suspense
 				fallback={
@@ -74,10 +75,12 @@ export default function CompressPage() {
 				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
 				<p className="text-muted-foreground">
 					The NoUploads Image Compressor reduces file sizes for JPG, PNG, WebP,
-					and AVIF images using your browser's Canvas API. Drag and drop any
-					supported image, adjust the quality slider, and compare the before and
-					after side by side. Handles single files and large batches with no
-					file size restrictions or account required.
+					AVIF, and animated GIF images. Static formats use your browser's
+					Canvas API, while GIFs are compressed with gifsicle's lossy LZW
+					optimization via WebAssembly. Drag and drop any supported image,
+					adjust the quality slider, and compare the before and after side by
+					side. Handles single files and large batches with no file size
+					restrictions or account required.
 				</p>
 			</section>
 
@@ -98,18 +101,7 @@ export default function CompressPage() {
 				</Accordion>
 			</section>
 
-			<p className="text-xs text-muted-foreground mt-8">
-				Processed using the browser's built-in{" "}
-				<a
-					href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="underline hover:text-foreground transition-colors"
-				>
-					Canvas API
-				</a>{" "}
-				— no external libraries
-			</p>
+			<LibraryAttribution browserApi="canvas" />
 		</ToolPageLayout>
 	);
 }

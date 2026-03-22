@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { LibraryAttribution } from "~/components/tool/library-attribution";
 import { ToolPageLayout } from "~/components/tool/tool-page-layout";
 import {
 	Accordion,
@@ -18,7 +19,7 @@ export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
 		title: "Convert GIF to JPG Online — Free, Private, No Upload | NoUploads",
 		description:
-			"Convert GIF images to JPG format. Extracts the first frame from animated GIFs. Free and private.",
+			"Convert GIF to JPG with frame-by-frame selection. Pick the exact frame you want from animated GIFs. Free and private.",
 		path: "/image/gif-to-jpg",
 		keywords:
 			"gif to jpg, gif to jpeg, convert gif to jpg, gif frame extract, gif to image, gif converter",
@@ -32,7 +33,7 @@ const faqItems = [
 	{
 		question: "What happens to animated GIFs?",
 		answer:
-			"The converter renders the first frame of an animated GIF into a static JPG image. Animation data is discarded since JPG only supports single still images. This is useful when you want a thumbnail or preview frame from an animated GIF.",
+			"Animated GIFs are parsed frame by frame and displayed in a visual filmstrip. You can scroll through the timeline and click any frame to select it — the selected frame is then converted to a static JPG. If the GIF has only one frame, it's converted directly without showing the selector.",
 	},
 	{
 		question: "Why convert GIF to JPG?",
@@ -75,11 +76,11 @@ export default function GifToJpgPage() {
 			<section className="mt-12 mb-8">
 				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
 				<p className="text-muted-foreground">
-					Extracts the first frame from GIF files and saves it as a JPG image.
-					Handy for creating static thumbnails from animated GIFs or converting
-					old GIF graphics to a more efficient format. Works with both static
-					and animated GIF files, processing everything client-side in your
-					browser.
+					Drop an animated GIF and browse every frame in a visual timeline —
+					pick the exact still you want and export it as a JPG. Ideal for
+					pulling a specific reaction frame, creating a thumbnail, or converting
+					old GIF graphics to a smaller format. Frame extraction and conversion
+					happen entirely in your browser using gifuct-js.
 				</p>
 			</section>
 
@@ -100,18 +101,7 @@ export default function GifToJpgPage() {
 				</Accordion>
 			</section>
 
-			<p className="text-xs text-muted-foreground mt-8">
-				Processed using the browser's built-in{" "}
-				<a
-					href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="underline hover:text-foreground transition-colors"
-				>
-					Canvas API
-				</a>{" "}
-				— no external libraries
-			</p>
+			<LibraryAttribution packages={["gifuct-js"]} />
 		</ToolPageLayout>
 	);
 }

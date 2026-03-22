@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { LibraryAttribution } from "~/components/tool/library-attribution";
 import { ToolPageLayout } from "~/components/tool/tool-page-layout";
 import {
 	Accordion,
@@ -100,18 +101,7 @@ export default function AvifToJpgPage() {
 				</Accordion>
 			</section>
 
-			<p className="text-xs text-muted-foreground mt-8">
-				Processed using the browser's built-in{" "}
-				<a
-					href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="underline hover:text-foreground transition-colors"
-				>
-					Canvas API
-				</a>{" "}
-				— no external libraries
-			</p>
+			<LibraryAttribution browserApi="canvas" />
 		</ToolPageLayout>
 	);
 }
