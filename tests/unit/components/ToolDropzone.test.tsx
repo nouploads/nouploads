@@ -26,10 +26,12 @@ describe("ToolDropzone", () => {
 		expect(screen.getByText(/\.heic/i)).toBeInTheDocument();
 	});
 
-	it("should display max file size", () => {
-		render(<ToolDropzone onFiles={() => {}} maxSizeMB={10} />);
+	it("should still enforce max file size even though text is hidden", () => {
+		const onFiles = vi.fn();
+		render(<ToolDropzone onFiles={onFiles} maxSizeMB={10} />);
 
-		expect(screen.getByText(/max 10mb/i)).toBeInTheDocument();
+		// The max size text is no longer displayed, but validation still works
+		expect(screen.queryByText(/max 10mb/i)).not.toBeInTheDocument();
 	});
 
 	it("should call onFiles when a file is selected", () => {

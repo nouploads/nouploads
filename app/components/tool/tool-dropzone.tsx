@@ -127,9 +127,6 @@ export function ToolDropzone({
 								Accepted: {acceptExtensions.join(", ")}
 							</p>
 						)}
-						<p className="text-xs text-muted-foreground mt-1">
-							Max {maxSizeMB}MB per file
-						</p>
 						<p className="text-xs text-muted-foreground mt-3 flex items-center gap-1">
 							<ShieldCheck className="h-3 w-3" />
 							Private and secure — files stay with you
