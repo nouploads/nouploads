@@ -16,10 +16,11 @@ async function compressGifWithDimensions(
 	input: Blob,
 	sliderValue: number,
 	signal?: AbortSignal,
+	colors = 256,
 ) {
 	const result = await compressGif(input, {
 		lossy: qualityToLossy(sliderValue),
-		colors: 256,
+		colors,
 		optimizeTransparency: true,
 		signal,
 	});
@@ -29,7 +30,7 @@ async function compressGifWithDimensions(
 	return { blob: result.blob, width, height };
 }
 
-const config: CompressFormatConfig = {
+export const gifCompressConfig: CompressFormatConfig = {
 	accept: { "image/gif": [".gif"] },
 	outputMime: "image/gif",
 	fileExtension: ".gif",
@@ -38,8 +39,21 @@ const config: CompressFormatConfig = {
 	sliderMax: 100,
 	sliderStep: 1,
 	sliderLabel: (v) => `Quality: ${v}%`,
-	compress: compressGifWithDimensions,
-	compressBatch: async (inputs, sliderValue, onProgress, signal) => {
+	slider2Default: 256,
+	slider2Min: 2,
+	slider2Max: 256,
+	slider2Step: 1,
+	slider2Label: (v) => `Colors: ${v}`,
+	compress: (input, sliderValue, signal, slider2Value) =>
+		compressGifWithDimensions(input, sliderValue, signal, slider2Value ?? 256),
+	compressBatch: async (
+		inputs,
+		sliderValue,
+		onProgress,
+		signal,
+		slider2Value,
+	) => {
+		const colors = slider2Value ?? 256;
 		const results: ({ blob: Blob; width: number; height: number } | Error)[] =
 			[];
 		for (let i = 0; i < inputs.length; i++) {
@@ -48,6 +62,7 @@ const config: CompressFormatConfig = {
 					inputs[i],
 					sliderValue,
 					signal,
+					colors,
 				);
 				results.push(output);
 			} catch (err) {
@@ -60,5 +75,5 @@ const config: CompressFormatConfig = {
 };
 
 export default function CompressGifTool() {
-	return <CompressToolBase config={config} />;
+	return <CompressToolBase config={gifCompressConfig} />;
 }

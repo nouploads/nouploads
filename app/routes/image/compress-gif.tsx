@@ -39,6 +39,11 @@ const faqItems = [
 			"The slider controls quality from 10% (maximum compression, smallest file, most artifacts) to 100% (minimal compression, largest file, best quality). For most GIFs, 70–85% gives a good balance between file size and visual fidelity. Start at the default (80%) and adjust based on the preview.",
 	},
 	{
+		question: "What does the Colors slider do?",
+		answer:
+			"The Colors slider reduces the number of colors in the GIF palette (2–256). Many GIFs use far fewer than 256 unique colors, so lowering this value can significantly shrink file size with little visible change. Try 128 or 64 for a good balance. At 256 (the default), no color reduction is applied.",
+	},
+	{
 		question: "Will my animated GIF still animate after compression?",
 		answer:
 			"Yes. The compression preserves all frames, timing, and loop settings. It reduces file size by optimizing how frame data is stored, not by removing frames. The output is still a fully animated GIF.",

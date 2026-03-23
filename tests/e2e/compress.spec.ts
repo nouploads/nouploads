@@ -101,13 +101,17 @@ test.describe("Compress GIF Page", () => {
 		await expect(page.locator("h1")).toContainText("Compress GIF");
 	});
 
-	test("should display quality slider", async ({ page }) => {
+	test("should display quality and colors sliders", async ({ page }) => {
 		await expect(page.getByText(/Quality:/i)).toBeVisible();
+		await expect(page.getByText(/Colors:/i)).toBeVisible();
 	});
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
 			page.getByText("How does GIF compression work?"),
+		).toBeVisible();
+		await expect(
+			page.getByText("What does the Colors slider do?"),
 		).toBeVisible();
 	});
 

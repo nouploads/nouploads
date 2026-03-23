@@ -34,11 +34,18 @@ export interface CompressFormatConfig {
 	sliderMax: number;
 	sliderStep: number;
 	sliderLabel: (value: number) => string;
+	/** Optional second slider (e.g. colors for GIF) */
+	slider2Default?: number;
+	slider2Min?: number;
+	slider2Max?: number;
+	slider2Step?: number;
+	slider2Label?: (value: number) => string;
 	/** Compress a single file. The slider value is passed as-is. */
 	compress: (
 		input: Blob,
 		sliderValue: number,
 		signal?: AbortSignal,
+		slider2Value?: number,
 	) => Promise<CompressResult>;
 	/** Compress a batch of files. */
 	compressBatch: (
@@ -46,6 +53,7 @@ export interface CompressFormatConfig {
 		sliderValue: number,
 		onProgress?: (completedIndex: number, totalCount: number) => void,
 		signal?: AbortSignal,
+		slider2Value?: number,
 	) => Promise<(CompressResult | Error)[]>;
 }
 
@@ -64,11 +72,13 @@ interface BatchResult {
 function SingleFileView({
 	file,
 	sliderValue,
+	slider2Value,
 	config,
 	onReset,
 }: {
 	file: File;
 	sliderValue: number;
+	slider2Value?: number;
 	config: CompressFormatConfig;
 	onReset: () => void;
 }) {
@@ -208,6 +218,7 @@ function SingleFileView({
 					file,
 					sliderValue,
 					controller.signal,
+					slider2Value,
 				);
 				if (controller.signal.aborted) return;
 				setResultBlob(result.blob);
@@ -226,7 +237,7 @@ function SingleFileView({
 		})();
 
 		return () => controller.abort();
-	}, [file, sliderValue, config]);
+	}, [file, sliderValue, slider2Value, config]);
 
 	const outputFilename = toOutputFilename(file.name, config.fileExtension);
 
@@ -365,11 +376,13 @@ function SingleFileView({
 function BatchView({
 	files,
 	sliderValue,
+	slider2Value,
 	config,
 	onReset,
 }: {
 	files: File[];
 	sliderValue: number;
+	slider2Value?: number;
 	config: CompressFormatConfig;
 	onReset: () => void;
 }) {
@@ -396,6 +409,7 @@ function BatchView({
 						});
 					},
 					controller.signal,
+					slider2Value,
 				);
 				if (controller.signal.aborted) return;
 				setResults(
@@ -412,7 +426,7 @@ function BatchView({
 		})();
 
 		return () => controller.abort();
-	}, [files, sliderValue, config]);
+	}, [files, sliderValue, slider2Value, config]);
 
 	const successfulResults = results.filter(
 		(r): r is BatchResult & { output: CompressResult } =>
@@ -534,9 +548,52 @@ function BatchView({
 
 // ─── Main component ─────────────────────────────────────────
 
-export function CompressToolBase({ config }: { config: CompressFormatConfig }) {
-	const [sliderValue, setSliderValue] = useState(config.sliderDefault);
+type CompressToolBaseProps =
+	| {
+			/** Static config — used by format-specific pages (e.g. compress-jpg). */
+			config: CompressFormatConfig;
+			resolveConfig?: never;
+			accept?: never;
+	  }
+	| {
+			config?: never;
+			/** Dynamic config resolver — used by the universal compress page.
+			 *  Called with the first file's MIME type to pick the right format config. */
+			resolveConfig: (mime: string) => CompressFormatConfig;
+			/** Dropzone accept filter (required with resolveConfig since there's no static config). */
+			accept: Record<string, string[]>;
+	  };
+
+export function CompressToolBase(props: CompressToolBaseProps) {
 	const [files, setFiles] = useState<File[]>([]);
+
+	// Resolve active config — static or from the first file's MIME
+	const detectedMime = files[0]?.type ?? null;
+	const activeConfig =
+		props.resolveConfig && detectedMime
+			? props.resolveConfig(detectedMime)
+			: (props.config ?? null);
+
+	// Reset slider state when the format changes (e.g. user drops GIF, then resets and drops PNG)
+	const [sliderValue, setSliderValue] = useState(
+		activeConfig?.sliderDefault ?? 80,
+	);
+	const [slider2Value, setSlider2Value] = useState(
+		activeConfig?.slider2Default ?? 0,
+	);
+	const prevMimeRef = useRef(detectedMime);
+	useEffect(() => {
+		if (detectedMime !== prevMimeRef.current) {
+			if (activeConfig) {
+				setSliderValue(activeConfig.sliderDefault);
+				setSlider2Value(activeConfig.slider2Default ?? 0);
+			}
+			prevMimeRef.current = detectedMime;
+		}
+	}, [detectedMime, activeConfig]);
+
+	const hasSlider2 = activeConfig?.slider2Label !== undefined;
+	const dropzoneAccept = props.accept ?? activeConfig?.accept ?? {};
 
 	const handleFiles = useCallback((incoming: File[]) => {
 		if (incoming.length === 0) return;
@@ -552,44 +609,66 @@ export function CompressToolBase({ config }: { config: CompressFormatConfig }) {
 
 	return (
 		<div className="space-y-6">
-			<div className="space-y-2 max-w-sm">
-				<span className="text-sm font-medium">
-					{config.sliderLabel(sliderValue)}
-				</span>
-				<Slider
-					value={[sliderValue]}
-					onValueChange={(v) => setSliderValue(v[0])}
-					min={config.sliderMin}
-					max={config.sliderMax}
-					step={config.sliderStep}
-				/>
-			</div>
+			{activeConfig && (props.config || files.length > 0) && (
+				<div
+					className={`grid gap-4 ${hasSlider2 ? "grid-cols-1 sm:grid-cols-2 max-w-2xl" : "max-w-sm"}`}
+				>
+					<div className="space-y-2">
+						<span className="text-sm font-medium">
+							{activeConfig.sliderLabel(sliderValue)}
+						</span>
+						<Slider
+							value={[sliderValue]}
+							onValueChange={(v) => setSliderValue(v[0])}
+							min={activeConfig.sliderMin}
+							max={activeConfig.sliderMax}
+							step={activeConfig.sliderStep}
+						/>
+					</div>
+					{hasSlider2 && (
+						<div className="space-y-2">
+							<span className="text-sm font-medium">
+								{activeConfig.slider2Label?.(slider2Value)}
+							</span>
+							<Slider
+								value={[slider2Value]}
+								onValueChange={(v) => setSlider2Value(v[0])}
+								min={activeConfig.slider2Min}
+								max={activeConfig.slider2Max}
+								step={activeConfig.slider2Step}
+							/>
+						</div>
+					)}
+				</div>
+			)}
 
 			<div className="min-h-[460px]">
 				{files.length === 0 && (
 					<div className="h-[460px]">
 						<ToolDropzone
-							accept={config.accept}
+							accept={dropzoneAccept}
 							onFiles={handleFiles}
 							multiple
 						/>
 					</div>
 				)}
 
-				{isSingleFile && (
+				{activeConfig && isSingleFile && (
 					<SingleFileView
 						file={files[0]}
 						sliderValue={sliderValue}
-						config={config}
+						slider2Value={hasSlider2 ? slider2Value : undefined}
+						config={activeConfig}
 						onReset={reset}
 					/>
 				)}
 
-				{isBatch && (
+				{activeConfig && isBatch && (
 					<BatchView
 						files={files}
 						sliderValue={sliderValue}
-						config={config}
+						slider2Value={hasSlider2 ? slider2Value : undefined}
+						config={activeConfig}
 						onReset={reset}
 					/>
 				)}
