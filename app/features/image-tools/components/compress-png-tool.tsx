@@ -7,7 +7,7 @@ import {
 	compressPngBatch,
 } from "~/features/image-tools/processors/compress-png";
 
-const config: CompressFormatConfig = {
+export const pngCompressConfig: CompressFormatConfig = {
 	accept: { "image/png": [".png"] },
 	outputMime: "image/png",
 	fileExtension: ".png",
@@ -23,5 +23,5 @@ const config: CompressFormatConfig = {
 };
 
 export default function CompressPngTool() {
-	return <CompressToolBase config={config} />;
+	return <CompressToolBase config={pngCompressConfig} />;
 }

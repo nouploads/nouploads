@@ -7,7 +7,7 @@ import {
 	compressImageBatch,
 } from "~/features/image-tools/processors/compress-image";
 
-const config: CompressFormatConfig = {
+export const webpCompressConfig: CompressFormatConfig = {
 	accept: { "image/webp": [".webp"] },
 	outputMime: "image/webp",
 	fileExtension: ".webp",
@@ -31,5 +31,5 @@ const config: CompressFormatConfig = {
 };
 
 export default function CompressWebpTool() {
-	return <CompressToolBase config={config} />;
+	return <CompressToolBase config={webpCompressConfig} />;
 }

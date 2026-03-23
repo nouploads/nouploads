@@ -7,7 +7,7 @@ import {
 	compressImageBatch,
 } from "~/features/image-tools/processors/compress-image";
 
-const config: CompressFormatConfig = {
+export const jpgCompressConfig: CompressFormatConfig = {
 	accept: { "image/jpeg": [".jpg", ".jpeg"] },
 	outputMime: "image/jpeg",
 	fileExtension: ".jpg",
@@ -31,5 +31,5 @@ const config: CompressFormatConfig = {
 };
 
 export default function CompressJpgTool() {
-	return <CompressToolBase config={config} />;
+	return <CompressToolBase config={jpgCompressConfig} />;
 }
