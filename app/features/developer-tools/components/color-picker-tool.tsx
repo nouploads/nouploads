@@ -8,6 +8,11 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { HexColorPicker } from "react-colorful";
+import {
+	FullscreenOverlay,
+	FullscreenToggle,
+	useFullscreen,
+} from "~/components/tool/fullscreen";
 import { ToolDropzone } from "~/components/tool/tool-dropzone";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -19,6 +24,7 @@ import {
 	SelectValue,
 } from "~/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { GifFrameSelector } from "~/features/image-tools/components/gif-frame-selector";
 import {
 	allFormats,
 	bestTextColor,
@@ -43,60 +49,42 @@ function readStoredFormat(): ColorFormat {
 	return "hex";
 }
 
-// ─── Copy button ──────────────────────────────────────────────
+// ─── Format cell (clickable, copies on click) ───────────────
 
-function CopyButton({
-	text,
-	size = "icon",
-}: {
-	text: string;
-	size?: "icon" | "icon-xs";
-}) {
+function FormatCell({ label, value }: { label: string; value: string }) {
 	const [copied, setCopied] = useState(false);
 	const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
-	const handleCopy = useCallback(() => {
-		navigator.clipboard.writeText(text).then(() => {
+	const copyText = label === "HEX" ? value : `${label.toLowerCase()}(${value})`;
+
+	const handleClick = useCallback(() => {
+		navigator.clipboard.writeText(copyText).then(() => {
 			setCopied(true);
 			clearTimeout(timeoutRef.current);
 			timeoutRef.current = setTimeout(() => setCopied(false), 1500);
 		});
-	}, [text]);
+	}, [copyText]);
 
 	useEffect(() => {
 		return () => clearTimeout(timeoutRef.current);
 	}, []);
 
 	return (
-		<Button
-			variant="ghost"
-			size={size}
-			onClick={handleCopy}
-			aria-label={copied ? "Copied" : "Copy to clipboard"}
+		<button
+			type="button"
+			onClick={handleClick}
+			className="group flex items-center gap-2 rounded-lg border bg-card px-3 py-2 text-left hover:bg-muted/50 transition-colors cursor-pointer"
 		>
-			{copied ? (
-				<Check className="h-3.5 w-3.5 text-primary" />
-			) : (
-				<Clipboard className="h-3.5 w-3.5 text-muted-foreground" />
-			)}
-		</Button>
-	);
-}
-
-// ─── Format cell (read-only, in 2-column grid) ───────────────
-
-function FormatCell({ label, value }: { label: string; value: string }) {
-	return (
-		<div className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2">
-			<span className="text-xs font-semibold text-muted-foreground uppercase shrink-0 w-12">
+			<span className="text-xs font-semibold text-muted-foreground uppercase shrink-0 w-10">
 				{label}
 			</span>
-			<code className="flex-1 text-sm font-mono truncate">{value}</code>
-			<CopyButton
-				text={`${label === "HEX" ? "" : `${label.toLowerCase()}(`}${value}${label === "HEX" ? "" : ")"}`}
-				size="icon-xs"
-			/>
-		</div>
+			<code className="flex-1 text-xs font-mono truncate">{value}</code>
+			{copied ? (
+				<Check className="h-3 w-3 shrink-0 text-primary" />
+			) : (
+				<Clipboard className="h-3 w-3 shrink-0 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+			)}
+		</button>
 	);
 }
 
@@ -107,8 +95,14 @@ function ImageColorPicker({
 }: {
 	onColorPick: (hex: string) => void;
 }) {
-	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const [imageLoaded, setImageLoaded] = useState(false);
+	const [imageSrc, setImageSrc] = useState<string | null>(null);
+	const [file, setFile] = useState<File | null>(null);
+	const isGif = file?.type === "image/gif";
+	const { fullscreen, toggleFullscreen, exitFullscreen } = useFullscreen({
+		enabled: imageLoaded,
+	});
 	// Position of the last picked color as % of container (for the marker dot)
 	const [pickedPos, setPickedPos] = useState<{
 		xPct: number;
@@ -116,68 +110,96 @@ function ImageColorPicker({
 		color: string;
 	} | null>(null);
 
-	// Store the pending file so we can draw it after the canvas mounts
-	const pendingFileRef = useRef<File | null>(null);
-
-	const drawToCanvas = useCallback((file: File) => {
+	/** Load a File or Blob into the offscreen canvas + visible img */
+	const loadImage = useCallback((source: File | Blob) => {
+		const url = URL.createObjectURL(source);
 		const img = new Image();
-		const url = URL.createObjectURL(file);
 		img.onload = () => {
-			const canvas = canvasRef.current;
-			if (!canvas) {
-				// Canvas not mounted yet — store for later
-				pendingFileRef.current = file;
-				setImageLoaded(true);
-				URL.revokeObjectURL(url);
-				return;
-			}
+			// Draw to an offscreen canvas for pixel sampling
+			const canvas = document.createElement("canvas");
 			canvas.width = img.naturalWidth;
 			canvas.height = img.naturalHeight;
 			const ctx = canvas.getContext("2d");
 			if (!ctx) return;
 			ctx.drawImage(img, 0, 0);
+			canvasRef.current = canvas;
+			// Revoke previous src before setting new one
+			setImageSrc((prev) => {
+				if (prev) URL.revokeObjectURL(prev);
+				return url;
+			});
 			setImageLoaded(true);
-			URL.revokeObjectURL(url);
 		};
 		img.src = url;
 	}, []);
 
-	// When canvas mounts and there's a pending file, draw it
-	const canvasCallbackRef = useCallback(
-		(node: HTMLCanvasElement | null) => {
-			(canvasRef as React.MutableRefObject<HTMLCanvasElement | null>).current =
-				node;
-			if (node && pendingFileRef.current) {
-				const file = pendingFileRef.current;
-				pendingFileRef.current = null;
-				drawToCanvas(file);
-			}
+	/** Called by GifFrameSelector when user picks a frame */
+	const handleGifFrameSelect = useCallback(
+		(frameBlob: Blob) => {
+			loadImage(frameBlob);
 		},
-		[drawToCanvas],
+		[loadImage],
 	);
 
 	const draggingRef = useRef(false);
+	const containerRef = useRef<HTMLElement | null>(null);
 
+	/** Map pointer position to the visible image rect (object-contain) */
 	const pickAt = useCallback(
 		(e: React.PointerEvent) => {
 			const canvas = canvasRef.current;
-			if (!canvas) return;
-			const rect = canvas.getBoundingClientRect();
-			const xPct = Math.max(
-				0,
-				Math.min(100, ((e.clientX - rect.left) / rect.width) * 100),
-			);
-			const yPct = Math.max(
-				0,
-				Math.min(100, ((e.clientY - rect.top) / rect.height) * 100),
-			);
+			const container = containerRef.current;
+			const imgEl = container?.querySelector("img");
+			if (!canvas || !imgEl) return;
+
+			// Compute the actual rendered image rect inside the container
+			const rect = imgEl.getBoundingClientRect();
+			const imgAspect = canvas.width / canvas.height;
+			const boxAspect = rect.width / rect.height;
+
+			let imgLeft: number;
+			let imgTop: number;
+			let imgW: number;
+			let imgH: number;
+
+			if (imgAspect > boxAspect) {
+				// Image is wider — pillarboxed vertically
+				imgW = rect.width;
+				imgH = rect.width / imgAspect;
+				imgLeft = rect.left;
+				imgTop = rect.top + (rect.height - imgH) / 2;
+			} else {
+				// Image is taller — letterboxed horizontally
+				imgH = rect.height;
+				imgW = rect.height * imgAspect;
+				imgLeft = rect.left + (rect.width - imgW) / 2;
+				imgTop = rect.top;
+			}
+
+			// Ignore picks outside the actual image area
+			const rawXPct = ((e.clientX - imgLeft) / imgW) * 100;
+			const rawYPct = ((e.clientY - imgTop) / imgH) * 100;
+			if (rawXPct < 0 || rawXPct > 100 || rawYPct < 0 || rawYPct > 100) return;
+
+			const xPct = Math.max(0, Math.min(100, rawXPct));
+			const yPct = Math.max(0, Math.min(100, rawYPct));
+
 			const ctx = canvas.getContext("2d");
 			if (!ctx) return;
 			const x = Math.floor((xPct / 100) * canvas.width);
 			const y = Math.floor((yPct / 100) * canvas.height);
 			const [r, g, b] = ctx.getImageData(x, y, 1, 1).data;
 			const color = `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
-			setPickedPos({ xPct, yPct, color });
+
+			// Position the marker relative to the image rect, not the container
+			const markerLeftPct = ((e.clientX - rect.left) / rect.width) * 100;
+			const markerTopPct = ((e.clientY - rect.top) / rect.height) * 100;
+
+			setPickedPos({
+				xPct: Math.max(0, Math.min(100, markerLeftPct)),
+				yPct: Math.max(0, Math.min(100, markerTopPct)),
+				color,
+			});
 			onColorPick(color);
 		},
 		[onColorPick],
@@ -185,7 +207,12 @@ function ImageColorPicker({
 
 	const handlePointerDown = useCallback(
 		(e: React.PointerEvent) => {
+			// Blur any focused input so F key shortcut works after picking
+			if (document.activeElement instanceof HTMLElement) {
+				document.activeElement.blur();
+			}
 			draggingRef.current = true;
+			containerRef.current = e.currentTarget as HTMLElement;
 			(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
 			pickAt(e);
 		},
@@ -206,10 +233,17 @@ function ImageColorPicker({
 
 	const handleDropzoneFiles = useCallback(
 		(files: File[]) => {
-			const file = files[0];
-			if (file) drawToCanvas(file);
+			const f = files[0];
+			if (!f) return;
+			setFile(f);
+			if (f.type === "image/gif") {
+				// GifFrameSelector will call handleGifFrameSelect with the first frame
+				setImageLoaded(true);
+			} else {
+				loadImage(f);
+			}
 		},
-		[drawToCanvas],
+		[loadImage],
 	);
 
 	return !imageLoaded ? (
@@ -222,35 +256,90 @@ function ImageColorPicker({
 			/>
 		</div>
 	) : (
-		<div className="h-[280px] flex flex-col gap-1.5">
-			<div
-				className="relative flex-1 min-h-0 rounded-lg border overflow-hidden bg-muted/30 cursor-crosshair touch-none"
-				onPointerDown={handlePointerDown}
-				onPointerMove={handlePointerMove}
-				onPointerUp={handlePointerUp}
-			>
-				<canvas ref={canvasCallbackRef} className="h-full w-full" />
-				{pickedPos && (
-					<div
-						className="absolute pointer-events-none -translate-x-1/2 -translate-y-1/2"
-						style={{ left: `${pickedPos.xPct}%`, top: `${pickedPos.yPct}%` }}
-					>
-						<div className="h-3 w-3 rounded-full border-[1.5px] border-white shadow-[0_0_0_1px_rgba(0,0,0,0.4)]" />
-					</div>
+		<>
+			<div className={`flex flex-col gap-1.5 ${isGif ? "" : "h-[280px]"}`}>
+				<div
+					className={`relative rounded-lg border overflow-hidden bg-muted/30 cursor-crosshair touch-none ${isGif ? "h-[200px]" : "flex-1 min-h-0"}`}
+					onPointerDown={handlePointerDown}
+					onPointerMove={handlePointerMove}
+					onPointerUp={handlePointerUp}
+				>
+					<img
+						src={imageSrc ?? undefined}
+						alt="Uploaded"
+						className="h-full w-full object-contain"
+						draggable={false}
+					/>
+					{pickedPos && (
+						<div
+							className="absolute pointer-events-none -translate-x-1/2 -translate-y-1/2"
+							style={{ left: `${pickedPos.xPct}%`, top: `${pickedPos.yPct}%` }}
+						>
+							<div className="h-3 w-3 rounded-full border-[1.5px] border-white shadow-[0_0_0_1px_rgba(0,0,0,0.4)]" />
+						</div>
+					)}
+				</div>
+				{isGif && file && (
+					<GifFrameSelector file={file} onFrameSelect={handleGifFrameSelect} />
 				)}
+				<div className="shrink-0 flex gap-1.5">
+					<button
+						type="button"
+						onClick={() => {
+							if (imageSrc) URL.revokeObjectURL(imageSrc);
+							setImageSrc(null);
+							setImageLoaded(false);
+							setPickedPos(null);
+							setFile(null);
+							exitFullscreen();
+							canvasRef.current = null;
+						}}
+						className="flex items-center justify-center gap-1.5 rounded-md border px-2 py-1 text-xs text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+					>
+						<ImageIcon className="h-3 w-3" />
+						Change image
+					</button>
+					<FullscreenToggle
+						fullscreen={fullscreen}
+						onToggle={toggleFullscreen}
+						variant="inline"
+					/>
+				</div>
 			</div>
-			<button
-				type="button"
-				onClick={() => {
-					setImageLoaded(false);
-					setPickedPos(null);
-				}}
-				className="shrink-0 flex items-center justify-center gap-1.5 rounded-md border px-2 py-1 text-xs text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+			<FullscreenOverlay
+				className="cursor-crosshair touch-none"
+				visible={fullscreen}
 			>
-				<ImageIcon className="h-3 w-3" />
-				Change image
-			</button>
-		</div>
+				<div
+					className="relative h-full w-full"
+					onPointerDown={handlePointerDown}
+					onPointerMove={handlePointerMove}
+					onPointerUp={handlePointerUp}
+				>
+					<img
+						src={imageSrc ?? undefined}
+						alt="Uploaded"
+						className="h-full w-full object-contain"
+						draggable={false}
+					/>
+					{pickedPos && (
+						<div
+							className="absolute pointer-events-none -translate-x-1/2 -translate-y-1/2"
+							style={{
+								left: `${pickedPos.xPct}%`,
+								top: `${pickedPos.yPct}%`,
+							}}
+						>
+							<div className="h-3 w-3 rounded-full border-[1.5px] border-white shadow-[0_0_0_1px_rgba(0,0,0,0.4)]" />
+						</div>
+					)}
+					<FullscreenToggle
+						fullscreen={fullscreen}
+						onToggle={toggleFullscreen}
+					/>
+				</div>
+			</FullscreenOverlay>
+		</>
 	);
 }
 
@@ -419,7 +508,6 @@ export default function ColorPickerTool() {
 							className="font-mono text-sm"
 							aria-label="Color value"
 						/>
-						<CopyButton text={inputValue} size="icon" />
 					</div>
 					<div className="flex gap-2">
 						{eyeDropperSupported && (
@@ -463,8 +551,8 @@ export default function ColorPickerTool() {
 				</div>
 			</div>
 
-			{/* Format grid — 2 columns */}
-			<div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+			{/* Format grid */}
+			<div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
 				{FORMAT_DEFS.map((f) => (
 					<FormatCell key={f.key} label={f.label} value={formats[f.key]} />
 				))}
