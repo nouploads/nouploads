@@ -70,7 +70,7 @@ describe('{processorFn}Batch', () => {
 ```tsx
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
-import { dropFile, dropFiles } from '../../helpers/drop-file';
+import { dropFile, dropFiles } from '../../../helpers/drop-file';
 
 // Use vi.hoisted() so mocks are available when vi.mock factory runs
 const { mockedProcessor, mockedBatchProcessor } = vi.hoisted(() => ({

@@ -320,6 +320,18 @@ When a tool supports multiple input/output format combinations (image conversion
 7. The `/image` (or equivalent category) page can list popular format pairs as quick links below the main tool grid.
 8. Only create landing pages for format pairs with real search volume. Don't create pages nobody will ever search for.
 
+### Format-specific and universal tool parity
+
+Format-specific pages (e.g. `/image/compress-gif`) and universal pages (e.g. `/image/compress`) must ALWAYS have feature parity. If a format-specific config has a slider, option, or processor feature, the universal page must expose it when that format is selected — and vice versa.
+
+How this works architecturally:
+- Format-specific tools export a config object (e.g. `gifCompressConfig` from `compress-gif-tool.tsx`)
+- The universal tool uses a `resolveConfig` function that selects the right format-specific config based on the detected MIME type
+- Both page types use the exact same config object — no parallel configs, no copies
+- When adding a new option to any format's config, it automatically appears on both pages
+
+Never create format-specific config or options that aren't wired through the shared base component. When adding a new format or option, verify it works on both the format-specific page AND the universal page.
+
 ### Homepage and category page tile rules
 
 The homepage and category pages show ONE card per tool type (convert, compress, resize, etc.), never per format or per format pair. Format-specific pages are SEO landing pages — they surface through:
@@ -717,6 +729,7 @@ Minimum expectation:
 - component tests if relevant
 - Playwright tests if user flow changed
 - production build
+- for route or UI changes: start the dev server and curl affected pages to verify they render correctly (build passes and TypeScript compiles don't guarantee runtime rendering works)
 
 If any check fails, do not claim success.
 

@@ -56,7 +56,7 @@ Expected files:
 - `tests/unit/processors/remove-metadata.test.ts`
 - `tests/component/features/remove-metadata-tool.test.tsx`
 - `tests/e2e/remove-metadata.spec.ts`
-- fixture files under `tests/fixtures/` as needed
+- fixture files under `tests/e2e/fixtures/` as needed
 
 Optional:
 - feature-local helper files
@@ -365,9 +365,10 @@ Keep tools grouped by clear categories.
 Examples:
 
 - Image Tools
-- PDF Tools
-- Video Tools
-- Audio Tools
+- Developer Tools
+- PDF Tools (future)
+- Video Tools (future)
+- Audio Tools (future)
 
 Do not create miscellaneous junk categories.
 

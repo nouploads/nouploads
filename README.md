@@ -17,17 +17,21 @@ Your files never leave your device. Ever.
 
 ## Tools
 
-### Image Tools (available now)
+### Image Tools
 
+- **Image Convert** — Convert between HEIC, PNG, JPG, WebP, AVIF, GIF, SVG, BMP, TIFF
+- **Image Compress** — Reduce JPG, PNG, WebP, and GIF file size with adjustable quality
 - **HEIC to JPG** — Convert iPhone photos to universal JPG format
-- **Image Compress** — Reduce file size with adjustable quality
-- **Image Convert** — Convert between PNG, JPG, WebP, AVIF, GIF, BMP, TIFF
-- **Image Resize** — Resize by pixels, percentage, or social media presets
-- **EXIF Viewer & Stripper** — View or remove photo metadata
-- **Images to PDF** — Combine multiple images into a single PDF
+- Format-specific converters: PNG↔JPG, JPG↔WebP, PNG↔WebP, SVG→PNG, AVIF→JPG, AVIF→PNG, GIF→JPG
+- Format-specific compressors: Compress JPG, Compress PNG, Compress WebP, Compress GIF
+
+### Developer Tools
+
+- **Color Picker** — Pick colors from spectrum or images, convert between HEX, RGB, HSL, OKLCH
 
 ### Coming Soon
 
+- Image Resize, EXIF Viewer, Images to PDF
 - PDF tools (merge, split, compress, rotate, unlock)
 - Video tools (compress, convert, trim, GIF maker)
 - Audio tools (convert, trim, merge)

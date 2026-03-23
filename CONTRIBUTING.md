@@ -40,16 +40,20 @@ app/
 ├── routes/                 # React Router routes (file-based)
 │   ├── home.tsx            # Homepage
 │   ├── about.tsx           # About page
-│   └── image/              # Image tool pages
+│   ├── image/              # Image tool pages (convert, compress, etc.)
+│   └── developer/          # Developer tool pages (color picker, etc.)
 ├── components/
 │   ├── ui/                 # shadcn/ui components (do not hand-edit)
-│   ├── layout/             # Header, footer, privacy banner
-│   ├── tool/               # Shared tool UI (dropzone, download, progress)
-│   └── marketing/          # Tool filter, tool icon
+│   ├── layout/             # Header, footer, command palette
+│   ├── tool/               # Shared tool UI (dropzone, compare slider, fullscreen)
+│   └── marketing/          # Tool grid, tool icon, tool filter
 ├── features/
-│   └── image-tools/
-│       ├── components/     # Tool-specific React components
-│       └── processors/     # Pure processing logic
+│   ├── image-tools/
+│   │   ├── components/     # Tool-specific React components
+│   │   └── processors/     # Pure processing logic
+│   └── developer-tools/
+│       ├── components/     # Color picker, etc.
+│       └── processors/     # Color conversion, etc.
 ├── lib/                    # Shared utilities (search, SEO, tools registry)
 ├── styles/                 # Global CSS
 ├── root.tsx                # App shell (HTML document, theme script)

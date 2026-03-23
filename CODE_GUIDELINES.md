@@ -73,8 +73,7 @@ Do not place feature-specific business logic in shared UI components.
 ### Features
 Feature logic lives under:
 - `app/features/image-tools/`
-- `app/features/pdf-tools/`
-- `app/features/shared/`
+- `app/features/developer-tools/`
 
 Each feature area should contain:
 - `components/`
