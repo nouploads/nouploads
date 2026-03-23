@@ -1,11 +1,9 @@
-import { Maximize, Minimize } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
-} from "~/components/ui/tooltip";
+	FullscreenOverlay,
+	FullscreenToggle,
+	useFullscreen,
+} from "~/components/tool/fullscreen";
 
 interface ImageCompareSliderProps {
 	originalSrc: string;
@@ -28,7 +26,7 @@ export function ImageCompareSlider({
 	height = 350,
 }: ImageCompareSliderProps) {
 	const [position, setPosition] = useState(50);
-	const [fullscreen, setFullscreen] = useState(false);
+	const { fullscreen, toggleFullscreen } = useFullscreen();
 	const containerRef = useRef<HTMLDivElement>(null);
 	const dragging = useRef(false);
 
@@ -61,44 +59,6 @@ export function ImageCompareSlider({
 	const onPointerUp = useCallback(() => {
 		dragging.current = false;
 	}, []);
-
-	const toggleFullscreen = useCallback(() => {
-		setFullscreen((prev) => !prev);
-	}, []);
-
-	// F key toggles fullscreen, Escape exits
-	useEffect(() => {
-		function onKeyDown(e: KeyboardEvent) {
-			if (
-				e.target instanceof HTMLInputElement ||
-				e.target instanceof HTMLTextAreaElement ||
-				e.target instanceof HTMLSelectElement
-			) {
-				return;
-			}
-			if (e.key === "f" || e.key === "F") {
-				e.preventDefault();
-				setFullscreen((prev) => !prev);
-			}
-			if (e.key === "Escape" && fullscreen) {
-				setFullscreen(false);
-			}
-		}
-		document.addEventListener("keydown", onKeyDown);
-		return () => document.removeEventListener("keydown", onKeyDown);
-	}, [fullscreen]);
-
-	// Lock body scroll when fullscreen
-	useEffect(() => {
-		if (fullscreen) {
-			document.body.style.overflow = "hidden";
-		} else {
-			document.body.style.overflow = "";
-		}
-		return () => {
-			document.body.style.overflow = "";
-		};
-	}, [fullscreen]);
 
 	const slider = (
 		<div
@@ -167,34 +127,7 @@ export function ImageCompareSlider({
 			</div>
 
 			{/* Fullscreen toggle button */}
-			<TooltipProvider>
-				<Tooltip>
-					<TooltipTrigger asChild>
-						<button
-							type="button"
-							onClick={(e) => {
-								e.stopPropagation();
-								toggleFullscreen();
-							}}
-							onPointerDown={(e) => e.stopPropagation()}
-							className="absolute bottom-3 right-3 z-20 flex h-8 w-8 items-center justify-center rounded-md bg-black/60 text-white hover:bg-black/80 transition-colors cursor-pointer"
-							aria-label={fullscreen ? "Exit full screen" : "Full screen"}
-						>
-							{fullscreen ? (
-								<Minimize className="h-4 w-4" />
-							) : (
-								<Maximize className="h-4 w-4" />
-							)}
-						</button>
-					</TooltipTrigger>
-					<TooltipContent>
-						{fullscreen ? "Exit full screen" : "Full screen"}{" "}
-						<kbd className="relative z-10 ml-1 inline-flex h-5 items-center align-middle rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-							F
-						</kbd>
-					</TooltipContent>
-				</Tooltip>
-			</TooltipProvider>
+			<FullscreenToggle fullscreen={fullscreen} onToggle={toggleFullscreen} />
 		</div>
 	);
 
@@ -203,10 +136,7 @@ export function ImageCompareSlider({
 			<>
 				{/* Placeholder to preserve layout space */}
 				<div style={{ height }} />
-				{/* Fullscreen overlay */}
-				<div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
-					{slider}
-				</div>
+				<FullscreenOverlay>{slider}</FullscreenOverlay>
 			</>
 		);
 	}
