@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useLocation, useNavigate } from "react-router";
 import { ToolIcon } from "~/components/marketing/tool-icon";
-import { createToolSearcher, type Tool } from "~/lib/search";
+import { createToolSearcher, type Tool, tokenSearch } from "~/lib/search";
 
 export function CommandPalette({ tools }: { tools: Tool[] }) {
 	const [open, setOpen] = useState(false);
@@ -42,7 +42,7 @@ export function CommandPalette({ tools }: { tools: Tool[] }) {
 	const fuseFilter = useCallback(
 		(value: string, search: string) => {
 			if (!search) return 1;
-			const results = fuse.search(search);
+			const results = tokenSearch(fuse, search);
 			const match = results.find(
 				(r) => `${r.item.title} ${r.item.description}` === value,
 			);
