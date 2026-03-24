@@ -7,27 +7,52 @@
 
 [nouploads.com](https://nouploads.com) — or self-host it yourself.
 
-## What is NoUploads?
+## Why NoUploads?
 
-NoUploads is an open-source collection of file conversion, compression, and manipulation tools that process everything **100% client-side** using WebAssembly and native browser APIs.
+Most online file tools upload your files to a server. NoUploads doesn't — everything runs **100% client-side** using WebAssembly and native browser APIs. Your files never leave your device.
 
-Your files never leave your device. Ever.
+- **Private** — files stay on your device, always
+- **Works offline** — load the page once, then disconnect
+- **Free and unlimited** — no file size limits, no daily caps, no account required
+- **Open source** — inspect the code, verify the claims, self-host it
+- **Fast** — no upload/download wait, processing starts instantly
 
-**Don't take our word for it — verify yourself.** Open your browser's Network tab while using any tool. You'll see zero file uploads. Or turn on airplane mode after the page loads — everything still works.
+**Don't take our word for it — verify yourself.** Open your browser's Network tab while using any tool. You'll see zero file uploads.
 
 ## Tools
 
-### Image Tools
+### Image Conversion
 
-- **Image Convert** — Convert between HEIC, PNG, JPG, WebP, AVIF, GIF, SVG, BMP, TIFF
-- **Image Compress** — Reduce JPG, PNG, WebP, and GIF file size with adjustable quality
-- **HEIC to JPG** — Convert iPhone photos to universal JPG format
-- Format-specific converters: PNG↔JPG, JPG↔WebP, PNG↔WebP, SVG→PNG, AVIF→JPG, AVIF→PNG, GIF→JPG
-- Format-specific compressors: Compress JPG, Compress PNG, Compress WebP, Compress GIF
+| Tool | Input | Output | URL |
+|------|-------|--------|-----|
+| Image Convert | HEIC, JPG, PNG, WebP, AVIF, GIF, SVG, BMP, TIFF | JPG, PNG, WebP, AVIF | [`/image/convert`](https://nouploads.com/image/convert) |
+| HEIC to JPG | HEIC | JPG | [`/image/heic-to-jpg`](https://nouploads.com/image/heic-to-jpg) |
+| JPG to PNG | JPG | PNG | [`/image/jpg-to-png`](https://nouploads.com/image/jpg-to-png) |
+| PNG to JPG | PNG | JPG | [`/image/png-to-jpg`](https://nouploads.com/image/png-to-jpg) |
+| JPG to WebP | JPG | WebP | [`/image/jpg-to-webp`](https://nouploads.com/image/jpg-to-webp) |
+| WebP to JPG | WebP | JPG | [`/image/webp-to-jpg`](https://nouploads.com/image/webp-to-jpg) |
+| PNG to WebP | PNG | WebP | [`/image/png-to-webp`](https://nouploads.com/image/png-to-webp) |
+| WebP to PNG | WebP | PNG | [`/image/webp-to-png`](https://nouploads.com/image/webp-to-png) |
+| SVG to PNG | SVG | PNG | [`/image/svg-to-png`](https://nouploads.com/image/svg-to-png) |
+| AVIF to JPG | AVIF | JPG | [`/image/avif-to-jpg`](https://nouploads.com/image/avif-to-jpg) |
+| AVIF to PNG | AVIF | PNG | [`/image/avif-to-png`](https://nouploads.com/image/avif-to-png) |
+| GIF to JPG | GIF | JPG | [`/image/gif-to-jpg`](https://nouploads.com/image/gif-to-jpg) |
+
+### Image Compression
+
+| Tool | Input | Output | URL |
+|------|-------|--------|-----|
+| Image Compress | JPG, PNG, WebP, AVIF, GIF | Same format (smaller) | [`/image/compress`](https://nouploads.com/image/compress) |
+| Compress JPG | JPG | JPG | [`/image/compress-jpg`](https://nouploads.com/image/compress-jpg) |
+| Compress PNG | PNG | PNG | [`/image/compress-png`](https://nouploads.com/image/compress-png) |
+| Compress WebP | WebP | WebP | [`/image/compress-webp`](https://nouploads.com/image/compress-webp) |
+| Compress GIF | GIF | GIF | [`/image/compress-gif`](https://nouploads.com/image/compress-gif) |
 
 ### Developer Tools
 
-- **Color Picker** — Pick colors from spectrum or images, convert between HEX, RGB, HSL, OKLCH
+| Tool | Description | URL |
+|------|-------------|-----|
+| Color Picker | Pick colors from spectrum or images; convert between HEX, RGB, HSL, HSV, HWB, CMYK, LAB, LCH, OKLCH | [`/developer/color-picker`](https://nouploads.com/developer/color-picker) |
 
 ### Coming Soon
 
@@ -35,7 +60,6 @@ Your files never leave your device. Ever.
 - PDF tools (merge, split, compress, rotate, unlock)
 - Video tools (compress, convert, trim, GIF maker)
 - Audio tools (convert, trim, merge)
-- AI-powered tools (background removal, image upscaling)
 
 ## Quick Start
 
@@ -61,6 +85,8 @@ docker-compose up -d
 
 ### Build from source
 
+Requires Node.js 24+.
+
 ```bash
 git clone https://github.com/nouploads/nouploads.git
 cd nouploads
@@ -73,38 +99,41 @@ The `build/client/` directory contains static files you can serve with any web s
 ### Development
 
 ```bash
-git clone https://github.com/nouploads/nouploads.git
-cd nouploads
 npm install
 npm run dev
 ```
 
-## Tech Stack
+Run tests:
 
-- **React Router** — Framework with static pre-rendering for SEO
-- **React** — UI components and interactive tool widgets
-- **shadcn/ui** — Accessible, customizable UI components
-- **Tailwind CSS** — Utility-first styling
-- **WebAssembly** — High-performance file processing in the browser
-- **Web Workers** — Off-main-thread processing for responsive UI
-
-No backend. No server. No database. No file storage.
+```bash
+npm test            # unit tests (Vitest)
+npm run test:e2e    # end-to-end tests (Playwright)
+```
 
 ## How It Works
 
 1. You open a tool page (e.g., HEIC to JPG converter)
 2. You drop or select your file(s)
 3. The processing library loads on demand (cached after first use)
-4. Your file is processed entirely in your browser
+4. Your file is processed entirely in your browser using Web Workers
 5. You download the result directly
 
-At no point does your file leave your device. The entire application is static HTML, CSS, JavaScript, and WebAssembly served from a CDN or static file server.
+The entire application is static HTML, CSS, JavaScript, and WebAssembly — no backend, no database, no file storage.
+
+## Tech Stack
+
+- **React Router** — framework with static pre-rendering for SEO
+- **React** + **shadcn/ui** — accessible, customizable UI components
+- **Tailwind CSS** — utility-first styling
+- **WebAssembly** — high-performance file processing in the browser
+- **Web Workers** — off-main-thread processing for responsive UI
+- **Vitest** + **Playwright** — unit and end-to-end testing
 
 ## Self-Hosting
 
 NoUploads is designed to be easy to self-host. Because it's a fully static site (just HTML/CSS/JS/WASM files), you can serve it from:
 
-- **Docker** — Official image with Nginx
+- **Docker** — official image with Nginx
 - **Any static hosting** — S3, Cloudflare Pages, GitHub Pages, Netlify, Vercel
 - **Any web server** — Nginx, Caddy, Apache
 - **Build from source** — `npm run build` outputs to `build/client/`
