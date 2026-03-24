@@ -12,7 +12,7 @@ By opening a PR, you confirm that you have read and agree to the CLA.
 
 ### Prerequisites
 
-- Node.js 22.12+
+- Node.js 24.14+
 - npm
 
 ### Setup

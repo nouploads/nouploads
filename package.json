@@ -3,7 +3,7 @@
 	"type": "module",
 	"version": "0.0.1",
 	"engines": {
-		"node": ">=22.12.0"
+		"node": ">=24.14.0"
 	},
 	"scripts": {
 		"dev": "react-router dev",
@@ -53,7 +53,7 @@
 		"@testing-library/jest-dom": "^6.9.1",
 		"@testing-library/react": "^16.3.2",
 		"@types/culori": "^4.0.1",
-		"@types/node": "^22",
+		"@types/node": "^24",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
 		"jsdom": "^29.0.0",
