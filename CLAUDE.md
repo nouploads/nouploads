@@ -515,6 +515,14 @@ Avoid:
 - speculative dependencies
 - architecture-heavy packages
 
+### Version pinning
+
+All dependency versions in `package.json` must be pinned to exact versions — no `^` or `~` prefixes.
+
+When adding a dependency: `npm install --save-exact <pkg>` (or `--save-exact -D` for dev deps).
+
+Always use the latest available version of a package unless there is a known incompatibility (e.g., a peer dependency constraint from another package).
+
 ---
 
 ## Testing Rules

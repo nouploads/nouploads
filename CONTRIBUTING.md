@@ -172,6 +172,7 @@ npm run test:all   # Run both unit + e2e
 ## Key Rules
 
 1. **Client-side only.** All file processing must happen in the browser. No server uploads. No external API calls with user data.
+1. **Pinned dependency versions.** All versions in `package.json` must be exact (e.g., `"react": "19.2.4"`, not `"react": "^19.2.4"`). Use `npm install --save-exact <pkg>` when adding dependencies. Always use the latest available version unless there is a known incompatibility.
 2. **Processors are pure.** No React, no DOM, no `document`, no `window` in processor files. They should work in any JavaScript runtime.
 3. **Dynamic imports for heavy libraries.** Never import processing libraries at the top level of a processor. Use `await import()` inside the function.
 4. **Show loading states.** If a library is >500KB, show a progress bar while it loads.
