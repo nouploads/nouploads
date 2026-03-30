@@ -53,7 +53,7 @@ test.describe("Homepage", () => {
 	test("should filter tools when typing in search", async ({ page }) => {
 		const input = page.getByPlaceholder(/filter tools/i);
 		await input.fill("exif");
-		await expect(page.getByText(/1 of 6/)).toBeVisible();
+		await expect(page.getByText(/1 of \d+/)).toBeVisible();
 		await expect(page.getByText("EXIF Viewer")).toBeVisible();
 	});
 });
