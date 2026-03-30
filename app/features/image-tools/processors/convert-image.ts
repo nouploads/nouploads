@@ -12,6 +12,10 @@ export interface ConvertImageOptions {
 	quality?: number;
 	/** Background color (CSS hex string) for formats that don't support transparency. Defaults to "#ffffff". */
 	backgroundColor?: string;
+	/** Target rasterization width for vector inputs (SVG). Aspect ratio is preserved. */
+	targetWidth?: number;
+	/** Target rasterization height for vector inputs (SVG). Aspect ratio is preserved. */
+	targetHeight?: number;
 	/** Signal to abort the conversion (terminates AVIF worker immediately). */
 	signal?: AbortSignal;
 }
@@ -408,6 +412,123 @@ async function decodeHeic(
 	return output;
 }
 
+/**
+ * Rasterize an SVG blob to a PNG blob on the main thread.
+ *
+ * createImageBitmap(svgBlob) is rejected by Chrome and Safari inside Workers,
+ * so we load the SVG through an <img> element, draw it to a <canvas>, and
+ * export a raster PNG that the worker can handle.
+ */
+function rasteriseSvgBlob(
+	svgBlob: Blob,
+	backgroundColor: string,
+	signal?: AbortSignal,
+	targetWidth?: number,
+	targetHeight?: number,
+): Promise<Blob> {
+	return new Promise<Blob>((resolve, reject) => {
+		if (signal?.aborted) {
+			reject(new DOMException("Aborted", "AbortError"));
+			return;
+		}
+
+		const url = URL.createObjectURL(svgBlob);
+		const img = new Image();
+
+		const cleanup = () => {
+			URL.revokeObjectURL(url);
+		};
+
+		const onAbort = () => {
+			cleanup();
+			reject(new DOMException("Aborted", "AbortError"));
+		};
+
+		signal?.addEventListener("abort", onAbort, { once: true });
+
+		img.onload = () => {
+			signal?.removeEventListener("abort", onAbort);
+			if (signal?.aborted) {
+				cleanup();
+				reject(new DOMException("Aborted", "AbortError"));
+				return;
+			}
+
+			const natW = img.naturalWidth || 300;
+			const natH = img.naturalHeight || 150;
+
+			// Compute output dimensions: use target if provided, preserving
+			// aspect ratio when only one dimension is set.
+			let w = natW;
+			let h = natH;
+			if (targetWidth && targetHeight) {
+				w = targetWidth;
+				h = targetHeight;
+			} else if (targetWidth) {
+				w = targetWidth;
+				h = Math.round(natH * (targetWidth / natW));
+			} else if (targetHeight) {
+				h = targetHeight;
+				w = Math.round(natW * (targetHeight / natH));
+			}
+
+			const canvas = document.createElement("canvas");
+			canvas.width = w;
+			canvas.height = h;
+			const ctx = canvas.getContext("2d");
+			if (!ctx) {
+				cleanup();
+				reject(new Error("Could not get canvas 2D context"));
+				return;
+			}
+
+			ctx.drawImage(img, 0, 0, w, h);
+			cleanup();
+
+			canvas.toBlob((blob) => {
+				if (!blob) {
+					reject(new Error("Failed to rasterize SVG"));
+					return;
+				}
+				resolve(blob);
+			}, "image/png");
+		};
+
+		img.onerror = () => {
+			signal?.removeEventListener("abort", onAbort);
+			cleanup();
+			reject(new Error("The SVG file could not be loaded for rasterization"));
+		};
+
+		img.src = url;
+	});
+}
+
+/**
+ * Load an SVG blob and return its intrinsic (naturalWidth × naturalHeight)
+ * dimensions. Useful for computing aspect ratio in the UI.
+ */
+export function getSvgDimensions(
+	svgBlob: Blob,
+): Promise<{ width: number; height: number }> {
+	return new Promise((resolve, reject) => {
+		const url = URL.createObjectURL(svgBlob);
+		const img = new Image();
+		img.onload = () => {
+			URL.revokeObjectURL(url);
+			resolve({
+				width: img.naturalWidth || 300,
+				height: img.naturalHeight || 150,
+			});
+		};
+		img.onerror = () => {
+			URL.revokeObjectURL(url);
+			reject(new Error("Could not load SVG to read dimensions"));
+		};
+		img.src = url;
+	});
+}
+
 /** Formats that do not support an alpha channel. */
 const OPAQUE_FORMATS = new Set<ConvertOutputFormat>(["image/jpeg"]);
 
@@ -712,6 +833,8 @@ export async function convertImage(
 		outputFormat,
 		quality = 0.92,
 		backgroundColor = "#ffffff",
+		targetWidth,
+		targetHeight,
 		signal,
 	} = options;
 
@@ -734,7 +857,19 @@ export async function convertImage(
 	}
 
 	// 2. Standard path: HEIC pre-decode, then browser-native createImageBitmap
-	const decoded = await ensureDecodable(input, signal);
+	let decoded = await ensureDecodable(input, signal);
+
+	// SVG blobs can't be decoded via createImageBitmap in Workers (Chrome/Safari
+	// reject it). Rasterize on the main thread to a PNG blob first.
+	if (decoded.type === "image/svg+xml") {
+		decoded = await rasteriseSvgBlob(
+			decoded,
+			backgroundColor,
+			signal,
+			targetWidth,
+			targetHeight,
+		);
+	}
 
 	if (outputFormat === "image/avif") {
 		return convertAvif(decoded, quality, backgroundColor, signal);
