@@ -117,7 +117,7 @@ node packages/cli/bin/nouploads.js --list
 
 ### Image Editing
 
-Resize, crop, compress (JPG/PNG/WebP/GIF), remove background (AI), EXIF viewer/stripper, images to PDF.
+Resize, crop, rotate/flip, compress (JPG/PNG/WebP/GIF), remove background (AI), EXIF viewer/stripper, images to PDF, favicon generator (ICO).
 
 ### PDF Tools
 
@@ -129,7 +129,7 @@ SVG optimizer (svgo) with SVGZ export.
 
 ### Developer Tools
 
-Color picker (HEX/RGB/HSL/CMYK/LAB/OKLCH), base64 encoder/decoder, QR code generator.
+Color picker (HEX/RGB/HSL/CMYK/LAB/OKLCH), base64 encoder/decoder, QR code generator, hash generator (MD5/SHA-1/SHA-256/SHA-384/SHA-512).
 
 Full tool list: [nouploads.com](https://nouploads.com) or `npx nouploads --list`
 

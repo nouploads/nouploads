@@ -47,6 +47,7 @@ import "./tools/exotic-conversions.js";
 import "./tools/compress-image.js";
 import "./tools/resize-image.js";
 import "./tools/crop-image.js";
+import "./tools/rotate-image.js";
 import "./tools/watermark-image.js";
 // METADATA & PDF
 import "./tools/exif.js";

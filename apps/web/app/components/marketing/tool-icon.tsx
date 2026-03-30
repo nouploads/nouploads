@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import {
 	ArrowDownToLine,
+	Braces,
 	Camera,
 	Code,
 	Crop,
@@ -8,13 +9,17 @@ import {
 	FileArchive,
 	FileImage,
 	FileOutput,
+	FileText,
 	Merge,
 	Minimize2,
 	Palette,
 	QrCode,
 	RefreshCw,
+	RotateCw,
 	Scaling,
 	ScanSearch,
+	Scissors,
+	Stamp,
 } from "lucide-react";
 
 /**
@@ -22,21 +27,26 @@ import {
  * Import only the icons you need to keep the bundle small.
  */
 const iconMap: Record<string, LucideIcon> = {
-	Camera,
 	ArrowDownToLine,
+	Braces,
+	Camera,
 	Code,
 	Crop,
 	Eraser,
 	FileArchive,
 	FileImage,
 	FileOutput,
+	FileText,
 	Merge,
 	Minimize2,
 	Palette,
 	QrCode,
 	RefreshCw,
+	RotateCw,
 	Scaling,
 	ScanSearch,
+	Scissors,
+	Stamp,
 };
 
 interface ToolIconProps {
