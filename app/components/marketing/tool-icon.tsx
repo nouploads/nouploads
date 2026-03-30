@@ -2,9 +2,15 @@ import type { LucideIcon } from "lucide-react";
 import {
 	ArrowDownToLine,
 	Camera,
+	Code,
+	Crop,
+	Eraser,
 	FileArchive,
 	FileImage,
+	FileOutput,
+	Merge,
 	Palette,
+	QrCode,
 	RefreshCw,
 	Scaling,
 	ScanSearch,
@@ -17,12 +23,18 @@ import {
 const iconMap: Record<string, LucideIcon> = {
 	Camera,
 	ArrowDownToLine,
+	Code,
+	Crop,
+	Eraser,
 	FileArchive,
+	FileImage,
+	FileOutput,
+	Merge,
 	Palette,
+	QrCode,
 	RefreshCw,
 	Scaling,
 	ScanSearch,
-	FileImage,
 };
 
 interface ToolIconProps {

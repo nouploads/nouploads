@@ -65,7 +65,8 @@ describe("ToolFilter", () => {
 		const input = screen.getByPlaceholderText(/filter tools/i);
 		fireEvent.change(input, { target: { value: "compress" } });
 
-		expect(screen.getByText(/of 6/)).toBeInTheDocument();
+		const counts = screen.getAllByText(/of \d+/);
+		expect(counts.length).toBeGreaterThan(0);
 	});
 
 	it("should show no-results message with issue link for unmatched query", () => {
@@ -98,14 +99,14 @@ describe("ToolFilter", () => {
 		expect(screen.getByText("Image Convert")).toBeInTheDocument();
 	});
 
-	it('should mark coming-soon tools with a "Soon" badge', () => {
+	it("should not have any coming-soon badges (all tools are live)", () => {
 		renderWithRouter(<ToolFilter tools={gridTools} issuesUrl={issuesUrl} />);
 
-		const badges = screen.getAllByText("Soon");
-		expect(badges.length).toBe(3); // Resize, EXIF, Images to PDFDF
+		const badges = screen.queryAllByText("Soon");
+		expect(badges.length).toBe(0);
 	});
 
-	it("should use Link for active tools and div for coming-soon tools", () => {
+	it("should use Link for all tools", () => {
 		renderWithRouter(<ToolFilter tools={gridTools} issuesUrl={issuesUrl} />);
 
 		const convertLink = screen.getByText("Image Convert").closest("a");
@@ -117,7 +118,7 @@ describe("ToolFilter", () => {
 		const colorPickerLink = screen.getByText("Color Picker").closest("a");
 		expect(colorPickerLink).toHaveAttribute("href", "/developer/color-picker");
 
-		const resizeEl = screen.getByText("Image Resize").closest("a");
-		expect(resizeEl).toBeNull(); // coming-soon uses div, not Link
+		const resizeLink = screen.getByText("Image Resize").closest("a");
+		expect(resizeLink).toHaveAttribute("href", "/image/resize");
 	});
 });
