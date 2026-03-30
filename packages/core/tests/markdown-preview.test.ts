@@ -1,0 +1,45 @@
+import { describe, expect, it } from "vitest";
+import { getAllTools, getTool } from "../src/registry.js";
+
+// Import to trigger registration
+import "../src/tools/markdown-preview.js";
+
+describe("markdown-preview tool", () => {
+	it("should be registered", () => {
+		const tool = getTool("markdown-preview");
+		expect(tool).toBeDefined();
+		expect(tool?.category).toBe("developer");
+	});
+
+	it("should have correct metadata", () => {
+		const tool = getTool("markdown-preview");
+		expect(tool?.name).toBe("Markdown Preview");
+		expect(tool?.inputMimeTypes).toContain("text/markdown");
+		expect(tool?.inputMimeTypes).toContain("text/plain");
+		expect(tool?.inputExtensions).toContain(".md");
+		expect(tool?.inputExtensions).toContain(".txt");
+		expect(tool?.inputExtensions).toContain(".markdown");
+		expect(tool?.capabilities).toContain("browser");
+	});
+
+	it("should have gfm option", () => {
+		const tool = getTool("markdown-preview");
+		const gfmOption = tool?.options.find((o) => o.name === "gfm");
+		expect(gfmOption).toBeDefined();
+		expect(gfmOption?.type).toBe("boolean");
+		expect(gfmOption?.default).toBe(true);
+	});
+
+	it("should throw on execute (browser-only)", async () => {
+		const tool = getTool("markdown-preview");
+		if (!tool) throw new Error("tool not registered");
+		await expect(tool.execute(new Uint8Array([]), {}, {})).rejects.toThrow(
+			"requires a browser environment",
+		);
+	});
+
+	it("should appear in all tools list", () => {
+		const ids = getAllTools().map((t) => t.id);
+		expect(ids).toContain("markdown-preview");
+	});
+});
