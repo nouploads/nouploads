@@ -47,6 +47,7 @@ import "./tools/exotic-conversions.js";
 import "./tools/compress-image.js";
 import "./tools/resize-image.js";
 import "./tools/crop-image.js";
+import "./tools/watermark-image.js";
 // METADATA & PDF
 import "./tools/exif.js";
 import "./tools/images-to-pdf.js";
@@ -55,7 +56,10 @@ import "./tools/browser-only-stubs.js";
 // UTILITY TOOLS
 import "./tools/optimize-svg.js";
 import "./tools/merge-pdf.js";
+import "./tools/watermark-pdf.js";
 import "./tools/pdf-to-text.js";
+import "./tools/rotate-pdf.js";
+import "./tools/split-pdf.js";
 import "./tools/qr-code.js";
 import "./tools/base64.js";
 
