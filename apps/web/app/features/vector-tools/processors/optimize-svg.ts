@@ -1,3 +1,5 @@
+import { getTool } from "@nouploads/core";
+
 export interface OptimizeSvgOptions {
 	removeComments?: boolean;
 	removeMetadata?: boolean;
@@ -18,25 +20,21 @@ export async function optimizeSvg(
 	const signal = options?.signal;
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
-	const text = await input.text();
-	const originalSize = new Blob([text]).size;
+	const bytes = new Uint8Array(await input.arrayBuffer());
+	const originalSize = bytes.byteLength;
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
-	// Use the browser build — no Node-specific APIs needed
-	const { optimize } = await import("svgo/browser");
+	const tool = getTool("optimize-svg");
+	if (!tool) throw new Error("optimize-svg tool not found in core registry");
 
-	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+	const result = await tool.execute(bytes, { multipass: true }, {});
 
-	const result = optimize(text, {
-		multipass: true,
-		plugins: ["preset-default"],
-	});
-
+	const svg = new TextDecoder().decode(result.output);
 	return {
-		svg: result.data,
+		svg,
 		originalSize,
-		optimizedSize: new Blob([result.data]).size,
+		optimizedSize: result.output.byteLength,
 	};
 }
 
