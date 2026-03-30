@@ -9,7 +9,7 @@ export default defineConfig({
 		format: "es",
 	},
 	optimizeDeps: {
-		exclude: ["@jsquash/avif"],
+		exclude: ["@jsquash/avif", "jxl-oxide-wasm"],
 	},
 	plugins: [
 		tailwindcss(),

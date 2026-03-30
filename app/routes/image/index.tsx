@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router";
 import { PrivacyBanner } from "~/components/layout/privacy-banner";
 import { SiteFooter } from "~/components/layout/site-footer";
@@ -45,9 +46,49 @@ const conversionLinks = [
 	{ href: "/image/jpg-to-webp", label: "JPG → WebP" },
 	{ href: "/image/png-to-webp", label: "PNG → WebP" },
 	{ href: "/image/svg-to-png", label: "SVG → PNG" },
+	{ href: "/image/svg-to-jpg", label: "SVG → JPG" },
+	{ href: "/image/svg-to-webp", label: "SVG → WebP" },
 	{ href: "/image/avif-to-jpg", label: "AVIF → JPG" },
 	{ href: "/image/avif-to-png", label: "AVIF → PNG" },
 	{ href: "/image/gif-to-jpg", label: "GIF → JPG" },
+	{ href: "/image/tiff-to-jpg", label: "TIFF → JPG" },
+	{ href: "/image/tiff-to-png", label: "TIFF → PNG" },
+	{ href: "/image/ico-to-png", label: "ICO → PNG" },
+	{ href: "/image/jxl-to-jpg", label: "JXL → JPG" },
+	{ href: "/image/jxl-to-png", label: "JXL → PNG" },
+];
+
+const nicheFormatLinks = [
+	{
+		href: "/image/raw-converter",
+		label: "Camera RAW",
+		desc: "CR2, NEF, ARW, DNG & 20+ formats",
+	},
+	{ href: "/image/psd-converter", label: "PSD", desc: "Adobe Photoshop" },
+	{ href: "/image/exr-converter", label: "EXR", desc: "OpenEXR (VFX/3D)" },
+	{ href: "/image/hdr-converter", label: "HDR", desc: "Radiance HDR" },
+	{
+		href: "/image/dcm-converter",
+		label: "DICOM",
+		desc: "Medical imaging (DCM)",
+	},
+	{
+		href: "/image/fits-converter",
+		label: "FITS",
+		desc: "Astronomy images",
+	},
+	{ href: "/image/tga-converter", label: "TGA", desc: "Targa textures" },
+	{
+		href: "/image/dds-converter",
+		label: "DDS",
+		desc: "DirectX game textures",
+	},
+	{ href: "/image/pcx-converter", label: "PCX", desc: "Legacy bitmap" },
+	{
+		href: "/image/netpbm-converter",
+		label: "Netpbm",
+		desc: "PBM, PGM, PPM, PNM, PAM, PFM",
+	},
 ];
 
 const compressionLinks = [
@@ -69,6 +110,40 @@ function PillLinks({ links }: { links: { href: string; label: string }[] }) {
 					{link.label}
 				</Link>
 			))}
+		</div>
+	);
+}
+
+function NicheFormatsSection() {
+	const [open, setOpen] = useState(false);
+	return (
+		<div>
+			<button
+				type="button"
+				onClick={() => setOpen(!open)}
+				className="flex items-center gap-2 text-xl font-semibold mb-3 hover:text-primary transition-colors"
+			>
+				<span className="text-sm">{open ? "▼" : "▶"}</span>
+				All Supported Formats (70+)
+			</button>
+			<p className="text-sm text-muted-foreground mb-4">
+				Professional, scientific, and legacy format converters. All processing
+				runs locally in your browser.
+			</p>
+			{open && (
+				<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+					{nicheFormatLinks.map((item) => (
+						<Link
+							key={item.href}
+							to={item.href}
+							className="flex items-center justify-between rounded-md border bg-card px-4 py-3 text-sm transition-colors hover:border-primary/40"
+						>
+							<span className="font-medium">{item.label}</span>
+							<span className="text-muted-foreground text-xs">{item.desc}</span>
+						</Link>
+					))}
+				</div>
+			)}
 		</div>
 	);
 }
@@ -157,6 +232,8 @@ export default function ImageCategoryPage() {
 						</p>
 						<PillLinks links={compressionLinks} />
 					</div>
+
+					<NicheFormatsSection />
 				</div>
 			</main>
 			<SiteFooter />

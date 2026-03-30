@@ -52,6 +52,61 @@ export const PACKAGES = {
 		repoUrl: "https://github.com/jamsinclair/jSquash",
 		license: "Apache-2.0",
 	},
+	"pdfjs-dist": {
+		name: "PDF.js",
+		repoUrl: "https://github.com/mozilla/pdf.js",
+		license: "Apache-2.0",
+	},
+	"pdf-lib": {
+		name: "pdf-lib",
+		repoUrl: "https://github.com/Hopding/pdf-lib",
+		license: "MIT",
+	},
+	exifr: {
+		name: "exifr",
+		repoUrl: "https://github.com/MikeKovarik/exifr",
+		license: "MIT",
+	},
+	qrcode: {
+		name: "qrcode",
+		repoUrl: "https://github.com/soldair/node-qrcode",
+		license: "MIT",
+	},
+	"@imgly/background-removal": {
+		name: "@imgly/background-removal",
+		repoUrl: "https://github.com/imgly/background-removal-js",
+		license: "SEE LICENSE",
+	},
+	fflate: {
+		name: "fflate",
+		repoUrl: "https://github.com/101arrowz/fflate",
+		license: "MIT",
+	},
+	utif2: {
+		name: "utif2",
+		repoUrl: "https://github.com/photopea/UTIF.js",
+		license: "MIT",
+	},
+	"decode-ico": {
+		name: "decode-ico",
+		repoUrl: "https://github.com/LinusU/decode-ico",
+		license: "MIT",
+	},
+	"jxl-oxide-wasm": {
+		name: "jxl-oxide-wasm",
+		repoUrl: "https://github.com/tirr-c/jxl-oxide",
+		license: "MIT",
+	},
+	"@webtoon/psd": {
+		name: "@webtoon/psd",
+		repoUrl: "https://github.com/nicedoc/psd",
+		license: "MIT",
+	},
+	daikon: {
+		name: "Daikon",
+		repoUrl: "https://github.com/rii-mango/Daikon",
+		license: "BSD-3-Clause",
+	},
 } as const satisfies Record<string, PackageAttribution>;
 
 export type PackageId = keyof typeof PACKAGES;
@@ -60,6 +115,10 @@ export const BROWSER_APIS = {
 	canvas: {
 		name: "Canvas API",
 		mdnUrl: "https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API",
+	},
+	fileReader: {
+		name: "FileReader API",
+		mdnUrl: "https://developer.mozilla.org/en-US/docs/Web/API/FileReader",
 	},
 } as const satisfies Record<string, BrowserApiAttribution>;
 

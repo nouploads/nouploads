@@ -25,7 +25,7 @@ Most online file tools upload your files to a server. NoUploads doesn't — ever
 
 | Tool | Input | Output | URL |
 |------|-------|--------|-----|
-| Image Convert | HEIC, JPG, PNG, WebP, AVIF, GIF, SVG, BMP, TIFF | JPG, PNG, WebP, AVIF | [`/image/convert`](https://nouploads.com/image/convert) |
+| Image Convert | HEIC, JPG, PNG, WebP, AVIF, GIF, SVG, BMP, TIFF, JXL, ICO | JPG, PNG, WebP, AVIF | [`/image/convert`](https://nouploads.com/image/convert) |
 | HEIC to JPG | HEIC | JPG | [`/image/heic-to-jpg`](https://nouploads.com/image/heic-to-jpg) |
 | JPG to PNG | JPG | PNG | [`/image/jpg-to-png`](https://nouploads.com/image/jpg-to-png) |
 | PNG to JPG | PNG | JPG | [`/image/png-to-jpg`](https://nouploads.com/image/png-to-jpg) |
@@ -34,9 +34,44 @@ Most online file tools upload your files to a server. NoUploads doesn't — ever
 | PNG to WebP | PNG | WebP | [`/image/png-to-webp`](https://nouploads.com/image/png-to-webp) |
 | WebP to PNG | WebP | PNG | [`/image/webp-to-png`](https://nouploads.com/image/webp-to-png) |
 | SVG to PNG | SVG | PNG | [`/image/svg-to-png`](https://nouploads.com/image/svg-to-png) |
+| SVG to JPG | SVG | JPG | [`/image/svg-to-jpg`](https://nouploads.com/image/svg-to-jpg) |
+| SVG to WebP | SVG | WebP | [`/image/svg-to-webp`](https://nouploads.com/image/svg-to-webp) |
 | AVIF to JPG | AVIF | JPG | [`/image/avif-to-jpg`](https://nouploads.com/image/avif-to-jpg) |
 | AVIF to PNG | AVIF | PNG | [`/image/avif-to-png`](https://nouploads.com/image/avif-to-png) |
 | GIF to JPG | GIF | JPG | [`/image/gif-to-jpg`](https://nouploads.com/image/gif-to-jpg) |
+| TIFF to JPG | TIFF | JPG | [`/image/tiff-to-jpg`](https://nouploads.com/image/tiff-to-jpg) |
+| TIFF to PNG | TIFF | PNG | [`/image/tiff-to-png`](https://nouploads.com/image/tiff-to-png) |
+| ICO to PNG | ICO | PNG | [`/image/ico-to-png`](https://nouploads.com/image/ico-to-png) |
+| ICO to JPG | ICO | JPG | [`/image/ico-to-jpg`](https://nouploads.com/image/ico-to-jpg) |
+| JXL to JPG | JXL | JPG | [`/image/jxl-to-jpg`](https://nouploads.com/image/jxl-to-jpg) |
+| JXL to PNG | JXL | PNG | [`/image/jxl-to-png`](https://nouploads.com/image/jxl-to-png) |
+
+### Niche / Professional Format Converters
+
+These converters accept specialist formats and output to mainstream formats (JPG, PNG, WebP, AVIF). All processing is client-side.
+
+| Tool | Input Formats | URL |
+|------|--------------|-----|
+| RAW Converter | CR2, CR3, CRW, NEF, NRW, ARW, SR2, SRW, DNG, RAF, ORF, PEF, ERF, RW2, MRW, MEF, MOS, KDC, DCR, X3F, 3FR, RAW | [`/image/raw-converter`](https://nouploads.com/image/raw-converter) |
+| PSD Converter | PSD | [`/image/psd-converter`](https://nouploads.com/image/psd-converter) |
+| EXR Converter | EXR | [`/image/exr-converter`](https://nouploads.com/image/exr-converter) |
+| HDR Converter | HDR | [`/image/hdr-converter`](https://nouploads.com/image/hdr-converter) |
+| DICOM Converter | DCM | [`/image/dcm-converter`](https://nouploads.com/image/dcm-converter) |
+| FITS Converter | FITS, FTS | [`/image/fits-converter`](https://nouploads.com/image/fits-converter) |
+| TGA Converter | TGA | [`/image/tga-converter`](https://nouploads.com/image/tga-converter) |
+| DDS Converter | DDS | [`/image/dds-converter`](https://nouploads.com/image/dds-converter) |
+| PCX Converter | PCX | [`/image/pcx-converter`](https://nouploads.com/image/pcx-converter) |
+| Netpbm Converter | PBM, PGM, PPM, PNM, PAM, PFM | [`/image/netpbm-converter`](https://nouploads.com/image/netpbm-converter) |
+
+### Image Editing
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| Image Resize | Resize images by pixels, percentage, or presets with aspect ratio lock | [`/image/resize`](https://nouploads.com/image/resize) |
+| Image Crop | Crop images with free or preset aspect ratios (1:1, 4:3, 16:9, 3:2) | [`/image/crop`](https://nouploads.com/image/crop) |
+| Remove Background | Remove image backgrounds using local AI (ONNX model) | [`/image/remove-background`](https://nouploads.com/image/remove-background) |
+| EXIF Viewer | View and strip EXIF metadata from photos | [`/image/exif`](https://nouploads.com/image/exif) |
+| Images to PDF | Combine multiple images into a single PDF | [`/image/to-pdf`](https://nouploads.com/image/to-pdf) |
 
 ### Image Compression
 
@@ -48,16 +83,25 @@ Most online file tools upload your files to a server. NoUploads doesn't — ever
 | Compress WebP | WebP | WebP | [`/image/compress-webp`](https://nouploads.com/image/compress-webp) |
 | Compress GIF | GIF | GIF | [`/image/compress-gif`](https://nouploads.com/image/compress-gif) |
 
+### PDF Tools
+
+| Tool | Input | Output | URL |
+|------|-------|--------|-----|
+| PDF to JPG | PDF | JPG images | [`/pdf/pdf-to-jpg`](https://nouploads.com/pdf/pdf-to-jpg) |
+| PDF to PNG | PDF | PNG images | [`/pdf/pdf-to-png`](https://nouploads.com/pdf/pdf-to-png) |
+| Merge PDFs | Multiple PDFs | Single PDF | [`/pdf/merge`](https://nouploads.com/pdf/merge) |
+| Compress PDF | PDF | Smaller PDF | [`/pdf/compress`](https://nouploads.com/pdf/compress) |
+
 ### Developer Tools
 
 | Tool | Description | URL |
 |------|-------------|-----|
 | Color Picker | Pick colors from spectrum or images; convert between HEX, RGB, HSL, HSV, HWB, CMYK, LAB, LCH, OKLCH | [`/developer/color-picker`](https://nouploads.com/developer/color-picker) |
+| Base64 Image | Encode images to base64 data URIs or decode base64 strings back to images | [`/developer/base64-image`](https://nouploads.com/developer/base64-image) |
+| QR Code Generator | Generate QR codes from text/URLs with custom size, colors, and error correction | [`/developer/qr-code`](https://nouploads.com/developer/qr-code) |
 
 ### Coming Soon
 
-- Image Resize, EXIF Viewer, Images to PDF
-- PDF tools (merge, split, compress, rotate, unlock)
 - Video tools (compress, convert, trim, GIF maker)
 - Audio tools (convert, trim, merge)
 
