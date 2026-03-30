@@ -42,6 +42,13 @@ const conversionLinks = [
 	{ href: "/pdf/pdf-to-text", label: "PDF → Text" },
 ];
 
+const editingLinks = [
+	{ href: "/pdf/page-numbers", label: "Add Page Numbers" },
+	{ href: "/pdf/watermark", label: "Add Watermark" },
+	{ href: "/pdf/protect", label: "Password Protect" },
+	{ href: "/pdf/unlock", label: "Remove Password" },
+];
+
 function PillLinks({ links }: { links: { href: string; label: string }[] }) {
 	return (
 		<div className="flex flex-wrap gap-2">
@@ -132,6 +139,14 @@ export default function PdfCategoryPage() {
 							Quick links to PDF format conversion tools.
 						</p>
 						<PillLinks links={conversionLinks} />
+					</div>
+
+					<div>
+						<h2 className="text-xl font-semibold mb-3">Editing & Security</h2>
+						<p className="text-sm text-muted-foreground mb-4">
+							Add page numbers, watermarks, or manage password protection.
+						</p>
+						<PillLinks links={editingLinks} />
 					</div>
 				</div>
 			</main>

@@ -36,6 +36,31 @@ export function meta(_args: Route.MetaArgs) {
 
 const devTools = gridTools.filter((t) => t.href.startsWith("/developer/"));
 
+const quickLinks = [
+	{ href: "/developer/regex-tester", label: "Regex Tester" },
+	{ href: "/developer/timestamp-converter", label: "Timestamp Converter" },
+	{ href: "/developer/uuid-generator", label: "UUID Generator" },
+	{ href: "/developer/url-encoder", label: "URL Encoder" },
+	{ href: "/developer/text-diff", label: "Text Diff" },
+	{ href: "/developer/markdown-preview", label: "Markdown Preview" },
+];
+
+function PillLinks({ links }: { links: { href: string; label: string }[] }) {
+	return (
+		<div className="flex flex-wrap gap-2">
+			{links.map((link) => (
+				<Link
+					key={link.href}
+					to={link.href}
+					className="inline-flex items-center rounded-md border bg-card px-3 py-1.5 text-sm font-medium transition-colors hover:border-primary/40 hover:text-primary"
+				>
+					{link.label}
+				</Link>
+			))}
+		</div>
+	);
+}
+
 export default function DeveloperCategoryPage() {
 	return (
 		<>
@@ -52,7 +77,8 @@ export default function DeveloperCategoryPage() {
 					<p className="text-muted-foreground max-w-2xl">
 						Handy utilities for developers and designers that run entirely in
 						your browser. Pick colors, format JSON, generate hashes, decode
-						JWTs, and more — without sending anything to a server.
+						JWTs, test regex, convert timestamps, and more — without sending
+						anything to a server.
 					</p>
 				</div>
 
@@ -102,6 +128,16 @@ export default function DeveloperCategoryPage() {
 							</Link>
 						);
 					})}
+				</div>
+
+				<div className="mt-12 space-y-8">
+					<div>
+						<h2 className="text-xl font-semibold mb-3">Quick Links</h2>
+						<p className="text-sm text-muted-foreground mb-4">
+							Jump straight to a tool.
+						</p>
+						<PillLinks links={quickLinks} />
+					</div>
 				</div>
 			</main>
 			<SiteFooter />
