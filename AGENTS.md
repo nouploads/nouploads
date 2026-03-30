@@ -41,3 +41,14 @@ After 3 failed rounds on a specific issue, document the disagreement in the trac
 - All decoders return a standard `DecodedImage` interface (`{ data: Uint8Array, width: number, height: number }`)
 - Test with real files, not synthetic/empty buffers (synthetic OK for unit tests, real files for E2E)
 - Follow existing patterns exactly — inspect the closest existing example before adding anything new
+
+## SEO Content Rules
+
+Before creating any new tool page, the Builder must provide unique content for
+all required sections (see SEO_RULES.md). The Critic must verify:
+
+1. The "Why NoUploads" FAQ answer is genuinely unique — not a word-swap of another page.
+2. The About section mentions at least one fact specific to this conversion pair.
+3. The page passes the swap test (remove format names → still distinguishable).
+4. Title and meta description are unique across the entire site.
+5. A self-referencing canonical tag is present.
