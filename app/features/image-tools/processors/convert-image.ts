@@ -1,3 +1,5 @@
+import type { DecodedImage, DecoderFn } from "../decoders/types";
+
 export type ConvertOutputFormat =
 	| "image/jpeg"
 	| "image/png"
@@ -23,6 +25,181 @@ export interface ConvertImageResult {
 const MAX_DIMENSION = 16384;
 
 const HEIC_TYPES = new Set(["image/heic", "image/heif"]);
+
+/* ------------------------------------------------------------------ */
+/*  Pixel-level decoder registry for non-browser-native formats       */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Lazy-loaded decoders for formats that `createImageBitmap` cannot handle.
+ * Each value is a thunk that dynamically imports the decoder module,
+ * so the heavy library code is only fetched when a matching file is dropped.
+ *
+ * Keys are MIME types (use `inferMime()` to resolve extension-based types).
+ */
+const PIXEL_DECODERS: Record<string, () => Promise<DecoderFn>> = {
+	"image/tiff": () =>
+		import("../decoders/decode-tiff").then((m) => m.decodeTiff),
+	"image/x-icon": () =>
+		import("../decoders/decode-ico").then((m) => m.decodeIco),
+	"image/jxl": () => import("../decoders/decode-jxl").then((m) => m.decodeJxl),
+	"image/vnd.adobe.photoshop": () =>
+		import("../decoders/decode-psd").then((m) => m.decodePsd),
+	"image/x-tga": () =>
+		import("../decoders/decode-tga").then((m) => m.decodeTga),
+	"image/vnd.radiance": () =>
+		import("../decoders/decode-hdr").then((m) => m.decodeHdr),
+	"image/x-exr": () =>
+		import("../decoders/decode-exr").then((m) => m.decodeExr),
+	"image/vnd-ms.dds": () =>
+		import("../decoders/decode-dds").then((m) => m.decodeDds),
+	"image/x-pcx": () =>
+		import("../decoders/decode-pcx").then((m) => m.decodePcx),
+	"image/x-portable-bitmap": () =>
+		import("../decoders/decode-netpbm").then((m) => m.decodeNetpbm),
+	"image/x-portable-graymap": () =>
+		import("../decoders/decode-netpbm").then((m) => m.decodeNetpbm),
+	"image/x-portable-pixmap": () =>
+		import("../decoders/decode-netpbm").then((m) => m.decodeNetpbm),
+	"image/x-portable-anymap": () =>
+		import("../decoders/decode-netpbm").then((m) => m.decodeNetpbm),
+	"image/x-portable-arbitrarymap": () =>
+		import("../decoders/decode-netpbm").then((m) => m.decodeNetpbm),
+	"image/x-portable-floatmap": () =>
+		import("../decoders/decode-netpbm").then((m) => m.decodeNetpbm),
+	"image/fits": () =>
+		import("../decoders/decode-fits").then((m) => m.decodeFits),
+	"application/dicom": () =>
+		import("../decoders/decode-dicom").then((m) => m.decodeDicom),
+	"image/x-canon-cr2": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-canon-cr3": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-canon-crw": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-nikon-nef": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-nikon-nrw": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-sony-arw": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-sony-sr2": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-samsung-srw": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-adobe-dng": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-fuji-raf": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-olympus-orf": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-pentax-pef": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-epson-erf": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-panasonic-rw2": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-minolta-mrw": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-mamiya-mef": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-leaf-mos": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-kodak-kdc": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-kodak-dcr": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-sigma-x3f": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-hasselblad-3fr": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-raw": () =>
+		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+};
+
+/**
+ * Map from file extension to MIME type for exotic formats where
+ * the browser reports `File.type` as empty or `application/octet-stream`.
+ */
+const EXTENSION_TO_MIME: Record<string, string> = {
+	// Mainstream (some browsers already set MIME, but just in case)
+	tiff: "image/tiff",
+	tif: "image/tiff",
+	jxl: "image/jxl",
+	ico: "image/x-icon",
+	cur: "image/x-icon",
+	// Niche — added as decoders are implemented
+	psd: "image/vnd.adobe.photoshop",
+	exr: "image/x-exr",
+	hdr: "image/vnd.radiance",
+	tga: "image/x-tga",
+	dds: "image/vnd-ms.dds",
+	pcx: "image/x-pcx",
+	pbm: "image/x-portable-bitmap",
+	pgm: "image/x-portable-graymap",
+	ppm: "image/x-portable-pixmap",
+	pnm: "image/x-portable-anymap",
+	pam: "image/x-portable-arbitrarymap",
+	pfm: "image/x-portable-floatmap",
+	xcf: "image/x-xcf",
+	dcm: "application/dicom",
+	fits: "image/fits",
+	fts: "image/fits",
+	fit: "image/fits",
+	jp2: "image/jp2",
+	// Camera RAW
+	cr2: "image/x-canon-cr2",
+	cr3: "image/x-canon-cr3",
+	crw: "image/x-canon-crw",
+	nef: "image/x-nikon-nef",
+	nrw: "image/x-nikon-nrw",
+	arw: "image/x-sony-arw",
+	sr2: "image/x-sony-sr2",
+	srw: "image/x-samsung-srw",
+	dng: "image/x-adobe-dng",
+	raf: "image/x-fuji-raf",
+	orf: "image/x-olympus-orf",
+	pef: "image/x-pentax-pef",
+	erf: "image/x-epson-erf",
+	rw2: "image/x-panasonic-rw2",
+	mrw: "image/x-minolta-mrw",
+	mef: "image/x-mamiya-mef",
+	mos: "image/x-leaf-mos",
+	kdc: "image/x-kodak-kdc",
+	dcr: "image/x-kodak-dcr",
+	x3f: "image/x-sigma-x3f",
+	"3fr": "image/x-hasselblad-3fr",
+	raw: "image/x-raw",
+};
+
+/**
+ * Infer MIME type from file extension when `File.type` is missing or generic.
+ * Falls back to the original `File.type` if no mapping exists.
+ */
+export function inferMime(file: { name: string; type: string }): string {
+	if (file.type && file.type !== "application/octet-stream") return file.type;
+	const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
+	return EXTENSION_TO_MIME[ext] ?? file.type;
+}
+
+/**
+ * Try to decode a file using a registered pixel-level decoder.
+ * Returns `null` if no decoder is registered for the inferred MIME type
+ * (meaning the file should go through the standard browser-native path).
+ */
+export async function decodeToPixels(
+	input: Blob,
+	mime: string,
+	signal?: AbortSignal,
+): Promise<DecodedImage | null> {
+	const loaderThunk = PIXEL_DECODERS[mime];
+	if (!loaderThunk) return null;
+
+	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+	const decode = await loaderThunk();
+	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+	return decode(input, signal);
+}
 
 /**
  * Decode HEIC/HEIF to a browser-readable Blob on the main thread.
@@ -271,10 +448,98 @@ function convertInWorker(
 }
 
 /**
+ * Non-AVIF conversion from raw RGBA pixels via a Web Worker.
+ */
+function convertPixelsInWorker(
+	decoded: DecodedImage,
+	outputFormat: string,
+	quality: number,
+	backgroundColor: string,
+	signal?: AbortSignal,
+): Promise<ConvertImageResult> {
+	return new Promise((resolve, reject) => {
+		if (signal?.aborted) {
+			reject(new DOMException("Aborted", "AbortError"));
+			return;
+		}
+
+		const worker = new Worker(
+			new URL("./convert-image.worker.ts", import.meta.url),
+			{ type: "module" },
+		);
+
+		const onAbort = () => {
+			worker.terminate();
+			reject(new DOMException("Aborted", "AbortError"));
+		};
+		signal?.addEventListener("abort", onAbort, { once: true });
+
+		worker.onmessage = (e) => {
+			signal?.removeEventListener("abort", onAbort);
+			worker.terminate();
+			if (e.data.error) {
+				reject(new Error(e.data.error));
+			} else {
+				resolve({
+					blob: e.data.blob,
+					width: e.data.width,
+					height: e.data.height,
+				});
+			}
+		};
+		worker.onerror = (e) => {
+			signal?.removeEventListener("abort", onAbort);
+			worker.terminate();
+			reject(new Error(e.message || "Image conversion worker failed"));
+		};
+		worker.postMessage({
+			pixelData: decoded.data,
+			pixelWidth: decoded.width,
+			pixelHeight: decoded.height,
+			outputFormat,
+			quality,
+			backgroundColor,
+		});
+	});
+}
+
+/**
+ * AVIF conversion from raw RGBA pixels: build ImageData, then encode in AVIF worker.
+ */
+async function convertAvifFromPixels(
+	decoded: DecodedImage,
+	quality: number,
+	signal?: AbortSignal,
+): Promise<ConvertImageResult> {
+	const { data, width, height } = decoded;
+	if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+		throw new Error(
+			`Image dimensions ${width}×${height} exceed the maximum of ${MAX_DIMENSION}px`,
+		);
+	}
+	const imageData = new ImageData(
+		new Uint8ClampedArray(data.buffer, data.byteOffset, data.byteLength),
+		width,
+		height,
+	);
+	const avifBuffer = await encodeAvifInWorker(
+		imageData,
+		Math.round(quality * 100),
+		signal,
+	);
+	return {
+		blob: new Blob([avifBuffer], { type: "image/avif" }),
+		width,
+		height,
+	};
+}
+
+/**
  * Convert an image to a different format.
  *
- * Accepts any browser-decodable image (JPG, PNG, WebP, AVIF, GIF, BMP, TIFF, SVG, HEIC)
- * and outputs to JPG, PNG, WebP, or AVIF. All heavy work runs in Web Workers.
+ * Accepts any browser-decodable image plus exotic formats with registered
+ * pixel decoders. Outputs to JPG, PNG, WebP, or AVIF.
+ * All heavy work runs in Web Workers.
  */
 export async function convertImage(
 	input: Blob,
@@ -287,14 +552,31 @@ export async function convertImage(
 		signal,
 	} = options;
 
+	// 1. Try pixel-level decoder for exotic formats (TIFF, PSD, EXR, etc.)
+	const mime = input instanceof File ? inferMime(input) : input.type;
+	const pixels = await decodeToPixels(input, mime, signal);
+
+	if (pixels) {
+		// Exotic format decoded to raw RGBA — send pixels directly to worker
+		if (outputFormat === "image/avif") {
+			return convertAvifFromPixels(pixels, quality, signal);
+		}
+		return convertPixelsInWorker(
+			pixels,
+			outputFormat,
+			quality,
+			backgroundColor,
+			signal,
+		);
+	}
+
+	// 2. Standard path: HEIC pre-decode, then browser-native createImageBitmap
 	const decoded = await ensureDecodable(input, signal);
 
-	// AVIF: use @jsquash/avif WASM encoder in a dedicated Web Worker
 	if (outputFormat === "image/avif") {
 		return convertAvif(decoded, quality, backgroundColor, signal);
 	}
 
-	// JPG/PNG/WebP: use OffscreenCanvas in a Web Worker
 	return convertInWorker(
 		decoded,
 		outputFormat,
