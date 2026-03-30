@@ -421,7 +421,7 @@ async function decodeHeic(
  */
 function rasteriseSvgBlob(
 	svgBlob: Blob,
-	backgroundColor: string,
+	_backgroundColor: string,
 	signal?: AbortSignal,
 	targetWidth?: number,
 	targetHeight?: number,

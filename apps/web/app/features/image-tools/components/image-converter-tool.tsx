@@ -23,7 +23,7 @@ import {
 } from "~/features/developer-tools/processors/color-picker";
 import { formatFileSize } from "~/lib/utils";
 import type { AnimationInfo } from "../lib/detect-animation";
-import { compressPng, compressPngBatch } from "../processors/compress-png";
+import { compressPng } from "../processors/compress-png";
 import {
 	type ConvertImageResult,
 	type ConvertOutputFormat,
@@ -777,7 +777,7 @@ export default function ImageConverterTool({
 	const [targetWidth, setTargetWidth] = useState(DEFAULT_VECTOR_HEIGHT);
 	const [targetHeight, setTargetHeight] = useState(DEFAULT_VECTOR_HEIGHT);
 	// Track which field the user last edited so we can derive the other
-	const [lastEdited, setLastEdited] = useState<"width" | "height">("height");
+	const [, setLastEdited] = useState<"width" | "height">("height");
 
 	// Reset quality to format default when output format changes
 	const handleOutputFormatChange = useCallback((v: string) => {

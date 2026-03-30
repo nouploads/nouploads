@@ -10,6 +10,7 @@ export function GitHubLink({ href }: { href: string }) {
 		<TooltipProvider>
 			<Tooltip>
 				<TooltipTrigger asChild>
+					{/* biome-ignore lint/a11y/useAnchorContent: aria-label provides accessible content */}
 					<a
 						href={href}
 						target="_blank"

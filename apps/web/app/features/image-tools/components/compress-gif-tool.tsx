@@ -2,10 +2,7 @@ import {
 	type CompressFormatConfig,
 	CompressToolBase,
 } from "~/features/image-tools/components/compress-tool-base";
-import {
-	compressGif,
-	compressGifBatch,
-} from "~/features/image-tools/processors/compress-gif";
+import { compressGif } from "~/features/image-tools/processors/compress-gif";
 
 /** Map quality slider (10–100) to gifsicle lossy value (0–180). */
 function qualityToLossy(quality: number): number {

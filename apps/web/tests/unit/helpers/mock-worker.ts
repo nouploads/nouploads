@@ -28,7 +28,6 @@ export function createMockWorkerClass(): {
 		private listeners = new Map<string, Set<EventListener>>();
 
 		constructor() {
-			// biome-ignore lint/suspicious/noAssignInExpressions: test helper captures last instance
 			lastInstance = this;
 		}
 
@@ -40,7 +39,7 @@ export function createMockWorkerClass(): {
 			if (!this.listeners.has(type)) {
 				this.listeners.set(type, new Set());
 			}
-			this.listeners.get(type)!.add(listener);
+			this.listeners.get(type)?.add(listener);
 		}
 
 		removeEventListener(type: string, listener: EventListener) {

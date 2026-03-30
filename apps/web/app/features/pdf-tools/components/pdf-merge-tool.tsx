@@ -38,8 +38,8 @@ function FileList({
 	return (
 		<div className="space-y-2">
 			{entries.map((entry, i) => (
-				// biome-ignore lint/suspicious/noArrayIndexKey: files can share names; index disambiguates
 				<div
+					// biome-ignore lint/suspicious/noArrayIndexKey: composite key includes name+size+mtime; index disambiguates duplicates
 					key={`${entry.file.name}-${entry.file.size}-${entry.file.lastModified}-${i}`}
 					className="flex items-center justify-between rounded-lg border bg-card p-3 gap-3"
 				>

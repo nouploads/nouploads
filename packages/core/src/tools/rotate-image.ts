@@ -67,8 +67,7 @@ const tool: ToolDefinition = {
 		onProgress?.(30);
 
 		const { width: srcW, height: srcH, data: srcData } = decoded;
-		const swapDimensions =
-			action === "rotate-cw" || action === "rotate-ccw";
+		const swapDimensions = action === "rotate-cw" || action === "rotate-ccw";
 		const outW = swapDimensions ? srcH : srcW;
 		const outH = swapDimensions ? srcW : srcH;
 		const out = new Uint8Array(outW * outH * 4);

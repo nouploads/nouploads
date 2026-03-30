@@ -115,7 +115,7 @@ function SingleFileView({
 				if (controller.signal.aborted) return;
 				setOriginalFrames(data);
 				setParsingOriginal(false);
-			} catch (err) {
+			} catch {
 				if (controller.signal.aborted) return;
 				setParsingOriginal(false);
 			}
@@ -157,7 +157,7 @@ function SingleFileView({
 				resultFramesBlobRef.current = resultBlob;
 				setResultFrames(data);
 				setParsingResult(false);
-			} catch (err) {
+			} catch {
 				if (controller.signal.aborted) return;
 				setParsingResult(false);
 			}

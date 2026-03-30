@@ -33,8 +33,7 @@ const tool: ToolDefinition = {
 		{
 			name: "sizes",
 			type: "string",
-			description:
-				"Comma-separated icon sizes in pixels (default: 16,32,48)",
+			description: "Comma-separated icon sizes in pixels (default: 16,32,48)",
 			default: "16,32,48",
 		},
 	],
@@ -71,7 +70,7 @@ const tool: ToolDefinition = {
 		const headerSize = 6;
 		const dirEntrySize = 16;
 		const dirSize = dirEntrySize * pngBuffers.length;
-		let dataOffset = headerSize + dirSize;
+		const dataOffset = headerSize + dirSize;
 
 		let totalSize = dataOffset;
 		for (const buf of pngBuffers) totalSize += buf.length;

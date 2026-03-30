@@ -56,7 +56,7 @@ export function tokenSearch(
 			// Use the worst (highest) score across tokens as the combined score
 			const worstScore = Math.max(
 				result.score ?? 0,
-				...rest.map((m) => m.get(href)!.score ?? 0),
+				...rest.map((m) => m.get(href)?.score ?? 0),
 			);
 			intersected.push({ ...result, score: worstScore });
 		}
