@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other TIFF to PNG converters?",
 		answer:
-			"TIFF files from scanners and pre-press workflows often contain confidential content. NoUploads processes everything on your device — your files are never sent to a server. There's no watermark, no file size limit, and no account required. It works offline and handles CMYK, 16-bit, and compressed TIFFs automatically.",
+			"TIFF is the go-to format for archival scans, medical imaging, and pre-press proofs — files you almost certainly do not want on someone else's server. NoUploads converts TIFF to PNG on your own device, preserving every pixel losslessly. The decoder handles CMYK, 16-bit depth, and all standard TIFF compression schemes (LZW, ZIP, JPEG) automatically. No upload, no watermarks, no account, works offline, and the code is open source.",
 	},
 ];
 

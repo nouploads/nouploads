@@ -51,7 +51,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other WebP compressors?",
 		answer:
-			"WebP is already an efficient format, so recompressing on a server adds unnecessary round-trip time. NoUploads processes WebP files instantly in your browser with zero network overhead. Your images stay on your device, there's no account required, no usage limits, and it works even when you're offline. The project is free and open source.",
+			"If you optimize WebP assets as part of a build or design workflow, you do it often. Server-based tools add API latency and usage caps that slow you down. NoUploads gives you a zero-overhead feedback loop: drag a file, move the quality slider, see the result instantly — no network round-trip, no waiting in a queue. Because it runs entirely in the browser, you can iterate on quality settings as fast as you can move a slider. Free, offline-capable, open source, and nothing is ever uploaded.",
 	},
 ];
 

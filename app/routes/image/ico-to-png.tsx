@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other ICO converters?",
 		answer:
-			"Many ICO converters are web apps that upload your file to a server. NoUploads decodes the ICO container entirely in your browser using the decode-ico library — nothing is uploaded. It automatically picks the highest resolution frame, supports both BMP-encoded and PNG-encoded ICO frames, and works offline. Free, no signup, no limits.",
+			"Developers typically need this when auditing a site's favicon or rebuilding a brand kit — quick, low-friction tasks that do not warrant creating an account on a converter service. NoUploads parses the ICO binary with the decode-ico library right in your browser, inspects every embedded frame, and automatically selects the highest resolution available. It handles both legacy BMP-encoded frames and modern PNG-compressed frames inside the same ICO container, which many online tools get wrong. Once the page is cached you can keep extracting favicons on a plane.",
 	},
 ];
 
@@ -76,12 +76,14 @@ export default function IcoToPngPage() {
 			<section className="mt-12 mb-8">
 				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
 				<p className="text-muted-foreground">
-					Parses ICO and CUR container files, selects the largest embedded image
-					frame, and exports it as a standard PNG. Handles both BMP-encoded and
-					PNG-compressed ICO frames automatically. Perfect for web developers
-					who need to extract a favicon as a normal image, or anyone converting
-					Windows icons into a format that design tools can edit. Runs entirely
-					in your browser.
+					ICO files are multi-frame containers: a single .ico can bundle 16x16,
+					32x32, 48x48, and 256x256 versions of the same icon, each stored as
+					either a BMP bitmap or an embedded PNG. The decode-ico library reads
+					the binary header, walks every directory entry, and this tool
+					automatically picks the largest frame for export. CUR cursor files use
+					the same container layout and are handled identically. The extracted
+					PNG preserves the full alpha channel, so transparent favicon
+					backgrounds stay transparent in whatever editor you open next.
 				</p>
 			</section>
 

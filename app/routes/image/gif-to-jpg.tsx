@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other GIF converters?",
 		answer:
-			"GIFs often come from messaging apps, social media, or memes — content you might not want uploaded to a random conversion website. NoUploads processes everything in your browser so the files stay on your device. It's free, instant, requires no account, and works even offline.",
+			"GIFs you save from group chats, Slack threads, and social feeds are often the kind of content you would rather not park on a stranger's server — reaction memes from a private conversation, screen recordings of internal tools, or clips you grabbed in passing. NoUploads parses the GIF locally with gifuct-js, gives you a frame picker to choose exactly the still you want, and exports the JPG without any network round-trip. The frame-selection feature alone sets it apart from typical converters that only extract the first frame and call it done.",
 	},
 ];
 
@@ -76,11 +76,14 @@ export default function GifToJpgPage() {
 			<section className="mt-12 mb-8">
 				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
 				<p className="text-muted-foreground">
-					Drop an animated GIF and browse every frame in a visual timeline —
-					pick the exact still you want and export it as a JPG. Ideal for
-					pulling a specific reaction frame, creating a thumbnail, or converting
-					old GIF graphics to a smaller format. Frame extraction and conversion
-					happen entirely in your browser using gifuct-js.
+					Unlike most GIF converters that silently grab the first frame, this
+					tool decodes every frame of an animated GIF with gifuct-js and
+					displays them in a scrollable visual filmstrip. Click the exact frame
+					you want — a mid-laugh reaction shot, a specific step in a tutorial
+					recording — and export it as a compressed JPG. Static GIFs skip the
+					picker and convert directly. Useful for creating thumbnails, pulling
+					stills for presentations, or archiving a lighter copy of oversized GIF
+					graphics.
 				</p>
 			</section>
 

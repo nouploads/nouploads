@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other PNG to JPG tools?",
 		answer:
-			"Your screenshots and images may contain sensitive content — text, personal data, or proprietary information. NoUploads never sees your files because conversion happens entirely in your browser. No data leaves your machine, there's no signup required, and you can use it offline.",
+			"Screenshots regularly capture things you would never share intentionally — visible passwords, private DMs, confidential code, patient records on a second monitor. Uploading those PNGs to a conversion site puts all of that data on a third-party server you do not control. With NoUploads the Canvas API re-encodes the pixels to JPG right on your machine, so sensitive information in the screenshot never touches the network. No account is needed and the tool keeps working after you disconnect from the internet.",
 	},
 ];
 
@@ -76,11 +76,13 @@ export default function PngToJpgPage() {
 			<section className="mt-12 mb-8">
 				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
 				<p className="text-muted-foreground">
-					Converts PNG screenshots, graphics, and photos into compressed JPG
-					format. Ideal for reducing file size before sharing via email or
-					uploading to platforms that prefer JPEG. Transparent regions are
-					filled with white. Supports batch conversion of multiple files at
-					once.
+					Re-encodes PNG images as JPG through the browser's Canvas API,
+					compositing any transparent regions onto a white background before
+					JPEG compression. Photographs saved as PNG typically shrink by 50--90%
+					after conversion because JPG's lossy DCT compression is far more
+					efficient for continuous-tone imagery than PNG's lossless deflate. The
+					quality slider lets you balance sharpness against file size — 85% is a
+					good starting point for screenshots destined for Slack or email.
 				</p>
 			</section>
 

@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other WebP converters?",
 		answer:
-			"Many WebP converters require you to upload files to a server and wait in a queue. NoUploads converts WebP to JPG instantly in your browser with zero wait time. Your images stay on your device, there are no daily limits, and it works without an internet connection.",
+			"You right-clicked an image on a website and got a .webp file you cannot open. The last thing you want is to upload it somewhere, wait in a queue, and download the result — that takes longer than the original page load. NoUploads decodes the WebP and re-encodes it as JPG in a single Canvas pass, so the file is ready before you can alt-tab to your file manager. Everything happens on your machine with no server queue, no daily cap, and no account.",
 	},
 ];
 
@@ -76,11 +76,13 @@ export default function WebpToJpgPage() {
 			<section className="mt-12 mb-8">
 				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
 				<p className="text-muted-foreground">
-					Turns WebP images into standard JPG files your software can open.
-					Designed for anyone who saves images from websites and needs them in a
-					format that works everywhere — email attachments, Office documents,
-					older photo editors. Processes files locally in your browser with no
-					server round-trip.
+					WebP is the format you get when you "Save Image As" from most modern
+					websites — Chrome, Edge, and Firefox all default to it. This tool
+					decodes WebP using the browser's native decoder and pipes the bitmap
+					straight to the Canvas API for JPG encoding. The result is a plain
+					JPEG that Outlook, PowerPoint, older versions of Photoshop, and every
+					social media upload form accept without complaint. Batch mode lets you
+					convert a folder of saved web images in one drop.
 				</p>
 			</section>
 

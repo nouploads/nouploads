@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other JPG to WebP converters?",
 		answer:
-			"Web-based converters typically upload your JPGs to their servers, compress them remotely, and send back the results. NoUploads skips all of that — conversion runs directly in your browser using the Canvas API. Your photos never leave your device, there's no waiting, and you get unlimited conversions for free.",
+			"If you manage a site with hundreds of product shots or blog images, the typical workflow is uploading each one to a converter API, waiting for the response, and hoping you do not hit a rate limit. NoUploads replaces that pipeline: drop an entire directory of JPGs and the browser's Canvas API re-encodes them to WebP locally, as fast as your CPU allows. No API key, no rate limit, no per-image fee. Your product catalog stays on your laptop, which matters when the images are pre-launch or under NDA.",
 	},
 ];
 
@@ -76,11 +76,13 @@ export default function JpgToWebpPage() {
 			<section className="mt-12 mb-8">
 				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
 				<p className="text-muted-foreground">
-					Converts JPG photographs to Google's WebP format, which delivers
-					significantly smaller file sizes at perceptually identical quality.
-					Particularly useful for web developers optimizing site performance and
-					anyone looking to save storage space. Processes files instantly in
-					your browser with batch support.
+					WebP typically shaves 25--35% off a JPG's file size at the same
+					perceived quality thanks to its VP8-based lossy encoder. This tool
+					targets web developers running Lighthouse audits and e-commerce teams
+					optimizing product galleries: drop a batch of JPGs, pick a quality
+					level, and grab the WebP output for direct deployment. The Canvas API
+					handles encoding natively in every modern browser, so there is no WASM
+					payload to download and conversions start instantly.
 				</p>
 			</section>
 

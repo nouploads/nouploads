@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other SVG converters?",
 		answer:
-			"SVG files for logos and brand assets are often confidential. NoUploads renders the SVG to PNG entirely in your browser — the file never leaves your computer. There's no server, no account, no daily cap, and it works offline. Perfect for designers working with client assets.",
+			"Many platforms — email clients, social media, Slack previews — reject SVG uploads, so you need a raster version. Server-based converters can mis-render custom fonts or complex filters because their rendering engine differs from yours. NoUploads rasterizes the SVG using your own browser's rendering engine, so the PNG matches exactly what you see on screen. You control the output resolution through the SVG's own dimensions. No upload, no account, works offline, and the code is fully open source.",
 	},
 ];
 

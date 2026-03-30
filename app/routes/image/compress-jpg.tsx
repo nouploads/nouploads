@@ -51,7 +51,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other image compressors?",
 		answer:
-			"Many image compression tools process your files on remote servers, which means your personal photos pass through someone else's infrastructure. NoUploads compresses JPG images entirely in your browser — nothing is uploaded anywhere. You get unlimited compressions, instant before-and-after comparison, and complete privacy. It's free, open source, and works offline.",
+			"Photos are personal — vacation snapshots, family portraits, ID scans. Most compressors upload those files to a server, and some even strip your EXIF data or slap on a watermark. NoUploads keeps everything on your device. You control exactly how much quality to trade for size with the live before-and-after slider, and your originals are never touched. No signup, no daily caps, works offline, and the source code is open for anyone to audit.",
 	},
 ];
 

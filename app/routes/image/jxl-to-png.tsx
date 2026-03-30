@@ -48,7 +48,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other JXL to PNG tools?",
 		answer:
-			"Your files stay completely on your device. NoUploads decodes JPEG XL using WebAssembly (jxl-oxide) directly in your browser — nothing is uploaded to a server. There is no file size limit, no queue, no signup. It works offline once loaded and handles both lossy and lossless JXL inputs. Completely free and open source.",
+			"Going from lossless JXL to lossless PNG means zero quality loss in the conversion chain — every pixel arrives intact, including transparency. That matters when you are archiving or editing and cannot afford generational degradation. NoUploads handles the decode with browser-native support on Firefox and a jxl-oxide WASM fallback elsewhere, then writes the raw pixel data straight to PNG. Nothing is uploaded, there are no file size caps, and the tool works offline. Free and open source.",
 	},
 ];
 

@@ -48,7 +48,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other ICO to JPG converters?",
 		answer:
-			"NoUploads parses the ICO container and encodes to JPG entirely on your device. No file is uploaded to any server. It handles both BMP-encoded and PNG-compressed ICO frames, picks the best resolution automatically, and works offline. Completely free with no watermarks or usage limits.",
+			"Need a quick photo-ready version of a favicon for a slide deck, a Notion doc, or a design mockup? NoUploads extracts the highest-resolution frame from the ICO container and encodes it as a standard JPG — all on your device, in under a second. It automatically picks the best embedded resolution and handles both BMP and PNG-compressed ICO frames. No upload, no server, no signup, works offline, and it is completely free and open source.",
 	},
 ];
 

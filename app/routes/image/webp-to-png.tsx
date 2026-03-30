@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other WebP to PNG tools?",
 		answer:
-			"Privacy and speed. Your WebP files stay entirely on your device — nothing is uploaded to any server. Conversion is instantaneous because it uses your browser's built-in image decoder. No signup, no limits, no waiting in a conversion queue. It's open source and works offline.",
+			"When you convert WebP to PNG, preserving the alpha channel matters — a sloppy tool can flatten transparency onto a white background and ruin your asset. NoUploads decodes WebP using your browser's native image pipeline and writes the full RGBA data into the PNG, so every semi-transparent pixel survives intact. The entire operation happens on your device with no upload step. No signup, no file limits, works offline, and the source is open for inspection.",
 	},
 ];
 

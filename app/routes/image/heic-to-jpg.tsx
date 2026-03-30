@@ -56,7 +56,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other HEIC converters?",
 		answer:
-			"Most online HEIC converters upload your photos to their servers for processing. NoUploads is different — all conversion runs locally in your browser using WebAssembly. Your photos never leave your device. There's no signup, no file size limit, no daily usage cap, and it works offline after the first page load. It's also free and open source.",
+			"HEIC files are your personal photo library — vacations, family gatherings, selfies you haven't shared yet. Most converter sites ask you to hand those photos to a stranger's server. NoUploads decodes them with a local WebAssembly engine so your camera roll never leaves your device. You can batch-convert an entire 500-photo vacation album on a train with no Wi-Fi and no one else sees a single frame. There is no account, no cost, and the source code is public.",
 	},
 ];
 
@@ -79,12 +79,13 @@ export default function HeicToJpgPage() {
 			<section className="mt-12 mb-8">
 				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
 				<p className="text-muted-foreground">
-					NoUploads HEIC to JPG converter transforms iPhone and iPad HEIC photos
-					into universally compatible JPG format. Unlike other online
-					converters, your files are processed entirely in your browser —
-					nothing is uploaded to any server. Convert single files or batch
-					convert hundreds of HEIC photos at once, with adjustable quality
-					settings.
+					HEIC is the default photo format on every iPhone and iPad since iOS
+					11. It uses HEVC compression to cut file sizes roughly in half
+					compared to JPG while retaining the same visible quality. This tool
+					decodes HEIC with a WebAssembly build of libheif, then re-encodes each
+					image as a standard JPG you can open anywhere. Drag an entire album in
+					at once and adjust the quality slider per batch — useful when you need
+					to email vacation photos from a phone that only shoots HEIC.
 				</p>
 			</section>
 

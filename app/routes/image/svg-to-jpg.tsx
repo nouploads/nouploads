@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other SVG to JPG converters?",
 		answer:
-			"Your SVG files stay on your device the entire time. The conversion happens inside your browser using the Canvas API — nothing is uploaded to a server. There are no file size limits, no watermarks, no signup, and no daily caps. It even works offline once the page is loaded, making it ideal for sensitive brand assets or internal design files.",
+			"SVG files are often proprietary brand assets — your logo, icon system, or pitch-deck illustrations. Handing them to a conversion server means your design IP sits in someone else's logs. NoUploads rasterizes SVGs by loading them into an Image element and drawing onto a Canvas, all inside your browser tab. The vector data never leaves your machine, which is exactly what you want for unreleased brand work or files under client NDA. Once the page is cached, it keeps working without a connection.",
 	},
 ];
 
@@ -76,12 +76,14 @@ export default function SvgToJpgPage() {
 			<section className="mt-12 mb-8">
 				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
 				<p className="text-muted-foreground">
-					Converts SVG vector files to JPG raster images at the SVG's declared
-					dimensions with configurable JPEG quality. Useful for sharing vector
-					logos, diagrams, or illustrations on platforms that require a standard
-					image format — email clients, social media, or document editors that
-					reject SVG. The entire conversion runs in your browser using the
-					Canvas API, so your files never leave your machine.
+					Rasterizes SVG vector graphics at their declared viewBox dimensions by
+					drawing them onto an HTML Canvas and exporting the result as JPEG. The
+					browser's own SVG renderer handles embedded fonts, CSS styles, and
+					path data, so the output matches what you see in Chrome or Firefox.
+					Particularly useful when a client, printer, or social media platform
+					rejects SVG uploads and you need a flat image quickly. Adjustable JPEG
+					quality lets you balance crispness against file weight for
+					gradient-heavy or photographic SVGs.
 				</p>
 			</section>
 

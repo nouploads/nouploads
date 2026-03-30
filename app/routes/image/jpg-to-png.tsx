@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other JPG to PNG converters?",
 		answer:
-			"Other converters upload your photos to their servers for processing. NoUploads runs entirely in your browser — your JPG files never leave your device. There's no queue, no daily limit, no watermark, and it works even without an internet connection.",
+			"When you are converting to PNG, the whole point is preserving quality — so it makes no sense to re-compress through an upload-download round-trip on someone else's server. NoUploads draws the JPG onto an HTML Canvas and exports the raw pixels as a lossless PNG, all on your machine. Zero network overhead means zero additional quality degradation. There is no queue, no watermark, and the conversion is instantaneous because no bytes leave your device.",
 	},
 ];
 
@@ -76,11 +76,13 @@ export default function JpgToPngPage() {
 			<section className="mt-12 mb-8">
 				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
 				<p className="text-muted-foreground">
-					Converts JPEG photographs and images into PNG format using your
-					browser's Canvas API. Useful when you need lossless storage, plan to
-					edit the image further, or require a format that supports alpha
-					transparency. Handles single files and batch conversions with no file
-					size restrictions.
+					The browser's Canvas API decodes your JPG and re-encodes the raw pixel
+					buffer as a lossless PNG — no data is quantized or discarded during
+					the conversion. This is the format switch to make before heavy
+					editing, because every subsequent save will be bit-for-bit identical.
+					Supports batch conversion and produces files ready for transparency
+					workflows in Photoshop, Figma, or any editor that reads PNG alpha
+					channels.
 				</p>
 			</section>
 

@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other JXL converters?",
 		answer:
-			"JPEG XL is still uncommon enough that few online tools support it. NoUploads decodes JXL using a WebAssembly build of the jxl-oxide decoder — the same Rust-based engine used by many desktop tools. All processing runs locally in your browser: no upload, no server, no file size limits. Free and open source.",
+			"JPEG XL is a cutting-edge format that most image tools and platforms still cannot open. Finding a converter that actually supports it — and does not require installing desktop software — is surprisingly hard. NoUploads decodes JXL using the jxl-oxide WASM decoder in browsers that lack native support and leverages Firefox's built-in decoder where available. Everything runs locally, so your files are never uploaded. No account, no queue, no file size cap, works offline, and the project is fully open source.",
 	},
 ];
 

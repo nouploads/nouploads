@@ -56,7 +56,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other GIF compressors?",
 		answer:
-			"Most GIF compression sites upload your files to their servers for processing. NoUploads runs gifsicle entirely in your browser via WebAssembly — your GIFs never leave your device. There's no queue, no daily limit, no watermark, and it works offline. It's free, open source, and you can verify the code yourself.",
+			"GIF compression is tricky — a bad tool can break animation timing, drop frames, or flatten transparency. NoUploads runs gifsicle compiled to WebAssembly, the same battle-tested algorithm behind the gifsicle CLI that professionals use on the desktop. The difference is it runs right in your browser tab: no install, no upload, no server. Animation, frame timing, and loop count are all preserved. Free, unlimited, works offline, and the code is open source.",
 	},
 ];
 

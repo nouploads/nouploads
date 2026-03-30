@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other AVIF converters?",
 		answer:
-			"AVIF is niche enough that most converter sites have limited support or require desktop software. NoUploads decodes AVIF using your browser's native support and re-encodes to JPG entirely on your device. Zero upload, zero install, zero cost — and it handles batch conversion without queues.",
+			"Most converter sites either do not support AVIF at all or lean on a slow server-side decoder. NoUploads takes a different approach: your browser already ships a native AV1 image decoder (Chrome 85+, Firefox 93+, Safari 16.4+), so there is no third-party WASM binary to download and decoding is hardware-accelerated on many devices. The decoded bitmap goes straight to a Canvas for JPG encoding — the entire pipeline runs locally without any network request. It is the fastest path from AVIF to a universally compatible file.",
 	},
 ];
 
@@ -76,11 +76,13 @@ export default function AvifToJpgPage() {
 			<section className="mt-12 mb-8">
 				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
 				<p className="text-muted-foreground">
-					Decodes AVIF images using your browser's native AV1 support and
-					converts them to standard JPG. Useful when you receive AVIF files from
-					modern cameras, websites, or messaging apps and need a format your
-					software can handle. Works on any browser that supports AVIF decoding
-					(Chrome 85+, Firefox 93+, Safari 16.4+).
+					AVIF uses the AV1 video codec for still images, achieving roughly 50%
+					smaller files than JPG at the same quality. The trade-off is limited
+					software support: Windows 10 needs the AV1 extension, and many editors
+					still reject .avif outright. This tool leverages your browser's
+					built-in AV1 decoder — no WASM download required — and re-encodes the
+					bitmap as a standard JPEG. Batch mode handles dumps from modern
+					cameras or messaging apps that default to AVIF.
 				</p>
 			</section>
 

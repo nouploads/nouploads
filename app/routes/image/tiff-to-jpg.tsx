@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other TIFF converters?",
 		answer:
-			"Print-ready TIFF files can contain sensitive content — client proofs, pre-press artwork, medical scans. NoUploads decodes and converts TIFF entirely on your device using the utif2 library. Nothing is uploaded, there's no file size cap, and it works offline once loaded. Free and open source.",
+			"TIFFs live in industries where confidentiality is non-negotiable — print houses handling unreleased packaging, radiology departments sharing DICOM-adjacent scans, law firms digitizing evidence. Uploading those files to a free converter site is a compliance risk. NoUploads decodes TIFF locally using the utif2 library, handling LZW, ZIP, JPEG, and CMYK variants on your own hardware. No pixel data reaches any server, no file size cap applies, and the tool stays functional after the page is cached — even on air-gapped workstations.",
 	},
 ];
 
@@ -76,12 +76,13 @@ export default function TiffToJpgPage() {
 			<section className="mt-12 mb-8">
 				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
 				<p className="text-muted-foreground">
-					Decodes TIFF files — including LZW, ZIP, and JPEG-compressed variants
-					— and re-encodes them as standard JPG with adjustable quality. Ideal
-					for converting print-ready files into web-friendly images or shrinking
-					scanned documents for email. Supports CMYK-to-RGB conversion and
-					16-bit-to-8-bit downscaling automatically. All processing runs locally
-					in your browser.
+					TIFF is the workhorse format of print production, medical imaging, and
+					archival scanning — but most web tools and email clients refuse to
+					open it. This tool uses the utif2 library to decode all common TIFF
+					compression schemes (LZW, ZIP, old-style JPEG, uncompressed) and
+					automatically converts CMYK color data to RGB and 16-bit channels to
+					8-bit before encoding a standard JPEG. A 30 MB print proof becomes a 2
+					MB JPG you can drop into an email or a Slack thread in seconds.
 				</p>
 			</section>
 

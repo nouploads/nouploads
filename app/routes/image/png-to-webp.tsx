@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other PNG to WebP tools?",
 		answer:
-			"PNG files are often screenshots that may contain private information — code, emails, chat messages, documents. NoUploads processes everything locally in your browser so your screenshots never touch an external server. No registration, no file limits, and it keeps working when you're offline.",
+			"Switching from PNG to WebP is one of the easiest web performance wins — typical savings run 25-35% with no visible quality difference. Most converters make you upload each file and wait for a server response. NoUploads encodes WebP locally using the browser's built-in codec, so conversion is near-instant and your images are never transmitted anywhere. Ideal for batch-optimizing assets before deployment. No account, no rate limits, works fully offline, and the project is open source.",
 	},
 ];
 

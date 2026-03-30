@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other SVG to WebP converters?",
 		answer:
-			"Most online converters upload your file to a remote server for processing. NoUploads does everything locally — the SVG is rasterized and encoded to WebP right inside your browser tab. Your files are never transmitted anywhere. There is no account required, no usage limit, and the tool works fully offline after the page loads. It is open source, so you can verify exactly what the code does.",
+			"When you need to drop an SVG into an email newsletter, a social card, or an ad platform, those systems want a small raster file — not a vector. Converting to WebP gives you a compact image that is typically 25-35% lighter than the PNG equivalent while still supporting transparency. NoUploads rasterizes and encodes in one step inside your browser, so the SVG never leaves your machine. No account, no per-file fees, works offline, and the entire codebase is open source.",
 	},
 ];
 

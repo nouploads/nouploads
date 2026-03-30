@@ -51,7 +51,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other PNG compressors?",
 		answer:
-			"Most PNG compression tools upload your images to a server, process them remotely, and send them back. NoUploads runs the entire quantization algorithm in your browser — your images stay on your device the whole time. There's no signup, no daily limit, and it even works offline. It's also free and open source, so you can verify exactly what the code does.",
+			"PNG screenshots often capture sensitive content — terminal output, private messages, internal dashboards. Uploading those to a compression server defeats the point. NoUploads runs the image-q color quantization algorithm entirely in your browser, producing results comparable to pngquant without any file ever leaving your machine. There are no daily limits, no watermarks, and no account to create. The project is open source, so you can inspect the exact quantization code yourself.",
 	},
 ];
 

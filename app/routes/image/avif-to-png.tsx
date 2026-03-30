@@ -53,7 +53,7 @@ const faqItems = [
 	{
 		question: "Why use NoUploads instead of other AVIF to PNG converters?",
 		answer:
-			"Most AVIF conversion tools require installing desktop software or uploading files to a remote server. NoUploads does the conversion entirely in your browser — your AVIF files never leave your machine. It's instant, free, works offline, and handles batches without any registration.",
+			"AVIF is still new enough that many editing and publishing tools cannot open it. Converting to PNG gives you a lossless copy that preserves every pixel — including full alpha transparency — in a format every application understands. NoUploads decodes AVIF through your browser's built-in AV1 pipeline and writes the uncompressed result straight to PNG, so nothing is uploaded and no quality is lost in the process. Free, offline-capable, no signup, and open source.",
 	},
 ];
 
