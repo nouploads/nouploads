@@ -79,4 +79,5 @@ export default [
 	route("developer/qr-code", "routes/developer/qr-code.tsx"),
 	route("developer/json-formatter", "routes/developer/json-formatter.tsx"),
 	route("developer/hash-generator", "routes/developer/hash-generator.tsx"),
+	route("developer/jwt-decoder", "routes/developer/jwt-decoder.tsx"),
 ] satisfies RouteConfig;

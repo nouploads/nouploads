@@ -227,6 +227,16 @@ export const gridTools: Tool[] = [
 		categoryHref: "/developer",
 	},
 	{
+		title: "JWT Decoder",
+		description: "Decode and inspect JWT tokens with expiration status",
+		href: "/developer/jwt-decoder",
+		icon: "KeyRound",
+		iconColor: "text-orange-500",
+		iconBg: "bg-orange-50 dark:bg-orange-950/40",
+		category: "Developer Tools",
+		categoryHref: "/developer",
+	},
+	{
 		title: "SVG Optimizer",
 		description: "Minify and optimize SVG files with svgo",
 		href: "/vector/svg-optimizer",

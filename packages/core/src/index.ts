@@ -63,6 +63,10 @@ import "./tools/rotate-pdf.js";
 import "./tools/split-pdf.js";
 import "./tools/qr-code.js";
 import "./tools/base64.js";
+import "./tools/favicon-generator.js";
+import "./tools/hash-generator.js";
+import "./tools/json-formatter.js";
+import "./tools/jwt-decoder.js";
 
 // HIGH-LEVEL CONVENIENCE FUNCTION
 import { findToolByFormats } from "./registry.js";

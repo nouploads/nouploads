@@ -81,5 +81,6 @@ export default {
 		"/developer/qr-code",
 		"/developer/json-formatter",
 		"/developer/hash-generator",
+		"/developer/jwt-decoder",
 	],
 } satisfies Config;
