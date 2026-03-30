@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 build/
+dist/
 
 # Environment variables
 .env
@@ -31,6 +32,10 @@ test-results/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
 # Docker
 docker-compose.override.yml
+
+# Turbo
+.turbo/
