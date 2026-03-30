@@ -1,0 +1,121 @@
+import { lazy, Suspense } from "react";
+import { ToolPageLayout } from "~/components/tool/tool-page-layout";
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "~/components/ui/accordion";
+import { Spinner } from "~/components/ui/spinner";
+import { buildMeta } from "~/lib/seo/meta";
+import type { Route } from "./+types/uuid-generator";
+
+const UuidGeneratorTool = lazy(
+	() => import("~/features/developer-tools/components/uuid-generator-tool"),
+);
+
+export function meta(_args: Route.MetaArgs) {
+	return buildMeta({
+		title:
+			"UUID Generator Online — Generate v4 & v7 UUIDs | Free, Private | NoUploads",
+		description:
+			"Generate random UUID v4 or timestamp-ordered UUID v7 identifiers. Bulk generation, validation, and copy — free, private, in-browser.",
+		path: "/developer/uuid-generator",
+		keywords:
+			"uuid generator, uuid v4, uuid v7, random uuid, guid generator, unique id generator, bulk uuid, uuid validator, rfc 9562",
+		jsonLdName: "UUID Generator",
+	});
+}
+
+const faqItems = [
+	{
+		question: "What is the difference between UUID v4 and v7?",
+		answer:
+			"UUID v4 is entirely random — 122 bits of randomness with version and variant markers. It provides the strongest uniqueness guarantee but has no built-in ordering. UUID v7 (RFC 9562) encodes a Unix timestamp in the first 48 bits, so UUIDs generated later sort after earlier ones. This makes v7 ideal as database primary keys because inserts remain sequential, keeping B-tree indexes efficient and avoiding page splits.",
+	},
+	{
+		question: "Are UUIDs generated here truly unique?",
+		answer:
+			"UUID v4 draws 122 random bits from the Web Crypto API (a cryptographically secure source). The probability of a collision is astronomically small — you would need to generate roughly 2.7 quintillion UUIDs before reaching a 50% chance of a single duplicate. For v7, the embedded millisecond timestamp plus 74 random bits makes collisions equally improbable, even at high throughput.",
+	},
+	{
+		question: "Can I use UUID v7 as a database primary key?",
+		answer:
+			"Yes, and that is one of the main reasons v7 was standardized. Traditional auto-increment IDs leak row counts and create hotspot contention in distributed systems. UUID v4 works but fragments indexes because values are random. UUID v7 gives you globally unique, k-sortable identifiers — new rows always land at the end of the index, matching the sequential insert pattern databases are optimized for.",
+	},
+	{
+		question: "How does the UUID validator work?",
+		answer:
+			"It checks the input against the standard UUID format (8-4-4-4-12 hex characters), then inspects the version nibble (position 13) and variant bits (position 17) to determine which RFC version was used. For v7 UUIDs, it also extracts and decodes the 48-bit timestamp embedded in the first segment, showing the exact time the UUID was created.",
+	},
+	{
+		question: "Why use NoUploads instead of other UUID generators?",
+		answer:
+			"Every UUID is generated entirely in your browser using the Web Crypto API — nothing is sent to a server. There is no tracking, no account signup, and no rate limit. You can generate up to 1,000 UUIDs in a single click, copy them all at once, or download them as a text file. The tool works offline after the first load, and the source code is fully open for inspection.",
+	},
+];
+
+export default function UuidGeneratorPage() {
+	return (
+		<ToolPageLayout
+			title="UUID Generator"
+			description="Generate random UUID v4 or time-sortable UUID v7 identifiers — free, private, no upload required."
+			showPrivacyBanner={false}
+		>
+			<Suspense
+				fallback={
+					<div className="flex items-center justify-center h-[300px]">
+						<Spinner className="size-6" />
+					</div>
+				}
+			>
+				<UuidGeneratorTool />
+			</Suspense>
+
+			<section className="mt-12 mb-8">
+				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
+				<p className="text-muted-foreground">
+					The UUID Generator creates universally unique identifiers in two
+					flavors: v4 (fully random, ideal for opaque tokens and session IDs)
+					and v7 (timestamp-ordered per RFC 9562, ideal for database primary
+					keys and distributed systems). Generate a single UUID or up to 1,000
+					at once, copy them individually or in bulk, and download the list as a
+					plain text file. The validator tab lets you paste any UUID to check
+					its version, variant, and — for v7 — the embedded creation timestamp.
+					Everything runs client-side using the Web Crypto API with no external
+					dependencies.
+				</p>
+			</section>
+
+			<section>
+				<h2 className="text-lg font-semibold mb-4">
+					Frequently Asked Questions
+				</h2>
+				<Accordion type="multiple">
+					{faqItems.map((item, i) => (
+						// biome-ignore lint/suspicious/noArrayIndexKey: static FAQ list never changes
+						<AccordionItem key={i} value={`faq-${i}`}>
+							<AccordionTrigger>{item.question}</AccordionTrigger>
+							<AccordionContent>
+								<p className="text-muted-foreground">{item.answer}</p>
+							</AccordionContent>
+						</AccordionItem>
+					))}
+				</Accordion>
+			</section>
+
+			<p className="text-xs text-muted-foreground mt-8">
+				Processed using the browser's built-in{" "}
+				<a
+					href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID"
+					target="_blank"
+					rel="noopener noreferrer"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Web Crypto API
+				</a>{" "}
+				— no external libraries
+			</p>
+		</ToolPageLayout>
+	);
+}
