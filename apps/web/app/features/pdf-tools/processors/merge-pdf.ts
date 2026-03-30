@@ -1,4 +1,4 @@
-import { PDFDocument } from "pdf-lib";
+import { getTool } from "@nouploads/core";
 
 export interface MergePdfOptions {
 	signal?: AbortSignal;
@@ -14,43 +14,63 @@ export async function mergePdfs(
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 	if (files.length === 0) throw new Error("No files provided");
 
-	const mergedDoc = await PDFDocument.create();
+	const tool = getTool("merge-pdf");
+	if (!tool?.executeMulti)
+		throw new Error("merge-pdf tool not found in core registry");
 
-	for (let i = 0; i < files.length; i++) {
+	// Convert File[] to Uint8Array[], checking abort between each read
+	const inputs: Uint8Array[] = [];
+	for (const file of files) {
 		if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
-
-		const bytes = await files[i].arrayBuffer();
-
-		if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
-
-		let sourceDoc: PDFDocument;
-		try {
-			sourceDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
-		} catch (err) {
-			throw new Error(
-				`Failed to load "${files[i].name}": ${err instanceof Error ? err.message : "Invalid PDF"}`,
-			);
-		}
-
-		const pages = await mergedDoc.copyPages(
-			sourceDoc,
-			sourceDoc.getPageIndices(),
-		);
-		for (const page of pages) {
-			mergedDoc.addPage(page);
-		}
-
-		onProgress?.(i + 1, files.length);
+		inputs.push(new Uint8Array(await file.arrayBuffer()));
 	}
 
-	const mergedBytes = await mergedDoc.save();
-	return new Blob([mergedBytes as BlobPart], { type: "application/pdf" });
+	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+
+	// Wrap abort check around the core call via a racing promise
+	const mergePromise = tool
+		.executeMulti(inputs, {}, {
+			onProgress: (pct) => {
+				const completed = Math.round((pct / 100) * files.length);
+				onProgress?.(completed, files.length);
+			},
+		})
+		.catch((err: Error) => {
+			// Translate core error messages to include filenames
+			const match = err.message.match(/PDF file (\d+): (.+)/);
+			if (match) {
+				const idx = Number.parseInt(match[1], 10) - 1;
+				const name = files[idx]?.name ?? `file ${match[1]}`;
+				throw new Error(`Failed to load "${name}": ${match[2]}`);
+			}
+			throw err;
+		});
+
+	let result: Awaited<typeof mergePromise>;
+	if (signal) {
+		result = await Promise.race([
+			mergePromise,
+			new Promise<never>((_, reject) => {
+				if (signal.aborted) reject(new DOMException("Aborted", "AbortError"));
+				signal.addEventListener(
+					"abort",
+					() => reject(new DOMException("Aborted", "AbortError")),
+					{ once: true },
+				);
+			}),
+		]);
+	} else {
+		result = await mergePromise;
+	}
+
+	return new Blob([result.output as BlobPart], { type: "application/pdf" });
 }
 
 /**
  * Read the page count from a PDF file without fully parsing all pages.
  */
 export async function getPdfPageCount(file: File): Promise<number> {
+	const { PDFDocument } = await import("pdf-lib");
 	const bytes = await file.arrayBuffer();
 	const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
 	return doc.getPageCount();
