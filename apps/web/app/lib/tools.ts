@@ -500,6 +500,14 @@ export const allTools: Tool[] = [
 		iconColor: "text-violet-500",
 		iconBg: "bg-violet-50 dark:bg-violet-950/40",
 	},
+	{
+		title: "EMF Converter",
+		description: "Convert Windows EMF metafiles to JPG, PNG, or WebP",
+		href: "/image/emf-converter",
+		icon: "RefreshCw",
+		iconColor: "text-violet-500",
+		iconBg: "bg-violet-50 dark:bg-violet-950/40",
+	},
 	// Format-specific PDF conversion landing pages
 	{
 		title: "PDF to PNG",
