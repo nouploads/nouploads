@@ -91,7 +91,7 @@ export async function decodeBase64ToImage(
 			throw new Error("Invalid base64 characters");
 		}
 		const bytes = decodeBase64(cleaned);
-		const blob = new Blob([bytes], { type: mimeType });
+		const blob = new Blob([bytes as BlobPart], { type: mimeType });
 
 		let width: number | undefined;
 		let height: number | undefined;

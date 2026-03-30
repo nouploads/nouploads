@@ -53,7 +53,7 @@ self.onmessage = async (e: MessageEvent<ConvertImageMessage>) => {
 
 			const imageData = new ImageData(
 				new Uint8ClampedArray(
-					pixelData.buffer,
+					pixelData.buffer as ArrayBuffer,
 					pixelData.byteOffset,
 					pixelData.byteLength,
 				),

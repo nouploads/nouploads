@@ -18,7 +18,7 @@ describe("decodeSvgz (vector)", () => {
 
 	it("should decompress SVGZ to valid SVG markup", async () => {
 		const svgz = makeSvgz();
-		const blob = new Blob([svgz]);
+		const blob = new Blob([svgz as BlobPart]);
 
 		const { decodeSvgz } = await import(
 			"~/features/vector-tools/decoders/decode-svgz"
@@ -36,7 +36,7 @@ describe("decodeSvgz (vector)", () => {
 		const svgNoDims =
 			'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40"/></svg>';
 		const svgz = makeSvgz(svgNoDims);
-		const blob = new Blob([svgz]);
+		const blob = new Blob([svgz as BlobPart]);
 
 		const { decodeSvgz } = await import(
 			"~/features/vector-tools/decoders/decode-svgz"
@@ -60,7 +60,7 @@ describe("decodeSvgz (vector)", () => {
 
 	it("should reject gzip data that does not contain SVG", async () => {
 		const notSvg = gzipSync(new TextEncoder().encode("Hello, World!"));
-		const blob = new Blob([notSvg]);
+		const blob = new Blob([notSvg as BlobPart]);
 
 		const { decodeSvgz } = await import(
 			"~/features/vector-tools/decoders/decode-svgz"
@@ -83,7 +83,7 @@ describe("decodeSvgz (vector)", () => {
 
 	it("should respect abort signal", async () => {
 		const svgz = makeSvgz();
-		const blob = new Blob([svgz]);
+		const blob = new Blob([svgz as BlobPart]);
 		const controller = new AbortController();
 		controller.abort();
 

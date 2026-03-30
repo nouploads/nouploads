@@ -290,10 +290,10 @@ async function decodeImageBytes(
 		data[3] === 0x00
 	) {
 		const { decodeTiff } = await import("./decode-tiff");
-		return decodeTiff(new Blob([data]), signal);
+		return decodeTiff(new Blob([data as BlobPart]), signal);
 	}
 
-	const blob = new Blob([data]);
+	const blob = new Blob([data as BlobPart]);
 
 	let bitmap: ImageBitmap;
 	try {

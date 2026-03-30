@@ -138,7 +138,7 @@ describe("decodeXwd", () => {
 
 	it("should decode a 2x2 32bpp MSBFirst XWD", async () => {
 		const xwd = makeXwd32bpp2x2();
-		const blob = new Blob([xwd], { type: "image/x-xwindowdump" });
+		const blob = new Blob([xwd as BlobPart], { type: "image/x-xwindowdump" });
 
 		const { decodeXwd } = await import(
 			"~/features/image-tools/decoders/decode-xwd"
@@ -177,7 +177,7 @@ describe("decodeXwd", () => {
 
 	it("should decode an 8bpp XWD with colormap", async () => {
 		const xwd = makeXwd8bpp2x1();
-		const blob = new Blob([xwd], { type: "image/x-xwindowdump" });
+		const blob = new Blob([xwd as BlobPart], { type: "image/x-xwindowdump" });
 
 		const { decodeXwd } = await import(
 			"~/features/image-tools/decoders/decode-xwd"
@@ -202,7 +202,7 @@ describe("decodeXwd", () => {
 	});
 
 	it("should reject on corrupt data (too short)", async () => {
-		const blob = new Blob([new Uint8Array(20)], {
+		const blob = new Blob([new Uint8Array(20) as BlobPart], {
 			type: "image/x-xwindowdump",
 		});
 
@@ -218,7 +218,7 @@ describe("decodeXwd", () => {
 		const view = new DataView(buf);
 		view.setUint32(0, 100, false); // header_size
 		view.setUint32(4, 6, false); // version 6 (unsupported)
-		const blob = new Blob([new Uint8Array(buf)], {
+		const blob = new Blob([new Uint8Array(buf) as BlobPart], {
 			type: "image/x-xwindowdump",
 		});
 
@@ -231,7 +231,7 @@ describe("decodeXwd", () => {
 
 	it("should respect abort signal", async () => {
 		const xwd = makeXwd32bpp2x2();
-		const blob = new Blob([xwd], { type: "image/x-xwindowdump" });
+		const blob = new Blob([xwd as BlobPart], { type: "image/x-xwindowdump" });
 		const controller = new AbortController();
 		controller.abort();
 

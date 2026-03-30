@@ -96,7 +96,7 @@ async function decodePngBytes(
 	data: Uint8Array,
 	signal?: AbortSignal,
 ): Promise<DecodedImage> {
-	const blob = new Blob([data]);
+	const blob = new Blob([data as BlobPart]);
 
 	let bitmap: ImageBitmap;
 	try {

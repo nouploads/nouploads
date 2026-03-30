@@ -68,7 +68,7 @@ describe("decodeRaw", () => {
 		} as unknown as HTMLElement);
 
 		const fakeRaw = makeFakeRaw();
-		const blob = new Blob([fakeRaw], { type: "image/x-canon-cr2" });
+		const blob = new Blob([fakeRaw as BlobPart], { type: "image/x-canon-cr2" });
 
 		const { decodeRaw } = await import(
 			"~/features/image-tools/decoders/decode-raw"
@@ -111,7 +111,7 @@ describe("decodeRaw", () => {
 		} as unknown as HTMLElement);
 
 		const fakeRaw = makeFakeRawWithThumbnail();
-		const blob = new Blob([fakeRaw], { type: "image/x-nikon-nef" });
+		const blob = new Blob([fakeRaw as BlobPart], { type: "image/x-nikon-nef" });
 
 		const { decodeRaw } = await import(
 			"~/features/image-tools/decoders/decode-raw"
@@ -133,7 +133,9 @@ describe("decodeRaw", () => {
 		// Raw bytes with no JPEG magic bytes
 		const noJpegData = new Uint8Array(2048);
 		noJpegData.fill(0x42);
-		const blob = new Blob([noJpegData], { type: "image/x-canon-cr2" });
+		const blob = new Blob([noJpegData as BlobPart], {
+			type: "image/x-canon-cr2",
+		});
 
 		const { decodeRaw } = await import(
 			"~/features/image-tools/decoders/decode-raw"
@@ -146,7 +148,7 @@ describe("decodeRaw", () => {
 
 	it("should respect abort signal (pre-aborted)", async () => {
 		const fakeRaw = makeFakeRaw();
-		const blob = new Blob([fakeRaw], { type: "image/x-canon-cr2" });
+		const blob = new Blob([fakeRaw as BlobPart], { type: "image/x-canon-cr2" });
 		const controller = new AbortController();
 		controller.abort();
 

@@ -148,7 +148,9 @@ describe("decodeCdr", () => {
 			"~/features/image-tools/decoders/decode-cdr"
 		);
 
-		const blob = new Blob([riff], { type: "application/vnd.corel-draw" });
+		const blob = new Blob([riff as BlobPart], {
+			type: "application/vnd.corel-draw",
+		});
 		const result = await decodeCdr(blob);
 
 		expect(result.width).toBe(2);

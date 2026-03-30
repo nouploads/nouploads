@@ -43,7 +43,7 @@ describe("decodeWbmp", () => {
 
 	it("should decode a 2x2 WBMP with all black pixels", async () => {
 		const wbmp = makeWbmp2x2();
-		const blob = new Blob([wbmp], { type: "image/vnd.wap.wbmp" });
+		const blob = new Blob([wbmp as BlobPart], { type: "image/vnd.wap.wbmp" });
 
 		const { decodeWbmp } = await import(
 			"~/features/image-tools/decoders/decode-wbmp"
@@ -67,7 +67,7 @@ describe("decodeWbmp", () => {
 
 	it("should decode mixed black and white pixels correctly", async () => {
 		const wbmp = makeWbmp4x1Mixed();
-		const blob = new Blob([wbmp], { type: "image/vnd.wap.wbmp" });
+		const blob = new Blob([wbmp as BlobPart], { type: "image/vnd.wap.wbmp" });
 
 		const { decodeWbmp } = await import(
 			"~/features/image-tools/decoders/decode-wbmp"
@@ -133,7 +133,7 @@ describe("decodeWbmp", () => {
 
 	it("should respect abort signal", async () => {
 		const wbmp = makeWbmp2x2();
-		const blob = new Blob([wbmp], { type: "image/vnd.wap.wbmp" });
+		const blob = new Blob([wbmp as BlobPart], { type: "image/vnd.wap.wbmp" });
 		const controller = new AbortController();
 		controller.abort();
 

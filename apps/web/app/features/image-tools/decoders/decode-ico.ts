@@ -55,7 +55,7 @@ export async function decodeIco(
 	}
 
 	// PNG frames: .data is the raw PNG file bytes — decode via browser
-	const pngBlob = new Blob([best.data], { type: "image/png" });
+	const pngBlob = new Blob([best.data as BlobPart], { type: "image/png" });
 	const bitmap = await createImageBitmap(pngBlob);
 	const canvas = document.createElement("canvas");
 	canvas.width = bitmap.width;

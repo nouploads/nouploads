@@ -53,7 +53,7 @@ describe("decodeDicom", () => {
 			},
 		}));
 
-		const blob = new Blob([buf], { type: "application/dicom" });
+		const blob = new Blob([buf as BlobPart], { type: "application/dicom" });
 
 		const { decodeDicom } = await import(
 			"~/features/image-tools/decoders/decode-dicom"
@@ -82,7 +82,7 @@ describe("decodeDicom", () => {
 			},
 		}));
 
-		const blob = new Blob([buf], { type: "application/dicom" });
+		const blob = new Blob([buf as BlobPart], { type: "application/dicom" });
 
 		const { decodeDicom } = await import(
 			"~/features/image-tools/decoders/decode-dicom"
@@ -111,7 +111,7 @@ describe("decodeDicom", () => {
 			},
 		}));
 
-		const blob = new Blob([buf], { type: "application/dicom" });
+		const blob = new Blob([buf as BlobPart], { type: "application/dicom" });
 
 		const { decodeDicom } = await import(
 			"~/features/image-tools/decoders/decode-dicom"
@@ -147,7 +147,7 @@ describe("decodeDicom", () => {
 			},
 		}));
 
-		const blob = new Blob([buf], { type: "application/dicom" });
+		const blob = new Blob([buf as BlobPart], { type: "application/dicom" });
 
 		const { decodeDicom } = await import(
 			"~/features/image-tools/decoders/decode-dicom"
@@ -199,7 +199,7 @@ describe("decodeDicom", () => {
 			},
 		}));
 
-		const blob = new Blob([buf], { type: "application/dicom" });
+		const blob = new Blob([buf as BlobPart], { type: "application/dicom" });
 
 		const { decodeDicom } = await import(
 			"~/features/image-tools/decoders/decode-dicom"

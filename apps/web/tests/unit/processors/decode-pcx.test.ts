@@ -51,7 +51,7 @@ describe("decodePcx", () => {
 
 	it("should decode a 2x2 24-bit PCX to correct RGBA pixels", async () => {
 		const pcx = make24bit2x2();
-		const blob = new Blob([pcx], { type: "image/x-pcx" });
+		const blob = new Blob([pcx as BlobPart], { type: "image/x-pcx" });
 
 		const { decodePcx } = await import(
 			"~/features/image-tools/decoders/decode-pcx"
@@ -113,7 +113,7 @@ describe("decodePcx", () => {
 
 	it("should respect abort signal", async () => {
 		const pcx = make24bit2x2();
-		const blob = new Blob([pcx], { type: "image/x-pcx" });
+		const blob = new Blob([pcx as BlobPart], { type: "image/x-pcx" });
 		const controller = new AbortController();
 		controller.abort();
 

@@ -34,7 +34,7 @@ export async function decodeRaw(
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
-	const jpegBlob = new Blob([jpeg], { type: "image/jpeg" });
+	const jpegBlob = new Blob([jpeg as BlobPart], { type: "image/jpeg" });
 	const bitmap = await createImageBitmap(jpegBlob);
 
 	if (signal?.aborted) {

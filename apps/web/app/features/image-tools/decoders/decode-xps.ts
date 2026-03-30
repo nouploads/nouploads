@@ -58,7 +58,9 @@ export async function decodeXps(
 		if (!IMAGE_EXTENSIONS.has(ext)) continue;
 
 		// Use the uncompressed size reported by the ZIP entry
-		const size = entry._data?.uncompressedSize ?? 0;
+		const size =
+			(entry as unknown as { _data?: { uncompressedSize: number } })._data
+				?.uncompressedSize ?? 0;
 		if (size > largestSize) {
 			largestSize = size;
 			largestPath = path;
@@ -128,7 +130,7 @@ async function decodeImageBytes(
 	// TIFF images need the dedicated decoder
 	if (ext === ".tiff" || ext === ".tif") {
 		const { decodeTiff } = await import("./decode-tiff");
-		return decodeTiff(new Blob([data]), signal);
+		return decodeTiff(new Blob([data as BlobPart]), signal);
 	}
 
 	// WDP (JPEG XR / HD Photo) — not widely supported, try createImageBitmap
@@ -142,7 +144,7 @@ async function decodeImageBytes(
 		".wdp": "image/vnd.ms-photo",
 	};
 	const mime = mimeMap[ext] ?? "application/octet-stream";
-	const blob = new Blob([data], { type: mime });
+	const blob = new Blob([data as BlobPart], { type: mime });
 
 	let bitmap: ImageBitmap;
 	try {

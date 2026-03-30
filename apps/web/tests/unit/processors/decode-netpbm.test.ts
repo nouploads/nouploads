@@ -33,7 +33,9 @@ describe("decodeNetpbm", () => {
 
 	it("should decode a P3 ASCII PPM to correct RGBA pixels", async () => {
 		const ppm = buildP3Ppm();
-		const blob = new Blob([ppm], { type: "image/x-portable-pixmap" });
+		const blob = new Blob([ppm as BlobPart], {
+			type: "image/x-portable-pixmap",
+		});
 
 		const { decodeNetpbm } = await import(
 			"~/features/image-tools/decoders/decode-netpbm"
@@ -72,7 +74,9 @@ describe("decodeNetpbm", () => {
 
 	it("should decode a P5 binary PGM to correct RGBA pixels", async () => {
 		const pgm = buildP5Pgm();
-		const blob = new Blob([pgm], { type: "image/x-portable-graymap" });
+		const blob = new Blob([pgm as BlobPart], {
+			type: "image/x-portable-graymap",
+		});
 
 		const { decodeNetpbm } = await import(
 			"~/features/image-tools/decoders/decode-netpbm"
@@ -111,7 +115,9 @@ describe("decodeNetpbm", () => {
 
 	it("should respect abort signal", async () => {
 		const ppm = buildP3Ppm();
-		const blob = new Blob([ppm], { type: "image/x-portable-pixmap" });
+		const blob = new Blob([ppm as BlobPart], {
+			type: "image/x-portable-pixmap",
+		});
 		const controller = new AbortController();
 		controller.abort();
 

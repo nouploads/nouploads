@@ -49,7 +49,7 @@ describe("decodePcd", () => {
 
 	it("should decode a Base/4 PCD to correct dimensions and RGBA", async () => {
 		const pcd = makePcdBase4();
-		const blob = new Blob([pcd], { type: "image/x-photo-cd" });
+		const blob = new Blob([pcd as BlobPart], { type: "image/x-photo-cd" });
 
 		const { decodePcd } = await import(
 			"~/features/image-tools/decoders/decode-pcd"
@@ -89,7 +89,7 @@ describe("decodePcd", () => {
 		for (let i = 0; i < chromaSize; i++)
 			buf[BASE4_OFFSET + ySize + chromaSize + i] = 180;
 
-		const blob = new Blob([buf], { type: "image/x-photo-cd" });
+		const blob = new Blob([buf as BlobPart], { type: "image/x-photo-cd" });
 		const { decodePcd } = await import(
 			"~/features/image-tools/decoders/decode-pcd"
 		);
@@ -126,7 +126,7 @@ describe("decodePcd", () => {
 
 	it("should respect abort signal", async () => {
 		const pcd = makePcdBase4();
-		const blob = new Blob([pcd], { type: "image/x-photo-cd" });
+		const blob = new Blob([pcd as BlobPart], { type: "image/x-photo-cd" });
 		const controller = new AbortController();
 		controller.abort();
 

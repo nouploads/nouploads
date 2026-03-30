@@ -52,6 +52,6 @@ export async function svgToSvgz(svg: string): Promise<Blob> {
 	} catch {
 		const { gzipSync } = await import("fflate");
 		const compressed = gzipSync(new TextEncoder().encode(svg));
-		return new Blob([compressed], { type: "image/svg+xml" });
+		return new Blob([compressed as BlobPart], { type: "image/svg+xml" });
 	}
 }

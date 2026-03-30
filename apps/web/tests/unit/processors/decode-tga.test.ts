@@ -46,7 +46,7 @@ describe("decodeTga", () => {
 
 	it("should decode a 2x2 uncompressed true-color TGA to correct RGBA", async () => {
 		const tga = makeTrueColor2x2();
-		const blob = new Blob([tga], { type: "image/x-tga" });
+		const blob = new Blob([tga as BlobPart], { type: "image/x-tga" });
 
 		const { decodeTga } = await import(
 			"~/features/image-tools/decoders/decode-tga"
@@ -114,7 +114,7 @@ describe("decodeTga", () => {
 		tga.set(header);
 		tga.set(pixels, header.length);
 
-		const blob = new Blob([tga], { type: "image/x-tga" });
+		const blob = new Blob([tga as BlobPart], { type: "image/x-tga" });
 		const { decodeTga } = await import(
 			"~/features/image-tools/decoders/decode-tga"
 		);
@@ -143,7 +143,7 @@ describe("decodeTga", () => {
 
 	it("should respect abort signal", async () => {
 		const tga = makeTrueColor2x2();
-		const blob = new Blob([tga], { type: "image/x-tga" });
+		const blob = new Blob([tga as BlobPart], { type: "image/x-tga" });
 		const controller = new AbortController();
 		controller.abort();
 

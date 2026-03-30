@@ -191,7 +191,7 @@ describe("decodeEmf", () => {
 		const { mockCtx, calls } = installCanvasMock();
 		const rect = makeRectangleRecord(0, 0, 4, 4);
 		const emf = makeEmf(4, 4, [rect]);
-		const blob = new Blob([emf], { type: "image/x-emf" });
+		const blob = new Blob([emf as BlobPart], { type: "image/x-emf" });
 
 		const { decodeEmf } = await import(
 			"~/features/image-tools/decoders/decode-emf"
@@ -216,7 +216,7 @@ describe("decodeEmf", () => {
 	it("should decode a header-only EMF with correct dimensions", async () => {
 		installCanvasMock();
 		const emf = makeEmf(8, 6);
-		const blob = new Blob([emf], { type: "image/x-emf" });
+		const blob = new Blob([emf as BlobPart], { type: "image/x-emf" });
 
 		const { decodeEmf } = await import(
 			"~/features/image-tools/decoders/decode-emf"
@@ -229,7 +229,9 @@ describe("decodeEmf", () => {
 	});
 
 	it("should reject corrupt data (too short)", async () => {
-		const blob = new Blob([new Uint8Array(10)], { type: "image/x-emf" });
+		const blob = new Blob([new Uint8Array(10) as BlobPart], {
+			type: "image/x-emf",
+		});
 
 		const { decodeEmf } = await import(
 			"~/features/image-tools/decoders/decode-emf"
@@ -245,7 +247,7 @@ describe("decodeEmf", () => {
 		emf[41] = 0;
 		emf[42] = 0;
 		emf[43] = 0;
-		const blob = new Blob([emf], { type: "image/x-emf" });
+		const blob = new Blob([emf as BlobPart], { type: "image/x-emf" });
 
 		const { decodeEmf } = await import(
 			"~/features/image-tools/decoders/decode-emf"
@@ -258,7 +260,7 @@ describe("decodeEmf", () => {
 		const buf = new Uint8Array(88);
 		const v = new DataView(buf.buffer);
 		v.setUint32(0, 0x0099, true); // wrong type
-		const blob = new Blob([buf], { type: "image/x-emf" });
+		const blob = new Blob([buf as BlobPart], { type: "image/x-emf" });
 
 		const { decodeEmf } = await import(
 			"~/features/image-tools/decoders/decode-emf"
@@ -269,7 +271,7 @@ describe("decodeEmf", () => {
 
 	it("should respect abort signal (pre-aborted)", async () => {
 		const emf = makeEmf(4, 4);
-		const blob = new Blob([emf], { type: "image/x-emf" });
+		const blob = new Blob([emf as BlobPart], { type: "image/x-emf" });
 		const controller = new AbortController();
 		controller.abort();
 
@@ -323,7 +325,7 @@ describe("decodeEmf", () => {
 		emf.set(new Uint8Array(header), 0);
 		emf.set(new Uint8Array(eofBuf), headerSize);
 
-		const blob = new Blob([emf], { type: "image/x-emf" });
+		const blob = new Blob([emf as BlobPart], { type: "image/x-emf" });
 
 		const { decodeEmf } = await import(
 			"~/features/image-tools/decoders/decode-emf"

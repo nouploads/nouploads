@@ -1,13 +1,25 @@
-import { vi } from "vitest";
+import { type Mock, vi } from "vitest";
+
+export interface MockWorkerInstance {
+	onmessage: ((e: MessageEvent) => void) | null;
+	onerror: ((e: ErrorEvent) => void) | null;
+	terminate: Mock;
+	postMessage: Mock;
+	simulateMessage(data: Record<string, unknown>): void;
+	simulateError(message: string): void;
+}
 
 /**
  * Creates a mock Worker class that captures postMessage calls
  * and allows tests to simulate worker responses.
  */
-export function createMockWorkerClass() {
+export function createMockWorkerClass(): {
+	MockWorker: typeof Worker;
+	getLastInstance: () => MockWorkerInstance;
+} {
 	let lastInstance: MockWorkerInstance | null = null;
 
-	class MockWorkerInstance {
+	class MockWorkerImpl implements MockWorkerInstance {
 		onmessage: ((e: MessageEvent) => void) | null = null;
 		onerror: ((e: ErrorEvent) => void) | null = null;
 		terminate = vi.fn();
@@ -46,7 +58,7 @@ export function createMockWorkerClass() {
 		}
 	}
 
-	const MockWorker = MockWorkerInstance as unknown as typeof Worker;
+	const MockWorker = MockWorkerImpl as unknown as typeof Worker;
 
 	return {
 		MockWorker,

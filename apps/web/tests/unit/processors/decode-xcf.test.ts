@@ -221,7 +221,7 @@ describe("decodeXcf", () => {
 			height: 2,
 			pixelFill: [255, 0, 0], // red
 		});
-		const blob = new Blob([xcf], { type: "image/x-xcf" });
+		const blob = new Blob([xcf as BlobPart], { type: "image/x-xcf" });
 
 		const { decodeXcf } = await import(
 			"~/features/image-tools/decoders/decode-xcf"
@@ -250,7 +250,7 @@ describe("decodeXcf", () => {
 			layerType: 1, // RGBA
 			pixelFill: [0, 255, 0, 128], // green at 50% alpha
 		});
-		const blob = new Blob([xcf], { type: "image/x-xcf" });
+		const blob = new Blob([xcf as BlobPart], { type: "image/x-xcf" });
 
 		const { decodeXcf } = await import(
 			"~/features/image-tools/decoders/decode-xcf"
@@ -278,7 +278,7 @@ describe("decodeXcf", () => {
 			compression: 1, // RLE
 			pixelFill: [0, 0, 255], // blue
 		});
-		const blob = new Blob([xcf], { type: "image/x-xcf" });
+		const blob = new Blob([xcf as BlobPart], { type: "image/x-xcf" });
 
 		const { decodeXcf } = await import(
 			"~/features/image-tools/decoders/decode-xcf"
@@ -305,7 +305,7 @@ describe("decodeXcf", () => {
 			visible: false,
 			pixelFill: [255, 0, 0],
 		});
-		const blob = new Blob([xcf], { type: "image/x-xcf" });
+		const blob = new Blob([xcf as BlobPart], { type: "image/x-xcf" });
 
 		const { decodeXcf } = await import(
 			"~/features/image-tools/decoders/decode-xcf"
@@ -338,7 +338,7 @@ describe("decodeXcf", () => {
 
 	it("should reject when dimensions are zero", async () => {
 		const xcf = makeMinimalXcf({ width: 0, height: 2 });
-		const blob = new Blob([xcf], { type: "image/x-xcf" });
+		const blob = new Blob([xcf as BlobPart], { type: "image/x-xcf" });
 
 		const { decodeXcf } = await import(
 			"~/features/image-tools/decoders/decode-xcf"
@@ -366,7 +366,7 @@ describe("decodeXcf", () => {
 			opacity: 128, // ~50%
 			pixelFill: [255, 255, 255],
 		});
-		const blob = new Blob([xcf], { type: "image/x-xcf" });
+		const blob = new Blob([xcf as BlobPart], { type: "image/x-xcf" });
 
 		const { decodeXcf } = await import(
 			"~/features/image-tools/decoders/decode-xcf"

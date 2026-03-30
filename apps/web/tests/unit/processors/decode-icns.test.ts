@@ -190,7 +190,7 @@ describe("decodeIcns", () => {
 
 	it("should decode an uncompressed ARGB entry to correct RGBA pixels", async () => {
 		const icns = makeArgb16x16();
-		const blob = new Blob([icns], { type: "image/x-icns" });
+		const blob = new Blob([icns as BlobPart], { type: "image/x-icns" });
 
 		const { decodeIcns } = await import(
 			"~/features/image-tools/decoders/decode-icns"
@@ -218,7 +218,7 @@ describe("decodeIcns", () => {
 
 	it("should apply mask entry alpha to ARGB pixels", async () => {
 		const icns = makeArgbWithMask16x16();
-		const blob = new Blob([icns], { type: "image/x-icns" });
+		const blob = new Blob([icns as BlobPart], { type: "image/x-icns" });
 
 		const { decodeIcns } = await import(
 			"~/features/image-tools/decoders/decode-icns"
@@ -237,7 +237,7 @@ describe("decodeIcns", () => {
 
 	it("should decompress PackBits-encoded ARGB entry", async () => {
 		const icns = makePackBitsArgb16x16();
-		const blob = new Blob([icns], { type: "image/x-icns" });
+		const blob = new Blob([icns as BlobPart], { type: "image/x-icns" });
 
 		const { decodeIcns } = await import(
 			"~/features/image-tools/decoders/decode-icns"
@@ -311,7 +311,7 @@ describe("decodeIcns", () => {
 
 	it("should respect abort signal", async () => {
 		const icns = makeArgb16x16();
-		const blob = new Blob([icns], { type: "image/x-icns" });
+		const blob = new Blob([icns as BlobPart], { type: "image/x-icns" });
 		const controller = new AbortController();
 		controller.abort();
 

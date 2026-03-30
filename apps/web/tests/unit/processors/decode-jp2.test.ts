@@ -77,7 +77,7 @@ describe("decodeJp2", () => {
 				}),
 		}));
 
-		const blob = new Blob([buf], { type: "image/jp2" });
+		const blob = new Blob([buf as BlobPart], { type: "image/jp2" });
 
 		const { decodeJp2 } = await import(
 			"~/features/image-tools/decoders/decode-jp2"
@@ -113,7 +113,7 @@ describe("decodeJp2", () => {
 				}),
 		}));
 
-		const blob = new Blob([buf], { type: "image/jp2" });
+		const blob = new Blob([buf as BlobPart], { type: "image/jp2" });
 
 		const { decodeJp2 } = await import(
 			"~/features/image-tools/decoders/decode-jp2"
@@ -149,7 +149,7 @@ describe("decodeJp2", () => {
 				}),
 		}));
 
-		const blob = new Blob([buf], { type: "image/jp2" });
+		const blob = new Blob([buf as BlobPart], { type: "image/jp2" });
 
 		const { decodeJp2 } = await import(
 			"~/features/image-tools/decoders/decode-jp2"
@@ -185,7 +185,7 @@ describe("decodeJp2", () => {
 				}),
 		}));
 
-		const blob = new Blob([buf], { type: "image/jp2" });
+		const blob = new Blob([buf as BlobPart], { type: "image/jp2" });
 
 		const { decodeJp2 } = await import(
 			"~/features/image-tools/decoders/decode-jp2"
@@ -225,7 +225,7 @@ describe("decodeJp2", () => {
 				}),
 		}));
 
-		const blob = new Blob([buf], { type: "image/jp2" });
+		const blob = new Blob([buf as BlobPart], { type: "image/jp2" });
 
 		const { decodeJp2 } = await import(
 			"~/features/image-tools/decoders/decode-jp2"
@@ -278,7 +278,7 @@ describe("decodeJp2", () => {
 				}),
 		}));
 
-		const blob = new Blob([buf], { type: "image/jp2" });
+		const blob = new Blob([buf as BlobPart], { type: "image/jp2" });
 
 		const { decodeJp2 } = await import(
 			"~/features/image-tools/decoders/decode-jp2"
@@ -332,7 +332,7 @@ describe("decodeJp2", () => {
 				}),
 		}));
 
-		const blob = new Blob([buf], { type: "image/jp2" });
+		const blob = new Blob([buf as BlobPart], { type: "image/jp2" });
 
 		const { decodeJp2 } = await import(
 			"~/features/image-tools/decoders/decode-jp2"

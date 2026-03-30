@@ -39,7 +39,7 @@ describe("decodeFits", () => {
 
 	it("should decode a synthetic 2x2 8-bit FITS file to RGBA pixels", async () => {
 		const fits = buildMinimalFits();
-		const blob = new Blob([fits], { type: "image/fits" });
+		const blob = new Blob([fits as BlobPart], { type: "image/fits" });
 
 		const { decodeFits } = await import(
 			"~/features/image-tools/decoders/decode-fits"
@@ -91,7 +91,7 @@ describe("decodeFits", () => {
 
 	it("should respect abort signal", async () => {
 		const fits = buildMinimalFits();
-		const blob = new Blob([fits], { type: "image/fits" });
+		const blob = new Blob([fits as BlobPart], { type: "image/fits" });
 		const controller = new AbortController();
 		controller.abort();
 

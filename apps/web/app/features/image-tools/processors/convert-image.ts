@@ -323,7 +323,7 @@ export async function ensureDecodable(
 		if (!ctx) throw new Error("Could not get canvas 2D context");
 		const imageData = new ImageData(
 			new Uint8ClampedArray(
-				pixels.data.buffer,
+				pixels.data.buffer as ArrayBuffer,
 				pixels.data.byteOffset,
 				pixels.data.byteLength,
 			),
@@ -802,7 +802,11 @@ async function convertAvifFromPixels(
 		);
 	}
 	const imageData = new ImageData(
-		new Uint8ClampedArray(data.buffer, data.byteOffset, data.byteLength),
+		new Uint8ClampedArray(
+			data.buffer as ArrayBuffer,
+			data.byteOffset,
+			data.byteLength,
+		),
 		width,
 		height,
 	);

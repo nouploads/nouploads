@@ -187,7 +187,7 @@ describe("decodeExr", () => {
 
 	it("should decode a synthetic uncompressed EXR file to RGBA pixels", async () => {
 		const exr = buildMinimalExr();
-		const blob = new Blob([exr], { type: "image/x-exr" });
+		const blob = new Blob([exr as BlobPart], { type: "image/x-exr" });
 
 		const { decodeExr } = await import(
 			"~/features/image-tools/decoders/decode-exr"
@@ -259,7 +259,7 @@ describe("decodeExr", () => {
 
 	it("should respect abort signal", async () => {
 		const exr = buildMinimalExr();
-		const blob = new Blob([exr], { type: "image/x-exr" });
+		const blob = new Blob([exr as BlobPart], { type: "image/x-exr" });
 		const controller = new AbortController();
 		controller.abort();
 

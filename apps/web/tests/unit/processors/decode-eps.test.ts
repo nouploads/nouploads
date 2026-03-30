@@ -136,7 +136,9 @@ describe("decodeEps", () => {
 		// Provide some dummy bytes for the "TIFF" section
 		const dummyTiff = new Uint8Array(64);
 		const dosEps = makeDosEpsWithTiff(dummyTiff);
-		const blob = new Blob([dosEps], { type: "application/postscript" });
+		const blob = new Blob([dosEps as BlobPart], {
+			type: "application/postscript",
+		});
 
 		const result = await decodeEps(blob);
 
@@ -152,7 +154,9 @@ describe("decodeEps", () => {
 		);
 
 		const epsBytes = makeTextEpsWithPreview();
-		const blob = new Blob([epsBytes], { type: "application/postscript" });
+		const blob = new Blob([epsBytes as BlobPart], {
+			type: "application/postscript",
+		});
 
 		const result = await decodeEps(blob);
 
@@ -177,7 +181,9 @@ describe("decodeEps", () => {
 		);
 
 		const epsBytes = makeTextEpsWithGrayscalePreview();
-		const blob = new Blob([epsBytes], { type: "application/postscript" });
+		const blob = new Blob([epsBytes as BlobPart], {
+			type: "application/postscript",
+		});
 
 		const result = await decodeEps(blob);
 
@@ -202,7 +208,9 @@ describe("decodeEps", () => {
 		);
 
 		const epsBytes = makeTextEpsNoPreview();
-		const blob = new Blob([epsBytes], { type: "application/postscript" });
+		const blob = new Blob([epsBytes as BlobPart], {
+			type: "application/postscript",
+		});
 
 		await expect(decodeEps(blob)).rejects.toThrow(
 			"This EPS file has no embedded preview",
@@ -215,7 +223,9 @@ describe("decodeEps", () => {
 		);
 
 		const dosEps = makeDosEpsWithWmf();
-		const blob = new Blob([dosEps], { type: "application/postscript" });
+		const blob = new Blob([dosEps as BlobPart], {
+			type: "application/postscript",
+		});
 
 		await expect(decodeEps(blob)).rejects.toThrow("WMF preview");
 	});
@@ -225,7 +235,7 @@ describe("decodeEps", () => {
 			"~/features/image-tools/decoders/decode-eps"
 		);
 
-		const blob = new Blob([new Uint8Array(2)], {
+		const blob = new Blob([new Uint8Array(2) as BlobPart], {
 			type: "application/postscript",
 		});
 
@@ -242,7 +252,9 @@ describe("decodeEps", () => {
 		garbage[1] = 0x00;
 		garbage[2] = 0x00;
 		garbage[3] = 0x00;
-		const blob = new Blob([garbage], { type: "application/postscript" });
+		const blob = new Blob([garbage as BlobPart], {
+			type: "application/postscript",
+		});
 
 		await expect(decodeEps(blob)).rejects.toThrow(
 			"does not appear to be a valid EPS",
@@ -255,7 +267,9 @@ describe("decodeEps", () => {
 		);
 
 		const epsBytes = makeTextEpsWithPreview();
-		const blob = new Blob([epsBytes], { type: "application/postscript" });
+		const blob = new Blob([epsBytes as BlobPart], {
+			type: "application/postscript",
+		});
 		const controller = new AbortController();
 		controller.abort();
 

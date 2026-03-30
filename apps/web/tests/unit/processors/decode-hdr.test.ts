@@ -32,7 +32,7 @@ describe("decodeHdr", () => {
 
 	it("should decode a synthetic HDR file to RGBA pixels", async () => {
 		const hdr = buildMinimalHdr();
-		const blob = new Blob([hdr], { type: "image/vnd.radiance" });
+		const blob = new Blob([hdr as BlobPart], { type: "image/vnd.radiance" });
 
 		const { decodeHdr } = await import(
 			"~/features/image-tools/decoders/decode-hdr"
@@ -79,7 +79,7 @@ describe("decodeHdr", () => {
 
 	it("should respect abort signal", async () => {
 		const hdr = buildMinimalHdr();
-		const blob = new Blob([hdr], { type: "image/vnd.radiance" });
+		const blob = new Blob([hdr as BlobPart], { type: "image/vnd.radiance" });
 		const controller = new AbortController();
 		controller.abort();
 

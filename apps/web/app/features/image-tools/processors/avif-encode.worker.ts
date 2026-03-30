@@ -12,7 +12,8 @@ self.onmessage = async (e: MessageEvent<AvifEncodeMessage>) => {
 			quality,
 			speed: 6,
 		});
-		self.postMessage({ buffer }, [buffer]);
+		const ab = buffer as ArrayBuffer;
+		self.postMessage({ buffer: ab }, { transfer: [ab] });
 	} catch (err) {
 		self.postMessage({
 			error: err instanceof Error ? err.message : String(err),

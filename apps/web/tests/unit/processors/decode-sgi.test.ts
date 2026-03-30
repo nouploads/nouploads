@@ -93,7 +93,7 @@ describe("decodeSgi", () => {
 
 	it("should decode a 2x2 verbatim grayscale+alpha SGI with correct flipping", async () => {
 		const sgi = makeVerbatim2x2();
-		const blob = new Blob([sgi], { type: "image/x-sgi" });
+		const blob = new Blob([sgi as BlobPart], { type: "image/x-sgi" });
 
 		const { decodeSgi } = await import(
 			"~/features/image-tools/decoders/decode-sgi"
@@ -133,7 +133,7 @@ describe("decodeSgi", () => {
 
 	it("should decode a 1x1 RGB SGI to correct RGBA", async () => {
 		const sgi = makeRgb1x1();
-		const blob = new Blob([sgi], { type: "image/x-sgi" });
+		const blob = new Blob([sgi as BlobPart], { type: "image/x-sgi" });
 
 		const { decodeSgi } = await import(
 			"~/features/image-tools/decoders/decode-sgi"
@@ -175,7 +175,7 @@ describe("decodeSgi", () => {
 
 	it("should respect abort signal", async () => {
 		const sgi = makeRgb1x1();
-		const blob = new Blob([sgi], { type: "image/x-sgi" });
+		const blob = new Blob([sgi as BlobPart], { type: "image/x-sgi" });
 		const controller = new AbortController();
 		controller.abort();
 

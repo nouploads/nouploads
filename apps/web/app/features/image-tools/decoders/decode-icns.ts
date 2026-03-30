@@ -159,7 +159,7 @@ async function decodePngEntry(
 	pngData: Uint8Array,
 	signal?: AbortSignal,
 ): Promise<DecodedImage> {
-	const blob = new Blob([pngData], { type: "image/png" });
+	const blob = new Blob([pngData as BlobPart], { type: "image/png" });
 	const bitmap = await createImageBitmap(blob);
 
 	if (signal?.aborted) {

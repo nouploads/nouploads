@@ -76,7 +76,7 @@ export async function decodeJxl(
 		if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
 		// Decode the PNG to get raw RGBA pixels
-		const pngBlob = new Blob([pngBytes], { type: "image/png" });
+		const pngBlob = new Blob([pngBytes as BlobPart], { type: "image/png" });
 		const bitmap = await createImageBitmap(pngBlob);
 		const canvas = document.createElement("canvas");
 		canvas.width = bitmap.width;

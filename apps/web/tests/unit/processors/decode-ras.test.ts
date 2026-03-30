@@ -76,7 +76,7 @@ describe("decodeRas", () => {
 
 	it("should decode a 2x2 24-bit Sun Raster with BGR→RGB reorder", async () => {
 		const ras = makeRas24bit2x2();
-		const blob = new Blob([ras], { type: "image/x-sun-raster" });
+		const blob = new Blob([ras as BlobPart], { type: "image/x-sun-raster" });
 
 		const { decodeRas } = await import(
 			"~/features/image-tools/decoders/decode-ras"
@@ -115,7 +115,7 @@ describe("decodeRas", () => {
 
 	it("should decode an 8-bit color-mapped Sun Raster", async () => {
 		const ras = makeRas8bitMapped1x1();
-		const blob = new Blob([ras], { type: "image/x-sun-raster" });
+		const blob = new Blob([ras as BlobPart], { type: "image/x-sun-raster" });
 
 		const { decodeRas } = await import(
 			"~/features/image-tools/decoders/decode-ras"
@@ -160,7 +160,7 @@ describe("decodeRas", () => {
 
 	it("should respect abort signal", async () => {
 		const ras = makeRas24bit2x2();
-		const blob = new Blob([ras], { type: "image/x-sun-raster" });
+		const blob = new Blob([ras as BlobPart], { type: "image/x-sun-raster" });
 		const controller = new AbortController();
 		controller.abort();
 

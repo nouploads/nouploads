@@ -54,7 +54,7 @@ describe("decodeDds", () => {
 
 	it("should decode a 4x4 uncompressed RGBA DDS to correct dimensions and pixel data", async () => {
 		const dds = makeUncompressed4x4();
-		const blob = new Blob([dds], { type: "image/vnd-ms.dds" });
+		const blob = new Blob([dds as BlobPart], { type: "image/vnd-ms.dds" });
 
 		const { decodeDds } = await import(
 			"~/features/image-tools/decoders/decode-dds"
@@ -104,7 +104,7 @@ describe("decodeDds", () => {
 
 	it("should respect abort signal", async () => {
 		const dds = makeUncompressed4x4();
-		const blob = new Blob([dds], { type: "image/vnd-ms.dds" });
+		const blob = new Blob([dds as BlobPart], { type: "image/vnd-ms.dds" });
 		const controller = new AbortController();
 		controller.abort();
 
