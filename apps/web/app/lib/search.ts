@@ -63,13 +63,3 @@ export function tokenSearch(
 	}
 	return intersected.sort((a, b) => (a.score ?? 0) - (b.score ?? 0));
 }
-
-export function searchTools(
-	fuse: Fuse<Tool>,
-	query: string,
-	allTools: Tool[],
-): Tool[] {
-	const q = query.trim();
-	if (!q) return allTools;
-	return fuse.search(q).map((r) => r.item);
-}

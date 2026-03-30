@@ -45,15 +45,4 @@ test.describe("Homepage", () => {
 	test("should have footer", async ({ page }) => {
 		await expect(page.locator("footer")).toBeVisible();
 	});
-
-	test("should have tool filter search input", async ({ page }) => {
-		await expect(page.getByPlaceholder(/filter tools/i)).toBeVisible();
-	});
-
-	test("should filter tools when typing in search", async ({ page }) => {
-		const input = page.getByPlaceholder(/filter tools/i);
-		await input.fill("exif");
-		await expect(page.getByText(/1 of \d+/)).toBeVisible();
-		await expect(page.getByText("EXIF Viewer")).toBeVisible();
-	});
 });

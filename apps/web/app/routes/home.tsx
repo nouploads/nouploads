@@ -2,12 +2,11 @@ import { CircleCheck, Lock, Power } from "lucide-react";
 import { Link } from "react-router";
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
-import ToolFilter from "~/components/marketing/tool-filter";
+import { ToolIcon } from "~/components/marketing/tool-icon";
+import type { Tool } from "~/lib/search";
 import { buildMeta, GITHUB_URL, SITE_URL } from "~/lib/seo/meta";
 import { gridTools } from "~/lib/tools";
 import type { Route } from "./+types/home";
-
-const issuesUrl = `${GITHUB_URL}/issues`;
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
@@ -48,6 +47,53 @@ export function meta(_args: Route.MetaArgs) {
 	});
 }
 
+function ToolCard({ tool }: { tool: Tool }) {
+	const content = (
+		<div className="flex items-start gap-3">
+			<ToolIcon
+				icon={tool.icon}
+				iconColor={tool.iconColor}
+				iconBg={tool.iconBg}
+			/>
+			<div className="min-w-0">
+				<h3 className="font-semibold text-card-foreground group-hover:text-primary transition-colors">
+					{tool.title}
+				</h3>
+				<p className="text-sm text-muted-foreground mt-1">{tool.description}</p>
+			</div>
+		</div>
+	);
+
+	return (
+		<Link
+			to={tool.href}
+			className="group block rounded-lg border bg-card p-5 transition-all hover:border-primary/40 hover:shadow-md"
+		>
+			{content}
+		</Link>
+	);
+}
+
+function groupByCategory(tools: Tool[]) {
+	const groups: { name: string; href: string; tools: Tool[] }[] = [];
+	const seen = new Map<string, number>();
+
+	for (const tool of tools) {
+		const cat = tool.category ?? "Other";
+		const catHref = tool.categoryHref ?? "/";
+		const idx = seen.get(cat);
+		if (idx !== undefined) {
+			groups[idx].tools.push(tool);
+		} else {
+			seen.set(cat, groups.length);
+			groups.push({ name: cat, href: catHref, tools: [tool] });
+		}
+	}
+	return groups;
+}
+
+const groups = groupByCategory(gridTools);
+
 export default function HomePage() {
 	return (
 		<>
@@ -87,9 +133,27 @@ export default function HomePage() {
 					</div>
 				</section>
 
-				{/* Tool Grid with Filter */}
+				{/* Tool Grid */}
 				<section className="pb-16">
-					<ToolFilter tools={gridTools} issuesUrl={issuesUrl} />
+					<div className="space-y-10">
+						{groups.map((group) => (
+							<div key={group.name}>
+								<h2 className="text-2xl font-bold mb-6">
+									<Link
+										to={group.href}
+										className="hover:text-primary transition-colors"
+									>
+										{group.name}
+									</Link>
+								</h2>
+								<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+									{group.tools.map((tool) => (
+										<ToolCard key={tool.href} tool={tool} />
+									))}
+								</div>
+							</div>
+						))}
+					</div>
 				</section>
 
 				{/* How it works */}
