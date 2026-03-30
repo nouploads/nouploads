@@ -39,3 +39,6 @@ docker-compose.override.yml
 
 # Turbo
 .turbo/
+
+# Claude Code
+.claude/
