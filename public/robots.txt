@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://nouploads.com/sitemap.xml
