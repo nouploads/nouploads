@@ -107,6 +107,26 @@ export const PACKAGES = {
 		repoUrl: "https://github.com/rii-mango/Daikon",
 		license: "BSD-3-Clause",
 	},
+	"@cornerstonejs/codec-openjpeg": {
+		name: "OpenJPEG WASM",
+		repoUrl: "https://github.com/cornerstonejs/codecs",
+		license: "MIT",
+	},
+	jszip: {
+		name: "JSZip",
+		repoUrl: "https://github.com/Stuk/jszip",
+		license: "MIT",
+	},
+	svgo: {
+		name: "svgo",
+		repoUrl: "https://github.com/svg/svgo",
+		license: "MIT",
+	},
+	cfb: {
+		name: "cfb",
+		repoUrl: "https://github.com/SheetJS/js-cfb",
+		license: "Apache-2.0",
+	},
 } as const satisfies Record<string, PackageAttribution>;
 
 export type PackageId = keyof typeof PACKAGES;

@@ -19,6 +19,7 @@
 		"format": "biome format --write ."
 	},
 	"dependencies": {
+		"@cornerstonejs/codec-openjpeg": "1.3.0",
 		"@fontsource-variable/geist": "5.2.8",
 		"@imgly/background-removal": "1.7.0",
 		"@jsquash/avif": "2.1.1",
@@ -26,6 +27,7 @@
 		"@react-router/serve": "7.13.2",
 		"@tailwindcss/vite": "4.2.2",
 		"@webtoon/psd": "0.4.0",
+		"cfb": "1.2.2",
 		"class-variance-authority": "0.7.1",
 		"clsx": "2.1.1",
 		"cmdk": "1.1.1",
@@ -40,6 +42,7 @@
 		"heic2any": "0.0.4",
 		"image-q": "4.0.0",
 		"isbot": "5.1.36",
+		"jszip": "3.10.1",
 		"jxl-oxide-wasm": "0.12.5",
 		"lucide-react": "1.6.0",
 		"pdf-lib": "1.17.1",
@@ -51,6 +54,7 @@
 		"react-dom": "19.2.4",
 		"react-router": "7.13.2",
 		"shadcn": "4.1.0",
+		"svgo": "4.0.1",
 		"tailwind-merge": "3.5.0",
 		"tailwindcss": "4.2.2",
 		"tga-js": "1.1.1",

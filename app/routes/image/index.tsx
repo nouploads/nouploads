@@ -65,6 +65,11 @@ const nicheFormatLinks = [
 		desc: "CR2, NEF, ARW, DNG & 20+ formats",
 	},
 	{ href: "/image/psd-converter", label: "PSD", desc: "Adobe Photoshop" },
+	{
+		href: "/image/psb-converter",
+		label: "PSB",
+		desc: "Photoshop Large Document",
+	},
 	{ href: "/image/exr-converter", label: "EXR", desc: "OpenEXR (VFX/3D)" },
 	{ href: "/image/hdr-converter", label: "HDR", desc: "Radiance HDR" },
 	{
@@ -88,6 +93,64 @@ const nicheFormatLinks = [
 		href: "/image/netpbm-converter",
 		label: "Netpbm",
 		desc: "PBM, PGM, PPM, PNM, PAM, PFM",
+	},
+	{
+		href: "/image/jp2-converter",
+		label: "JP2",
+		desc: "JPEG 2000 (JP2, J2K)",
+	},
+	{
+		href: "/image/icns-converter",
+		label: "ICNS",
+		desc: "macOS App Icons",
+	},
+	{
+		href: "/image/eps-converter",
+		label: "EPS",
+		desc: "Encapsulated PostScript",
+	},
+	{
+		href: "/image/legacy-converter",
+		label: "Legacy Formats",
+		desc: "SGI, Sun Raster, WBMP, PCD, PICT, SFW",
+	},
+	{ href: "/image/xcf-converter", label: "XCF", desc: "GIMP project files" },
+	{
+		href: "/image/xwindow-converter",
+		label: "X Window",
+		desc: "XBM, XPM, XWD",
+	},
+	{
+		href: "/image/ai-converter",
+		label: "AI",
+		desc: "Adobe Illustrator",
+	},
+	{
+		href: "/image/xps-converter",
+		label: "XPS",
+		desc: "XML Paper Specification",
+	},
+	{ href: "/image/odg-converter", label: "ODG", desc: "OpenDocument Graphics" },
+	{
+		href: "/image/svgz-converter",
+		label: "SVGZ",
+		desc: "Compressed SVG",
+	},
+	{ href: "/image/cdr-converter", label: "CDR", desc: "CorelDRAW" },
+	{
+		href: "/image/vsd-converter",
+		label: "Visio",
+		desc: "VSD / VSDX diagrams",
+	},
+	{
+		href: "/image/pub-converter",
+		label: "PUB",
+		desc: "Microsoft Publisher",
+	},
+	{
+		href: "/image/emf-converter",
+		label: "EMF",
+		desc: "Enhanced Metafile",
 	},
 ];
 
@@ -235,6 +298,16 @@ export default function ImageCategoryPage() {
 
 					<NicheFormatsSection />
 				</div>
+
+				<p className="text-sm text-muted-foreground mt-8">
+					Looking for vector format conversion?{" "}
+					<Link
+						to="/vector"
+						className="underline hover:text-foreground transition-colors"
+					>
+						Vector Tools
+					</Link>
+				</p>
 			</main>
 			<SiteFooter />
 		</>

@@ -54,6 +54,7 @@ These converters accept specialist formats and output to mainstream formats (JPG
 |------|--------------|-----|
 | RAW Converter | CR2, CR3, CRW, NEF, NRW, ARW, SR2, SRW, DNG, RAF, ORF, PEF, ERF, RW2, MRW, MEF, MOS, KDC, DCR, X3F, 3FR, RAW | [`/image/raw-converter`](https://nouploads.com/image/raw-converter) |
 | PSD Converter | PSD | [`/image/psd-converter`](https://nouploads.com/image/psd-converter) |
+| PSB Converter | PSB | [`/image/psb-converter`](https://nouploads.com/image/psb-converter) |
 | EXR Converter | EXR | [`/image/exr-converter`](https://nouploads.com/image/exr-converter) |
 | HDR Converter | HDR | [`/image/hdr-converter`](https://nouploads.com/image/hdr-converter) |
 | DICOM Converter | DCM | [`/image/dcm-converter`](https://nouploads.com/image/dcm-converter) |
@@ -62,6 +63,20 @@ These converters accept specialist formats and output to mainstream formats (JPG
 | DDS Converter | DDS | [`/image/dds-converter`](https://nouploads.com/image/dds-converter) |
 | PCX Converter | PCX | [`/image/pcx-converter`](https://nouploads.com/image/pcx-converter) |
 | Netpbm Converter | PBM, PGM, PPM, PNM, PAM, PFM | [`/image/netpbm-converter`](https://nouploads.com/image/netpbm-converter) |
+| JP2 Converter | JP2, J2K, JPF, JPX | [`/image/jp2-converter`](https://nouploads.com/image/jp2-converter) |
+| ICNS Converter | ICNS | [`/image/icns-converter`](https://nouploads.com/image/icns-converter) |
+| XCF Converter | XCF | [`/image/xcf-converter`](https://nouploads.com/image/xcf-converter) |
+| EPS Converter | EPS, PS | [`/image/eps-converter`](https://nouploads.com/image/eps-converter) |
+| AI Converter | AI | [`/image/ai-converter`](https://nouploads.com/image/ai-converter) |
+| EMF Converter | EMF | [`/image/emf-converter`](https://nouploads.com/image/emf-converter) |
+| SVGZ Converter | SVGZ | [`/image/svgz-converter`](https://nouploads.com/image/svgz-converter) |
+| XPS Converter | XPS, OXPS | [`/image/xps-converter`](https://nouploads.com/image/xps-converter) |
+| ODG Converter | ODG | [`/image/odg-converter`](https://nouploads.com/image/odg-converter) |
+| CDR Converter | CDR | [`/image/cdr-converter`](https://nouploads.com/image/cdr-converter) |
+| Visio Converter | VSD, VSDX | [`/image/vsd-converter`](https://nouploads.com/image/vsd-converter) |
+| PUB Converter | PUB | [`/image/pub-converter`](https://nouploads.com/image/pub-converter) |
+| X Window Converter | XBM, XPM, XWD | [`/image/xwindow-converter`](https://nouploads.com/image/xwindow-converter) |
+| Legacy Converter | SGI, RAS, WBMP, PCD, PICT, SFW | [`/image/legacy-converter`](https://nouploads.com/image/legacy-converter) |
 
 ### Image Editing
 
@@ -83,6 +98,12 @@ These converters accept specialist formats and output to mainstream formats (JPG
 | Compress WebP | WebP | WebP | [`/image/compress-webp`](https://nouploads.com/image/compress-webp) |
 | Compress GIF | GIF | GIF | [`/image/compress-gif`](https://nouploads.com/image/compress-gif) |
 
+### Vector Tools
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| SVG Optimizer | Minify and optimize SVG files with svgo, export as SVGZ | [`/vector/svg-optimizer`](https://nouploads.com/vector/svg-optimizer) |
+
 ### PDF Tools
 
 | Tool | Input | Output | URL |
@@ -91,6 +112,12 @@ These converters accept specialist formats and output to mainstream formats (JPG
 | PDF to PNG | PDF | PNG images | [`/pdf/pdf-to-png`](https://nouploads.com/pdf/pdf-to-png) |
 | Merge PDFs | Multiple PDFs | Single PDF | [`/pdf/merge`](https://nouploads.com/pdf/merge) |
 | Compress PDF | PDF | Smaller PDF | [`/pdf/compress`](https://nouploads.com/pdf/compress) |
+
+### Vector Tools
+
+| Tool | Description | URL |
+|------|-------------|-----|
+| SVG Optimizer | Minify and optimize SVG files using svgo; download optimized SVG or SVGZ | [`/vector/svg-optimizer`](https://nouploads.com/vector/svg-optimizer) |
 
 ### Developer Tools
 
