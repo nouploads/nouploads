@@ -869,6 +869,60 @@ When in doubt, choose the more boring solution.
 
 ---
 
+## Builder + Critic Workflow
+
+All non-trivial implementation tasks must use a **Builder + Critic** adversarial workflow. The purpose is to eliminate guesswork, assumptions, and untested code. "It should work" is not proof — a test log showing it works is proof.
+
+### How it works
+
+For every significant implementation unit (new decoder, new tool, new library integration, architectural change), the agent must alternate between Builder and Critic roles — either by spawning a separate Critic subagent or by explicitly switching modes within a single agent (prefixing reasoning with `[BUILDER]` or `[CRITIC]`).
+
+When using subagents for implementation, **always include a Critic role** — either as a dedicated Critic subagent that reviews the Builder's output, or by instructing each subagent to run the Builder + Critic workflow internally.
+
+### Critic responsibilities
+
+The Critic challenges every assumption with "prove it." The Builder must provide hard evidence (not vibes) to satisfy each checkpoint:
+
+**Checkpoint 1 — Library Verification (before writing any code)**
+- "Does this npm package actually exist?" → `npm info <package>`. If it 404s, stop.
+- "Is the API what we think it is?" → Read the actual README or source. Never assume API shape from package name.
+- "Does it work in the browser?" → Check for `"browser"` or `"module"` fields. Many packages are Node-only.
+- "What is the real bundle size?" → Check unpacked size from `npm info`.
+
+**Checkpoint 2 — Implementation Review (during coding)**
+- "Does this magic byte sequence actually match?" → Verify with `xxd` hex dump of a real test file.
+- "Does this decode path handle the test file?" → Run against a real file, not a hypothetical.
+- "Are we handling errors, or just the happy path?" → Feed truncated/corrupt data and verify clean error.
+- "Is this actually client-side only?" → Grep for `fetch(`, `XMLHttpRequest`, network calls.
+
+**Checkpoint 3 — Proof of Working (before sign-off)**
+- "Show me the test output." → Run a local test with a real file. Output must show real dimensions, not 0x0.
+- "Show me the edge case test." → For animated formats: prove frame count > 1. For transparent: prove alpha preserved. For HDR: prove tone mapping works.
+- "Does the page render?" → Curl the route in dev mode. No blank screen or error boundary.
+
+**Checkpoint 4 — Sign-off**
+Both Builder and Critic must agree on all of:
+- [ ] Library exists and installs (or custom parser justified)
+- [ ] Decoder handles a real/synthetic test file
+- [ ] Output is valid (correct dimensions, correct magic bytes)
+- [ ] Edge cases handled (not just acknowledged — tested)
+- [ ] Error handling shows user-friendly message on corrupt input
+- [ ] No network requests during processing
+- [ ] Page renders if new page was created
+- [ ] Tests pass
+
+### Escalation
+
+If Builder and Critic cannot agree after 3 rounds on a specific issue, document the disagreement, flag as disputed, and move on. Resolve in a follow-up pass.
+
+### What the Critic is NOT
+
+- Not a rubber stamp. "Looks good" without evidence is not valid.
+- Not a blocker for fun. If the Builder provides hard proof, the Critic accepts it.
+- Not responsible for writing code. It only questions, challenges, and verifies.
+
+---
+
 ## Final Instruction
 
 Follow existing patterns.

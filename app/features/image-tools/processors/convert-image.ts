@@ -43,8 +43,11 @@ const PIXEL_DECODERS: Record<string, () => Promise<DecoderFn>> = {
 	"image/x-icon": () =>
 		import("../decoders/decode-ico").then((m) => m.decodeIco),
 	"image/jxl": () => import("../decoders/decode-jxl").then((m) => m.decodeJxl),
+	"image/jp2": () => import("../decoders/decode-jp2").then((m) => m.decodeJp2),
 	"image/vnd.adobe.photoshop": () =>
 		import("../decoders/decode-psd").then((m) => m.decodePsd),
+	"image/vnd.adobe.photoshop-large": () =>
+		import("../decoders/decode-psb").then((m) => m.decodePsb),
 	"image/x-tga": () =>
 		import("../decoders/decode-tga").then((m) => m.decodeTga),
 	"image/vnd.radiance": () =>
@@ -115,6 +118,48 @@ const PIXEL_DECODERS: Record<string, () => Promise<DecoderFn>> = {
 		import("../decoders/decode-raw").then((m) => m.decodeRaw),
 	"image/x-raw": () =>
 		import("../decoders/decode-raw").then((m) => m.decodeRaw),
+	"image/x-sgi": () =>
+		import("../decoders/decode-sgi").then((m) => m.decodeSgi),
+	"image/x-sun-raster": () =>
+		import("../decoders/decode-ras").then((m) => m.decodeRas),
+	"image/vnd.wap.wbmp": () =>
+		import("../decoders/decode-wbmp").then((m) => m.decodeWbmp),
+	"image/x-sfw": () =>
+		import("../decoders/decode-sfw").then((m) => m.decodeSfw),
+	"image/x-photo-cd": () =>
+		import("../decoders/decode-pcd").then((m) => m.decodePcd),
+	"image/x-pict": () =>
+		import("../decoders/decode-pict").then((m) => m.decodePict),
+	"image/x-icns": () =>
+		import("../decoders/decode-icns").then((m) => m.decodeIcns),
+	"application/postscript": () =>
+		import("../decoders/decode-eps").then((m) => m.decodeEps),
+	"image/x-xcf": () =>
+		import("../decoders/decode-xcf").then((m) => m.decodeXcf),
+	"application/illustrator": () =>
+		import("../decoders/decode-ai").then((m) => m.decodeAi),
+	"image/x-xbitmap": () =>
+		import("../decoders/decode-xbm").then((m) => m.decodeXbm),
+	"image/x-xpixmap": () =>
+		import("../decoders/decode-xpm").then((m) => m.decodeXpm),
+	"image/x-xwindowdump": () =>
+		import("../decoders/decode-xwd").then((m) => m.decodeXwd),
+	"application/vnd.ms-xpsdocument": () =>
+		import("../decoders/decode-xps").then((m) => m.decodeXps),
+	"application/oxps": () =>
+		import("../decoders/decode-xps").then((m) => m.decodeXps),
+	"application/vnd.oasis.opendocument.graphics": () =>
+		import("../decoders/decode-odg").then((m) => m.decodeOdg),
+	"application/vnd.corel-draw": () =>
+		import("../decoders/decode-cdr").then((m) => m.decodeCdr),
+	"application/vnd.visio": () =>
+		import("../decoders/decode-vsd").then((m) => m.decodeVsd),
+	"application/vnd.ms-visio.drawing.main+xml": () =>
+		import("../decoders/decode-vsdx").then((m) => m.decodeVsdx),
+	"application/x-mspublisher": () =>
+		import("../decoders/decode-pub").then((m) => m.decodePub),
+	"image/x-emf": () =>
+		import("../decoders/decode-emf").then((m) => m.decodeEmf),
 };
 
 /**
@@ -130,6 +175,7 @@ const EXTENSION_TO_MIME: Record<string, string> = {
 	cur: "image/x-icon",
 	// Niche — added as decoders are implemented
 	psd: "image/vnd.adobe.photoshop",
+	psb: "image/vnd.adobe.photoshop-large",
 	exr: "image/x-exr",
 	hdr: "image/vnd.radiance",
 	tga: "image/x-tga",
@@ -147,6 +193,9 @@ const EXTENSION_TO_MIME: Record<string, string> = {
 	fts: "image/fits",
 	fit: "image/fits",
 	jp2: "image/jp2",
+	j2k: "image/jp2",
+	jpf: "image/jp2",
+	jpx: "image/jp2",
 	// Camera RAW
 	cr2: "image/x-canon-cr2",
 	cr3: "image/x-canon-cr3",
@@ -170,16 +219,51 @@ const EXTENSION_TO_MIME: Record<string, string> = {
 	x3f: "image/x-sigma-x3f",
 	"3fr": "image/x-hasselblad-3fr",
 	raw: "image/x-raw",
+	// Legacy formats
+	sgi: "image/x-sgi",
+	rgb: "image/x-sgi",
+	bw: "image/x-sgi",
+	ras: "image/x-sun-raster",
+	wbmp: "image/vnd.wap.wbmp",
+	sfw: "image/x-sfw",
+	pcd: "image/x-photo-cd",
+	pict: "image/x-pict",
+	pct: "image/x-pict",
+	icns: "image/x-icns",
+	eps: "application/postscript",
+	ps: "application/postscript",
+	ai: "application/illustrator",
+	svgz: "image/svg+xml-compressed",
+	// X Window formats
+	xbm: "image/x-xbitmap",
+	xpm: "image/x-xpixmap",
+	picon: "image/x-xpixmap",
+	xwd: "image/x-xwindowdump",
+	// Document/archive formats with embedded images
+	xps: "application/vnd.ms-xpsdocument",
+	oxps: "application/oxps",
+	odg: "application/vnd.oasis.opendocument.graphics",
+	cdr: "application/vnd.corel-draw",
+	vsd: "application/vnd.visio",
+	vsdx: "application/vnd.ms-visio.drawing.main+xml",
+	pub: "application/x-mspublisher",
+	emf: "image/x-emf",
 };
 
 /**
- * Infer MIME type from file extension when `File.type` is missing or generic.
- * Falls back to the original `File.type` if no mapping exists.
+ * Infer MIME type from file extension for decoder lookup.
+ *
+ * For any extension in our EXTENSION_TO_MIME map (exotic formats with custom decoders),
+ * always prefer our mapping over the browser's MIME detection — browsers often report
+ * empty, generic, or non-standard MIME types for exotic formats (e.g., "image/tga"
+ * instead of "image/x-tga"), causing decoder lookup mismatches.
+ *
+ * For mainstream formats not in our map (.jpg, .png, .gif, etc.), trust the browser.
  */
 export function inferMime(file: { name: string; type: string }): string {
-	if (file.type && file.type !== "application/octet-stream") return file.type;
 	const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
-	return EXTENSION_TO_MIME[ext] ?? file.type;
+	if (ext in EXTENSION_TO_MIME) return EXTENSION_TO_MIME[ext];
+	return file.type;
 }
 
 /**
@@ -202,18 +286,97 @@ export async function decodeToPixels(
 }
 
 /**
- * Decode HEIC/HEIF to a browser-readable Blob on the main thread.
- * Returns the input unchanged for non-HEIC formats.
+ * Ensure a file is browser-displayable (for `<img src>` preview).
  *
- * heic2any requires DOM canvas and cannot run in a Web Worker.
- * AbortSignal is checked between async steps to discard stale results.
+ * - HEIC/HEIF → decoded via heic2any to PNG blob
+ * - Exotic formats with pixel decoders (TGA, PSD, EXR, etc.) → decoded to
+ *   RGBA pixels, drawn to canvas, exported as lossless PNG blob
+ * - Browser-native formats (JPG, PNG, WebP, etc.) → returned as-is
  */
 export async function ensureDecodable(
 	input: Blob,
 	signal?: AbortSignal,
 ): Promise<Blob> {
-	if (!HEIC_TYPES.has(input.type)) return input;
-	return decodeHeic(input, "image/png", 1, signal);
+	// HEIC: use heic2any (requires DOM canvas)
+	if (HEIC_TYPES.has(input.type)) {
+		return decodeHeic(input, "image/png", 1, signal);
+	}
+
+	// Exotic formats: decode via pixel decoder → canvas → PNG blob
+	const mime = input instanceof File ? inferMime(input) : input.type;
+
+	// SVGZ: decompress to SVG (browser-native)
+	if (mime === "image/svg+xml-compressed") {
+		return decompressSvgz(input, signal);
+	}
+	const pixels = await decodeToPixels(input, mime, signal);
+	if (pixels) {
+		if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+		const canvas = document.createElement("canvas");
+		canvas.width = pixels.width;
+		canvas.height = pixels.height;
+		const ctx = canvas.getContext("2d");
+		if (!ctx) throw new Error("Could not get canvas 2D context");
+		const imageData = new ImageData(
+			new Uint8ClampedArray(
+				pixels.data.buffer,
+				pixels.data.byteOffset,
+				pixels.data.byteLength,
+			),
+			pixels.width,
+			pixels.height,
+		);
+		ctx.putImageData(imageData, 0, 0);
+		return new Promise<Blob>((resolve, reject) => {
+			canvas.toBlob((blob) => {
+				if (blob) resolve(blob);
+				else reject(new Error("Failed to create preview image"));
+			}, "image/png");
+		});
+	}
+
+	// Browser-native format: return as-is
+	return input;
+}
+
+/**
+ * Decompress an SVGZ (gzip-compressed SVG) file to a plain SVG blob.
+ * The browser can then decode the SVG natively via createImageBitmap.
+ */
+async function decompressSvgz(
+	input: Blob,
+	signal?: AbortSignal,
+): Promise<Blob> {
+	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+
+	const buffer = await input.arrayBuffer();
+	const bytes = new Uint8Array(buffer);
+
+	if (bytes.length < 2 || bytes[0] !== 0x1f || bytes[1] !== 0x8b) {
+		throw new Error(
+			"This SVGZ file could not be decoded. Invalid gzip header.",
+		);
+	}
+
+	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+
+	let svgText: string;
+	try {
+		const ds = new DecompressionStream("gzip");
+		const readable = new Blob([buffer]).stream().pipeThrough(ds);
+		svgText = await new Response(readable).text();
+	} catch {
+		const { gunzipSync } = await import("fflate");
+		svgText = new TextDecoder().decode(gunzipSync(bytes));
+	}
+
+	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+
+	if (!svgText.includes("<svg")) {
+		throw new Error("Decompressed data does not appear to contain SVG markup.");
+	}
+
+	return new Blob([svgText], { type: "image/svg+xml" });
 }
 
 /**

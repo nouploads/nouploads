@@ -3,6 +3,7 @@ import {
 	detectTransparency,
 	extensionForFormat,
 	formatRequiresBackground,
+	inferMime,
 } from "~/features/image-tools/processors/convert-image";
 import { createMockWorkerClass } from "../helpers/mock-worker";
 
@@ -17,6 +18,52 @@ beforeEach(() => {
 afterEach(() => {
 	vi.restoreAllMocks();
 	vi.unstubAllGlobals();
+});
+
+describe("inferMime", () => {
+	it("should use extension map for exotic formats even when browser sets a MIME", () => {
+		// Browser might report "image/tga" but our decoder uses "image/x-tga"
+		expect(inferMime({ name: "photo.tga", type: "image/tga" })).toBe(
+			"image/x-tga",
+		);
+		expect(inferMime({ name: "scan.psd", type: "image/photoshop" })).toBe(
+			"image/vnd.adobe.photoshop",
+		);
+		expect(inferMime({ name: "scene.exr", type: "" })).toBe("image/x-exr");
+	});
+
+	it("should use extension map when browser MIME is empty", () => {
+		expect(inferMime({ name: "file.tga", type: "" })).toBe("image/x-tga");
+		expect(inferMime({ name: "file.hdr", type: "" })).toBe(
+			"image/vnd.radiance",
+		);
+		expect(inferMime({ name: "file.dds", type: "" })).toBe("image/vnd-ms.dds");
+	});
+
+	it("should use extension map when browser MIME is application/octet-stream", () => {
+		expect(
+			inferMime({ name: "file.cr2", type: "application/octet-stream" }),
+		).toBe("image/x-canon-cr2");
+	});
+
+	it("should fall back to browser MIME for mainstream formats not in map", () => {
+		expect(inferMime({ name: "photo.jpg", type: "image/jpeg" })).toBe(
+			"image/jpeg",
+		);
+		expect(inferMime({ name: "icon.png", type: "image/png" })).toBe(
+			"image/png",
+		);
+		expect(inferMime({ name: "anim.gif", type: "image/gif" })).toBe(
+			"image/gif",
+		);
+	});
+
+	it("should use extension map for TIFF to ensure correct decoder key", () => {
+		expect(inferMime({ name: "scan.tiff", type: "image/tiff" })).toBe(
+			"image/tiff",
+		);
+		expect(inferMime({ name: "scan.tif", type: "" })).toBe("image/tiff");
+	});
 });
 
 describe("extensionForFormat", () => {

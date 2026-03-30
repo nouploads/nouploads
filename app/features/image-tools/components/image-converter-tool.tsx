@@ -22,6 +22,7 @@ import {
 	parseToHex,
 } from "~/features/developer-tools/processors/color-picker";
 import { formatFileSize } from "~/lib/utils";
+import type { AnimationInfo } from "../lib/detect-animation";
 import { compressPng, compressPngBatch } from "../processors/compress-png";
 import {
 	type ConvertImageResult,
@@ -102,9 +103,24 @@ function SingleFileView({
 	const [converting, setConverting] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [frameBlob, setFrameBlob] = useState<Blob | null>(null);
+	const [animInfo, setAnimInfo] = useState<AnimationInfo | null>(null);
 	const hasResult = resultUrl !== null;
 
 	const showFrameSelector = file.type === "image/gif";
+
+	// Detect animation when file changes
+	useEffect(() => {
+		let cancelled = false;
+		setAnimInfo(null);
+		(async () => {
+			const { detectAnimation } = await import("../lib/detect-animation");
+			const info = await detectAnimation(file);
+			if (!cancelled) setAnimInfo(info);
+		})();
+		return () => {
+			cancelled = true;
+		};
+	}, [file]);
 
 	// When frame selector provides a frame blob, use it for the "original" preview
 	const previewSource = frameBlob ?? file;
@@ -237,6 +253,19 @@ function SingleFileView({
 					</p>
 				</div>
 			</div>
+
+			{animInfo?.isAnimated && (
+				<div
+					role="status"
+					className="rounded-lg border bg-muted/50 px-4 py-2.5 text-sm text-muted-foreground"
+				>
+					Animated {animInfo.format} —{" "}
+					{animInfo.frameCount > 0
+						? `${animInfo.frameCount} frames detected`
+						: "multiple frames detected"}
+					. Showing frame 1. Converting to static {formatLabel}.
+				</div>
+			)}
 
 			{converting && !hasResult ? (
 				<div className="rounded-lg border bg-muted/30 overflow-hidden flex items-center justify-center h-[400px]">
