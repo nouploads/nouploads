@@ -55,6 +55,7 @@ import "./tools/browser-only-stubs.js";
 // UTILITY TOOLS
 import "./tools/optimize-svg.js";
 import "./tools/merge-pdf.js";
+import "./tools/pdf-to-text.js";
 import "./tools/qr-code.js";
 import "./tools/base64.js";
 
