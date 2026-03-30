@@ -1,6 +1,5 @@
 import { Link } from "react-router";
-
-const GITHUB_URL = "https://github.com/nouploads/nouploads";
+import { GITHUB_URL } from "~/lib/seo/meta";
 
 export function SiteFooter() {
 	const year = new Date().getFullYear();
@@ -37,6 +36,15 @@ export function SiteFooter() {
 							className="underline hover:text-foreground transition-colors"
 						>
 							AGPL-3.0
+						</a>{" "}
+						&middot;{" "}
+						<a
+							href={`${GITHUB_URL}/releases`}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="hover:text-foreground transition-colors"
+						>
+							Version {__APP_VERSION__}
 						</a>
 					</p>
 				</div>
