@@ -55,6 +55,9 @@ export default function HomePage() {
 			<main className="mx-auto w-full max-w-6xl flex-1 px-4">
 				{/* Hero */}
 				<section className="py-16 md:py-24 text-center">
+					<div className="inline-flex items-center rounded-full border bg-muted/50 px-3 py-1 text-xs font-medium text-muted-foreground mb-6">
+						{gridTools.length}+ free tools — no signup required
+					</div>
 					<h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
 						Privacy-first file tools.
 						<br />

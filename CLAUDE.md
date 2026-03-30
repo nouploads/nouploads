@@ -303,7 +303,11 @@ When adding any new tool, create these files:
 12. **OG image** — add entry to `scripts/generate-og-images.ts` PAGES array, then run `npx tsx scripts/generate-og-images.ts`
 13. **Category page** — add the new tool to the category index page's quick-links section (e.g. `apps/web/app/routes/pdf/index.tsx` or `apps/web/app/routes/developer/index.tsx`)
 
-Verify: `pnpm run build` succeeds, prerendered HTML contains static content, meta tags correct, OG image exists in `apps/web/public/og/`.
+Verify:
+- `pnpm run build` succeeds, prerendered HTML contains static content, meta tags correct
+- OG image exists in `apps/web/public/og/`
+- Command palette indexes the new tool (automatic — `allTools` spreads `gridTools`, so adding to `gridTools` is sufficient)
+- Homepage tool count badge updates automatically (reads `gridTools.length` at runtime)
 
 ### Bidirectional conversion rule
 

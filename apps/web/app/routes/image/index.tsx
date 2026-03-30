@@ -161,6 +161,18 @@ const compressionLinks = [
 	{ href: "/image/compress-gif", label: "Compress GIF" },
 ];
 
+const editingLinks = [
+	{ href: "/image/resize", label: "Resize" },
+	{ href: "/image/crop", label: "Crop" },
+	{ href: "/image/rotate", label: "Rotate & Flip" },
+	{ href: "/image/filters", label: "Filters & Effects" },
+	{ href: "/image/watermark", label: "Watermark" },
+	{ href: "/image/remove-background", label: "Remove Background" },
+	{ href: "/image/exif", label: "EXIF Viewer" },
+	{ href: "/image/favicon-generator", label: "Favicon Generator" },
+	{ href: "/image/to-pdf", label: "Images to PDF" },
+];
+
 function PillLinks({ links }: { links: { href: string; label: string }[] }) {
 	return (
 		<div className="flex flex-wrap gap-2">
@@ -294,6 +306,14 @@ export default function ImageCategoryPage() {
 							Format-specific compression with optimized settings.
 						</p>
 						<PillLinks links={compressionLinks} />
+					</div>
+
+					<div>
+						<h2 className="text-xl font-semibold mb-3">Editing & Effects</h2>
+						<p className="text-sm text-muted-foreground mb-4">
+							Resize, crop, apply filters, add watermarks, and more.
+						</p>
+						<PillLinks links={editingLinks} />
 					</div>
 
 					<NicheFormatsSection />
