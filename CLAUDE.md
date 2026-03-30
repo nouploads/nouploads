@@ -299,15 +299,16 @@ When adding any new tool, create these files:
    - `apps/web/tests/e2e/<tool>.spec.ts` — static page test (heading, controls, FAQ, SEO meta, canonical)
    - `apps/web/tests/e2e/<tool>-upload.spec.ts` — happy-path test (for file-processing tools: upload fixture, wait for download button, verify result)
 10. **Homepage entry** — add to `apps/web/app/lib/tools.ts` gridTools array
-11. **Prerender config** — add route to `apps/web/react-router.config.ts`
-12. **OG image** — add entry to `scripts/generate-og-images.ts` PAGES array, then run `npx tsx scripts/generate-og-images.ts`
-13. **Category page** — add the new tool to the category index page's quick-links section (e.g. `apps/web/app/routes/pdf/index.tsx` or `apps/web/app/routes/developer/index.tsx`)
+11. **Icon registry** — if the tool's `icon` field uses a lucide-react icon not already in `apps/web/app/components/marketing/tool-icon.tsx`, add the import and `iconMap` entry. Without this, the tool tile renders with no icon.
+12. **Prerender config** — add route to `apps/web/react-router.config.ts`
+13. **OG image** — add entry to `scripts/generate-og-images.ts` PAGES array, then run `npx tsx scripts/generate-og-images.ts`
+14. **Category page** — add the new tool to the category index page's quick-links section (e.g. `apps/web/app/routes/pdf/index.tsx` or `apps/web/app/routes/developer/index.tsx`)
 
 Verify:
 - `pnpm run build` succeeds, prerendered HTML contains static content, meta tags correct
 - OG image exists in `apps/web/public/og/`
+- Tool icon renders on the homepage (check that the icon name in `tools.ts` has a matching entry in `tool-icon.tsx` iconMap)
 - Command palette indexes the new tool (automatic — `allTools` spreads `gridTools`, so adding to `gridTools` is sufficient)
-- Homepage tool count badge updates automatically (reads `gridTools.length` at runtime)
 
 ### Bidirectional conversion rule
 

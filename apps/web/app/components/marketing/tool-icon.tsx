@@ -1,8 +1,10 @@
 import type { LucideIcon } from "lucide-react";
 import {
 	ArrowDownToLine,
+	ArrowLeftRight,
 	Braces,
 	Camera,
+	Clock,
 	Code,
 	Crop,
 	Eraser,
@@ -10,28 +12,41 @@ import {
 	FileImage,
 	FileOutput,
 	FileText,
+	Fingerprint,
 	Hash,
+	Image,
 	KeyRound,
+	Link,
+	ListOrdered,
+	Lock,
+	LockOpen,
 	Merge,
 	Minimize2,
 	Palette,
 	QrCode,
 	RefreshCw,
+	Regex,
 	RotateCw,
 	Scaling,
 	ScanSearch,
 	Scissors,
+	SlidersHorizontal,
 	Stamp,
 } from "lucide-react";
 
 /**
  * Icon registry — add new icons here when adding tools to app/lib/tools.ts.
  * Import only the icons you need to keep the bundle small.
+ *
+ * IMPORTANT: Every icon name used in gridTools/allTools MUST have an entry here,
+ * otherwise the tool tile will render without an icon.
  */
 const iconMap: Record<string, LucideIcon> = {
 	ArrowDownToLine,
+	ArrowLeftRight,
 	Braces,
 	Camera,
+	Clock,
 	Code,
 	Crop,
 	Eraser,
@@ -39,17 +54,25 @@ const iconMap: Record<string, LucideIcon> = {
 	FileImage,
 	FileOutput,
 	FileText,
+	Fingerprint,
 	Hash,
+	Image,
 	KeyRound,
+	Link,
+	ListOrdered,
+	Lock,
+	LockOpen,
 	Merge,
 	Minimize2,
 	Palette,
 	QrCode,
+	Regex,
 	RefreshCw,
 	RotateCw,
 	Scaling,
 	ScanSearch,
 	Scissors,
+	SlidersHorizontal,
 	Stamp,
 };
 
