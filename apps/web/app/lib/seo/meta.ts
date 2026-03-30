@@ -18,7 +18,9 @@ interface MetaOptions {
 
 export function buildMeta(opts: MetaOptions) {
 	const canonical = `${SITE_URL}${opts.path}`;
-	const ogImage = `${SITE_URL}${opts.ogImage ?? "/og/default.png"}`;
+	const ogImage = opts.ogImage
+		? `${SITE_URL}${opts.ogImage}`
+		: `${SITE_URL}/api/og?path=${encodeURIComponent(opts.path)}`;
 
 	const meta: Record<string, unknown>[] = [
 		{ title: opts.title },
