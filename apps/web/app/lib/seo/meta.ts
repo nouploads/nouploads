@@ -18,9 +18,11 @@ interface MetaOptions {
 
 export function buildMeta(opts: MetaOptions) {
 	const canonical = `${SITE_URL}${opts.path}`;
+	const slug =
+		opts.path === "/" ? "home" : opts.path.replace(/^\//, "").replace(/\//g, "-");
 	const ogImage = opts.ogImage
 		? `${SITE_URL}${opts.ogImage}`
-		: `${SITE_URL}/api/og?path=${encodeURIComponent(opts.path)}`;
+		: `${SITE_URL}/og/${slug}.svg`;
 
 	const meta: Record<string, unknown>[] = [
 		{ title: opts.title },

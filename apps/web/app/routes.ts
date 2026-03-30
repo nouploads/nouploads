@@ -3,7 +3,6 @@ import { index, type RouteConfig, route } from "@react-router/dev/routes";
 export default [
 	index("routes/home.tsx"),
 	route("about", "routes/about.tsx"),
-	route("api/og", "routes/api.og.ts"),
 	route("image", "routes/image/index.tsx"),
 	route("image/heic-to-jpg", "routes/image/heic-to-jpg.tsx"),
 	route("image/compress", "routes/image/compress.tsx"),
