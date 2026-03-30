@@ -53,7 +53,9 @@ function readStoredFormat(): ColorFormat {
 
 function FormatCell({ label, value }: { label: string; value: string }) {
 	const [copied, setCopied] = useState(false);
-	const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+	const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+		undefined,
+	);
 
 	const copyText = label === "HEX" ? value : `${label.toLowerCase()}(${value})`;
 

@@ -69,6 +69,7 @@ export async function decodeJp2(
 	/* ---- 2. Load OpenJPEG WASM decoder ---- */
 	// Use the JS-only (asm.js) decode build so no external .wasm file is needed.
 	// The module is ~540KB and only loads when a JP2 file is actually dropped.
+	// @ts-expect-error — no type declarations for codec-openjpeg
 	const OpenJPEGJS = (await import("@cornerstonejs/codec-openjpeg/decode"))
 		.default;
 

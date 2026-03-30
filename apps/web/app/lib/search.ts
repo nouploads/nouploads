@@ -1,4 +1,4 @@
-import Fuse, { type IFuseOptions } from "fuse.js";
+import Fuse, { type FuseResult, type IFuseOptions } from "fuse.js";
 
 export interface Tool {
 	title: string;
@@ -33,7 +33,7 @@ export function createToolSearcher(tools: Tool[]) {
 export function tokenSearch(
 	fuse: Fuse<Tool>,
 	query: string,
-): Fuse.FuseResult<Tool>[] {
+): FuseResult<Tool>[] {
 	const tokens = query
 		.trim()
 		.split(/\s+/)
@@ -50,7 +50,7 @@ export function tokenSearch(
 	const base = perToken[0];
 	const rest = perToken.slice(1);
 
-	const intersected: Fuse.FuseResult<Tool>[] = [];
+	const intersected: FuseResult<Tool>[] = [];
 	for (const [href, result] of base) {
 		if (rest.every((m) => m.has(href))) {
 			// Use the worst (highest) score across tokens as the combined score

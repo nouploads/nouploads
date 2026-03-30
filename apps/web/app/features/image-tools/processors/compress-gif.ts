@@ -23,6 +23,7 @@ export async function compressGif(
 		throw new DOMException("Aborted", "AbortError");
 	}
 
+	// @ts-expect-error — no type declarations for gifsicle-wasm-browser
 	const gifsicle = await import("gifsicle-wasm-browser");
 
 	if (signal?.aborted) {

@@ -696,7 +696,6 @@ function BackgroundColorPicker({
 										<ToggleGroupItem
 											key={f.value}
 											value={f.value}
-											size="sm"
 											className="text-xs px-2 py-1"
 										>
 											{f.label}

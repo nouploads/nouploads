@@ -43,6 +43,7 @@ export async function decodeDicom(
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
 	/* ---- 2. Parse with daikon ---- */
+	// @ts-expect-error — no type declarations for daikon
 	const daikon = await import("daikon");
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
