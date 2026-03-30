@@ -29,12 +29,16 @@ export async function mergePdfs(
 
 	// Wrap abort check around the core call via a racing promise
 	const mergePromise = tool
-		.executeMulti(inputs, {}, {
-			onProgress: (pct) => {
-				const completed = Math.round((pct / 100) * files.length);
-				onProgress?.(completed, files.length);
+		.executeMulti(
+			inputs,
+			{},
+			{
+				onProgress: (pct) => {
+					const completed = Math.round((pct / 100) * files.length);
+					onProgress?.(completed, files.length);
+				},
 			},
-		})
+		)
 		.catch((err: Error) => {
 			// Translate core error messages to include filenames
 			const match = err.message.match(/PDF file (\d+): (.+)/);
