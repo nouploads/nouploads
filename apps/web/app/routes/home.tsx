@@ -3,13 +3,11 @@ import { Link } from "react-router";
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
 import ToolFilter from "~/components/marketing/tool-filter";
-import { buildMeta } from "~/lib/seo/meta";
+import { buildMeta, GITHUB_URL, SITE_URL } from "~/lib/seo/meta";
 import { gridTools } from "~/lib/tools";
 import type { Route } from "./+types/home";
 
-const issuesUrl = import.meta.env.VITE_GITHUB_URL
-	? `${import.meta.env.VITE_GITHUB_URL}/issues`
-	: "https://github.com/nouploads/nouploads/issues";
+const issuesUrl = `${GITHUB_URL}/issues`;
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
@@ -24,27 +22,27 @@ export function meta(_args: Route.MetaArgs) {
 				"@context": "https://schema.org",
 				"@type": "WebSite",
 				name: "NoUploads",
-				url: "https://nouploads.com",
+				url: SITE_URL,
 				description:
 					"Free online file tools that run 100% in your browser. Convert, compress, and resize images with no upload, no signup, no servers. Open source and works offline.",
 				potentialAction: {
 					"@type": "SearchAction",
-					target: "https://nouploads.com/?q={search_term_string}",
+					target: `${SITE_URL}/?q={search_term_string}`,
 					"query-input": "required name=search_term_string",
 				},
 				creator: {
 					"@type": "Organization",
 					name: "NoUploads",
-					url: "https://nouploads.com",
+					url: SITE_URL,
 				},
 			},
 			{
 				"@context": "https://schema.org",
 				"@type": "Organization",
 				name: "NoUploads",
-				url: "https://nouploads.com",
-				logo: "https://nouploads.com/favicon.svg",
-				sameAs: ["https://github.com/nouploads/nouploads"],
+				url: SITE_URL,
+				logo: `${SITE_URL}/favicon.svg`,
+				sameAs: [GITHUB_URL],
 			},
 		],
 	});

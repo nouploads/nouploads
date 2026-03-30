@@ -1,10 +1,7 @@
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
-import { buildMeta } from "~/lib/seo/meta";
+import { buildMeta, GITHUB_URL } from "~/lib/seo/meta";
 import type { Route } from "./+types/about";
-
-const githubUrl =
-	import.meta.env.VITE_GITHUB_URL || "https://github.com/nouploads/nouploads";
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
@@ -69,7 +66,7 @@ export default function AboutPage() {
 								</strong>{" "}
 								NoUploads is fully open source. Inspect every line at{" "}
 								<a
-									href={githubUrl}
+									href={GITHUB_URL}
 									className="text-primary underline underline-offset-2"
 									target="_blank"
 									rel="noopener noreferrer"
@@ -105,7 +102,7 @@ export default function AboutPage() {
 						<p>
 							NoUploads is open source under the{" "}
 							<a
-								href={`${githubUrl}/blob/main/LICENSE`}
+								href={`${GITHUB_URL}/blob/main/LICENSE`}
 								className="text-primary underline underline-offset-2"
 								target="_blank"
 								rel="noopener noreferrer"
@@ -138,7 +135,7 @@ export default function AboutPage() {
 									Build from source
 								</p>
 								<code className="block bg-muted rounded px-3 py-2 text-sm mt-1">
-									git clone {githubUrl}.git && cd nouploads && npm install &&
+									git clone {GITHUB_URL}.git && cd nouploads && npm install &&
 									npm run build
 								</code>
 							</div>

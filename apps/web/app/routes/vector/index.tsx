@@ -3,7 +3,7 @@ import { PrivacyBanner } from "~/components/layout/privacy-banner";
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
 import { ToolIcon } from "~/components/marketing/tool-icon";
-import { buildMeta } from "~/lib/seo/meta";
+import { buildMeta, SITE_URL } from "~/lib/seo/meta";
 import { gridTools } from "~/lib/tools";
 import type { Route } from "./+types/index";
 
@@ -21,13 +21,13 @@ export function meta(_args: Route.MetaArgs) {
 				"@context": "https://schema.org",
 				"@type": "CollectionPage",
 				name: "Vector Tools — NoUploads",
-				url: "https://nouploads.com/vector",
+				url: `${SITE_URL}/vector`,
 				description:
 					"Free online vector tools that run in your browser. Convert, optimize, and rasterize SVG and other vector formats with no upload, no signup.",
 				isPartOf: {
 					"@type": "WebSite",
 					name: "NoUploads",
-					url: "https://nouploads.com",
+					url: SITE_URL,
 				},
 			},
 		],

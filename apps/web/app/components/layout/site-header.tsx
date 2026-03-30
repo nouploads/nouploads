@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router";
+import { GITHUB_URL } from "~/lib/seo/meta";
 import { allTools } from "~/lib/tools";
 import { GitHubLink } from "./github-link";
 import { ThemeToggle } from "./theme-toggle";
@@ -7,8 +8,6 @@ import { ThemeToggle } from "./theme-toggle";
 const CommandPalette = lazy(() =>
 	import("./command-palette").then((m) => ({ default: m.CommandPalette })),
 );
-
-const GITHUB_URL = "https://github.com/nouploads/nouploads";
 
 export function SiteHeader() {
 	return (

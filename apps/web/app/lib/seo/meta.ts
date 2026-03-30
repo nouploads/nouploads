@@ -1,5 +1,8 @@
-const SITE_URL = import.meta.env.VITE_SITE_URL || "https://nouploads.com";
-const SITE_NAME = import.meta.env.VITE_SITE_NAME || "NoUploads";
+export const SITE_URL =
+	import.meta.env.VITE_SITE_URL || "https://nouploads.com";
+export const SITE_NAME = import.meta.env.VITE_SITE_NAME || "NoUploads";
+export const GITHUB_URL =
+	import.meta.env.VITE_GITHUB_URL || "https://github.com/nouploads/nouploads";
 
 interface MetaOptions {
 	title: string;
