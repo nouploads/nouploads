@@ -1,0 +1,25 @@
+{
+	"name": "@nouploads/backend-sharp",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		}
+	},
+	"scripts": {
+		"build": "tsup",
+		"clean": "rm -rf dist"
+	},
+	"dependencies": {
+		"sharp": "0.34.5",
+		"@nouploads/core": "workspace:*"
+	},
+	"devDependencies": {
+		"tsup": "8.5.1"
+	}
+}
