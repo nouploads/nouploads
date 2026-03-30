@@ -19,7 +19,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 24.14.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec biome check .
@@ -32,7 +32,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 24.14.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
@@ -46,7 +46,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 24.14.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @nouploads/core build
@@ -62,7 +62,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 24.14.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @nouploads/core build
@@ -77,7 +77,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 24.14.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
@@ -92,13 +92,13 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 24.14.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - name: Install Playwright browsers
         working-directory: apps/web
-        run: pnpm exec playwright install chromium --with-deps
+        run: pnpm exec playwright install --with-deps
       - name: Run E2E smoke tests
         working-directory: apps/web
         run: |
