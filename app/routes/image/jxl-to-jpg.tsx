@@ -1,0 +1,108 @@
+import { lazy, Suspense } from "react";
+import { LibraryAttribution } from "~/components/tool/library-attribution";
+import { ToolPageLayout } from "~/components/tool/tool-page-layout";
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "~/components/ui/accordion";
+import { Spinner } from "~/components/ui/spinner";
+import { buildMeta } from "~/lib/seo/meta";
+import type { Route } from "./+types/jxl-to-jpg";
+
+const ImageConverterTool = lazy(
+	() => import("~/features/image-tools/components/image-converter-tool"),
+);
+
+export function meta(_args: Route.MetaArgs) {
+	return buildMeta({
+		title: "Convert JXL to JPG Online — Free, Private, No Upload | NoUploads",
+		description:
+			"Convert JPEG XL images to widely compatible JPG format. Runs entirely in your browser with no upload.",
+		path: "/image/jxl-to-jpg",
+		keywords:
+			"jxl to jpg, jpeg xl to jpg, convert jxl to jpg, open jxl file, jxl converter online, jpeg xl converter",
+		jsonLdName: "JXL to JPG Converter",
+	});
+}
+
+const ACCEPT = { "image/jxl": [".jxl"] };
+
+const faqItems = [
+	{
+		question: "What is a JXL file?",
+		answer:
+			"JXL (JPEG XL) is a next-generation image format designed as the successor to JPEG. It supports both lossy and lossless compression, achieving 30-60% better compression than JPEG at equivalent quality. It also supports animation, transparency, and HDR — features that required separate formats like GIF, PNG, or AVIF before.",
+	},
+	{
+		question: "Why can't I open JXL files?",
+		answer:
+			"Browser and OS support for JPEG XL is still growing. Firefox supports it since version 125. Chrome removed native support but may re-add it. Most image viewers and social media platforms don't accept JXL yet. Converting to JPG gives you maximum compatibility right now.",
+	},
+	{
+		question: "Will I lose quality converting JXL to JPG?",
+		answer:
+			"If the JXL was encoded with lossy compression, converting to JPG at 92% quality preserves nearly all visible detail. If the JXL was losslessly encoded, you're going from lossless to lossy — there will be some quality reduction, but at high quality settings the difference is imperceptible for photographs.",
+	},
+	{
+		question: "Does this handle animated JXL files?",
+		answer:
+			"Yes. If an animated JXL is detected, the first frame is converted to a static JPG image. Animation support for frame-by-frame extraction will be available in a future update.",
+	},
+	{
+		question: "Why use NoUploads instead of other JXL converters?",
+		answer:
+			"JPEG XL is still uncommon enough that few online tools support it. NoUploads decodes JXL using a WebAssembly build of the jxl-oxide decoder — the same Rust-based engine used by many desktop tools. All processing runs locally in your browser: no upload, no server, no file size limits. Free and open source.",
+	},
+];
+
+export default function JxlToJpgPage() {
+	return (
+		<ToolPageLayout
+			title="Convert JXL to JPG"
+			description="Convert JPEG XL images to universally compatible JPG format — free, private, no upload required."
+		>
+			<Suspense
+				fallback={
+					<div className="flex items-center justify-center h-[460px]">
+						<Spinner className="size-6" />
+					</div>
+				}
+			>
+				<ImageConverterTool defaultOutputFormat="image/jpeg" accept={ACCEPT} />
+			</Suspense>
+
+			<section className="mt-12 mb-8">
+				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
+				<p className="text-muted-foreground">
+					Decodes JPEG XL files using browser-native support where available
+					(Firefox 125+) and falls back to a WebAssembly decoder for other
+					browsers. Converts the decoded image to standard JPG with adjustable
+					quality. Handles lossy and lossless JXL, transparency, and HDR content
+					with automatic tone-mapping. The WASM module is only downloaded when
+					you actually select a JXL file.
+				</p>
+			</section>
+
+			<section>
+				<h2 className="text-lg font-semibold mb-4">
+					Frequently Asked Questions
+				</h2>
+				<Accordion type="multiple">
+					{faqItems.map((item, i) => (
+						// biome-ignore lint/suspicious/noArrayIndexKey: static FAQ list never changes
+						<AccordionItem key={i} value={`faq-${i}`}>
+							<AccordionTrigger>{item.question}</AccordionTrigger>
+							<AccordionContent>
+								<p className="text-muted-foreground">{item.answer}</p>
+							</AccordionContent>
+						</AccordionItem>
+					))}
+				</Accordion>
+			</section>
+
+			<LibraryAttribution packages={["jxl-oxide-wasm"]} />
+		</ToolPageLayout>
+	);
+}
