@@ -80,4 +80,17 @@ export default [
 	route("developer/json-formatter", "routes/developer/json-formatter.tsx"),
 	route("developer/hash-generator", "routes/developer/hash-generator.tsx"),
 	route("developer/jwt-decoder", "routes/developer/jwt-decoder.tsx"),
+	route("developer/uuid-generator", "routes/developer/uuid-generator.tsx"),
+	route("developer/markdown-preview", "routes/developer/markdown-preview.tsx"),
+	route("developer/regex-tester", "routes/developer/regex-tester.tsx"),
+	route(
+		"developer/timestamp-converter",
+		"routes/developer/timestamp-converter.tsx",
+	),
+	route("developer/url-encoder", "routes/developer/url-encoder.tsx"),
+	route("developer/text-diff", "routes/developer/text-diff.tsx"),
+	route("pdf/page-numbers", "routes/pdf/page-numbers.tsx"),
+	route("pdf/protect", "routes/pdf/protect.tsx"),
+	route("pdf/unlock", "routes/pdf/unlock.tsx"),
+	route("image/filters", "routes/image/filters.tsx"),
 ] satisfies RouteConfig;

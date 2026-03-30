@@ -67,6 +67,16 @@ import "./tools/favicon-generator.js";
 import "./tools/hash-generator.js";
 import "./tools/json-formatter.js";
 import "./tools/jwt-decoder.js";
+import "./tools/page-numbers-pdf.js";
+import "./tools/protect-pdf.js";
+import "./tools/unlock-pdf.js";
+import "./tools/image-filters.js";
+import "./tools/regex-tester.js";
+import "./tools/timestamp-converter.js";
+import "./tools/uuid-generator.js";
+import "./tools/url-encoder.js";
+import "./tools/text-diff.js";
+import "./tools/markdown-preview.js";
 
 // HIGH-LEVEL CONVENIENCE FUNCTION
 import { findToolByFormats } from "./registry.js";

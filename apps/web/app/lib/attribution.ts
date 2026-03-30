@@ -127,6 +127,11 @@ export const PACKAGES = {
 		repoUrl: "https://github.com/SheetJS/js-cfb",
 		license: "Apache-2.0",
 	},
+	marked: {
+		name: "marked",
+		repoUrl: "https://github.com/markedjs/marked",
+		license: "MIT",
+	},
 } as const satisfies Record<string, PackageAttribution>;
 
 export type PackageId = keyof typeof PACKAGES;

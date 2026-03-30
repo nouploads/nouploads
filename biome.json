@@ -3,13 +3,25 @@
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
-		"useIgnoreFile": true
+		"useIgnoreFile": true,
+		"defaultBranch": "main"
 	},
 	"files": {
-		"ignoreUnknown": false
+		"ignoreUnknown": true
 	},
 	"formatter": {
-		"enabled": true
+		"enabled": true,
+		"indentStyle": "tab",
+		"indentWidth": 2,
+		"lineWidth": 80,
+		"lineEnding": "lf"
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double",
+			"semicolons": "always",
+			"trailingCommas": "all"
+		}
 	},
 	"linter": {
 		"enabled": true,
@@ -17,7 +29,10 @@
 			"recommended": true
 		},
 		"domains": {
-			"test": "recommended"
+			"test": "recommended",
+			"react": "recommended",
+			"project": "recommended",
+			"types": "recommended"
 		}
 	},
 	"css": {
