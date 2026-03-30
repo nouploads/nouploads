@@ -1,3 +1,5 @@
+import { decodeBase64, encodeBase64 } from "@nouploads/core";
+
 /**
  * Encode a file to base64 data URI and raw base64 string.
  */
@@ -12,23 +14,18 @@ export interface Base64EncodeResult {
 export async function encodeImageToBase64(
 	file: File,
 ): Promise<Base64EncodeResult> {
-	return new Promise((resolve, reject) => {
-		const reader = new FileReader();
-		reader.onload = () => {
-			const dataUri = reader.result as string;
-			const commaIndex = dataUri.indexOf(",");
-			const rawBase64 = dataUri.slice(commaIndex + 1);
-			resolve({
-				dataUri,
-				rawBase64,
-				mimeType: file.type || "application/octet-stream",
-				byteLength: file.size,
-				base64Length: rawBase64.length,
-			});
-		};
-		reader.onerror = () => reject(new Error("Failed to read file"));
-		reader.readAsDataURL(file);
-	});
+	const bytes = new Uint8Array(await file.arrayBuffer());
+	const rawBase64 = encodeBase64(bytes);
+	const mimeType = file.type || "application/octet-stream";
+	const dataUri = `data:${mimeType};base64,${rawBase64}`;
+
+	return {
+		dataUri,
+		rawBase64,
+		mimeType,
+		byteLength: file.size,
+		base64Length: rawBase64.length,
+	};
 }
 
 /**
@@ -56,14 +53,30 @@ export async function decodeBase64ToImage(
 		base64Data = match[2];
 	} else {
 		base64Data = trimmed;
+		// Detect MIME from magic bytes of decoded content
 		try {
-			const firstBytes = atob(base64Data.slice(0, 16));
-			if (firstBytes.startsWith("\xFF\xD8\xFF")) mimeType = "image/jpeg";
-			else if (firstBytes.startsWith("\x89PNG")) mimeType = "image/png";
-			else if (firstBytes.startsWith("GIF8")) mimeType = "image/gif";
+			const probe = decodeBase64(base64Data.slice(0, 24));
+			if (probe[0] === 0xff && probe[1] === 0xd8 && probe[2] === 0xff)
+				mimeType = "image/jpeg";
 			else if (
-				firstBytes.startsWith("RIFF") &&
-				firstBytes.slice(8, 12) === "WEBP"
+				probe[0] === 0x89 &&
+				probe[1] === 0x50 &&
+				probe[2] === 0x4e &&
+				probe[3] === 0x47
+			)
+				mimeType = "image/png";
+			else if (
+				probe[0] === 0x47 &&
+				probe[1] === 0x49 &&
+				probe[2] === 0x46 &&
+				probe[3] === 0x38
+			)
+				mimeType = "image/gif";
+			else if (
+				probe[0] === 0x52 &&
+				probe[1] === 0x49 &&
+				probe[8] === 0x57 &&
+				probe[9] === 0x45
 			)
 				mimeType = "image/webp";
 		} catch {
@@ -72,11 +85,12 @@ export async function decodeBase64ToImage(
 	}
 
 	try {
-		const binary = atob(base64Data.replace(/\s/g, ""));
-		const bytes = new Uint8Array(binary.length);
-		for (let i = 0; i < binary.length; i++) {
-			bytes[i] = binary.charCodeAt(i);
+		const cleaned = base64Data.replace(/\s/g, "");
+		// Validate base64 characters before decoding
+		if (!/^[A-Za-z0-9+/]*={0,2}$/.test(cleaned)) {
+			throw new Error("Invalid base64 characters");
 		}
+		const bytes = decodeBase64(cleaned);
 		const blob = new Blob([bytes], { type: mimeType });
 
 		let width: number | undefined;
