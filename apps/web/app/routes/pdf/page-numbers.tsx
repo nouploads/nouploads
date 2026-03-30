@@ -1,0 +1,107 @@
+import { lazy, Suspense } from "react";
+import { LibraryAttribution } from "~/components/tool/library-attribution";
+import { ToolPageLayout } from "~/components/tool/tool-page-layout";
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "~/components/ui/accordion";
+import { Spinner } from "~/components/ui/spinner";
+import { buildMeta } from "~/lib/seo/meta";
+import type { Route } from "./+types/page-numbers";
+
+const PdfPageNumbersTool = lazy(
+	() => import("~/features/pdf-tools/components/pdf-page-numbers-tool"),
+);
+
+export function meta(_args: Route.MetaArgs) {
+	return buildMeta({
+		title:
+			"Add Page Numbers to PDF Online — Free, Private, No Upload | NoUploads",
+		description:
+			"Insert page numbers on every page of a PDF. Choose position, format, and font size. Runs in your browser — no upload required.",
+		path: "/pdf/page-numbers",
+		keywords:
+			"add page numbers to pdf, pdf page numbers, number pdf pages, pdf page numbering online, free pdf page number tool, insert page numbers pdf",
+		jsonLdName: "PDF Page Numbers Tool",
+	});
+}
+
+const faqItems = [
+	{
+		question: "How does the page numbering tool work?",
+		answer:
+			"The tool loads your PDF entirely in the browser using pdf-lib, then draws a page number on each page at the position you choose. You pick the format, font size, and margin, and the modified PDF is generated instantly for download — your file never leaves your device.",
+	},
+	{
+		question: "What page number formats are available?",
+		answer:
+			'You can choose from five formats: plain numbers (1, 2, 3), "Page N" labels, "N of Total" counters, "Page N of Total" labels, or lowercase Roman numerals (i, ii, iii). You can also set a custom starting number and skip the first page for documents with a title page.',
+	},
+	{
+		question: "Can I place numbers in different positions on the page?",
+		answer:
+			"Yes. Six positions are available: top-left, top-center, top-right, bottom-left, bottom-center, and bottom-right. A margin slider lets you fine-tune how far from the edge the numbers appear, from 20 to 100 points.",
+	},
+	{
+		question: "Does this work with scanned or image-based PDFs?",
+		answer:
+			"Yes. The tool adds text directly to the PDF page layer regardless of whether the pages contain searchable text, scanned images, or vector graphics. The page numbers are drawn on top of whatever content already exists.",
+	},
+	{
+		question: "Why use NoUploads instead of other PDF page numbering tools?",
+		answer:
+			"Most PDF numbering tools require you to upload your document to a server, which is a privacy risk for contracts, legal filings, or internal reports. NoUploads processes the entire PDF inside your browser, so nothing is transmitted. There are no file size limits, no account walls, no daily quotas, and it works offline once the page loads. The code is open source.",
+	},
+];
+
+export default function PageNumbersPdfPage() {
+	return (
+		<ToolPageLayout
+			title="Add Page Numbers to PDF"
+			description="Insert page numbers on every page of a PDF — free, private, no upload required."
+		>
+			<Suspense
+				fallback={
+					<div className="flex items-center justify-center h-[460px]">
+						<Spinner className="size-6" />
+					</div>
+				}
+			>
+				<PdfPageNumbersTool />
+			</Suspense>
+
+			<section className="mt-12 mb-8">
+				<h2 className="text-lg font-semibold mb-2">About this tool</h2>
+				<p className="text-muted-foreground">
+					This tool inserts page numbers into any PDF document directly in your
+					browser. You choose where the numbers appear, pick from several common
+					numbering formats, and adjust font size and margin. It handles
+					multi-page documents of any length and supports skipping the first
+					page for title pages. All processing uses pdf-lib client-side, so your
+					files remain private.
+				</p>
+			</section>
+
+			<section>
+				<h2 className="text-lg font-semibold mb-4">
+					Frequently Asked Questions
+				</h2>
+				<Accordion type="multiple">
+					{faqItems.map((item, i) => (
+						// biome-ignore lint/suspicious/noArrayIndexKey: static FAQ list never changes
+						<AccordionItem key={i} value={`faq-${i}`}>
+							<AccordionTrigger>{item.question}</AccordionTrigger>
+							<AccordionContent>
+								<p className="text-muted-foreground">{item.answer}</p>
+							</AccordionContent>
+						</AccordionItem>
+					))}
+				</Accordion>
+			</section>
+
+			<LibraryAttribution packages={["pdf-lib"]} />
+		</ToolPageLayout>
+	);
+}
