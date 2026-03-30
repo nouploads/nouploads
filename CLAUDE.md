@@ -287,14 +287,23 @@ Do not invent one-off page structures unless explicitly required.
 ### New tool checklist
 
 When adding any new tool, create these files:
-1. **Processor** (`app/features/<category>/processors/<tool>.ts`) — pure processing logic
-2. **Feature component** (`app/features/<category>/components/<tool>.tsx`) — interactive UI calling the processor
-3. **Route page** (`app/routes/<category>/<tool>.tsx`) — meta export, subtitle, about section, FAQ
-4. **Tests** — unit tests for processor, component tests for UI, Playwright happy-path
-5. **Homepage entry** — add to `app/lib/tools.ts`
-6. **Prerender config** — add route to `react-router.config.ts`
+1. **Core tool definition** (`packages/core/src/tools/<tool>.ts`) — register in core registry
+2. **Core tool import** — add side-effect import in `packages/core/src/index.ts`
+3. **Core tests** (`packages/core/tests/<tool>.test.ts`) — verify registration, test execute
+4. **Processor** (`apps/web/app/features/<category>/processors/<tool>.ts`) — pure processing logic
+5. **Feature component** (`apps/web/app/features/<category>/components/<tool>.tsx`) — interactive UI calling the processor
+6. **Route page** (`apps/web/app/routes/<category>/<tool>.tsx`) — meta export, subtitle, about section, FAQ
+7. **Route registration** — add to `apps/web/app/routes.ts`
+8. **Unit tests** (`apps/web/tests/unit/processors/<tool>.test.ts`) — test processor functions
+9. **E2E tests** — TWO Playwright test files per tool:
+   - `apps/web/tests/e2e/<tool>.spec.ts` — static page test (heading, controls, FAQ, SEO meta, canonical)
+   - `apps/web/tests/e2e/<tool>-upload.spec.ts` — happy-path test (for file-processing tools: upload fixture, wait for download button, verify result)
+10. **Homepage entry** — add to `apps/web/app/lib/tools.ts` gridTools array
+11. **Prerender config** — add route to `apps/web/react-router.config.ts`
+12. **OG image** — add entry to `scripts/generate-og-images.ts` PAGES array, then run `npx tsx scripts/generate-og-images.ts`
+13. **Category page** — add the new tool to the category index page's quick-links section (e.g. `apps/web/app/routes/pdf/index.tsx` or `apps/web/app/routes/developer/index.tsx`)
 
-Verify: `npm run build` succeeds, prerendered HTML contains static content, meta tags correct.
+Verify: `pnpm run build` succeeds, prerendered HTML contains static content, meta tags correct, OG image exists in `apps/web/public/og/`.
 
 ### Bidirectional conversion rule
 
@@ -624,8 +633,10 @@ Keep real test files in `tests/e2e/fixtures/`. Requirements:
 
 When adding a new tool, also add:
 1. A fixture file in `tests/e2e/fixtures/` if the format is not already covered
-2. A unit test in `tests/unit/processors/<tool>.test.ts` for the processor
-3. An E2E test in `tests/e2e/<tool>.spec.ts` for the full flow
+2. A core test in `packages/core/tests/<tool>.test.ts` for the core tool registration and execute function
+3. A unit test in `apps/web/tests/unit/processors/<tool>.test.ts` for the web processor
+4. A static page E2E test in `apps/web/tests/e2e/<tool>.spec.ts` — heading, controls, FAQ, SEO meta, canonical
+5. A happy-path E2E test in `apps/web/tests/e2e/<tool>-upload.spec.ts` — for file-processing tools: upload fixture, wait for download button, verify result. For interactive tools: fill inputs, verify output
 
 ### Required test coverage
 
@@ -820,14 +831,19 @@ Changes here have broad blast radius.
 
 A task involving a new public tool is only done if:
 
-- route exists
-- metadata exists
-- processor exists
-- tests exist
+- route exists and is registered in `routes.ts`
+- metadata exists (title, description, canonical, OG tags)
+- processor exists (core + web)
+- core tool registered in `packages/core/src/index.ts`
+- unit tests exist (core + web processor)
+- E2E Playwright tests exist (static page + upload happy-path)
 - happy path works
 - invalid input is handled
 - large input behavior is defined if relevant
-- prerender config is updated if relevant
+- prerender config is updated in `react-router.config.ts`
+- homepage entry added to `tools.ts`
+- OG image generated (entry in `scripts/generate-og-images.ts`, run script)
+- category index page updated with quick-link
 - build passes
 - no unrelated files were changed
 
