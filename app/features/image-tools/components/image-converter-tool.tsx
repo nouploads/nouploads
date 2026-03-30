@@ -33,6 +33,7 @@ import {
 	ensureDecodable,
 	extensionForFormat,
 	formatRequiresBackground,
+	getSvgDimensions,
 } from "../processors/convert-image";
 import { GifFrameSelector } from "./gif-frame-selector";
 import { FORMAT_QUALITY, QualitySlider } from "./quality-slider";
@@ -89,12 +90,16 @@ function SingleFileView({
 	outputFormat,
 	backgroundColor,
 	quality,
+	targetWidth,
+	targetHeight,
 	onReset,
 }: {
 	file: File;
 	outputFormat: ConvertOutputFormat;
 	backgroundColor: string;
 	quality: number;
+	targetWidth?: number;
+	targetHeight?: number;
 	onReset: () => void;
 }) {
 	const [originalUrl, setOriginalUrl] = useState<string | null>(null);
@@ -167,6 +172,8 @@ function SingleFileView({
 					outputFormat,
 					backgroundColor,
 					quality: canvasQuality,
+					targetWidth,
+					targetHeight,
 					signal: controller.signal,
 				});
 				if (controller.signal.aborted) return;
@@ -206,6 +213,8 @@ function SingleFileView({
 		outputFormat,
 		backgroundColor,
 		quality,
+		targetWidth,
+		targetHeight,
 		frameBlob,
 		showFrameSelector,
 	]);
@@ -356,12 +365,16 @@ function BatchView({
 	outputFormat,
 	backgroundColor,
 	quality,
+	targetWidth,
+	targetHeight,
 	onReset,
 }: {
 	files: File[];
 	outputFormat: ConvertOutputFormat;
 	backgroundColor: string;
 	quality: number;
+	targetWidth?: number;
+	targetHeight?: number;
 	onReset: () => void;
 }) {
 	const [status, setStatus] = useState<"processing" | "done">("processing");
@@ -386,6 +399,8 @@ function BatchView({
 						outputFormat,
 						backgroundColor,
 						quality: canvasQuality,
+						targetWidth,
+						targetHeight,
 						signal: controller.signal,
 					},
 					(completedIndex, totalCount) => {
@@ -435,7 +450,14 @@ function BatchView({
 		})();
 
 		return () => controller.abort();
-	}, [files, outputFormat, backgroundColor, quality]);
+	}, [
+		files,
+		outputFormat,
+		backgroundColor,
+		quality,
+		targetWidth,
+		targetHeight,
+	]);
 
 	const successfulResults = results.filter(
 		(r): r is BatchResult & { output: ConvertImageResult } =>
@@ -721,6 +743,17 @@ function BackgroundColorPicker({
 	);
 }
 
+// ─── Vector dimension helpers ──────────────────────────────
+
+const VECTOR_MIMES = new Set(["image/svg+xml", "image/svg+xml-compressed"]);
+const DEFAULT_VECTOR_HEIGHT = 2160;
+
+function isVectorMime(file: File): boolean {
+	if (VECTOR_MIMES.has(file.type)) return true;
+	const ext = file.name.split(".").pop()?.toLowerCase();
+	return ext === "svg" || ext === "svgz";
+}
+
 // ─── Main component ─────────────────────────────────────────
 
 export default function ImageConverterTool({
@@ -738,6 +771,14 @@ export default function ImageConverterTool({
 	const [quality, setQuality] = useState(
 		FORMAT_QUALITY[defaultOutputFormat].defaultValue,
 	);
+
+	// Vector dimension state
+	const [isVector, setIsVector] = useState(false);
+	const [aspectRatio, setAspectRatio] = useState(1);
+	const [targetWidth, setTargetWidth] = useState(DEFAULT_VECTOR_HEIGHT);
+	const [targetHeight, setTargetHeight] = useState(DEFAULT_VECTOR_HEIGHT);
+	// Track which field the user last edited so we can derive the other
+	const [lastEdited, setLastEdited] = useState<"width" | "height">("height");
 
 	// Reset quality to format default when output format changes
 	const handleOutputFormatChange = useCallback((v: string) => {
@@ -765,6 +806,46 @@ export default function ImageConverterTool({
 		[outputFormat, defaultOutputFormat],
 	);
 
+	// Detect vector input and read SVG dimensions for aspect ratio
+	useEffect(() => {
+		if (files.length === 0) {
+			setIsVector(false);
+			return;
+		}
+
+		const file = files[0];
+		if (!isVectorMime(file)) {
+			setIsVector(false);
+			return;
+		}
+
+		setIsVector(true);
+		let cancelled = false;
+		(async () => {
+			try {
+				const dims = await getSvgDimensions(file);
+				if (cancelled) return;
+				const ratio = dims.width / dims.height;
+				setAspectRatio(ratio);
+				// Default height is 2160, compute matching width
+				const h = DEFAULT_VECTOR_HEIGHT;
+				const w = Math.round(h * ratio);
+				setTargetHeight(h);
+				setTargetWidth(w);
+				setLastEdited("height");
+			} catch {
+				if (cancelled) return;
+				setAspectRatio(1);
+				setTargetWidth(DEFAULT_VECTOR_HEIGHT);
+				setTargetHeight(DEFAULT_VECTOR_HEIGHT);
+			}
+		})();
+
+		return () => {
+			cancelled = true;
+		};
+	}, [files]);
+
 	// Detect transparency when files change
 	useEffect(() => {
 		if (files.length === 0) {
@@ -788,10 +869,45 @@ export default function ImageConverterTool({
 		};
 	}, [files]);
 
+	const handleWidthChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			const raw = e.target.value;
+			if (raw === "") {
+				setTargetWidth(0);
+				setLastEdited("width");
+				return;
+			}
+			const w = Math.max(1, Math.round(Number(raw)));
+			if (Number.isNaN(w)) return;
+			setTargetWidth(w);
+			setTargetHeight(Math.max(1, Math.round(w / aspectRatio)));
+			setLastEdited("width");
+		},
+		[aspectRatio],
+	);
+
+	const handleHeightChange = useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			const raw = e.target.value;
+			if (raw === "") {
+				setTargetHeight(0);
+				setLastEdited("height");
+				return;
+			}
+			const h = Math.max(1, Math.round(Number(raw)));
+			if (Number.isNaN(h)) return;
+			setTargetHeight(h);
+			setTargetWidth(Math.max(1, Math.round(h * aspectRatio)));
+			setLastEdited("height");
+		},
+		[aspectRatio],
+	);
+
 	const reset = useCallback(() => {
 		setFiles([]);
 		setHasTransparency(false);
 		setInputFormat(null);
+		setIsVector(false);
 	}, []);
 
 	// Filter out the input format from the output options
@@ -831,6 +947,32 @@ export default function ImageConverterTool({
 				)}
 			</div>
 
+			{isVector && (
+				<div className="flex items-center gap-3">
+					<span className="text-sm font-medium">Output size:</span>
+					<Input
+						type="number"
+						min={1}
+						max={16384}
+						value={targetWidth || ""}
+						onChange={handleWidthChange}
+						className="w-24 h-8 text-sm font-mono"
+						aria-label="Output width in pixels"
+					/>
+					<span className="text-sm text-muted-foreground">×</span>
+					<Input
+						type="number"
+						min={1}
+						max={16384}
+						value={targetHeight || ""}
+						onChange={handleHeightChange}
+						className="w-24 h-8 text-sm font-mono"
+						aria-label="Output height in pixels"
+					/>
+					<span className="text-sm text-muted-foreground">px</span>
+				</div>
+			)}
+
 			<QualitySlider
 				format={outputFormat}
 				value={quality}
@@ -850,6 +992,8 @@ export default function ImageConverterTool({
 						outputFormat={outputFormat}
 						backgroundColor={backgroundColor}
 						quality={quality}
+						targetWidth={isVector ? targetWidth : undefined}
+						targetHeight={isVector ? targetHeight : undefined}
 						onReset={reset}
 					/>
 				)}
@@ -860,6 +1004,8 @@ export default function ImageConverterTool({
 						outputFormat={outputFormat}
 						backgroundColor={backgroundColor}
 						quality={quality}
+						targetWidth={isVector ? targetWidth : undefined}
+						targetHeight={isVector ? targetHeight : undefined}
 						onReset={reset}
 					/>
 				)}
