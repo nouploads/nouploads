@@ -12,10 +12,10 @@ export function meta(_args: Route.MetaArgs) {
 		title:
 			"Developer Tools — Free Online Color Picker, Formatters & More | NoUploads",
 		description:
-			"Free browser-based developer utilities. Color picker, code formatters, and more — no upload, no signup, works offline.",
+			"Free browser-based developer utilities. Color picker, JSON formatter, hash generator, JWT decoder, and more — no upload, no signup, works offline.",
 		path: "/developer",
 		keywords:
-			"developer tools online, free color picker, code formatter, online dev tools, private developer tools, browser-based dev tools",
+			"developer tools online, free color picker, json formatter, hash generator, jwt decoder, code formatter, online dev tools, private developer tools, browser-based dev tools",
 		jsonLd: [
 			{
 				"@context": "https://schema.org",
@@ -23,7 +23,7 @@ export function meta(_args: Route.MetaArgs) {
 				name: "Developer Tools — NoUploads",
 				url: `${SITE_URL}/developer`,
 				description:
-					"Free browser-based developer utilities. Color picker, code formatters, and more — no upload, no signup, works offline.",
+					"Free browser-based developer utilities. Color picker, JSON formatter, hash generator, JWT decoder, and more — no upload, no signup, works offline.",
 				isPartOf: {
 					"@type": "WebSite",
 					name: "NoUploads",
@@ -51,8 +51,8 @@ export default function DeveloperCategoryPage() {
 					</h1>
 					<p className="text-muted-foreground max-w-2xl">
 						Handy utilities for developers and designers that run entirely in
-						your browser. Pick colors, format code, and convert between data
-						formats without sending anything to a server.
+						your browser. Pick colors, format JSON, generate hashes, decode
+						JWTs, and more — without sending anything to a server.
 					</p>
 				</div>
 

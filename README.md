@@ -33,7 +33,7 @@ nouploads/
 └── turbo.json
 ```
 
-**`@nouploads/core`** contains 70 tools covering image conversion (20+ format pairs), compression, resize, crop, EXIF metadata, PDF merge, SVG optimization, QR code generation, base64 encoding, and 18 exotic format decoders (PSD, TGA, HDR, EXR, DDS, TIFF, etc.). All tools are platform-agnostic — the same logic powers the website, CLI, and future desktop/mobile apps.
+**`@nouploads/core`** contains 80+ tools covering image conversion (20+ format pairs), compression, resize, crop, rotate/flip, watermark, favicon generation, EXIF metadata, PDF split/merge/rotate/watermark/text-extraction, SVG optimization, QR code generation, JSON formatting, hash generation, JWT decoding, base64 encoding, and 18 exotic format decoders (PSD, TGA, HDR, EXR, DDS, TIFF, etc.). All tools are platform-agnostic — the same logic powers the website, CLI, and future desktop/mobile apps.
 
 ## Quick Start
 
@@ -50,7 +50,7 @@ npx nouploads optimize-svg logo.svg
 npx nouploads merge-pdf a.pdf b.pdf -o combined.pdf
 npx nouploads resize-image photo.jpg --width 800 --format png
 npx nouploads compress-jpg photo.jpg --quality 60
-npx nouploads --list          # see all 70 tools
+npx nouploads --list          # see all 80+ tools
 npx nouploads --info crop-image  # detailed help for a tool
 ```
 
@@ -91,7 +91,7 @@ pnpm dev            # start web dev server
 
 ```bash
 pnpm --filter @nouploads/web dev      # dev server at localhost:5173
-pnpm --filter @nouploads/web test     # 472 unit tests
+pnpm --filter @nouploads/web test     # 616 unit tests
 pnpm --filter @nouploads/web test:e2e # Playwright e2e tests
 ```
 
@@ -117,11 +117,11 @@ node packages/cli/bin/nouploads.js --list
 
 ### Image Editing
 
-Resize, crop, rotate/flip, compress (JPG/PNG/WebP/GIF), remove background (AI), EXIF viewer/stripper, images to PDF, favicon generator (ICO).
+Resize, crop, rotate/flip, compress (JPG/PNG/WebP/GIF), watermark, remove background (AI), EXIF viewer/stripper, images to PDF, favicon generator (ICO).
 
 ### PDF Tools
 
-PDF to JPG/PNG, merge PDFs, compress PDF.
+PDF to JPG/PNG, merge PDFs, split PDF, rotate PDF, compress PDF, add watermark, extract text.
 
 ### Vector Tools
 
@@ -129,7 +129,7 @@ SVG optimizer (svgo) with SVGZ export.
 
 ### Developer Tools
 
-Color picker (HEX/RGB/HSL/CMYK/LAB/OKLCH), base64 encoder/decoder, QR code generator, hash generator (MD5/SHA-1/SHA-256/SHA-384/SHA-512).
+Color picker (HEX/RGB/HSL/CMYK/LAB/OKLCH), JSON formatter/validator/minifier, hash generator (MD5/SHA-1/SHA-256/SHA-384/SHA-512), JWT decoder, base64 encoder/decoder, QR code generator.
 
 Full tool list: [nouploads.com](https://nouploads.com) or `npx nouploads --list`
 

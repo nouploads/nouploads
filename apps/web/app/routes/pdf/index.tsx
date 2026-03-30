@@ -10,12 +10,12 @@ import type { Route } from "./+types/index";
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
 		title:
-			"PDF Tools — Free Online PDF Converter, Merger & Compressor | NoUploads",
+			"PDF Tools — Free Online PDF Split, Merge, Rotate & More | NoUploads",
 		description:
-			"Free online PDF tools that run in your browser. Convert, merge, and compress PDFs with no upload, no signup. Private, unlimited, works offline.",
+			"Free online PDF tools that run in your browser. Split, merge, rotate, watermark, compress, and extract text from PDFs. No upload, no signup.",
 		path: "/pdf",
 		keywords:
-			"pdf tools online, free pdf converter, merge pdf online, compress pdf online, pdf editor no upload, private pdf tools",
+			"pdf tools online, free pdf converter, merge pdf online, split pdf online, rotate pdf, pdf watermark, pdf to text, compress pdf online, pdf editor no upload, private pdf tools",
 		jsonLd: [
 			{
 				"@context": "https://schema.org",
@@ -23,7 +23,7 @@ export function meta(_args: Route.MetaArgs) {
 				name: "PDF Tools — NoUploads",
 				url: `${SITE_URL}/pdf`,
 				description:
-					"Free online PDF tools that run in your browser. Convert, merge, and compress PDFs with no upload, no signup. Private, unlimited, works offline.",
+					"Free online PDF tools that run in your browser. Split, merge, rotate, watermark, compress, and extract text from PDFs. No upload, no signup.",
 				isPartOf: {
 					"@type": "WebSite",
 					name: "NoUploads",
@@ -39,6 +39,7 @@ const pdfTools = gridTools.filter((t) => t.href.startsWith("/pdf/"));
 const conversionLinks = [
 	{ href: "/pdf/pdf-to-jpg", label: "PDF → JPG" },
 	{ href: "/pdf/pdf-to-png", label: "PDF → PNG" },
+	{ href: "/pdf/pdf-to-text", label: "PDF → Text" },
 ];
 
 function PillLinks({ links }: { links: { href: string; label: string }[] }) {
@@ -69,10 +70,10 @@ export default function PdfCategoryPage() {
 				<div className="mb-8">
 					<h1 className="text-3xl font-bold tracking-tight mb-3">PDF Tools</h1>
 					<p className="text-muted-foreground max-w-2xl">
-						Merge, compress, and convert PDF files directly in your browser.
-						Every operation runs locally — your documents are never uploaded to
-						any server. All tools are free, unlimited, and work offline after
-						the first page load.
+						Split, merge, rotate, watermark, compress, and extract text from PDF
+						files directly in your browser. Every operation runs locally — your
+						documents are never uploaded to any server. All tools are free,
+						unlimited, and work offline after the first page load.
 					</p>
 				</div>
 

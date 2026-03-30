@@ -44,12 +44,12 @@ Legend: ✅ Signed off | ⚠️ Disputed | ❌ Not feasible | ⏳ In progress | 
 ## Batch 3: Integration + Documentation
 | Status | ID | Task | Notes |
 |--------|----|------|-------|
-| ⏳ | D21 | AGENTS.md + CONTRIBUTING.md | |
-| ⏳ | D22 | README.md comprehensive update | |
-| ⏳ | D23 | Format router expansion | |
-| ⏳ | D24 | /image hub update | |
-| ⏳ | D25 | /vector ↔ /image cross-linking | |
-| ⏳ | D26 | Smoke test all new formats | |
+| ✅ | D21 | AGENTS.md + CONTRIBUTING.md | Already complete from prior work |
+| ✅ | D22 | README.md comprehensive update | Updated tool counts (80+), new tool sections, test counts |
+| ✅ | D23 | Format router expansion | 10 new tools added (batch-next-10): PDF split/rotate/watermark/text, image rotate/watermark/favicon, JSON formatter, hash generator, JWT decoder |
+| ✅ | D24 | /image hub update | Image hub already shows rotate, watermark, favicon via gridTools filter |
+| ✅ | D25 | /vector ↔ /image cross-linking | Already complete — /image links to /vector, /vector links to /image |
+| ✅ | D26 | Smoke test all new formats | All 10 new routes prerender. 616 unit tests pass. E2E page structure tests pass. |
 
 ## Killed Formats
 | Format | Reason |
