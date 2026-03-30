@@ -429,6 +429,57 @@ const PAGES: PageInfo[] = [
 		title: "JWT Decoder",
 		description: "Decode and inspect JWT tokens with expiration status",
 	},
+	// Batch 2 tools
+	{
+		path: "/pdf/page-numbers",
+		title: "PDF Page Numbers",
+		description: "Add page numbers to every page of a PDF",
+	},
+	{
+		path: "/pdf/protect",
+		title: "Protect PDF",
+		description: "Add password protection and restrict permissions",
+	},
+	{
+		path: "/pdf/unlock",
+		title: "Unlock PDF",
+		description: "Remove password protection from PDF documents",
+	},
+	{
+		path: "/image/filters",
+		title: "Image Filters",
+		description: "Apply grayscale, sepia, blur, brightness, and more effects",
+	},
+	{
+		path: "/developer/regex-tester",
+		title: "Regex Tester",
+		description: "Test regular expressions with match highlighting",
+	},
+	{
+		path: "/developer/timestamp-converter",
+		title: "Timestamp Converter",
+		description: "Convert between Unix timestamps and human-readable dates",
+	},
+	{
+		path: "/developer/uuid-generator",
+		title: "UUID Generator",
+		description: "Generate and validate UUID v4 and v7 identifiers",
+	},
+	{
+		path: "/developer/url-encoder",
+		title: "URL Encoder / Decoder",
+		description: "Encode, decode, and parse URL components",
+	},
+	{
+		path: "/developer/text-diff",
+		title: "Text Diff",
+		description: "Compare two blocks of text with line-level highlighting",
+	},
+	{
+		path: "/developer/markdown-preview",
+		title: "Markdown Preview",
+		description: "Live Markdown editor with GitHub Flavored Markdown support",
+	},
 ];
 
 // ── SVG generator ──
