@@ -8,7 +8,7 @@
 	},
 	"scripts": {
 		"dev": "react-router dev",
-		"build": "react-router build",
+		"build": "npx tsx scripts/generate-sitemap.ts && react-router build",
 		"start": "react-router-serve ./build/server/index.js",
 		"typecheck": "react-router typegen && tsc",
 		"test": "vitest run",
