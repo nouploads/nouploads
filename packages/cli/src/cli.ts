@@ -257,12 +257,194 @@ function showToolInfo(toolId: string) {
 }
 
 async function interactiveMode() {
-	const { intro, outro } = await import("@clack/prompts");
+	const {
+		intro,
+		outro,
+		select,
+		text,
+		confirm,
+		spinner: createSpinner,
+		isCancel,
+		log,
+	} = await import("@clack/prompts");
+	const { readFile: readFileAsync, writeFile: writeFileAsync } = await import(
+		"node:fs/promises"
+	);
+	const { resolve } = await import("node:path");
+
 	intro("nouploads — Convert and process files locally");
-	// TODO: Implement full TUI mode with @clack/prompts
-	// For now, show available tools
-	listTools();
-	outro("Run `nouploads <from> <to> <file>` to convert a file.");
+
+	const tools = getAllTools().filter(
+		(t) => !t.capabilities?.includes("browser"),
+	);
+
+	// Step 1: Pick a category
+	const categories = [...new Set(tools.map((t) => t.category))];
+	const category = await select({
+		message: "What would you like to do?",
+		options: categories.map((cat) => ({
+			value: cat,
+			label: cat.charAt(0).toUpperCase() + cat.slice(1),
+			hint: `${tools.filter((t) => t.category === cat).length} tools`,
+		})),
+	});
+	if (isCancel(category)) {
+		outro("Cancelled.");
+		return;
+	}
+
+	// Step 2: Pick a tool
+	const catTools = tools.filter((t) => t.category === category);
+	const toolId = await select({
+		message: "Pick a tool:",
+		options: catTools.map((t) => ({
+			value: t.id,
+			label:
+				t.from && t.to
+					? `${t.from.toUpperCase()} → ${t.to.toUpperCase()}`
+					: t.name,
+			hint: t.description.slice(0, 60),
+		})),
+	});
+	if (isCancel(toolId)) {
+		outro("Cancelled.");
+		return;
+	}
+
+	const tool = getTool(toolId as string);
+	if (!tool) {
+		log.error("Tool not found.");
+		return;
+	}
+
+	log.info(`Selected: ${tool.name}`);
+
+	// Step 3: Get input file(s)
+	const isMulti = !!tool.executeMulti;
+	const filePaths: string[] = [];
+
+	const firstFile = await text({
+		message: isMulti ? "Enter first file path:" : "Enter file path:",
+		placeholder: "./photo.jpg",
+	});
+	if (isCancel(firstFile)) {
+		outro("Cancelled.");
+		return;
+	}
+	filePaths.push(resolve(firstFile as string));
+
+	if (isMulti) {
+		let addMore = true;
+		while (addMore) {
+			const more = await confirm({
+				message: "Add another file?",
+			});
+			if (isCancel(more) || !more) {
+				addMore = false;
+				break;
+			}
+			const nextFile = await text({
+				message: "Enter file path:",
+				placeholder: "./another-file.pdf",
+			});
+			if (isCancel(nextFile)) break;
+			filePaths.push(resolve(nextFile as string));
+		}
+	}
+
+	// Step 4: Collect tool options
+	const toolOptions: Record<string, unknown> = {};
+	for (const opt of tool.options) {
+		if (opt.choices) {
+			const val = await select({
+				message: `${opt.description}:`,
+				options: opt.choices.map((c) => ({ value: c, label: c })),
+			});
+			if (isCancel(val)) {
+				outro("Cancelled.");
+				return;
+			}
+			toolOptions[opt.name] = val;
+		} else if (opt.type === "boolean") {
+			const val = await confirm({
+				message: `${opt.description}?`,
+			});
+			if (isCancel(val)) {
+				outro("Cancelled.");
+				return;
+			}
+			toolOptions[opt.name] = val;
+		} else if (opt.type === "number") {
+			const val = await text({
+				message: `${opt.description}:`,
+				placeholder: String(opt.default ?? ""),
+			});
+			if (isCancel(val)) {
+				outro("Cancelled.");
+				return;
+			}
+			toolOptions[opt.name] = val
+				? Number.parseInt(val as string, 10)
+				: opt.default;
+		} else {
+			const val = await text({
+				message: `${opt.description}:`,
+				placeholder: String(opt.default ?? ""),
+			});
+			if (isCancel(val)) {
+				outro("Cancelled.");
+				return;
+			}
+			toolOptions[opt.name] = val || opt.default;
+		}
+	}
+
+	// Step 5: Ask for output path
+	const outputPath = await text({
+		message: "Output path (leave empty for default):",
+		placeholder: isMulti ? "./output.pdf" : "",
+	});
+	if (isCancel(outputPath)) {
+		outro("Cancelled.");
+		return;
+	}
+
+	// Step 6: Run the tool
+	const s = createSpinner();
+	const backend = createSharpBackend();
+
+	try {
+		if (isMulti && tool.executeMulti) {
+			s.start(`Processing ${filePaths.length} files...`);
+			const inputs: Uint8Array[] = [];
+			for (const fp of filePaths) {
+				inputs.push(new Uint8Array(await readFileAsync(fp)));
+			}
+			const result = await tool.executeMulti(inputs, toolOptions, {
+				imageBackend: backend,
+			});
+			const out = (outputPath as string) || `output${result.extension}`;
+			await writeFileAsync(out, result.output);
+			s.stop(`Done! ${filePaths.length} files → ${out}`);
+		} else {
+			const fp = filePaths[0];
+			s.start(`Processing ${basename(fp)}...`);
+			const input = new Uint8Array(await readFileAsync(fp));
+			const result = await tool.execute(input, toolOptions, {
+				imageBackend: backend,
+			});
+			const inputBase = basename(fp, extname(fp));
+			const out =
+				(outputPath as string) ||
+				join(dirname(fp), `${inputBase}${result.extension}`);
+			await writeFileAsync(out, result.output);
+			s.stop(`Done! ${basename(fp)} → ${out}`);
+		}
+	} catch (err) {
+		s.stop(`Error: ${(err as Error).message}`);
+	}
+
+	outro("No files were uploaded. Everything ran locally.");
 }
 
 program.parse();
