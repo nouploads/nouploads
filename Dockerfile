@@ -7,6 +7,7 @@ FROM base AS deps
 COPY pnpm-workspace.yaml pnpm-lock.yaml package.json ./
 COPY packages/core/package.json packages/core/
 COPY packages/backend-canvas/package.json packages/backend-canvas/
+COPY packages/backend-sharp/package.json packages/backend-sharp/
 COPY apps/web/package.json apps/web/
 RUN pnpm install --frozen-lockfile
 

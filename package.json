@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"build": "turbo run build",
+		"generate:og": "npx tsx scripts/generate-og-images.ts",
 		"test": "turbo run test",
 		"dev": "turbo run dev --parallel",
 		"lint": "turbo run lint",
