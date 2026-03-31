@@ -795,7 +795,7 @@ Do not use feature work as an excuse for architectural experiments.
 Before claiming a task is complete, the agent must run or verify the relevant checks.
 
 Minimum expectation:
-- lint (`npm run lint`)
+- lint (`npm run lint:fix` to auto-fix, then `pnpm exec biome check .` to verify — the second command mirrors CI exactly and must exit 0)
 - typecheck
 - unit tests for changed logic
 - component tests if relevant
