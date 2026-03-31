@@ -12,7 +12,7 @@
   </url>
   <url>
     <loc>https://nouploads.com/image</loc>
-    <lastmod>2026-03-30</lastmod>
+    <lastmod>2026-03-31</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -148,6 +148,11 @@
   <url>
     <loc>https://nouploads.com/image/exif</loc>
     <lastmod>2026-03-30</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouploads.com/image/strip-metadata</loc>
+    <lastmod>2026-03-31</lastmod>
     <priority>0.6</priority>
   </url>
   <url>
@@ -386,6 +391,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://nouploads.com/pdf/reorder</loc>
+    <lastmod>2026-03-31</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://nouploads.com/vector</loc>
     <lastmod>2026-03-30</lastmod>
     <priority>0.9</priority>
@@ -461,6 +471,41 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://nouploads.com/developer/word-counter</loc>
+    <lastmod>2026-03-31</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/css-formatter</loc>
+    <lastmod>2026-03-31</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/case-converter</loc>
+    <lastmod>2026-03-31</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/cron-parser</loc>
+    <lastmod>2026-03-31</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/yaml-json</loc>
+    <lastmod>2026-03-31</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/json-csv</loc>
+    <lastmod>2026-03-31</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/lorem-ipsum</loc>
+    <lastmod>2026-03-31</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://nouploads.com/pdf/page-numbers</loc>
     <lastmod>2026-03-30</lastmod>
     <priority>0.6</priority>
@@ -478,6 +523,11 @@
   <url>
     <loc>https://nouploads.com/image/filters</loc>
     <lastmod>2026-03-30</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouploads.com/image/color-palette</loc>
+    <lastmod>2026-03-31</lastmod>
     <priority>0.6</priority>
   </url>
 </urlset>
