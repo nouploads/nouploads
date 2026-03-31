@@ -1,31 +1,31 @@
 {
-  "name": "nouploads-monorepo",
-  "version": "0.2.0",
-  "private": true,
-  "description": "Privacy-first file tools that run entirely on your device — no uploads, no servers",
-  "license": "AGPL-3.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nouploads/nouploads.git"
-  },
-  "homepage": "https://nouploads.com",
-  "bugs": {
-    "url": "https://github.com/nouploads/nouploads/issues"
-  },
-  "scripts": {
-    "build": "turbo run build",
-    "generate:og": "npx tsx scripts/generate-og-images.ts",
-    "test": "turbo run test",
-    "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
-    "lint:fix": "turbo run lint:fix",
-    "clean": "turbo run clean"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "2.4.8",
-    "turbo": "2.8.21",
-    "typescript": "5.9.3",
-    "vitest": "4.1.1"
-  },
-  "packageManager": "pnpm@9.15.4"
+	"name": "nouploads-monorepo",
+	"version": "0.2.0",
+	"private": true,
+	"description": "Privacy-first file tools that run entirely on your device — no uploads, no servers",
+	"license": "AGPL-3.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/nouploads/nouploads.git"
+	},
+	"homepage": "https://nouploads.com",
+	"bugs": {
+		"url": "https://github.com/nouploads/nouploads/issues"
+	},
+	"scripts": {
+		"build": "turbo run build",
+		"generate:og": "npx tsx scripts/generate-og-images.ts",
+		"test": "turbo run test",
+		"dev": "turbo run dev --parallel",
+		"lint": "turbo run lint",
+		"lint:fix": "turbo run lint:fix",
+		"clean": "turbo run clean"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.8",
+		"turbo": "2.8.21",
+		"typescript": "5.9.3",
+		"vitest": "4.1.1"
+	},
+	"packageManager": "pnpm@9.15.4"
 }

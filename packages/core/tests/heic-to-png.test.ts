@@ -37,8 +37,10 @@ describe("heic-to-png tool", () => {
 
 	it("should throw if no image backend provided", async () => {
 		const tool = getTool("heic-to-png");
+		expect(tool).toBeDefined();
 		const input = new Uint8Array([0, 0, 0]);
 		await expect(
+			// biome-ignore lint/style/noNonNullAssertion: guarded by assertion above
 			tool!.execute(input, {}, { imageBackend: undefined }),
 		).rejects.toThrow("Image backend required");
 	});
