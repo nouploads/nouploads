@@ -52,6 +52,16 @@ const PAGES: PageInfo[] = [
 		description: "Convert iPhone HEIC photos to JPG format",
 	},
 	{
+		path: "/image/heic-to-png",
+		title: "HEIC to PNG",
+		description: "Convert iPhone HEIC photos to lossless PNG",
+	},
+	{
+		path: "/image/heic-to-webp",
+		title: "HEIC to WebP",
+		description: "Convert iPhone HEIC photos to modern WebP",
+	},
+	{
 		path: "/image/compress",
 		title: "Image Compress",
 		description: "Reduce image file size with adjustable quality",
@@ -132,6 +142,26 @@ const PAGES: PageInfo[] = [
 		description: "Convert GIF images to compact JPG format",
 	},
 	{
+		path: "/image/gif-to-png",
+		title: "GIF to PNG",
+		description: "Convert GIF images to lossless PNG with transparency",
+	},
+	{
+		path: "/image/bmp-to-jpg",
+		title: "BMP to JPG",
+		description: "Convert BMP bitmap images to compact JPG",
+	},
+	{
+		path: "/image/bmp-to-png",
+		title: "BMP to PNG",
+		description: "Convert BMP bitmap images to lossless PNG",
+	},
+	{
+		path: "/image/bmp-to-webp",
+		title: "BMP to WebP",
+		description: "Convert BMP bitmap images to modern WebP",
+	},
+	{
 		path: "/image/resize",
 		title: "Image Resize",
 		description: "Resize images by pixels, percentage, or presets",
@@ -195,6 +225,11 @@ const PAGES: PageInfo[] = [
 		path: "/image/ico-to-jpg",
 		title: "ICO to JPG",
 		description: "Convert ICO favicon files to JPG images",
+	},
+	{
+		path: "/image/ico-to-webp",
+		title: "ICO to WebP",
+		description: "Convert ICO favicon files to WebP images",
 	},
 	{
 		path: "/image/jxl-to-jpg",

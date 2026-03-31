@@ -39,6 +39,8 @@ const imageTools = gridTools.filter((t) => t.href.startsWith("/image/"));
 
 const conversionLinks = [
 	{ href: "/image/heic-to-jpg", label: "HEIC → JPG" },
+	{ href: "/image/heic-to-png", label: "HEIC → PNG" },
+	{ href: "/image/heic-to-webp", label: "HEIC → WebP" },
 	{ href: "/image/jpg-to-png", label: "JPG → PNG" },
 	{ href: "/image/png-to-jpg", label: "PNG → JPG" },
 	{ href: "/image/webp-to-jpg", label: "WebP → JPG" },
@@ -51,9 +53,14 @@ const conversionLinks = [
 	{ href: "/image/avif-to-jpg", label: "AVIF → JPG" },
 	{ href: "/image/avif-to-png", label: "AVIF → PNG" },
 	{ href: "/image/gif-to-jpg", label: "GIF → JPG" },
+	{ href: "/image/gif-to-png", label: "GIF → PNG" },
+	{ href: "/image/bmp-to-jpg", label: "BMP → JPG" },
+	{ href: "/image/bmp-to-png", label: "BMP → PNG" },
+	{ href: "/image/bmp-to-webp", label: "BMP → WebP" },
 	{ href: "/image/tiff-to-jpg", label: "TIFF → JPG" },
 	{ href: "/image/tiff-to-png", label: "TIFF → PNG" },
 	{ href: "/image/ico-to-png", label: "ICO → PNG" },
+	{ href: "/image/ico-to-webp", label: "ICO → WebP" },
 	{ href: "/image/jxl-to-jpg", label: "JXL → JPG" },
 	{ href: "/image/jxl-to-png", label: "JXL → PNG" },
 ];
