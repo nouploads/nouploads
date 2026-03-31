@@ -9,6 +9,7 @@
  * The prerender list is the single source of truth for all public routes.
  */
 
+import { execSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,6 +18,64 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const SITE_URL = process.env.VITE_SITE_URL || "https://nouploads.com";
 const OUT_PATH = join(__dirname, "../public/sitemap.xml");
+const APP_DIR = join(__dirname, "..");
+
+/** Core tools that deserve higher priority in the sitemap. */
+const CORE_TOOLS = new Set([
+	"/image/compress",
+	"/image/convert",
+	"/image/resize",
+	"/image/crop",
+	"/image/heic-to-jpg",
+	"/pdf/merge",
+	"/pdf/split",
+	"/pdf/compress",
+]);
+
+function getPriority(path: string): string {
+	if (path === "/") return "1.0";
+	// Category pages: /image, /pdf, /vector, /developer
+	if (path.split("/").length === 2 && path !== "/about") return "0.9";
+	if (CORE_TOOLS.has(path)) return "0.8";
+	if (path === "/about") return "0.3";
+	return "0.6";
+}
+
+/**
+ * Get the last git-modified date for the route file corresponding to a URL path.
+ * Falls back to today's date if git log returns nothing.
+ */
+function getLastModified(routePath: string): string {
+	const today = new Date().toISOString().split("T")[0];
+
+	// Map URL path to route file
+	let filePath: string;
+	if (routePath === "/") {
+		filePath = "app/routes/home.tsx";
+	} else {
+		const parts = routePath.split("/").filter(Boolean);
+		if (parts.length === 1) {
+			filePath = `app/routes/${parts[0]}/index.tsx`;
+		} else {
+			filePath = `app/routes/${parts.join("/")}.tsx`;
+		}
+	}
+
+	try {
+		const result = execSync(`git log -1 --format=%aI -- "${filePath}"`, {
+			cwd: APP_DIR,
+			encoding: "utf-8",
+			stdio: ["pipe", "pipe", "pipe"],
+		}).trim();
+		if (result) {
+			return result.split("T")[0];
+		}
+	} catch {
+		// git not available or file not tracked
+	}
+
+	return today;
+}
 
 async function main() {
 	// Import the config to get the prerender list
@@ -27,18 +86,14 @@ async function main() {
 		throw new Error("No prerender routes found in react-router.config.ts");
 	}
 
-	const today = new Date().toISOString().split("T")[0];
-
 	const urls = routes
 		.map((path) => {
 			const loc = `${SITE_URL}${path}`;
-			// Homepage gets highest priority, category pages next, tools lowest
-			const priority =
-				path === "/" ? "1.0" : path.split("/").length === 2 ? "0.8" : "0.6";
+			const priority = getPriority(path);
+			const lastmod = getLastModified(path);
 			return `  <url>
     <loc>${loc}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>${lastmod}</lastmod>
     <priority>${priority}</priority>
   </url>`;
 		})
