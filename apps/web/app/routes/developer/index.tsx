@@ -43,6 +43,13 @@ const quickLinks = [
 	{ href: "/developer/url-encoder", label: "URL Encoder" },
 	{ href: "/developer/text-diff", label: "Text Diff" },
 	{ href: "/developer/markdown-preview", label: "Markdown Preview" },
+	{ href: "/developer/word-counter", label: "Word Counter" },
+	{ href: "/developer/css-formatter", label: "CSS Formatter" },
+	{ href: "/developer/case-converter", label: "Case Converter" },
+	{ href: "/developer/cron-parser", label: "CRON Parser" },
+	{ href: "/developer/json-csv", label: "JSON ↔ CSV" },
+	{ href: "/developer/yaml-json", label: "YAML ↔ JSON" },
+	{ href: "/developer/lorem-ipsum", label: "Lorem Ipsum" },
 ];
 
 function PillLinks({ links }: { links: { href: string; label: string }[] }) {

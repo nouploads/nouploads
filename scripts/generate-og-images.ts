@@ -182,6 +182,11 @@ const PAGES: PageInfo[] = [
 		description: "View and strip photo metadata",
 	},
 	{
+		path: "/image/strip-metadata",
+		title: "EXIF Metadata Remover",
+		description: "Strip GPS, camera info, and all metadata from photos",
+	},
+	{
 		path: "/image/to-pdf",
 		title: "Images to PDF",
 		description: "Combine multiple images into a single PDF",
@@ -514,6 +519,56 @@ const PAGES: PageInfo[] = [
 		path: "/developer/markdown-preview",
 		title: "Markdown Preview",
 		description: "Live Markdown editor with GitHub Flavored Markdown support",
+	},
+	{
+		path: "/developer/word-counter",
+		title: "Word Counter",
+		description:
+			"Count characters, words, sentences, paragraphs and reading time",
+	},
+	{
+		path: "/developer/css-formatter",
+		title: "CSS Formatter",
+		description: "Minify or beautify CSS with size comparison",
+	},
+	{
+		path: "/developer/case-converter",
+		title: "Case Converter",
+		description:
+			"Convert text between camelCase, snake_case, kebab-case, and more",
+	},
+	{
+		path: "/developer/cron-parser",
+		title: "CRON Expression Parser",
+		description:
+			"Parse cron expressions into human-readable schedules with next run times",
+	},
+	{
+		path: "/developer/json-csv",
+		title: "JSON ↔ CSV Converter",
+		description:
+			"Convert between JSON arrays and CSV with nested object flattening",
+	},
+	{
+		path: "/developer/yaml-json",
+		title: "YAML ↔ JSON Converter",
+		description: "Convert between YAML and JSON with validation and formatting",
+	},
+	{
+		path: "/developer/lorem-ipsum",
+		title: "Lorem Ipsum Generator",
+		description: "Generate placeholder text with configurable length",
+	},
+	{
+		path: "/image/color-palette",
+		title: "Color Palette Extractor",
+		description: "Extract dominant colors from any image as hex, RGB, and HSL",
+	},
+	{
+		path: "/pdf/reorder",
+		title: "Reorder PDF Pages",
+		description:
+			"Drag and drop to rearrange or remove PDF pages — free and private",
 	},
 ];
 
