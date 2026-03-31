@@ -24,6 +24,30 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"fits to jpg, fits converter, fits viewer, open fits file, astronomy image converter, fits to png online",
 		jsonLdName: "FITS Converter",
+		faq: [
+			{
+				question: "How did FITS become the universal astronomy format?",
+				answer:
+					"FITS (Flexible Image Transport System) is the standard data format used in astronomy. Developed in the late 1970s and first standardized in 1981, it is endorsed by NASA and the International Astronomical Union. Every image captured by the Hubble Space Telescope, the James Webb Space Telescope, and virtually every ground-based observatory in the world is stored and distributed in FITS format.",
+			},
+			{
+				question:
+					"Why do FITS images look black or washed out without stretching?",
+				answer:
+					"Astronomical images captured by CCD or CMOS sensors often have most of their pixel values concentrated in a narrow range near the background level, with only a few bright pixels from stars or nebulae. Displaying the raw values directly produces an image that looks almost entirely black. Auto-stretching maps the 1st and 99th percentile of the data to the display range, revealing the faint structures that the sensor actually captured.",
+			},
+			{
+				question: "Which FITS data types does this tool support?",
+				answer:
+					"This converter handles the five standard BITPIX types defined in the FITS specification: 8-bit unsigned integer, 16-bit signed integer, 32-bit signed integer, 32-bit IEEE float, and 64-bit IEEE double. It also applies BSCALE and BZERO header values for physical unit conversion. Both grayscale (NAXIS=2) and color images stored as three separate planes (NAXIS=3, NAXIS3=3) are supported.",
+			},
+			{
+				question:
+					"Can I use this for images from Hubble, JWST, or ground telescopes?",
+				answer:
+					"Yes. FITS files from any telescope or survey \u2014 including Hubble, James Webb, Chandra, ALMA, and ground-based observatories \u2014 can be converted here as long as they are 2D image data (not data cubes, tables, or multi-extension files with complex structures). Public archive data from MAST, ESO, or IRSA typically works out of the box.",
+			},
+		],
 	});
 }
 

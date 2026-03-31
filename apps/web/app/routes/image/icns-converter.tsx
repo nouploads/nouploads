@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"icns to png, icns converter, apple icon converter, open icns file, mac icon to png",
 		jsonLdName: "ICNS Converter",
+		faq: [
+			{
+				question: "What's the story behind Apple's ICNS format?",
+				answer:
+					"ICNS is Apple's icon format for macOS, in use since Mac OS 8.5 in 1998. Like Windows ICO files, a single ICNS file bundles multiple icon sizes \u2014 but ICNS supports much larger resolutions, up to 1024\u00d71024 pixels, to accommodate Apple's Retina displays. Every app icon visible on a Mac is stored as an ICNS file inside the application bundle.",
+			},
+			{
+				question: "How does this tool pick which icon size to extract?",
+				answer:
+					"The decoder parses every entry in the ICNS container and selects the largest available image. Modern ICNS files (macOS 10.7+) embed full PNG images for the highest resolutions, so you typically get a crisp 512x512 or 1024x1024 icon. Older files use 32-bit ARGB data with PackBits compression, which the decoder also handles.",
+			},
+			{
+				question: "Does it preserve transparency?",
+				answer:
+					"Yes. macOS icons rely on transparency for their rounded shapes and shadows. The decoder preserves the full alpha channel from both PNG-embedded entries and legacy ARGB+mask entries. Choose PNG or WebP as the output format to keep the transparent areas intact.",
+			},
+			{
+				question: "Where do macOS app icons come from?",
+				answer:
+					"Every macOS application bundle (.app) contains an ICNS file inside its Contents/Resources folder. You can right-click any app in Finder, choose Show Package Contents, and navigate to find the .icns file. This tool lets you open that file and convert it to a standard image format without installing any software.",
+			},
+		],
 	});
 }
 

@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"webp to png, convert webp to png, webp to png transparent, webp converter lossless, save webp as png",
 		jsonLdName: "WebP to PNG Converter",
+		faq: [
+			{
+				question: "Where does the WebP format come from?",
+				answer:
+					"WebP uses the RIFF (Resource Interchange File Format) container — the same family as AVI video and WAV audio files. Inside this container, WebP supports lossy compression (VP8-based), lossless compression, alpha transparency, and animation with full color, essentially combining the capabilities of JPEG, PNG, and GIF into a single file format.",
+			},
+			{
+				question: "Does the conversion preserve transparency?",
+				answer:
+					"Yes. WebP supports alpha transparency, and PNG preserves it perfectly. If your WebP image has a transparent background, the converted PNG will keep it intact.",
+			},
+			{
+				question: "Will the PNG file be larger than the WebP?",
+				answer:
+					"Almost always. WebP is a more efficient format than PNG, especially for complex images. Expect the PNG output to be 2–5x larger. The tradeoff is broader software compatibility and lossless quality.",
+			},
+			{
+				question: "Can I convert animated WebP files?",
+				answer:
+					"This tool converts the first frame of animated WebP images into a static PNG. For full animated WebP conversion, a dedicated animation tool would be needed.",
+			},
+		],
 	});
 }
 

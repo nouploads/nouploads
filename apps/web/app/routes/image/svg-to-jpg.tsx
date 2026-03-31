@@ -24,6 +24,29 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"svg to jpg, convert svg to jpg, svg to jpeg online, svg to jpg converter, rasterize svg jpeg, svg converter",
 		jsonLdName: "SVG to JPG Converter",
+		faq: [
+			{
+				question: "Where does the SVG format come from?",
+				answer:
+					"Scalable Vector Graphics (SVG) was developed by the World Wide Web Consortium (W3C) beginning in 1999. It emerged after six competing proposals for web vector graphics were submitted in 1998, including Adobe's PGML and Microsoft's VML. Rather than adopt any single proposal, the W3C created an entirely new XML-based language — a decision that ultimately produced a more elegant and extensible standard.",
+			},
+			{
+				question: "What happens to transparent areas in my SVG?",
+				answer:
+					"JPG does not support transparency. Any transparent regions in your SVG are composited onto a white background before encoding. If you need to keep transparency, use the SVG to PNG or SVG to WebP converter instead.",
+			},
+			{
+				question: "What JPG quality is best for SVG conversion?",
+				answer:
+					"For most SVGs with text and simple shapes, quality 85-90 gives a clean result at a reasonable file size. For SVGs with embedded photographs or complex gradients, 80 is usually enough. Lower values reduce file size but may introduce visible compression artifacts around sharp edges.",
+			},
+			{
+				question:
+					"Can I convert SVGs with embedded fonts or external resources?",
+				answer:
+					"Embedded fonts and inline styles are rendered correctly since the browser handles the SVG natively. External resources like linked stylesheets or images referenced via URL may not load because the file is processed locally without network access to those remote assets.",
+			},
+		],
 	});
 }
 

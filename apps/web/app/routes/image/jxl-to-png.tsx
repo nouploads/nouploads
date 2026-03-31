@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"jxl to png, jpeg xl to png, convert jxl to png online, jxl to png converter, jxl transparent png",
 		jsonLdName: "JXL to PNG Converter",
+		faq: [
+			{
+				question: "What makes JPEG XL different from older image formats?",
+				answer:
+					"Unlike JPEG's fixed 8x8 block Discrete Cosine Transform, JPEG XL uses variable-size DCT blocks (up to 256x256) combined with an advanced prediction scheme. It supports both lossy and lossless compression, HDR with up to 32-bit floating-point precision, wide color gamuts, and animation — effectively unifying the capabilities of JPEG, PNG, GIF, and HDR formats into a single file type.",
+			},
+			{
+				question: "Why convert JXL to PNG instead of JPG?",
+				answer:
+					"PNG preserves every pixel losslessly and supports transparency. Choose PNG when your JXL contains graphics with sharp edges, text, logos, or alpha transparency. JPG is better when you want the smallest file size for photographs.",
+			},
+			{
+				question: "Does transparency carry over from JXL to PNG?",
+				answer:
+					"Yes. JPEG XL supports full alpha transparency, and PNG does too. If your JXL has transparent regions, they are preserved in the PNG output without being flattened to a solid background.",
+			},
+			{
+				question: "How large will the PNG output be?",
+				answer:
+					"PNG files are typically larger than both JXL and JPG because PNG uses lossless compression. A 500KB lossless JXL might become a 2-3MB PNG. The tradeoff is zero quality loss and universal compatibility.",
+			},
+		],
 	});
 }
 

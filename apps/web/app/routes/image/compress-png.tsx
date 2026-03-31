@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"compress png, reduce png size, png compressor online, png optimization, free png compressor, private png compressor, png color quantization",
 		jsonLdName: "PNG Image Compressor",
+		faq: [
+			{
+				question: "How does PNG achieve lossless compression under the hood?",
+				answer:
+					"PNG uses the DEFLATE algorithm — a combination of LZ77 pattern matching and Huffman coding — preceded by a prediction filter that guesses each pixel's value from its neighbors. The filter stage doesn't compress anything itself; it rearranges the data so DEFLATE can find more redundant patterns. This two-step approach typically achieves 30–50% compression without altering a single pixel value.",
+			},
+			{
+				question: "How does PNG compression work?",
+				answer:
+					"PNG is normally lossless, so traditional quality sliders don't apply. This tool uses color quantization — reducing the number of unique colors in the image (e.g., from millions to 256). Fewer colors means a dramatically smaller file while preserving transparency.",
+			},
+			{
+				question: "What does the Colors slider do?",
+				answer:
+					"The slider controls how many unique colors the output PNG will contain, from 2 to 256. Fewer colors produce smaller files. For most images, 128–256 colors looks nearly identical to the original. For simple graphics, even 16–32 colors can look great.",
+			},
+			{
+				question: "Does this preserve transparency?",
+				answer:
+					"Yes. Alpha transparency is fully preserved during color quantization. Your transparent PNGs will remain transparent.",
+			},
+		],
 	});
 }
 

@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"svgz to png, svgz to jpg, svgz converter online, open svgz file, compressed svg converter",
 		jsonLdName: "SVGZ Converter",
+		faq: [
+			{
+				question: "How does SVGZ compression actually work?",
+				answer:
+					"SVGZ is simply a gzip-compressed SVG file, typically reducing file size by 20-50% while remaining functionally identical to its uncompressed counterpart. All modern web browsers can decompress and render SVGZ natively. The compression uses the same DEFLATE algorithm found in ZIP files and PNG images — a well-proven lossless method standardized in RFC 1951.",
+			},
+			{
+				question: "How does this tool convert SVGZ files?",
+				answer:
+					"The tool decompresses the gzip layer to recover the original SVG markup, then renders the vector graphics onto a canvas at full resolution. From there you can export to JPG, PNG, WebP, or AVIF. The entire process runs in your browser — the compressed file is never sent to a server. Because SVG is resolution-independent, the rasterized output matches the intrinsic dimensions defined in the SVG viewBox.",
+			},
+			{
+				question: "Can I get the uncompressed SVG instead of a raster image?",
+				answer:
+					"This converter outputs raster formats (JPG, PNG, WebP, AVIF). If you want to clean up the SVG markup, the SVG optimizer tool can strip editor metadata and reduce file size. Otherwise, any gzip decompression tool works — SVGZ is literally gzipped SVG with a different file extension.",
+			},
+		],
 	});
 }
 

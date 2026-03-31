@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"psb to jpg, psb converter, photoshop large document converter, open psb file, psb to png, convert psb online free",
 		jsonLdName: "PSB Converter",
+		faq: [
+			{
+				question: "Why did Adobe need a format bigger than PSD?",
+				answer:
+					"PSB (Photoshop Big) was introduced with Adobe Photoshop CS in 2003 to handle documents that exceed PSD's limits of 30,000 x 30,000 pixels and 2 GB file size. PSB supports canvases up to 300,000 x 300,000 pixels — essential for billboard-scale designs, gigapixel panoramas, and large-format print work where a single image file can easily reach tens of gigabytes.",
+			},
+			{
+				question: "How is PSB different from PSD?",
+				answer:
+					"PSD and PSB share the same internal structure — layers, masks, adjustment layers, color profiles — but PSB uses 8-byte (64-bit) length fields instead of PSD's 4-byte fields, allowing it to store much larger images. If Photoshop tells you a file is too big for PSD, it saves as PSB instead. This converter handles both transparently.",
+			},
+			{
+				question: "Is there a dimension limit for browser-based conversion?",
+				answer:
+					"PSB files can theoretically hold 300,000 x 300,000 pixel images, but browsers cannot allocate that much memory. This tool limits conversion to images up to 8,192 x 8,192 pixels to prevent crashing your browser tab. Larger PSB files will show a clear error message rather than silently failing.",
+			},
+			{
+				question: "Does it support CMYK PSB files?",
+				answer:
+					"Yes. CMYK color data in PSB files is automatically converted to RGB during compositing. The output works correctly in web browsers, email clients, and standard image viewers without any manual color profile adjustment.",
+			},
+		],
 	});
 }
 

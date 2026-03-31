@@ -25,6 +25,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"sgi converter, sun raster converter, wbmp converter, sfw converter, pcd converter, pict converter, legacy image formats, convert old images online",
 		jsonLdName: "Legacy Image Converter",
+		faq: [
+			{
+				question: "Why do legacy image formats still survive today?",
+				answer:
+					"Image formats from the 1980s and 1990s \u2014 PCX, TGA, BMP, Sun Raster, and others \u2014 survive in archives, museum digitization projects, government records, and specialized industries like game development. Many were dominant formats in their era: PCX was the standard on DOS, TGA ruled 3D rendering, and BMP was the native format of early Windows. Reading these files today often requires specialized decoders.",
+			},
+			{
+				question: "Where do these legacy image files come from?",
+				answer:
+					"SGI images originate from Silicon Graphics workstations popular in film and scientific visualization during the 1990s. Sun Raster files come from Sun Microsystems Unix workstations. WBMP was used on early WAP mobile phones. SFW files were mailed to customers by Seattle Film Works photo processing. PCD was Kodak's disc-based photo delivery format. PICT was the native image format on classic Macintosh computers.",
+			},
+			{
+				question: "How can a browser decode image formats from the 1980s?",
+				answer:
+					"Each format has a dedicated binary parser built in JavaScript that runs directly in your browser. The parser reads the raw byte structure of the file \u2014 headers, color tables, compressed scanlines \u2014 and reconstructs the pixel data locally. No server ever sees your file. For formats that embed JPEG data (SFW, some PICT files), the browser's native JPEG decoder handles the inner image.",
+			},
+		],
 	});
 }
 

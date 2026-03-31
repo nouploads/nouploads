@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"dicom to jpg, dicom converter, dcm to png, dicom viewer online, medical image converter, dicom to image",
 		jsonLdName: "DICOM Converter",
+		faq: [
+			{
+				question: "What's the history behind the DICOM standard?",
+				answer:
+					"DICOM (Digital Imaging and Communications in Medicine) has been the universal standard for medical imaging since 1993. It is used by virtually every MRI scanner, CT scanner, X-ray machine, and ultrasound device in modern hospitals worldwide. Beyond the image data, DICOM files embed extensive patient and study metadata, enabling hospitals to build searchable archives of millions of medical images.",
+			},
+			{
+				question: "What is window/level and how does it affect the output?",
+				answer:
+					"Medical images often store pixel values in Hounsfield units (CT) or arbitrary signal intensities (MRI) that span a much wider range than the 256 shades a monitor can display. Window/level (also called window center and window width) defines which slice of that range maps to visible brightness. This tool reads window/level values embedded in the DICOM header. If those tags are missing, it automatically calculates contrast from the pixel data's minimum and maximum values so the image is always visible.",
+			},
+			{
+				question: "Which imaging modalities are supported?",
+				answer:
+					"This converter handles any standard DICOM file that contains 2D grayscale pixel data — including CT, MRI, X-ray (CR/DX), mammography, nuclear medicine, and ultrasound images stored as single-frame DICOM. It reads both 8-bit and 16-bit data, applies rescale slope/intercept transforms, and handles MONOCHROME1 (inverted) and MONOCHROME2 photometric interpretations. Compressed transfer syntaxes (JPEG, JPEG 2000, JPEG-LS, RLE) are supported via the daikon library's built-in decompressors.",
+			},
+			{
+				question: "Does converting a DICOM file strip the medical metadata?",
+				answer:
+					"Yes. The exported JPG, PNG, or WebP contains only the pixel data — all DICOM metadata (patient name, study date, modality, slice position, etc.) is discarded during conversion. This is useful when sharing an image outside clinical systems, but means the output cannot be reimported into a PACS as a valid DICOM object.",
+			},
+		],
 	});
 }
 

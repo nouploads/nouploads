@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"compress image, reduce image size, image compressor online, free image compressor, compress jpg png webp gif, private image compression, batch compress images",
 		jsonLdName: "Image Compressor",
+		faq: [
+			{
+				question: "How does lossy compression exploit human vision?",
+				answer:
+					"Lossy image compression works by exploiting limitations of the human visual system. Our eyes are far more sensitive to changes in brightness than to changes in color — a principle called chroma subsampling. JPEG, WebP, and AVIF all take advantage of this by storing color information at lower resolution than brightness, often at half or even quarter the resolution, without most viewers noticing any difference.",
+			},
+			{
+				question: "Which image formats can I compress?",
+				answer:
+					"You can compress JPG, PNG, WebP, AVIF, and GIF images. Static formats are re-encoded at the quality level you choose, while animated GIFs are compressed using lossy LZW optimization via gifsicle — keeping the same file type while reducing size.",
+			},
+			{
+				question: "How does the quality slider work?",
+				answer:
+					"The slider controls the compression level from 10% (maximum compression, smallest file, most artifacts) to 100% (minimal compression, largest file, best quality). For most uses, 70–85% gives a good balance between size and visual quality.",
+			},
+		],
 	});
 }
 

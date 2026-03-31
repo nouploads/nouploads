@@ -25,6 +25,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"pub to jpg, pub to png, publisher converter online, open pub file, pub converter, microsoft publisher to image, convert pub free",
 		jsonLdName: "Publisher PUB Converter",
+		faq: [
+			{
+				question: "Where does Microsoft Publisher come from?",
+				answer:
+					"Microsoft Publisher was first released in 1991 as an entry-level desktop publishing tool aimed at small businesses and home users. It filled the gap between basic word processors and professional page-layout software like QuarkXPress and Adobe PageMaker. The PUB format stores rich page layouts with embedded images, text frames, and design elements, though it has remained a Windows-only format throughout its history.",
+			},
+			{
+				question: "How does this tool extract images from PUB files?",
+				answer:
+					"Publisher files embed images directly within their OLE2 binary structure. This tool reads the compound file using the cfb library, scans every internal stream for JPEG, PNG, or BMP signatures, and extracts the largest image found. The extracted image can then be downloaded as JPG, PNG, WebP, or AVIF. No rendering of the full page layout is attempted.",
+			},
+			{
+				question: "What are the constraints of PUB conversion in a browser?",
+				answer:
+					"This tool extracts embedded raster images, not the complete page layout. Text blocks, shapes, tables, and precise positioning are not reproduced. Publisher files that contain only text and vector shapes without any embedded images cannot be converted. For full PUB editing, you need Microsoft Publisher — no other application fully supports the format.",
+			},
+			{
+				question: "Why is it hard to open PUB files without Publisher?",
+				answer:
+					"Microsoft has never published a full specification for the PUB format. Unlike DOCX or XLSX, which use the open OOXML standard, PUB remains a proprietary binary format. LibreOffice offers partial PUB import, but layout fidelity varies. This tool takes a practical approach: instead of trying to render the layout, it extracts the embedded photos and graphics.",
+			},
+		],
 	});
 }
 

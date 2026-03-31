@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"dds to jpg, dds converter, dds to png, convert dds texture, open dds file",
 		jsonLdName: "DDS Converter",
+		faq: [
+			{
+				question: "Where does the DDS texture format come from?",
+				answer:
+					"DirectDraw Surface (DDS) was introduced by Microsoft as part of DirectX 7 in 1999. It stores textures in GPU-native compressed formats (like DXT/BCn) that can be uploaded directly to graphics hardware without any decompression step — making it the preferred format for video games and real-time 3D applications where texture loading speed is critical.",
+			},
+			{
+				question: "What are DXT1, DXT3, and DXT5 compression?",
+				answer:
+					"DXT1 (BC1), DXT3 (BC2), and DXT5 (BC3) are S3TC block compression schemes that encode 4x4 pixel blocks into compact representations. DXT1 stores two reference colors and a 2-bit index per pixel — great for opaque textures or those with simple 1-bit transparency. DXT3 adds explicit 4-bit alpha values per pixel for sharp alpha transitions. DXT5 uses interpolated alpha with two reference values and 3-bit indices, producing smoother gradients for soft edges and particle effects.",
+			},
+			{
+				question: "Can this tool open DDS cubemaps and mipmapped textures?",
+				answer:
+					"This converter reads the first face (mip level 0) of any DDS file, including cubemaps and textures with mipmap chains. Cubemaps store six faces for environment mapping — the tool extracts the positive-X face at full resolution. Mipmapped textures contain pre-scaled copies for level-of-detail rendering; the tool decodes only the largest mip level so you get the full-resolution image.",
+			},
+			{
+				question: "Why would I need to convert a DDS file?",
+				answer:
+					"Game developers and 3D artists frequently work with DDS textures in tools like Unreal Engine, Unity, Blender, and Substance Painter. When you need to share a texture preview with a colleague, embed it in documentation, or post it online, converting to JPG or PNG gives you a universally viewable image. This tool lets you inspect and convert DDS assets without installing dedicated texture viewers.",
+			},
+		],
 	});
 }
 

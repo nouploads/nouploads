@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"exif viewer, exif remover, strip exif data, remove photo metadata, photo metadata viewer, private exif stripper, free exif tool",
 		jsonLdName: "EXIF Metadata Viewer",
+		faq: [
+			{
+				question: "Where did the EXIF standard come from?",
+				answer:
+					"EXIF (Exchangeable Image File Format) was developed by the Japan Electronic Industries Development Association (JEIDA) and first published in 1995. It is embedded in virtually every photo taken by a digital camera or smartphone, storing camera model, exposure settings, GPS coordinates, and timestamps. Security researchers frequently advise stripping EXIF data before sharing photos online to avoid inadvertently revealing location information.",
+			},
+			{
+				question: "What types of metadata can this tool read?",
+				answer:
+					"This viewer reads EXIF, XMP, IPTC, ICC color profile, JFIF, and IHDR metadata segments. It organizes the data into readable groups — camera info, lens details, exposure settings, GPS location, and image properties — so you can quickly find what you need.",
+			},
+			{
+				question: "How does metadata stripping work?",
+				answer:
+					"The tool redraws your image through an HTML Canvas element, which produces a clean copy without any embedded metadata. The original pixel content is preserved at high quality (95% for JPG), but all EXIF, GPS, XMP, and other metadata is removed. The cleaned file is generated entirely in your browser.",
+			},
+			{
+				question: "Can this tool read metadata from PNG files?",
+				answer:
+					"Yes. While PNG files don't use EXIF in the traditional sense, they can contain tEXt, iTXt, and other metadata chunks. This tool reads whatever metadata is present in PNG, JPG, WebP, TIFF, HEIC, and AVIF files. If a file has no embedded metadata, the viewer will tell you.",
+			},
+		],
 	});
 }
 

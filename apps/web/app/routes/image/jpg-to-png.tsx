@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"jpg to png, jpeg to png, convert jpg to png online, jpg to png converter free, jpg to png transparent background",
 		jsonLdName: "JPG to PNG Converter",
+		faq: [
+			{
+				question: "How did PNG come about as a format?",
+				answer:
+					"PNG was developed in 1996 as a patent-free replacement for GIF after Unisys began enforcing patents on the LZW compression algorithm that GIF used. The format's name originally stood for \"PNG's Not GIF\" — a recursive acronym in the tradition of GNU. Unlike GIF, PNG supports full 24-bit color with an alpha transparency channel and lossless compression, making it ideal for graphics that need crisp edges and transparency.",
+			},
+			{
+				question: "Will the file size increase?",
+				answer:
+					"Usually yes. PNG uses lossless compression while JPG is lossy, so the PNG output is often larger. The tradeoff is perfect pixel fidelity — no compression artifacts are introduced.",
+			},
+			{
+				question: "Does converting JPG to PNG improve image quality?",
+				answer:
+					"No. Converting formats doesn't recover detail lost during JPG compression. What it does is prevent any additional quality loss — once in PNG format, the image can be edited and re-saved without degradation.",
+			},
+		],
 	});
 }
 

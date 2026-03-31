@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"webp to jpg, webp to jpeg, convert webp to jpg, webp converter, open webp file as jpg",
 		jsonLdName: "WebP to JPG Converter",
+		faq: [
+			{
+				question: "How did WebP go from a Google experiment to a web standard?",
+				answer:
+					"When Google released WebP in 2010, adoption was painfully slow — most notably, Apple's Safari didn't add support until September 2020, a full decade after launch. Google pushed adoption by converting YouTube thumbnails and Chrome Web Store images to WebP. The format finally reached universal browser support in 2020 and is now widely used by major e-commerce platforms and CDNs to reduce image bandwidth.",
+			},
+			{
+				question: "Will I lose quality converting WebP to JPG?",
+				answer:
+					"There's a small quality reduction because both formats use lossy compression and re-encoding introduces slight degradation. At the default quality setting (92%), the difference is essentially invisible to the human eye.",
+			},
+			{
+				question: "What happens to transparent areas in a WebP image?",
+				answer:
+					"WebP supports alpha transparency but JPG does not. Any transparent regions in the WebP are composited onto a white background during conversion. If preserving transparency matters, use a WebP to PNG converter instead.",
+			},
+		],
 	});
 }
 

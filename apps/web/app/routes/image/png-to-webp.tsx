@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"png to webp, convert png to webp, png to webp transparent, webp converter, optimize png for web",
 		jsonLdName: "PNG to WebP Converter",
+		faq: [
+			{
+				question: "How does WebP achieve smaller files than PNG?",
+				answer:
+					"WebP's lossless mode uses techniques that PNG lacks — including cross-color transforms, a subtract-green transform, and a custom entropy coder. For lossy mode, it applies predictive coding from the VP8 video codec that analyzes surrounding pixel blocks to predict each new block's content. Google's benchmarks showed WebP lossless files are on average 26% smaller than equivalent PNGs.",
+			},
+			{
+				question: "Does PNG to WebP preserve transparency?",
+				answer:
+					"Yes. WebP supports alpha transparency just like PNG. Your transparent backgrounds, rounded corners, and semi-transparent effects will carry over perfectly to the WebP output.",
+			},
+			{
+				question: "Is the conversion lossless?",
+				answer:
+					"WebP supports both lossy and lossless modes. This converter uses lossy compression at high quality (92%) by default, which provides the best size-to-quality ratio. The visual difference is essentially imperceptible.",
+			},
+			{
+				question: "When should I keep PNG instead of converting?",
+				answer:
+					"Keep PNG if you need pixel-perfect lossless quality for technical diagrams, if your target platform doesn't support WebP, or if you're archiving images and want maximum compatibility with future software.",
+			},
+		],
 	});
 }
 

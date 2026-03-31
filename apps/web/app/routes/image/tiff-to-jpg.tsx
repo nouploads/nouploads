@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"tiff to jpg, tiff to jpeg, convert tiff to jpg, tif to jpg online, tiff converter, tiff to jpg free",
 		jsonLdName: "TIFF to JPG Converter",
+		faq: [
+			{
+				question: "Where does the TIFF format come from?",
+				answer:
+					"TIFF (Tagged Image File Format) was created by Aldus Corporation in 1986 for use in desktop publishing — the emerging ability to design printed materials on personal computers. It was designed to be a universal image format flexible enough to store everything from 1-bit fax images to 32-bit floating-point HDR data. The publishing and printing industries still rely heavily on TIFF because it supports CMYK color spaces and lossless compression.",
+			},
+			{
+				question: "Will converting to JPG reduce quality?",
+				answer:
+					"JPG uses lossy compression, so there is a small quality reduction. At the default 92% quality setting, the difference is virtually invisible for photographs. The upside is dramatically smaller files — a 30MB TIFF might become a 2MB JPG.",
+			},
+			{
+				question: "Does this handle CMYK and multi-page TIFFs?",
+				answer:
+					"Yes. CMYK color data is automatically converted to RGB during decoding. Multi-page TIFFs are supported — the first page is converted by default. Common TIFF compressions (LZW, ZIP, JPEG) are all handled.",
+			},
+		],
 	});
 }
 

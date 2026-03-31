@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"remove background, background remover, remove bg, background eraser, ai background removal, free background remover, private background removal",
 		jsonLdName: "Background Remover",
+		faq: [
+			{
+				question: "How did AI learn to separate foregrounds from backgrounds?",
+				answer:
+					"Automatic background removal uses a deep learning technique called semantic segmentation, where a neural network classifies every single pixel in the image as either foreground or background. Accurately separating complex foreground shapes (like hair or fur) from arbitrary backgrounds was considered an extremely difficult computer vision problem until deep learning breakthroughs around 2015 — now similar models run directly in web browsers via WebAssembly.",
+			},
+			{
+				question: "How long does processing take?",
+				answer:
+					"The first time you use the tool, it downloads an AI model (~80MB) which is cached in your browser for future use. After that, processing takes a few seconds for a typical photo depending on your device's CPU. Larger images may take longer.",
+			},
+			{
+				question: "Why does it need to download a model?",
+				answer:
+					"The background removal AI model is about 80MB. It's downloaded once and cached in your browser's storage, so subsequent uses load instantly. This is the tradeoff for keeping everything private — the model runs locally instead of on a remote server.",
+			},
+			{
+				question: "What image formats are supported?",
+				answer:
+					"You can upload JPG, PNG, and WebP images. The output is always a PNG file to preserve the transparent background. For best results, use a clear photo with a distinct subject.",
+			},
+		],
 	});
 }
 

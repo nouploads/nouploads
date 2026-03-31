@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"ico to png, convert ico to png, favicon to png, ico converter online, extract favicon image, ico to png free",
 		jsonLdName: "ICO to PNG Converter",
+		faq: [
+			{
+				question: "How did the favicon become a web standard?",
+				answer:
+					'The favicon concept originated with Internet Explorer 5 in 1999, which automatically looked for a file named favicon.ico at every website\'s root directory. The practice spread so quickly that HTML later formalized it with the <link rel="icon"> tag, letting sites specify custom icon paths and formats. Modern favicons support PNG, SVG, and multiple sizes for different devices and contexts.',
+			},
+			{
+				question: "Does it keep the transparent background?",
+				answer:
+					"Yes. Most favicons have transparent backgrounds, and PNG fully supports per-pixel transparency. The extracted image preserves the original alpha channel without flattening it to white.",
+			},
+			{
+				question: "Can I convert CUR (cursor) files too?",
+				answer:
+					"Yes. CUR files use the same container format as ICO but include cursor hotspot metadata. The tool extracts the image data the same way — the hotspot information is simply ignored since it only applies to mouse cursors.",
+			},
+		],
 	});
 }
 

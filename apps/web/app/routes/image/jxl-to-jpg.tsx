@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"jxl to jpg, jpeg xl to jpg, convert jxl to jpg, open jxl file, jxl converter online, jpeg xl converter",
 		jsonLdName: "JXL to JPG Converter",
+		faq: [
+			{
+				question: "Where does JPEG XL come from?",
+				answer:
+					"JPEG XL was standardized as ISO/IEC 18181 in 2022 and is designed to eventually replace both JPEG and PNG. It can losslessly recompress existing JPEG files to roughly 20% smaller without any generational quality loss, supports progressive decoding, animation, and HDR content. The format emerged from merging Google's PIK and Cloudinary's FUIF proposals into a single next-generation codec.",
+			},
+			{
+				question: "Why can't I open JXL files?",
+				answer:
+					"Browser and OS support for JPEG XL is still growing. Firefox supports it since version 125. Chrome removed native support but may re-add it. Most image viewers and social media platforms don't accept JXL yet. Converting to JPG gives you maximum compatibility right now.",
+			},
+			{
+				question: "Will I lose quality converting JXL to JPG?",
+				answer:
+					"If the JXL was encoded with lossy compression, converting to JPG at 92% quality preserves nearly all visible detail. If the JXL was losslessly encoded, you're going from lossless to lossy — there will be some quality reduction, but at high quality settings the difference is imperceptible for photographs.",
+			},
+			{
+				question: "Does this handle animated JXL files?",
+				answer:
+					"Yes. If an animated JXL is detected, the first frame is converted to a static JPG image. Animation support for frame-by-frame extraction will be available in a future update.",
+			},
+		],
 	});
 }
 

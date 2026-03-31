@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"jpg to webp, jpeg to webp, convert jpg to webp, webp converter, reduce image size webp",
 		jsonLdName: "JPG to WebP Converter",
+		faq: [
+			{
+				question: "Why did Google create WebP?",
+				answer:
+					"WebP was developed by Google and first released in 2010. It uses predictive coding derived from the VP8 video codec to achieve lossy compression roughly 30% smaller than JPEG at equivalent visual quality. Google estimated that if the entire web switched to WebP, it would save approximately 50 petabytes of bandwidth per day — a major motivation for a company that serves billions of images through search and YouTube.",
+			},
+			{
+				question: "Do all browsers support WebP?",
+				answer:
+					"Yes, all modern browsers — Chrome, Firefox, Safari, Edge — support WebP. The only exceptions are very old browser versions (Safari added support in 2020). For web usage in 2024+, WebP is safe to use universally.",
+			},
+			{
+				question: "Is WebP better than JPG?",
+				answer:
+					"For file size, yes. WebP consistently achieves smaller files at the same visual quality. JPG still has wider support in legacy software and some social media platforms, so the choice depends on where you're using the images.",
+			},
+		],
 	});
 }
 

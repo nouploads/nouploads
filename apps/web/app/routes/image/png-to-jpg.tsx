@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"png to jpg, png to jpeg, convert png to jpg online, png to jpg converter, reduce png file size",
 		jsonLdName: "PNG to JPG Converter",
+		faq: [
+			{
+				question: "How did JPEG become the universal photo format?",
+				answer:
+					"JPEG was created in 1992 by the Joint Photographic Experts Group, a collaboration between ISO and the ITU. Its lossy compression algorithm was revolutionary — it made digital photography practical by shrinking photo files to a fraction of their original size while keeping quality visually acceptable to the human eye. More than three decades later, JPEG remains the most widely used image format in the world.",
+			},
+			{
+				question: "What happens to transparent areas?",
+				answer:
+					"JPG doesn't support transparency. Any transparent areas in your PNG will be filled with a white background during conversion. If you need to preserve transparency, try the PNG to WebP converter or keep the PNG format.",
+			},
+			{
+				question: "How much smaller will my files be?",
+				answer:
+					"It depends on the image content. Photographs converted from PNG to JPG typically shrink by 50-90%. Simple graphics with flat colors see less dramatic savings because JPG compression is optimized for continuous-tone images.",
+			},
+		],
 	});
 }
 

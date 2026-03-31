@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"crop image, image cropper online, crop photo, crop image to square, crop image 16:9, free image cropper, private image cropper, crop image online free",
 		jsonLdName: "Image Cropper",
+		faq: [
+			{
+				question: "What's the origin of the rule of thirds in cropping?",
+				answer:
+					"Image cropping predates digital photography entirely — in the darkroom, photographers used an easel with adjustable borders to expose only the desired portion of a negative onto photographic paper. The rule of thirds grid commonly found in modern crop tools was first articulated by painter and engraver John Thomas Smith in 1797, in his book Remarks on Rural Scenery.",
+			},
+			{
+				question: "Can I crop to a specific aspect ratio?",
+				answer:
+					"Yes. Choose from preset aspect ratios including 1:1 (square), 4:3, 16:9, and 3:2. The crop rectangle locks to your chosen ratio while you resize it. Select Free to crop to any shape.",
+			},
+			{
+				question: "What output formats are available?",
+				answer:
+					"Cropped images can be saved as JPG, PNG, or WebP. For JPG and WebP you can adjust the quality slider to control the compression level. PNG output is lossless.",
+			},
+			{
+				question: "Does cropping reduce image quality?",
+				answer:
+					"Cropping itself does not reduce quality — it simply extracts the selected pixel region from your original. If you save as JPG or WebP, the lossy encoding may introduce minimal artifacts, but at the default 92% quality they are imperceptible. Choose PNG for a lossless crop.",
+			},
+		],
 	});
 }
 

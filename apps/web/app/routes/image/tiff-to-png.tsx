@@ -24,6 +24,29 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"tiff to png, tif to png, convert tiff to png online, tiff to png converter, tiff transparent png",
 		jsonLdName: "TIFF to PNG Converter",
+		faq: [
+			{
+				question:
+					"Why has TIFF survived for decades in professional publishing?",
+				answer:
+					"TIFF endures in publishing and prepress because it supports features critical for print production that most web formats lack: CMYK color spaces for four-color printing, embedded ICC color profiles for consistent color across devices, 16-bit-per-channel depth for smooth gradients, and multiple lossless compression options. A TIFF file can faithfully represent the full range of what a professional printing press can produce.",
+			},
+			{
+				question: "Why convert TIFF to PNG instead of JPG?",
+				answer:
+					"PNG preserves every pixel exactly — no compression artifacts. Choose PNG when your TIFF contains sharp text, line art, logos, or transparency. JPG is better for photographs where smaller file size matters more than pixel-perfect accuracy.",
+			},
+			{
+				question: "Will the PNG file be smaller than the TIFF?",
+				answer:
+					"Usually yes, especially for TIFFs that store uncompressed data. PNG uses lossless deflate compression that is more efficient than raw pixel storage. However, the reduction is less dramatic than converting to JPG because PNG does not discard any detail.",
+			},
+			{
+				question: "Does this preserve transparency from the TIFF?",
+				answer:
+					"Yes. If your TIFF includes an alpha channel, it carries through to the PNG output. PNG fully supports per-pixel transparency, making it the right choice for graphics that need to overlay other content.",
+			},
+		],
 	});
 }
 

@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"compress webp, reduce webp size, webp compressor online, free webp compressor, private webp compressor, webp optimization",
 		jsonLdName: "WebP Image Compressor",
+		faq: [
+			{
+				question: "What's the connection between WebP and video codecs?",
+				answer:
+					"WebP's lossy mode is built directly on the VP8 video codec that Google acquired when it purchased On2 Technologies in 2010. A single WebP image is essentially one keyframe extracted from a VP8 video stream. This heritage gives WebP access to sophisticated techniques developed for video — block prediction, adaptive quantization, and loop filtering — that were never available to the JPEG standard designed two decades earlier.",
+			},
+			{
+				question: "Why compress WebP?",
+				answer:
+					"WebP already produces smaller files than JPG at the same quality, but you can squeeze even more savings by lowering the quality setting. This is useful for web performance where every kilobyte counts.",
+			},
+			{
+				question: "What WebP quality level should I target?",
+				answer:
+					"80% (the default) is a good starting point. WebP handles low quality settings better than JPG — even 50–60% can look acceptable for web use. Use the before/after slider to find your sweet spot.",
+			},
+		],
 	});
 }
 

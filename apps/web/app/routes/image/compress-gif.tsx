@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"compress gif, reduce gif size, gif compressor, optimize gif, lossy gif compression, gif optimizer online, shrink gif file size",
 		jsonLdName: "GIF Compressor",
+		faq: [
+			{
+				question: "Why is GIF limited to 256 colors per frame?",
+				answer:
+					"GIF uses indexed color — each frame contains a palette of up to 256 colors, and every pixel is simply an index into that palette. This was a practical design choice in 1987, when most computer displays could show only 256 colors and modems ran at 1,200–2,400 baud. The constraint that seems like a limitation today was actually a feature that kept file sizes tiny enough for early online services like CompuServe.",
+			},
+			{
+				question: "How does GIF compression work?",
+				answer:
+					"This tool uses gifsicle's lossy LZW compression, which subtly modifies pixel data so the LZW algorithm can compress it more efficiently. It also optimizes transparency — replacing duplicate pixels between frames with transparent ones so there's less data to store. The result is a smaller GIF that looks nearly identical to the original.",
+			},
+			{
+				question: "What does the quality slider control?",
+				answer:
+					"The slider controls quality from 10% (maximum compression, smallest file, most artifacts) to 100% (minimal compression, largest file, best quality). For most GIFs, 70–85% gives a good balance between file size and visual fidelity. Start at the default (80%) and adjust based on the preview.",
+			},
+			{
+				question: "Will my animated GIF still animate after compression?",
+				answer:
+					"Yes. The compression preserves all frames, timing, and loop settings. It reduces file size by optimizing how frame data is stored, not by removing frames. The output is still a fully animated GIF.",
+			},
+		],
 	});
 }
 

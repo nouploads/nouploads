@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"psd to jpg, psd to png, psd converter online, open psd file, psd to webp, convert psd free",
 		jsonLdName: "PSD Converter",
+		faq: [
+			{
+				question: "How did Photoshop and the PSD format get started?",
+				answer:
+					"Photoshop was created by brothers Thomas and John Knoll. Thomas wrote the original program in 1987 as a graduate student at the University of Michigan, and his brother John — a visual effects artist at Industrial Light & Magic — recognized its potential for film production. Adobe acquired the distribution license in 1988, and Photoshop 1.0 shipped in 1990, creating the PSD format that remains the standard for layered image editing.",
+			},
+			{
+				question: "How does this handle PSD layers?",
+				answer:
+					"The converter composites all visible layers into a single flattened image, respecting layer order and opacity. The result looks exactly like opening the PSD in Photoshop and choosing File > Export. Individual layers cannot be extracted separately.",
+			},
+			{
+				question: "Does it support CMYK PSD files?",
+				answer:
+					"Yes. CMYK color data is automatically converted to RGB during compositing so the output works correctly in web browsers, email clients, and standard image viewers. No manual color profile conversion is needed.",
+			},
+			{
+				question: "How large of a PSD file can this handle?",
+				answer:
+					"There is no server-imposed limit since everything runs in your browser. In practice, PSD files up to roughly 200MB process well on modern devices. Very large PSDs (500MB+) may run slowly or exceed browser memory on older machines or mobile devices.",
+			},
+		],
 	});
 }
 

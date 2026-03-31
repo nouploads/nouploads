@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"jp2 to jpg, jpeg 2000 converter, j2k converter, open jp2 file online, jp2 to png, convert jpeg 2000",
 		jsonLdName: "JP2 Converter",
+		faq: [
+			{
+				question: "Why did JPEG 2000 never replace JPEG on the web?",
+				answer:
+					"JPEG 2000 was created by the Joint Photographic Experts Group in 2000 as a wavelet-based successor to the original JPEG. While it never replaced JPEG on the web, it found critical niches: the Digital Cinema Initiative (DCI) standard requires JPEG 2000 for movie distribution, medical imaging systems use it via DICOM, and satellite and aerial photography rely on its superior quality at low bitrates.",
+			},
+			{
+				question: "Why can't I open JP2 files in most programs?",
+				answer:
+					"Browser and OS support for JPEG 2000 is limited. Safari was the only major browser that supported it natively (removed in recent versions). Chrome, Firefox, and Edge never shipped JPEG 2000 decoding. Windows Photo Viewer, macOS Preview, and most image editors either lack support or require a plugin. This tool decodes JP2 files using the OpenJPEG library compiled to WebAssembly, so it works in any modern browser without installing anything.",
+			},
+			{
+				question: "What is the difference between JP2 and J2K files?",
+				answer:
+					"A .jp2 file wraps the compressed image data inside a box-based container (similar to how MP4 wraps video). The container holds metadata like color space, resolution, and intellectual property rights. A .j2k (or .jpc) file contains only the raw JPEG 2000 codestream with no container. Both encode pixels identically \u2014 the difference is packaging. This tool handles both formats transparently.",
+			},
+			{
+				question: "Where is JPEG 2000 actually used?",
+				answer:
+					"JPEG 2000 is widely used in industries that need high-fidelity image preservation. Digital cinema (DCI) packages store frames as J2K codestreams inside MXF containers. Satellite and geospatial imaging agencies like NASA and ESA distribute imagery in JP2. Medical imaging uses JPEG 2000 as a compression option inside DICOM files. National archives and libraries \u2014 including the Library of Congress and the British Library \u2014 adopt JP2 for long-term digital preservation because it supports lossless compression and metadata embedding.",
+			},
+		],
 	});
 }
 

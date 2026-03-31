@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"gif to jpg, gif to jpeg, convert gif to jpg, gif frame extract, gif to image, gif converter",
 		jsonLdName: "GIF to JPG Converter",
+		faq: [
+			{
+				question: "What's the story behind the GIF format?",
+				answer:
+					'GIF was introduced by CompuServe in 1987, making it one of the oldest image formats still in everyday use. It supports only 256 colors per frame but became the de facto standard for short animations on the web. The format\'s pronunciation sparked one of the internet\'s longest-running debates — creator Steve Wilhite insisted it was "jif" with a soft G, though most people still say "gif" with a hard G.',
+			},
+			{
+				question: "What happens to animated GIFs?",
+				answer:
+					"Animated GIFs are parsed frame by frame and displayed in a visual filmstrip. You can scroll through the timeline and click any frame to select it — the selected frame is then converted to a static JPG. If the GIF has only one frame, it's converted directly without showing the selector.",
+			},
+			{
+				question: "Will transparent areas be preserved?",
+				answer:
+					"No. GIF supports basic transparency (fully transparent or fully opaque pixels), but JPG doesn't support any transparency. Transparent areas become white in the JPG output. If you need transparency, convert to PNG instead.",
+			},
+		],
 	});
 }
 

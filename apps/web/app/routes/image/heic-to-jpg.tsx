@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"heic to jpg, convert heic, heic converter, iphone photo converter, heic to jpeg online, free heic converter, private file converter, batch heic convert",
 		jsonLdName: "HEIC to JPG Converter",
+		faq: [
+			{
+				question: "Where does the HEIF image standard come from?",
+				answer:
+					"HEIF (High Efficiency Image File Format) was developed by the Moving Picture Experts Group (MPEG) and finalized as ISO/IEC 23008-12 in 2015. It is built on the same container architecture as the MP4 video format (ISOBMFF), which is why a single HEIF file can store image sequences, depth maps, and even audio alongside the photo data. Apple's decision to adopt it as the default iPhone camera format in 2017 thrust an obscure ISO standard into the pockets of billions of people almost overnight.",
+			},
+			{
+				question: "What output quality should I use for HEIC to JPG?",
+				answer:
+					"92% (the default) is a good balance between file size and quality. Use 100% for maximum-quality JPG output — note that JPG is always lossy, so for truly lossless output, convert to PNG instead. For web use or sharing, 80-85% gives significantly smaller files with minimal visible difference.",
+			},
+			{
+				question: "Do HEIC files lose metadata during conversion?",
+				answer:
+					"The pixel data is fully preserved at your chosen quality level, but EXIF metadata like camera model, GPS coordinates, and shooting parameters is not carried over to the JPG output. You can inspect what metadata your photos contain with the EXIF viewer before converting.",
+			},
+		],
 	});
 }
 

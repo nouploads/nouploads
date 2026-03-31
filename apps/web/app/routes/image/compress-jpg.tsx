@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"compress jpg, reduce jpg size, jpg compressor, image compression online, free image compressor, private image compressor, batch compress jpg",
 		jsonLdName: "JPG Image Compressor",
+		faq: [
+			{
+				question: "Where does the math behind JPEG come from?",
+				answer:
+					"JPEG's core algorithm is the Discrete Cosine Transform (DCT), first proposed by Nasir Ahmed at Kansas State University in 1972. The DCT converts small blocks of pixels into frequency components, letting the encoder discard high-frequency detail that humans barely perceive. The same mathematical trick went on to power MP3 audio compression, H.264 video, and virtually every modern media codec.",
+			},
+			{
+				question: "How does JPG compression work?",
+				answer:
+					"JPG uses lossy compression — it discards some visual detail to reduce file size. Lower quality settings produce smaller files with more visible artifacts. Higher quality preserves more detail at the cost of larger files.",
+			},
+			{
+				question: "What JPG quality level gives the best balance?",
+				answer:
+					"80% (the default) gives a great balance between file size and visual quality. For web images, 60–75% produces significantly smaller files with minimal visible difference. For archival quality, use 90–100%.",
+			},
+		],
 	});
 }
 

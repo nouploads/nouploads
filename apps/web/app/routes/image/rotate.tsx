@@ -24,6 +24,29 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"rotate image online, flip image, rotate photo 90 degrees, mirror image, rotate image free, flip photo horizontal, rotate image no upload, private image rotation",
 		jsonLdName: "Image Rotate & Flip",
+		faq: [
+			{
+				question:
+					"Why are 90-degree rotations lossless but other angles aren't?",
+				answer:
+					"Rotating a pixel grid by an arbitrary angle requires mapping each output pixel to a position that falls between input pixels, then interpolating the color value. Rotations by exactly 90, 180, or 270 degrees are special cases — they simply rearrange existing pixel values without any interpolation, which is why they are perfectly lossless. Any other angle necessarily involves approximation that introduces slight softening.",
+			},
+			{
+				question: "What is the difference between rotating and flipping?",
+				answer:
+					"Rotation turns the image around its center by a fixed angle (90, 180, or 270 degrees). Flipping mirrors the image along an axis — horizontal flip swaps left and right, vertical flip swaps top and bottom.",
+			},
+			{
+				question: "Can I apply multiple transforms in a row?",
+				answer:
+					"Yes. Each button applies its transform to the current result, so you can chain operations freely — for example, rotate right then flip horizontally. Click Reset at any time to return to the original image.",
+			},
+			{
+				question: "Does rotating change my image quality?",
+				answer:
+					"The tool preserves your original format and uses high quality settings (95% for lossy formats). For PNG files the output is lossless. Repeated transforms on lossy formats may introduce minimal re-encoding artifacts, but for typical use the difference is imperceptible.",
+			},
+		],
 	});
 }
 

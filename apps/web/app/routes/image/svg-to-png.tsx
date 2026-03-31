@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"svg to png, convert svg to png, svg to png online, rasterize svg, svg to image, svg converter",
 		jsonLdName: "SVG to PNG Converter",
+		faq: [
+			{
+				question: "What makes SVG resolution-independent?",
+				answer:
+					"SVG describes images using mathematical definitions — lines, curves, shapes, and text — rather than a grid of pixels. This means an SVG can scale to any size without quality loss, from a tiny favicon to a billboard. This property made SVG the standard format for logos, icons, and UI elements once retina and HiDPI displays became common and pixel-based formats started looking blurry.",
+			},
+			{
+				question: "What resolution will the PNG be?",
+				answer:
+					"The PNG is rendered at the SVG's declared dimensions (width and height attributes or viewBox). If your SVG specifies 800x600, the PNG output will be 800x600 pixels. For higher resolution, edit the SVG dimensions before converting.",
+			},
+			{
+				question: "Will transparency be preserved?",
+				answer:
+					"Yes. Any transparent regions in your SVG remain transparent in the PNG output. PNG fully supports alpha transparency, so backgrounds, overlapping elements, and opacity effects all carry over.",
+			},
+		],
 	});
 }
 

@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"avif to jpg, avif to jpeg, convert avif to jpg, open avif file, avif converter, avif to jpg online",
 		jsonLdName: "AVIF to JPG Converter",
+		faq: [
+			{
+				question: "What's the story behind the AVIF format?",
+				answer:
+					"AVIF is based on the AV1 video codec, developed by the Alliance for Open Media — a consortium that includes Google, Mozilla, Apple, Microsoft, Netflix, and Amazon. The format was designed from the ground up to be royalty-free, a deliberate response to the complex licensing surrounding HEVC/H.265 which underpins the competing HEIF format. AVIF typically achieves 30-50% smaller file sizes than JPEG at comparable visual quality.",
+			},
+			{
+				question: "Why can't I open AVIF files on my computer?",
+				answer:
+					"AVIF support depends on your operating system and image viewer. Windows 10 needs the AV1 Video Extension from the Microsoft Store. Older macOS versions don't support it at all. Converting to JPG gives you a file that opens everywhere.",
+			},
+			{
+				question: "Will the conversion lose quality?",
+				answer:
+					"There's minimal quality loss. AVIF images are typically very high quality to start with, and converting to JPG at 92% quality preserves nearly all visible detail. The resulting file will be larger than the AVIF original because JPG compression is less efficient.",
+			},
+		],
 	});
 }
 

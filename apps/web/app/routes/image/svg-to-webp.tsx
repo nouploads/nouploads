@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"svg to webp, convert svg to webp, svg to webp online, svg webp converter, rasterize svg webp, vector to webp",
 		jsonLdName: "SVG to WebP Converter",
+		faq: [
+			{
+				question: "What's the story behind SVG's slow rise to browser support?",
+				answer:
+					"Despite being standardized by the W3C in 2001, SVG languished with poor browser support for nearly a decade. It wasn't until the HTML5 era around 2010-2012 that browsers added robust native SVG rendering. The proliferation of retina and HiDPI displays was the catalyst — suddenly pixel-based icons looked fuzzy at 2x density, and SVG's resolution independence went from nice-to-have to essential.",
+			},
+			{
+				question: "Does WebP preserve transparency from my SVG?",
+				answer:
+					"Yes. Unlike JPG, WebP supports an alpha channel, so transparent regions in your SVG carry over to the WebP output. You get the transparency of PNG combined with the compression efficiency of a modern codec.",
+			},
+			{
+				question: "How does WebP compare to PNG for rasterized SVGs?",
+				answer:
+					"For flat-color SVGs like logos and icons, WebP files are typically 25-35% smaller than PNG with no visible quality loss. For SVGs that contain gradients or embedded images, the savings can be even larger. Both formats support transparency, but WebP achieves it at a lower byte cost.",
+			},
+			{
+				question: "Which browsers support WebP images?",
+				answer:
+					"All major browsers — Chrome, Firefox, Safari, Edge, and Opera — support WebP. Safari added support in version 14 (2020), so coverage is now effectively universal. If you need to target very old browsers, PNG remains the safest fallback.",
+			},
+		],
 	});
 }
 

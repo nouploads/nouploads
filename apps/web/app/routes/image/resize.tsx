@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"resize image, image resizer online, resize image pixels, resize image percentage, scale image, reduce image dimensions, free image resizer, private image resizer",
 		jsonLdName: "Image Resizer",
+		faq: [
+			{
+				question: "Where does the Lanczos resampling algorithm come from?",
+				answer:
+					"When you resize an image, the software must create or remove pixels through a process called resampling. The most common algorithm for high-quality downscaling, Lanczos resampling, is named after Hungarian mathematician Cornelius Lanczos. It uses a windowed sinc function to calculate the ideal color value for each new pixel by considering a neighborhood of surrounding original pixels, producing sharp results with minimal ringing artifacts.",
+			},
+			{
+				question: "How do I resize an image without stretching it?",
+				answer:
+					"Keep the aspect ratio locked (the lock icon between width and height). When you change one dimension, the other adjusts automatically to maintain the original proportions. This prevents any distortion or stretching.",
+			},
+			{
+				question: "What output formats are available for resized images?",
+				answer:
+					"You can save your resized image as JPG, PNG, or WebP. JPG and WebP support a quality slider so you can balance file size and visual clarity. PNG produces lossless output at the cost of larger files.",
+			},
+			{
+				question: "Is there a maximum image size I can resize?",
+				answer:
+					"The tool handles images up to 16,384 pixels on either side, which covers virtually every use case from phone photos to high-resolution scans. Processing happens in a Web Worker so your browser stays responsive even with large files.",
+			},
+		],
 	});
 }
 

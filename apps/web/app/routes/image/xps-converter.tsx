@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"xps to jpg, xps to png, xps converter online, open xps file, oxps converter, microsoft xps viewer",
 		jsonLdName: "XPS Converter",
+		faq: [
+			{
+				question: "Why did Microsoft create XPS as an alternative to PDF?",
+				answer:
+					"XPS (XML Paper Specification) was Microsoft's answer to Adobe's PDF, released alongside Windows Vista in 2006. It uses a ZIP-based package of XML files and embedded resources, making its internal structure easy to inspect with any archive tool. Despite becoming an Ecma International standard (ECMA-388), XPS never achieved widespread adoption outside the Windows ecosystem.",
+			},
+			{
+				question: "How does this tool convert XPS files without a server?",
+				answer:
+					"XPS files are ZIP archives under the hood. This tool opens the archive in your browser using JSZip, scans for embedded raster images (PNG, JPG, TIFF), and extracts the largest one. The extracted image is then available for download as JPG, PNG, WebP, or AVIF. All processing happens locally on your device — the file never leaves your browser.",
+			},
+			{
+				question: "What should I know before converting XPS files?",
+				answer:
+					"This tool extracts embedded raster images, not the full page layout. Text, vector graphics, and page positioning are not rendered — that would require a complete XAML rendering engine. XPS files that contain only vector content or text without any embedded images cannot be converted. For full XPS rendering, use the built-in XPS Viewer on Windows or a desktop application like Okular.",
+			},
+		],
 	});
 }
 

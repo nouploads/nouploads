@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"exr to jpg, exr converter, openexr converter, open exr file online, exr to png, exr viewer, convert exr to image",
 		jsonLdName: "EXR Converter",
+		faq: [
+			{
+				question: "How did OpenEXR end up as the VFX industry standard?",
+				answer:
+					"OpenEXR was created by Industrial Light & Magic (ILM) and first used in production on Harry Potter and the Sorcerer's Stone in 2001. It was open-sourced in 2003 and has since become the industry-standard high dynamic range image format for visual effects, animation, and film production, supporting 16-bit and 32-bit floating-point pixels per channel.",
+			},
+			{
+				question: "How does tone mapping work for EXR conversion?",
+				answer:
+					"EXR images contain far more brightness levels than a monitor can display. Tone mapping compresses that range into the 0\u2013255 values standard displays use. This tool applies the Reinhard operator \u2014 a widely used algorithm that preserves relative brightness differences while preventing blown-out highlights. Very bright areas compress smoothly rather than clipping to white.",
+			},
+			{
+				question: "Which EXR variants does this tool support?",
+				answer:
+					"This tool decodes scanline-based EXR files with uncompressed, ZIPS, or ZIP compression \u2014 the three most common variants exported by Blender, Nuke, and most 3D renderers. It handles half-float (16-bit), full-float (32-bit), and unsigned integer channels. Tiled EXR and less common compressions like PIZ or B44 are not currently supported.",
+			},
+			{
+				question: "Why are EXR files used in VFX and 3D rendering?",
+				answer:
+					"Visual effects artists need HDR data to composite CG elements into live-action plates with realistic lighting. EXR preserves the mathematical relationship between light intensities that JPEG and PNG destroy. A 32-bit float channel in EXR can represent values from near-zero to thousands, giving compositors the dynamic range they need for color grading, light wrapping, and exposure adjustments.",
+			},
+		],
 	});
 }
 

@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"pbm to png, pgm converter, ppm to jpg, netpbm viewer, pam to png, pfm converter, convert pnm online",
 		jsonLdName: "Netpbm Converter",
+		faq: [
+			{
+				question: "Why were the Netpbm formats designed to be so simple?",
+				answer:
+					'The NetPBM formats (PBM, PGM, PPM) were created by Jef Poskanzer in 1988 and are among the simplest image formats ever designed. A PPM file is literally a short header line followed by red, green, and blue values written as plain ASCII numbers separated by whitespace \u2014 no compression, no metadata, no complexity. They were designed as a "lowest common denominator" that any program could read and write trivially.',
+			},
+			{
+				question: "How does this converter handle PFM float data?",
+				answer:
+					"PFM files store each pixel channel as a 32-bit IEEE floating-point number, which can represent brightness values far beyond what monitors can display. This tool applies the Reinhard tone mapping operator to compress the dynamic range into standard 8-bit output, preserving detail in both shadows and highlights without harsh clipping.",
+			},
+			{
+				question: "Can I convert both ASCII and binary Netpbm files?",
+				answer:
+					"Yes. The decoder handles all ten Netpbm variants: ASCII formats (P1 PBM, P2 PGM, P3 PPM), binary formats (P4 PBM, P5 PGM, P6 PPM), PAM (P7), and PFM (Pf grayscale, PF color). Both ASCII and binary versions of PBM, PGM, and PPM are automatically detected from the magic number in the file header.",
+			},
+		],
 	});
 }
 

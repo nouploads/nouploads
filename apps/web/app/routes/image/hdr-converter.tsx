@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"hdr to jpg, hdr converter, radiance hdr, open hdr file, hdr to png online",
 		jsonLdName: "HDR Converter",
+		faq: [
+			{
+				question: "Where does the Radiance HDR format come from?",
+				answer:
+					"The Radiance HDR format (.hdr) was created by Greg Ward for the Radiance lighting simulation system at Lawrence Berkeley National Laboratory in the late 1980s. It was one of the first image formats designed to store actual physical light values (radiance) rather than display-ready pixel colors, making it foundational to the entire field of high dynamic range imaging.",
+			},
+			{
+				question: "How does tone mapping work in this converter?",
+				answer:
+					"HDR files contain brightness values that exceed what a monitor can display. This tool uses the Reinhard tone mapping operator to compress the full dynamic range into the 0\u2013255 range that standard image formats support. Bright highlights are smoothly rolled off rather than clipped, preserving detail across the entire image.",
+			},
+			{
+				question: "Can I use this for HDRI environment maps?",
+				answer:
+					"Yes. HDRI environment maps used in Blender, Cinema 4D, Unreal Engine, and other 3D software are typically stored as .hdr files. This converter lets you quickly preview or convert them to JPG or PNG for reference sheets, thumbnails, or sharing with team members who don't have 3D software installed.",
+			},
+			{
+				question: "What is the difference between HDR and EXR?",
+				answer:
+					"Both store high dynamic range data, but they use different formats. Radiance HDR (.hdr) uses RGBE encoding with 32 bits per pixel and is compact but limited to one layer. OpenEXR (.exr) supports multiple channels, layers, deep data, and higher precision. For simple environment maps and light probes, HDR is more common; for VFX render passes, EXR is the industry standard.",
+			},
+		],
 	});
 }
 

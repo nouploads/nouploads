@@ -26,6 +26,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"image converter, convert image format, png to jpg, jpg to webp, webp to png, free image converter, private image converter, batch image convert, convert images online",
 		jsonLdName: "Image Format Converter",
+		faq: [
+			{
+				question: "How do digital images represent color under the hood?",
+				answer:
+					"Most digital images use the RGB color model, where each pixel stores red, green, and blue intensity values. The standard of 8 bits per channel (256 levels per color, 16.7 million total colors) became established in the early 1990s as a practical match for human color perception. Different image formats package these pixel values in different ways — some with compression, some without, some with transparency — but the underlying RGB data is remarkably consistent across formats.",
+			},
+			{
+				question: "Will converting my image reduce its quality?",
+				answer:
+					"It depends on the output format. Converting to PNG produces a lossless copy at the target format. Converting to JPG, WebP, or AVIF uses lossy compression, but at high default quality (92%) the difference is imperceptible for most images. Transparency is preserved when converting to PNG or WebP.",
+			},
+			{
+				question: "What happens to transparent backgrounds?",
+				answer:
+					"PNG and WebP preserve transparency. If you convert a transparent image to JPG, the transparent areas become white — JPG doesn't support alpha channels.",
+			},
+		],
 	});
 }
 

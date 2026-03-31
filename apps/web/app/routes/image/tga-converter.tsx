@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"tga to jpg, tga converter, targa converter, open tga file, tga to png, convert tga online, tga viewer",
 		jsonLdName: "TGA Converter",
+		faq: [
+			{
+				question: "What's the story behind the TGA format?",
+				answer:
+					"The TGA format (Truevision Advanced Raster Graphics Adapter) was developed by Truevision Inc. in 1984 for their video graphics cards. It became the standard format for video game texture assets and 3D rendering output throughout the 1990s, and remains widely used in game development today because of its simplicity, alpha channel support, and run-length encoding compression.",
+			},
+			{
+				question: "Why is TGA still used in game development?",
+				answer:
+					"Game engines and 3D tools like Unreal Engine, Unity, and Blender use TGA because it preserves exact pixel values without lossy compression artifacts. Texture artists need predictable colors for normal maps, specular maps, and diffuse textures. TGA's simple structure also makes it fast to read and write during asset pipelines.",
+			},
+			{
+				question: "Does this handle RLE-compressed TGA files?",
+				answer:
+					"Yes. The decoder handles both uncompressed and RLE-compressed TGA images, including true-color, grayscale, and color-mapped variants. RLE (run-length encoding) is a lightweight lossless compression that some TGA exporters use to reduce file size without any quality loss.",
+			},
+			{
+				question: "Why do some TGA files appear upside down?",
+				answer:
+					"Most TGA files store pixel rows bottom-to-top — a convention inherited from early graphics hardware. Programs that ignore the origin flag in the TGA header display the image flipped. This tool reads the origin bit and automatically flips the image to the correct orientation.",
+			},
+		],
 	});
 }
 

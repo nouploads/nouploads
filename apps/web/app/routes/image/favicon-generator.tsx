@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"favicon generator, ico generator, favicon maker, create favicon, image to ico, favicon online free, private favicon tool",
 		jsonLdName: "Favicon Generator",
+		faq: [
+			{
+				question: "Why is designing tiny icons so difficult?",
+				answer:
+					"Designing icons at 16x16 or 32x32 pixels is a specialized discipline closely related to pixel art — each individual pixel matters because there are so few of them. Professional icon designers often hand-edit icons pixel by pixel at small sizes rather than simply scaling down a larger image, because automatic downscaling produces blurry, unrecognizable results. Apple, Google, and Microsoft all publish detailed human interface guidelines for icon design at various resolutions.",
+			},
+			{
+				question: "What sizes are included in the generated favicon?",
+				answer:
+					"The tool generates three sizes: 16x16 pixels (used in browser tabs), 32x32 pixels (used in bookmark menus and taskbar shortcuts), and 48x48 pixels (used by Windows for desktop shortcuts). All three are packed into a single .ico file that works across browsers and operating systems.",
+			},
+			{
+				question: "How do I add the favicon to my website?",
+				answer:
+					'Place the .ico file in your website\'s root directory and add this line inside the <head> tag of your HTML: <link rel="icon" href="/favicon.ico" type="image/x-icon">. Most browsers also check for favicon.ico at the root automatically, even without the link tag.',
+			},
+			{
+				question: "Can I download individual PNG sizes separately?",
+				answer:
+					"Yes. After generating the favicon, each size (16x16, 32x32, 48x48) is shown as a preview with its own download button. You can grab individual PNGs for use as Apple touch icons, Android icons, or anywhere else that needs a specific size.",
+			},
+		],
 	});
 }
 

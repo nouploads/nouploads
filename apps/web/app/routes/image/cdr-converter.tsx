@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"cdr to jpg, cdr to png, cdr converter online, open cdr file, coreldraw converter, cdr viewer online, convert cdr free",
 		jsonLdName: "CDR Converter",
+		faq: [
+			{
+				question: "How did CorelDRAW and the CDR format get started?",
+				answer:
+					"CorelDRAW was first released in 1989 and was one of the first professional vector graphics editors available for Windows, at a time when the Macintosh dominated creative computing. The CDR format became especially popular in the sign-making, screen printing, and engraving industries, where CorelDRAW's precision drawing tools were considered superior to the competition.",
+			},
+			{
+				question: "How does this tool convert CDR files without a server?",
+				answer:
+					"CorelDRAW files typically embed preview images for quick display in file managers and other applications. This tool extracts that embedded preview — checking RIFF DISP chunks in classic CDR files and thumbnail images in ZIP-based CDR archives. The preview is then available for download as JPG, PNG, WebP, or AVIF. All processing runs in your browser.",
+			},
+			{
+				question: "What are the limitations of CDR conversion in a browser?",
+				answer:
+					"This tool extracts the embedded preview image, not the full vector artwork. The preview resolution depends on what CorelDRAW stored when saving the file — typically a mid-resolution bitmap suitable for thumbnails and quick previews. CDR files without embedded previews cannot be converted. For full vector editing, you need CorelDRAW or Inkscape.",
+			},
+			{
+				question: "Which CDR versions are supported?",
+				answer:
+					"Both classic RIFF-based CDR files (versions up through X4) and newer ZIP-based CDR files (X5 and later) are supported. The decoder checks the file structure and uses the appropriate extraction method. Very old CDR files from the early 1990s that lack embedded previews may not work.",
+			},
+		],
 	});
 }
 

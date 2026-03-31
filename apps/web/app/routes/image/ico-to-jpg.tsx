@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"ico to jpg, convert ico to jpeg, favicon to jpg, ico to jpg converter, icon to jpg online",
 		jsonLdName: "ICO to JPG Converter",
+		faq: [
+			{
+				question: "Where does the ICO file format come from?",
+				answer:
+					"The ICO format was introduced by Microsoft with Windows 1.0 in 1985 to store icons for the new graphical user interface. A single ICO file can contain multiple images at different sizes and color depths, letting the operating system choose the most appropriate version for each display context — from tiny taskbar icons to high-resolution desktop shortcuts.",
+			},
+			{
+				question: "When should I convert ICO to JPG instead of PNG?",
+				answer:
+					"Choose JPG when you need the smallest possible file size and the icon is a photograph or has complex gradients. For logos and icons with flat colors or transparency, PNG is usually the better choice since JPG discards transparency and can introduce artifacts around sharp edges.",
+			},
+			{
+				question: "What happens to the transparent background?",
+				answer:
+					"JPG does not support transparency. Any transparent areas in the ICO are composited onto a white background before encoding. If you need to keep the transparent background, use the ICO to PNG converter instead.",
+			},
+			{
+				question: "Which icon size does it extract?",
+				answer:
+					"The tool automatically selects the highest-resolution frame embedded in the ICO file. Modern favicons typically include a 256x256 PNG-compressed frame alongside smaller BMP versions, so you get the best quality available.",
+			},
+		],
 	});
 }
 

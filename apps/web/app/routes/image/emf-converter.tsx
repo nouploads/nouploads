@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"emf to jpg, emf converter, emf to png, open emf file, convert emf online, emf viewer, enhanced metafile converter, emf to image",
 		jsonLdName: "EMF Converter",
+		faq: [
+			{
+				question: "How did the EMF format originate?",
+				answer:
+					'Enhanced Metafile (EMF) was introduced with Windows NT 3.1 in 1993 as a successor to the older WMF format. Rather than storing pixels, EMF records a sequence of GDI (Graphics Device Interface) drawing commands — instructions like "draw a line from A to B" or "fill this rectangle with blue." This makes it resolution-independent, conceptually similar to SVG but built on Microsoft\'s proprietary graphics model.',
+			},
+			{
+				question: "Which EMF features does this tool support?",
+				answer:
+					"This decoder handles the most common EMF records: basic shapes (rectangles, ellipses, polygons, polylines), line drawing, path operations (begin/end/fill/stroke), pen and brush creation, object selection, embedded bitmaps via STRETCHDIBITS, and coordinate transforms. Complex features like advanced text layout, clipping regions, world transforms, and gradient fills are not implemented — those elements may render differently than in Windows.",
+			},
+			{
+				question: "Why does my EMF file look different here than in Windows?",
+				answer:
+					"EMF is a recording of Windows GDI calls, and a perfect renderer would need a full GDI implementation. This tool covers the ~70% of records that appear in most real-world EMF files — shapes, fills, strokes, and embedded images. Files that rely heavily on text positioning, complex clipping, raster operations, or world transforms may show visual differences.",
+			},
+			{
+				question: "Can I convert EMF files on a Mac or Linux machine?",
+				answer:
+					"Yes. Because this tool runs entirely in your browser, it works on macOS, Linux, ChromeOS, and Windows — anywhere with a modern browser. No Windows-specific software is needed. Drop your EMF file and download a standard JPG, PNG, or WebP image.",
+			},
+		],
 	});
 }
 

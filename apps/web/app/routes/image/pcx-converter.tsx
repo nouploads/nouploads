@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"pcx to jpg, pcx converter, pcx to png, convert pcx online, open pcx file, pcx viewer, zsoft pcx",
 		jsonLdName: "PCX Converter",
+		faq: [
+			{
+				question: "How did PCX become the first mainstream PC image format?",
+				answer:
+					"PCX was one of the first widely used image formats on IBM-compatible PCs, created by ZSoft Corporation for their PC Paintbrush program in 1985. Before Windows made BMP the default, PCX was the standard format for DOS-based graphics applications. It used simple run-length encoding for compression and supported up to 16 million colors in its later versions.",
+			},
+			{
+				question: "How does PCX compression work?",
+				answer:
+					"PCX uses run-length encoding, a straightforward lossless compression scheme. When consecutive pixels share the same value, the encoder stores a count byte (with the two high bits set) followed by the pixel value, instead of repeating the value multiple times. Single unique bytes below 0xC0 are stored as-is. This keeps the format simple to parse while still reducing file size for images with solid-color regions.",
+			},
+			{
+				question: "What color modes does this converter support?",
+				answer:
+					"This tool decodes all standard PCX color modes: 24-bit RGB (3 planes at 8 bits each) for full-color photographs, 256-color indexed images that use a VGA palette stored at the end of the file, and 1-bit monochrome for line art and scanned documents. The built-in RLE decompressor handles both compressed and uncompressed variants.",
+			},
+		],
 	});
 }
 

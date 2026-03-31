@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"avif to png, convert avif to png, avif to png transparent, avif to png lossless, avif converter",
 		jsonLdName: "AVIF to PNG Converter",
+		faq: [
+			{
+				question: "How does the AV1 codec behind AVIF actually work?",
+				answer:
+					"AVIF uses the intra-frame coding mode of the AV1 video codec, which was released in 2018 after years of development by the Alliance for Open Media. AV1 combines techniques from Google's VP10, Mozilla's Daala, and Cisco's Thor into one royalty-free codec. When applied to still images, AV1's advanced prediction, transform, and entropy coding stages produce files significantly smaller than JPEG or even WebP.",
+			},
+			{
+				question: "Is transparency preserved in the conversion?",
+				answer:
+					"Yes. AVIF supports alpha transparency, and PNG preserves it perfectly. If your AVIF file has transparent regions, they'll remain transparent in the PNG output.",
+			},
+			{
+				question: "Why is the PNG file so much larger?",
+				answer:
+					"AVIF is an extremely efficient format — often 50% smaller than PNG. When you convert to PNG, you're trading compression efficiency for universal compatibility and lossless pixel fidelity. The larger file size is expected.",
+			},
+		],
 	});
 }
 

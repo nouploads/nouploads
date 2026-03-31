@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"images to pdf, combine images pdf, jpg to pdf, png to pdf, free image to pdf converter, private pdf creator, merge images into pdf",
 		jsonLdName: "Images to PDF Converter",
+		faq: [
+			{
+				question: "How does PDF actually store images internally?",
+				answer:
+					"PDF was designed from the start to embed images alongside text and vector graphics. When images are placed inside a PDF, each one becomes a stream object within the file's internal structure. The PDF specification supports JPEG, JPEG 2000, JBIG2 (for scanned text), and raw uncompressed image data — making it one of the most versatile document containers for mixed image content.",
+			},
+			{
+				question: "Can I reorder images before creating the PDF?",
+				answer:
+					"Yes. After dropping your images, each file appears in a list with up/down arrows so you can arrange pages in exactly the order you want. You can also remove individual images or add more files at any time before creating the PDF.",
+			},
+			{
+				question: "What page size options are available?",
+				answer:
+					'Three options: "Fit to Image" sizes each page to match the image dimensions exactly — ideal for preserving original resolution. "A4" and "Letter" place images centered on standard paper sizes with margins, scaling them down to fit if needed without stretching smaller images up.',
+			},
+			{
+				question: "Is there a limit on how many images I can combine?",
+				answer:
+					"There is no hard limit. Since processing runs entirely in your browser, the practical limit depends on your device's memory. Most modern devices handle dozens of images without issue. Very large batches (100+ high-resolution photos) may be slow on phones or tablets.",
+			},
+		],
 	});
 }
 

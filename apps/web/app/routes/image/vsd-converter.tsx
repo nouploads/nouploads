@@ -25,6 +25,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"vsd to jpg, vsdx to png, visio converter online, open vsd file, vsdx converter, visio to image, convert visio free",
 		jsonLdName: "Visio VSD/VSDX Converter",
+		faq: [
+			{
+				question: "How did Visio and the VSD format come about?",
+				answer:
+					"Visio was originally developed as a product called Axon by Shapeware Corporation in 1992, then acquired by Microsoft in 2000. The VSD format became the de facto standard for business diagrams: flowcharts, organizational charts, network topology maps, and floor plans. Visio's stencil-and-connector approach made it possible for non-designers to create professional-looking technical diagrams.",
+			},
+			{
+				question: "How does this tool handle both VSD and VSDX formats?",
+				answer:
+					"The two formats use completely different internal structures. VSD files are OLE2 compound files — the tool reads them with the cfb library and scans binary streams for embedded JPEG, PNG, or BMP images. VSDX files are ZIP archives — the tool opens them with JSZip and looks for the OOXML thumbnail or media images. Both paths extract the best available preview.",
+			},
+			{
+				question: "What should I expect when converting VSD files?",
+				answer:
+					"This tool extracts embedded images and thumbnails rather than rendering the full diagram. Text, shapes, connectors, and page layout are not reproduced — that would require a complete Visio rendering engine. The quality depends on what Visio stored as a preview when the file was saved. For full diagram editing, use Microsoft Visio, draw.io, or Lucidchart.",
+			},
+			{
+				question: "Can I convert Visio files with multiple pages?",
+				answer:
+					"The tool extracts the primary thumbnail or the largest embedded image, which typically represents the first page or a composite preview. Individual page-by-page extraction is not supported — the goal is to produce a usable image from the diagram as quickly as possible.",
+			},
+		],
 	});
 }
 

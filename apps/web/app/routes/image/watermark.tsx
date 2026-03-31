@@ -25,6 +25,29 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"add watermark to image, image watermark online, text watermark, watermark photo, free watermark tool, private watermark, watermark no upload, tiled watermark",
 		jsonLdName: "Image Watermark",
+		faq: [
+			{
+				question: "Where does the word 'watermark' come from?",
+				answer:
+					'The word "watermark" originates from 13th-century Italian papermaking, where a raised design on the wire mold left a thinner area in the wet pulp that became visible when the dried paper was held up to light. Paper mills used watermarks to identify their products, and governments adopted them for currency authentication. Digital watermarking adapts the same concept — embedding ownership or origin data directly into a file\'s content.',
+			},
+			{
+				question:
+					"What is the difference between centered and tiled watermarks?",
+				answer:
+					"A centered watermark places a single text label in the middle of your image, useful for branding a preview or proof. A tiled watermark repeats the text across the entire image in a grid pattern, making it much harder to crop or remove — ideal for protecting stock photography or draft materials.",
+			},
+			{
+				question: "Can I control how visible the watermark is?",
+				answer:
+					"Yes. The opacity slider lets you set visibility from 10% (barely visible) to 100% (fully opaque). Most watermarks work well between 20% and 40% — visible enough to deter theft but subtle enough to keep the image usable as a preview.",
+			},
+			{
+				question: "Will the watermark reduce my image quality?",
+				answer:
+					"The tool redraws your image at its original resolution and overlays the text. For lossless formats like PNG the quality is identical. For lossy formats like JPG and WebP, a high-quality encoding (92%) is used by default to minimize any compression artifacts.",
+			},
+		],
 	});
 }
 

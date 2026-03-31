@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"ai to jpg, ai to png, adobe illustrator converter, open ai file online, ai file viewer",
 		jsonLdName: "AI Converter",
+		faq: [
+			{
+				question: "What's the story behind Adobe Illustrator's file format?",
+				answer:
+					"Adobe Illustrator was first developed for the Apple Macintosh in 1987 and was one of the earliest applications to use Adobe's PostScript language for on-screen rendering. Since Illustrator CS, the AI file format is essentially a restricted form of PDF — which is why many tools can extract preview images from AI files. There is literally a PDF hidden inside every modern AI file.",
+			},
+			{
+				question: "How does this tool convert AI files?",
+				answer:
+					"Modern AI files (Illustrator 9 and later) start with a %PDF header, making them valid PDF documents. This tool detects the PDF structure and renders the first page using Mozilla's PDF.js library at 2x resolution for sharp output. The result can be saved as JPG, PNG, WebP, or AVIF. For older AI files that use PostScript instead of PDF, the tool falls back to extracting the embedded preview image.",
+			},
+			{
+				question: "What about legacy AI files from before Illustrator 9?",
+				answer:
+					"AI files created before Illustrator 9 (pre-2000) use a PostScript-based format instead of PDF. These files cannot be fully rendered in a browser, but most contain an embedded low-resolution preview image. This tool detects the PostScript header and falls back to extracting that preview. The output quality depends on what the original application embedded — it may be lower resolution than the vector artwork.",
+			},
+			{
+				question: "Does this tool handle multi-artboard AI files?",
+				answer:
+					"The tool renders the first page of the PDF structure within the AI file, which corresponds to the primary artboard. Multi-artboard AI files store each artboard as a separate PDF page. Currently, only the first artboard is converted. For full multi-artboard export, desktop software like Illustrator or Inkscape offers more control.",
+			},
+		],
 	});
 }
 
