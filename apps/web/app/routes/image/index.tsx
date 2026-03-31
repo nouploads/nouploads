@@ -176,6 +176,8 @@ const editingLinks = [
 	{ href: "/image/watermark", label: "Watermark" },
 	{ href: "/image/remove-background", label: "Remove Background" },
 	{ href: "/image/exif", label: "EXIF Viewer" },
+	{ href: "/image/strip-metadata", label: "Strip Metadata" },
+	{ href: "/image/color-palette", label: "Color Palette" },
 	{ href: "/image/favicon-generator", label: "Favicon Generator" },
 	{ href: "/image/to-pdf", label: "Images to PDF" },
 ];
