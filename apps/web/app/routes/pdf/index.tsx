@@ -43,6 +43,7 @@ const conversionLinks = [
 ];
 
 const editingLinks = [
+	{ href: "/pdf/reorder", label: "Reorder Pages" },
 	{ href: "/pdf/page-numbers", label: "Add Page Numbers" },
 	{ href: "/pdf/watermark", label: "Add Watermark" },
 	{ href: "/pdf/protect", label: "Password Protect" },

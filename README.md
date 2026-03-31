@@ -117,11 +117,11 @@ node packages/cli/bin/nouploads.js --list
 
 ### Image Editing
 
-Resize, crop, rotate/flip, compress (JPG/PNG/WebP/GIF), watermark, filters/effects (grayscale, sepia, blur, etc.), remove background (AI), EXIF viewer/stripper, images to PDF, favicon generator (ICO).
+Resize, crop, rotate/flip, compress (JPG/PNG/WebP/GIF), watermark, filters/effects (grayscale, sepia, blur, etc.), remove background (AI), EXIF viewer, strip metadata (batch EXIF/GPS remover), color palette extractor, images to PDF, favicon generator (ICO).
 
 ### PDF Tools
 
-PDF to JPG/PNG, merge PDFs, split PDF, rotate PDF, compress PDF, add watermark, extract text, add page numbers, password protect, unlock.
+PDF to JPG/PNG, merge PDFs, split PDF, rotate PDF, reorder pages (drag-and-drop), compress PDF, add watermark, extract text, add page numbers, password protect, unlock.
 
 ### Vector Tools
 
@@ -129,7 +129,7 @@ SVG optimizer (svgo) with SVGZ export.
 
 ### Developer Tools
 
-Color picker (HEX/RGB/HSL/CMYK/LAB/OKLCH), JSON formatter/validator/minifier, hash generator (MD5/SHA-1/SHA-256/SHA-384/SHA-512), JWT decoder, base64 encoder/decoder, QR code generator, regex tester, Unix timestamp converter, UUID v4/v7 generator, URL encoder/decoder, text diff/compare, Markdown preview.
+Color picker (HEX/RGB/HSL/CMYK/LAB/OKLCH), JSON formatter/validator/minifier, hash generator (MD5/SHA-1/SHA-256/SHA-384/SHA-512), JWT decoder, base64 encoder/decoder, QR code generator, regex tester, Unix timestamp converter, UUID v4/v7 generator, URL encoder/decoder, text diff/compare, Markdown preview, lorem ipsum generator, word/character counter, CSS minifier/beautifier, case converter (camelCase/snake_case/kebab-case/10 styles), CRON expression parser, JSON↔CSV converter, YAML↔JSON converter.
 
 Full tool list: [nouploads.com](https://nouploads.com) or `npx nouploads --list`
 
