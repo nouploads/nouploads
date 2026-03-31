@@ -23,6 +23,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"rotate pdf, rotate pdf pages, pdf rotation online, turn pdf sideways, flip pdf upside down, free pdf rotator",
 		jsonLdName: "PDF Rotator",
+		faq: [
+			{
+				question: "How does PDF handle page rotation internally?",
+				answer:
+					"PDF pages have a built-in rotation property stored in their page dictionary — a simple value of 0, 90, 180, or 270 degrees. Changing this value rotates the entire page display without modifying any of the actual page content: text, images, and vector graphics all stay untouched. This is why PDF rotation is instant and completely lossless, regardless of how complex the page may be.",
+			},
+			{
+				question: "Can I rotate individual pages?",
+				answer:
+					"This tool currently rotates all pages in the PDF by the same angle. If you need to rotate only specific pages, use the PDF splitter first, rotate the pages you need, then combine them with the PDF merger.",
+			},
+			{
+				question: "Does rotating a PDF change the content or quality?",
+				answer:
+					"No. Rotation is a lossless metadata change — it adjusts the page orientation flag without re-encoding images, text, or vector graphics. Your content stays pixel-perfect.",
+			},
+			{
+				question: "What about scanned or landscape PDFs?",
+				answer:
+					"Scanned documents and landscape-oriented PDFs rotate the same way. If your scanner saved pages sideways, a 90° or 270° rotation will fix the orientation without any quality loss.",
+			},
+		],
 	});
 }
 

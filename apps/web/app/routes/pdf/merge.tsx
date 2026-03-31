@@ -23,6 +23,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"merge pdf, combine pdf, join pdf files, merge pdf online free, private pdf merger, pdf combiner",
 		jsonLdName: "PDF Merger",
+		faq: [
+			{
+				question: "Where did the PDF format come from?",
+				answer:
+					'The Portable Document Format was conceived by Adobe co-founder John Warnock, who described his vision in a 1991 internal memo called "The Camelot Project." The goal was to let any document from any application be sent electronically and rendered exactly as the author intended, regardless of the recipient\'s operating system or printer. PDF became an open ISO standard (ISO 32000) in 2008.',
+			},
+			{
+				question: "Can I reorder pages before merging?",
+				answer:
+					"Yes. After adding your files, use the up and down arrow buttons next to each file to rearrange the order. Files are merged top to bottom, so the first file in the list becomes the first pages of the output.",
+			},
+			{
+				question: "Is there a file size or page limit?",
+				answer:
+					"There is no hard limit — the tool runs in your browser, so it depends on your device's available memory. Most users can merge dozens of PDFs totaling hundreds of pages without issues. Very large merges (thousands of pages) may be slow on mobile devices.",
+			},
+			{
+				question: "What about encrypted or password-protected PDFs?",
+				answer:
+					"The tool can read many encrypted PDFs that don't require a password to open (owner-password-only encryption). PDFs that require a user password to open cannot be merged — you'll see an error for that specific file.",
+			},
+		],
 	});
 }
 

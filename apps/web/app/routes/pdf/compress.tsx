@@ -23,6 +23,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"compress pdf, reduce pdf size, pdf compressor online, shrink pdf, free pdf compressor, private pdf compression",
 		jsonLdName: "PDF Compressor",
+		faq: [
+			{
+				question: "What's actually inside a PDF file?",
+				answer:
+					"A PDF file is not a simple document — internally it is a collection of numbered objects (text streams, fonts, images, metadata) connected by a cross-reference table that maps each object's byte offset. Compressing a PDF typically means recompressing embedded images at lower quality and stripping unused objects, since embedded images are almost always the largest contributors to overall file size.",
+			},
+			{
+				question: "Will the compressed PDF look different?",
+				answer:
+					'There may be some visible quality loss, depending on the compression level you choose. "Low" compression preserves most detail at 150 DPI with 85% JPEG quality. "High" compression is more aggressive at 72 DPI and 50% quality, producing noticeably smaller files with softer text and images. For most documents, "Medium" strikes a practical balance.',
+			},
+			{
+				question: "Which compression level should I choose?",
+				answer:
+					'Use "Low" when you need the output to stay close to the original in visual fidelity — good for reports with charts or detailed diagrams. "Medium" works well for general documents, presentations, and forms you need to email. "High" is best when file size matters more than sharpness, such as archiving large batches or uploading to size-limited portals.',
+			},
+			{
+				question: "Does this work with scanned PDFs?",
+				answer:
+					"Yes — scanned PDFs are essentially images already, so re-rendering them at a lower resolution and quality can reduce file size substantially. This tool handles scanned documents the same way it handles any other PDF: each page is rendered to canvas and re-exported as a compressed JPG.",
+			},
+		],
 	});
 }
 

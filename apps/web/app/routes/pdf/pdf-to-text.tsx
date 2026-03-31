@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"pdf to text, extract text from pdf, pdf text extractor, copy text from pdf, pdf to txt online, free pdf text tool, private pdf extractor",
 		jsonLdName: "PDF to Text Extractor",
+		faq: [
+			{
+				question: "How does PDF actually store text internally?",
+				answer:
+					"PDF stores text as individual characters positioned at exact x/y coordinates with specific fonts — not as flowing paragraphs or lines. Extracting readable text means reassembling these scattered characters into logical reading order, which becomes surprisingly complex with multi-column layouts, tables, footnotes, or right-to-left scripts. This is why different PDF text extractors can produce different results from the same file.",
+			},
+			{
+				question: "What if my PDF contains only scanned images?",
+				answer:
+					"This tool extracts text that is embedded in the PDF's text layer. Scanned documents that are essentially images of text won't yield results unless the PDF was processed with OCR beforehand. If you see 'No extractable text found,' the PDF likely contains only images.",
+			},
+			{
+				question: "Does this tool preserve formatting?",
+				answer:
+					"The extracted text preserves the reading order and line breaks from the original PDF. However, complex layouts like multi-column text, tables, or decorative formatting may not translate perfectly to plain text. The output is clean, readable text suitable for copying into other documents.",
+			},
+			{
+				question: "Can I extract text from password-protected PDFs?",
+				answer:
+					"No. If your PDF requires a password to open, you'll need to remove the password protection first using your PDF reader's security settings, then upload the unprotected version here.",
+			},
+		],
 	});
 }
 

@@ -23,6 +23,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"pdf to png, convert pdf to png, pdf to image, pdf page to png online, free pdf to png, private pdf converter, lossless pdf export",
 		jsonLdName: "PDF to PNG Converter",
+		faq: [
+			{
+				question: "What makes PDF so complex to rasterize?",
+				answer:
+					"A single PDF page can contain a rich mix of vector graphics, raster images, live searchable text, embedded fonts, form fields, and even JavaScript — all layered together. This is why converting a PDF to an image (a process called rasterization) requires a full rendering engine rather than simple pixel extraction: every element must be composited at the target resolution to produce the final output.",
+			},
+			{
+				question: "Why choose PNG over JPG for PDF pages?",
+				answer:
+					"PNG is a lossless format, so every pixel is preserved exactly as rendered. This makes it ideal for documents with sharp text, line art, diagrams, or screenshots where JPG compression artifacts would be noticeable. PNG also supports transparency, which JPG does not.",
+			},
+			{
+				question: "Will the output files be large?",
+				answer:
+					"PNG files are typically larger than JPG because PNG uses lossless compression. A single 300 DPI page can be several megabytes. If file size matters more than pixel-perfect quality, consider using the PDF to JPG tool instead.",
+			},
+			{
+				question: "What resolution should I pick?",
+				answer:
+					"72 DPI matches typical screen resolution and produces the smallest files. 150 DPI is a solid middle ground for sharing or embedding in slides. 300 DPI is best for printing or when you need to capture fine details.",
+			},
+		],
 	});
 }
 

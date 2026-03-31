@@ -23,6 +23,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"split pdf, extract pdf pages, pdf splitter online free, separate pdf pages, split pdf by page range, private pdf splitter",
 		jsonLdName: "PDF Splitter",
+		faq: [
+			{
+				question: "What makes PDF easy to split without losing quality?",
+				answer:
+					"PDF's internal architecture uses numbered objects connected by a cross-reference table, and each page is a largely self-contained object that references its own fonts, images, and content streams. Splitting a PDF into separate files copies the relevant page objects and their dependencies into new files — no re-rendering is needed, which preserves every element at its original quality.",
+			},
+			{
+				question: "Can I extract specific page ranges from a PDF?",
+				answer:
+					'Yes. Switch to "Custom ranges" mode and enter page numbers or ranges separated by commas — for example, "1-3, 5, 7-10". Each comma-separated entry produces a separate PDF file. You can mix single pages and ranges in one operation.',
+			},
+			{
+				question: "Is there a page or file size limit?",
+				answer:
+					"There is no hard limit. The tool runs locally in your browser, so capacity depends on your device. Most PDFs up to a few hundred pages split in seconds. Very large documents may take longer on mobile devices with limited memory.",
+			},
+			{
+				question: "Does splitting preserve the original formatting?",
+				answer:
+					"Yes. The tool copies pages directly from the source PDF without re-rendering or re-compressing. Fonts, images, annotations, and form fields are preserved exactly as they appear in the original document.",
+			},
+		],
 	});
 }
 

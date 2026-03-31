@@ -25,6 +25,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"unlock pdf, remove pdf password, pdf password remover, unprotect pdf, decrypt pdf online, free pdf unlock tool, private pdf unlocker",
 		jsonLdName: "PDF Unlock Tool",
+		faq: [
+			{
+				question: "How did PDF encryption evolve?",
+				answer:
+					'PDF encryption (introduced in PDF 1.1 in 1994) scrambles the document\'s content streams using a key derived from the password. The specification defines two passwords: the "owner password" controls permissions like printing and copying, while the "user password" gates access entirely. Interestingly, many PDFs in the wild use only an owner password — meaning the content is restricted but the decryption key can be derived without any password at all.',
+			},
+			{
+				question: "Do I need to know the password to unlock the PDF?",
+				answer:
+					"For PDFs that require a password just to open (user-password protection), yes — you must enter the correct password. For PDFs that open normally but restrict printing or copying (owner-password protection), you can often unlock them without entering any password at all.",
+			},
+			{
+				question: "What types of PDF protection can this tool remove?",
+				answer:
+					"This tool handles two common types of PDF protection: owner-password restrictions (which block printing, copying, or editing) and user-password encryption (which prevents opening the file without a password). Owner-password restrictions can typically be removed without the password, while user-password encryption requires the correct password.",
+			},
+			{
+				question: "Is the unlocked PDF identical to the original?",
+				answer:
+					"The content — text, images, layout, and page count — remains the same. The file size may differ slightly because the encryption metadata is stripped and the PDF is re-saved. Fonts, annotations, and form fields are preserved.",
+			},
+		],
 	});
 }
 

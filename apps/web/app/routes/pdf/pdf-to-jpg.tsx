@@ -23,6 +23,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"pdf to jpg, convert pdf to jpg, pdf to image, pdf to jpeg online, free pdf converter, private pdf to jpg, pdf page to image",
 		jsonLdName: "PDF to JPG Converter",
+		faq: [
+			{
+				question: "Why was PDF invented in the first place?",
+				answer:
+					'Before PDF, sharing documents between different computers and operating systems was a persistent headache — fonts would be missing, margins would shift, and graphics would break. Adobe co-founder John Warnock envisioned a format that would preserve the exact visual appearance of any document on any system. That idea became PDF, and it solved the "what you see is what I see" problem that had plagued publishing for years.',
+			},
+			{
+				question: "What DPI setting should I choose?",
+				answer:
+					"72 DPI is fine for quick screen previews. 150 DPI (the default) works well for most uses including emails and presentations. Choose 300 DPI when you need print-quality images or need to zoom into fine details.",
+			},
+			{
+				question: "What about multi-page PDFs?",
+				answer:
+					"Each page of your PDF becomes a separate JPG image. You can download them individually or grab all pages at once in a single ZIP file. Progress is shown as each page is converted.",
+			},
+			{
+				question: "Can I adjust the JPG quality?",
+				answer:
+					"Yes. A quality slider lets you choose between smaller file sizes and sharper images. The default of 92% offers a good balance. Lower values shrink files significantly with minimal visible difference for most documents.",
+			},
+		],
 	});
 }
 

@@ -25,6 +25,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"protect pdf, password protect pdf, encrypt pdf, pdf password, lock pdf, restrict pdf printing, restrict pdf copying, free pdf protection, private pdf encrypt",
 		jsonLdName: "PDF Password Protection Tool",
+		faq: [
+			{
+				question: "How did PDF encryption evolve over the years?",
+				answer:
+					'PDF supports two distinct levels of password protection: a "user password" required to open the file at all, and an "owner password" that restricts specific actions like printing, copying text, or editing. The encryption has evolved from 40-bit RC4 in early versions to AES-256 in PDF 2.0. The password itself is never stored in the file — instead, it derives the encryption key used to scramble the document\'s content streams.',
+			},
+			{
+				question: "What is the difference between user and owner passwords?",
+				answer:
+					"The user password (also called the open password) is required to open and view the PDF. The owner password controls who can change the document's security settings and permissions. You can set just a user password if you only want to restrict opening, or set both to have full control over access and permissions.",
+			},
+			{
+				question: "What permissions can I restrict on the protected PDF?",
+				answer:
+					"You can control three permission categories: printing (whether the document can be printed), copying (whether text and images can be selected and copied), and editing (whether the document content can be modified). Uncheck any permission to restrict that action for users who open the PDF with the user password.",
+			},
+			{
+				question: "Will the protected PDF work in all PDF viewers?",
+				answer:
+					"The protection follows the PDF specification's standard security handler, which is supported by all major PDF readers including Adobe Acrobat, Preview on macOS, Chrome's built-in viewer, and most third-party PDF apps. The file uses RC4-128 encryption, which has been part of the PDF standard since version 1.4.",
+			},
+		],
 	});
 }
 
