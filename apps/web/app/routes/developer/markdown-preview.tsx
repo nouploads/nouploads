@@ -24,6 +24,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"markdown preview, markdown editor, markdown to html, gfm, github flavored markdown, markdown live preview, markdown renderer, markdown online",
 		jsonLdName: "Markdown Preview",
+		faq: [
+			{
+				question: "Who created Markdown?",
+				answer:
+					'Markdown was created by John Gruber and Aaron Swartz in 2004 as a lightweight markup language designed to read naturally as plain text while converting cleanly to HTML. Gruber described it as "a text-to-HTML conversion tool for web writers." Today Markdown has become ubiquitous — it powers documentation on GitHub, posts on Stack Overflow and Reddit, and note-taking in tools like Obsidian and Notion.',
+			},
+			{
+				question: "Is the preview accurate to how GitHub renders Markdown?",
+				answer:
+					"The editor uses the same GFM specification that GitHub follows. Tables, task lists, strikethrough, and fenced code blocks all render correctly. Minor visual differences in styling may occur since the preview uses its own CSS, but the underlying HTML structure matches GitHub's interpretation of the Markdown.",
+			},
+			{
+				question: "What happens to images and links in the preview?",
+				answer:
+					"Image references render as actual images if they point to accessible URLs, but local file paths won't resolve since the preview runs in a sandboxed browser context. Relative links work within the preview but won't navigate anywhere. If you're previewing a README destined for GitHub, absolute URLs are the safest choice for images.",
+			},
+		],
 	});
 }
 

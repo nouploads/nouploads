@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"uuid generator, uuid v4, uuid v7, random uuid, guid generator, unique id generator, bulk uuid, uuid validator, rfc 9562",
 		jsonLdName: "UUID Generator",
+		faq: [
+			{
+				question: "How did UUIDs originate?",
+				answer:
+					"Universally Unique Identifiers were originally created for the Apollo Network Computing System in the 1980s, then standardized as RFC 4122 in 2005. Version 4 (random) UUIDs are the most commonly generated today — with 122 bits of randomness, the probability of a collision is so vanishingly small that you could generate one billion UUIDs per second for 85 years before reaching a 50% chance of a single duplicate.",
+			},
+			{
+				question: "What is the difference between UUID v4 and v7?",
+				answer:
+					"UUID v4 is entirely random — 122 bits of randomness with version and variant markers. It provides the strongest uniqueness guarantee but has no built-in ordering. UUID v7 (RFC 9562) encodes a Unix timestamp in the first 48 bits, so UUIDs generated later sort after earlier ones. This makes v7 ideal as database primary keys because inserts remain sequential, keeping B-tree indexes efficient and avoiding page splits.",
+			},
+			{
+				question: "Can I use UUID v7 as a database primary key?",
+				answer:
+					"Yes, and that is one of the main reasons v7 was standardized. Traditional auto-increment IDs leak row counts and create hotspot contention in distributed systems. UUID v4 works but fragments indexes because values are random. UUID v7 gives you globally unique, k-sortable identifiers — new rows always land at the end of the index, matching the sequential insert pattern databases are optimized for.",
+			},
+			{
+				question: "How does the UUID validator work?",
+				answer:
+					"It checks the input against the standard UUID format (8-4-4-4-12 hex characters), then inspects the version nibble (position 13) and variant bits (position 17) to determine which RFC version was used. For v7 UUIDs, it also extracts and decodes the 48-bit timestamp embedded in the first segment, showing the exact time the UUID was created.",
+			},
+		],
 	});
 }
 

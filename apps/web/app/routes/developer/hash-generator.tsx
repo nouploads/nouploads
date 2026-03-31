@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"hash generator, md5 hash, sha256 hash, sha512 hash, sha1 hash, file hash checker, checksum generator, online hash tool",
 		jsonLdName: "Hash Generator",
+		faq: [
+			{
+				question: "What's the story behind the SHA-2 family?",
+				answer:
+					"A cryptographic hash function produces a fixed-size fingerprint from any input, designed so that even changing a single bit produces a completely different output — a property called the avalanche effect. SHA-256, designed by the NSA and published by NIST in 2001 as part of the SHA-2 family, generates a 256-bit digest that is computationally infeasible to reverse or forge, making it a cornerstone of digital signatures, password storage, and blockchain systems.",
+			},
+			{
+				question: "Which hash algorithm should I use?",
+				answer:
+					"For file integrity checks and general-purpose hashing, SHA-256 is the standard choice — it's fast, widely supported, and considered secure. SHA-512 offers a wider output for applications that need it. SHA-1 and MD5 are included for compatibility with legacy systems, but both have known collision vulnerabilities and should not be used for security-sensitive purposes.",
+			},
+			{
+				question: "Is MD5 still safe to use?",
+				answer:
+					"MD5 is cryptographically broken — researchers can generate two different inputs that produce the same MD5 hash. It should never be used for password hashing, digital signatures, or certificate verification. However, MD5 is still commonly used as a quick checksum to verify file transfers, where collision resistance is not a concern. This tool includes MD5 because many download sites still publish MD5 checksums.",
+			},
+			{
+				question: "Can I hash large files?",
+				answer:
+					"Yes. The tool reads the entire file into memory and computes all five hashes in parallel using the Web Crypto API. Files up to several hundred megabytes work on most devices. Very large files (1 GB+) may cause browser memory pressure on mobile devices or older hardware.",
+			},
+		],
 	});
 }
 

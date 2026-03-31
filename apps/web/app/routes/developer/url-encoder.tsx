@@ -23,6 +23,30 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"url encoder, url decoder, encode url online, decode url, percent encoding, urlencode, urldecode, query string parser, url parser",
 		jsonLdName: "URL Encoder / Decoder",
+		faq: [
+			{
+				question: "Why do URLs need percent-encoding?",
+				answer:
+					"URL encoding (also called percent-encoding) was defined in RFC 1738 in 1994. Since URLs can only safely contain ASCII letters, digits, and a handful of special characters, everything else — spaces, accented letters, emoji, and most Unicode — must be represented as a percent sign followed by two hex digits (e.g., %20 for a space). This scheme is what makes it possible to link to resources in any language using the ASCII-only URL syntax.",
+			},
+			{
+				question:
+					"What is the difference between component and full URL encoding?",
+				answer:
+					"Component encoding (encodeURIComponent) encodes every special character including slashes, colons, and ampersands — use it for individual query parameter values or path segments. Full URL encoding (encodeURI) leaves structural characters like ://?#&= intact and only encodes characters that are not valid anywhere in a URL. Use component mode when encoding a value to embed in a URL, and full URL mode when encoding an entire URL that already has the right structure.",
+			},
+			{
+				question: "How does the URL breakdown work?",
+				answer:
+					"When you enter or decode a valid URL, the tool parses it using the browser's built-in URL constructor and displays each component separately — protocol, host, path, hash, and all query parameters with their decoded values. This makes it easy to inspect complex URLs with many parameters or deeply nested encoded values.",
+			},
+			{
+				question:
+					"Can I encode non-ASCII characters like emoji or accented letters?",
+				answer:
+					"Yes. The encoder handles the full Unicode range. Characters outside the ASCII set are first encoded as UTF-8 bytes, then each byte is percent-encoded. For example, the emoji flag character or a Japanese kanji will produce a series of %XX sequences that any standards-compliant server can decode back to the original character.",
+			},
+		],
 	});
 }
 

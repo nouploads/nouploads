@@ -23,6 +23,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"qr code generator, create qr code, qr code maker, free qr code, qr code online, custom qr code, qr code png svg",
 		jsonLdName: "QR Code Generator",
+		faq: [
+			{
+				question: "What's the story behind QR codes?",
+				answer:
+					"The QR (Quick Response) code was invented in 1994 by Masahiro Hara at Denso Wave, a subsidiary of Toyota. It was originally designed to track automotive parts during manufacturing, replacing cumbersome barcodes that could only hold about 20 characters. Denso Wave holds the patent but made a deliberate decision not to exercise it, enabling the format's worldwide adoption for everything from restaurant menus to mobile payments.",
+			},
+			{
+				question: "What error correction level should I use?",
+				answer:
+					"Medium (M) works well for most uses — it recovers up to 15% of damaged data. Choose Low (L) when you need the smallest possible QR code for clean digital display. Use Quartile (Q) or High (H) if the code will be printed on packaging, stickers, or surfaces where scratching and wear are likely. Higher correction increases the code density but makes it more resilient.",
+			},
+			{
+				question: "What's the maximum content length for a QR code?",
+				answer:
+					"The QR specification supports up to 7,089 numeric digits or 4,296 alphanumeric characters. This generator uses the 4,296 alphanumeric limit. In practice, shorter content is better — a 50-character URL produces a code that scans instantly from a distance, while a 4,000-character payload needs a larger print size and ideal lighting.",
+			},
+			{
+				question: "Should I download PNG or SVG?",
+				answer:
+					"SVG is ideal for print materials — it scales to any size without pixelation and produces smaller files. PNG is better for digital use: social media posts, emails, websites, and messaging apps that don't support SVG. If you plan to put the QR code on a billboard or large poster, use SVG. For a quick share on Slack or WhatsApp, PNG is simpler.",
+			},
+		],
 	});
 }
 

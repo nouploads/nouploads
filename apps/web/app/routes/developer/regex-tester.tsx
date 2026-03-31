@@ -23,6 +23,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"regex tester, regular expression tester, regex match, regex online, test regex, regex debugger, regex capture groups, regex flags",
 		jsonLdName: "Regex Tester",
+		faq: [
+			{
+				question: "Where do regular expressions come from?",
+				answer:
+					'Regular expressions were first described by mathematician Stephen Cole Kleene in 1951 as a notation for describing patterns in formal language theory. They entered practical computing when Ken Thompson built regex matching into the QED text editor in 1968, and later into the Unix grep command — whose name literally stands for "globally search for a regular expression and print matching lines."',
+			},
+			{
+				question: "What regex flags are supported?",
+				answer:
+					"Five commonly used flags are available as toggle buttons: g (global — find all matches, not just the first), i (case insensitive), m (multiline — ^ and $ match line boundaries), s (dotAll — the dot character matches newlines), and u (unicode — enables full Unicode matching and proper handling of surrogate pairs). You can combine any number of flags for a single test.",
+			},
+			{
+				question: "What are capture groups and how do I see them?",
+				answer:
+					"Capture groups are portions of a regex wrapped in parentheses, like (\\d{4}) or (?<year>\\d{4}). When the pattern matches, the tester extracts the value each group captured and shows it in the Match Details table. Numbered groups appear as $1, $2, etc. Named groups (using the (?<name>...) syntax) display with their name. This makes it easy to verify that your pattern pulls out the right substrings.",
+			},
+			{
+				question: "Is there a size limit for the test string?",
+				answer:
+					"The tool handles test strings up to 1 MB, which covers most real-world use cases such as log files, CSV snippets, and code blocks. Performance depends on the complexity of the regex and the number of matches — simple patterns run instantly even on large inputs, while highly backtracking patterns may take longer. Everything processes on your device.",
+			},
+		],
 	});
 }
 

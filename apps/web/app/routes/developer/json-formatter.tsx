@@ -23,6 +23,24 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"json formatter, json validator, json beautifier, json minifier, format json online, pretty print json, json lint, validate json",
 		jsonLdName: "JSON Formatter",
+		faq: [
+			{
+				question: "Who invented JSON?",
+				answer:
+					'JSON (JavaScript Object Notation) was popularized by Douglas Crockford in the early 2000s, though he has said he "discovered" rather than invented it — the syntax was already part of JavaScript since ECMAScript 3 in 1999. JSON was formalized as ECMA-404 in 2013 and has largely replaced XML as the dominant data interchange format for web APIs because of its simplicity and readability.',
+			},
+			{
+				question:
+					"What is the difference between formatting and minifying JSON?",
+				answer:
+					"Formatting (also called prettifying or beautifying) adds indentation and line breaks so the JSON is easy for humans to read and edit. Minifying removes all unnecessary whitespace, producing the most compact representation. Minified JSON is ideal for API payloads, configuration storage, and anywhere file size matters. Both operations preserve the data exactly — only whitespace changes.",
+			},
+			{
+				question: "How large of a JSON file can this handle?",
+				answer:
+					"The tool accepts JSON input up to 10 MB of raw text. That covers most configuration files, API responses, and data exports. For very large datasets, performance depends on your browser and device — modern browsers handle multi-megabyte JSON without issue, though deeply nested structures with thousands of nodes may take a moment to process.",
+			},
+		],
 	});
 }
 

@@ -25,6 +25,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"color picker online, hex color picker, rgb to hex, hsl color picker, oklch color picker, color converter, free color tool",
 		jsonLdName: "Color Picker",
+		faq: [
+			{
+				question: "How did hex color codes become a web standard?",
+				answer:
+					"The hexadecimal color notation used in web design (#FF5733) was introduced with HTML 2.0 in 1995. The six hex digits encode red, green, and blue channels — each with 256 possible intensity levels (00-FF) — producing 16,777,216 possible colors. This system maps directly to how computer monitors produce color by mixing light from red, green, and blue subpixels.",
+			},
+			{
+				question: "What color formats does this picker support?",
+				answer:
+					"Eleven formats: HEX, RGB, HSL, HSV, HWB, CMYK, LAB (CIELAB), LCH (CIELCh), XYZ (CIE 1931), LUV (CIELUV), and OKLCH. All values are shown simultaneously in a grid so you can copy whichever you need. You can also type any valid CSS color into the input and the picker updates instantly.",
+			},
+			{
+				question: "What is OKLCH and when should I use it?",
+				answer:
+					"OKLCH is a perceptually uniform color space defined by Lightness, Chroma, and Hue. Unlike HSL, equal steps in OKLCH lightness look equally different to the human eye. It's supported in all modern browsers via CSS and is ideal for building consistent design palettes, accessible color scales, and smooth gradients that don't muddy in the middle.",
+			},
+			{
+				question: "How does the contrast checker work?",
+				answer:
+					"The tool calculates the WCAG 2.1 contrast ratio between your selected color and both white and black text. It shows whichever text color has higher contrast, the numeric ratio (e.g. 4.5:1), and the WCAG compliance level — AAA (7:1+), AA (4.5:1+), or Fail. This helps you verify that text on your chosen background is readable.",
+			},
+		],
 	});
 }
 

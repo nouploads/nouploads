@@ -24,6 +24,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"unix timestamp converter, epoch converter, timestamp to date, date to timestamp, unix time, epoch time, unix epoch converter online",
 		jsonLdName: "Timestamp Converter",
+		faq: [
+			{
+				question: "Why does Unix time start on January 1, 1970?",
+				answer:
+					'Unix time counts the number of seconds elapsed since midnight UTC on January 1, 1970 — a moment known as the "Unix epoch." This zero-point was chosen by early Unix developers at Bell Labs as a simple numerical reference that any system could understand. The original 32-bit timestamp will overflow on January 19, 2038 at 03:14:07 UTC, an event known as the Year 2038 problem.',
+			},
+			{
+				question: "How does the tool detect seconds vs milliseconds?",
+				answer:
+					"The converter checks whether the input value is larger than 1 trillion (1e12). Timestamps in seconds won't reach that magnitude until the year 33658, so any value above 1e12 is almost certainly in milliseconds. When the tool detects milliseconds, it shows a badge indicating the detected unit and converts accordingly. You can enter either format — the results always show both.",
+			},
+			{
+				question: "What date formats can I use in the Date to Timestamp panel?",
+				answer:
+					"The text input accepts any format that the browser's Date parser understands, including ISO 8601 (2023-11-14T22:13:20Z), RFC 2822 (Tue, 14 Nov 2023 22:13:20 GMT), and common formats like '2023-11-14' or 'November 14, 2023'. For reliable results across all browsers, ISO 8601 is recommended. The date picker provides a calendar interface that avoids format ambiguity entirely.",
+			},
+			{
+				question: "Does the converter account for my local timezone?",
+				answer:
+					"Yes. The tool displays your detected timezone at the top of the page and shows both UTC and local-time representations. When you use the date picker, the selected date and time are interpreted in your local timezone. The ISO 8601 output always includes the timezone offset so there is no ambiguity. Unix timestamps themselves are always UTC-based.",
+			},
+		],
 	});
 }
 

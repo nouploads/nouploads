@@ -23,6 +23,23 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"jwt decoder, jwt debugger, decode jwt token, jwt viewer, jwt online, json web token decoder, jwt inspector",
 		jsonLdName: "JWT Decoder",
+		faq: [
+			{
+				question: "How did JWTs become the standard for web authentication?",
+				answer:
+					"JWT (JSON Web Token) was published as RFC 7519 in 2015 as a compact, URL-safe way to transmit claims between parties. Every JWT has three Base64-encoded sections separated by dots: a header (algorithm), a payload (claims), and a signature. A common misconception is that JWTs are encrypted — they are only signed, meaning anyone can read the payload by simply Base64-decoding it.",
+			},
+			{
+				question: "Can this tool verify JWT signatures?",
+				answer:
+					"This tool decodes and displays the token contents but does not verify the cryptographic signature. Signature verification requires the secret key or public key used to sign the token, which should never be shared in a browser tool. Use this decoder to inspect token structure, check claims, and debug expiration issues — then verify signatures on your backend.",
+			},
+			{
+				question: "What do the exp, iat, and sub claims mean?",
+				answer:
+					"These are standard JWT claims defined in RFC 7519. 'exp' (expiration time) is a Unix timestamp after which the token should be rejected. 'iat' (issued at) records when the token was created. 'sub' (subject) identifies the principal — typically a user ID. This tool automatically checks the exp claim and shows whether the token is still valid or has expired.",
+			},
+		],
 	});
 }
 

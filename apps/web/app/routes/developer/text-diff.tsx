@@ -24,6 +24,29 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"text diff, compare text, diff checker, text comparison, online diff tool, side by side diff, unified diff, line diff",
 		jsonLdName: "Text Diff",
+		faq: [
+			{
+				question: "Where does the diff algorithm come from?",
+				answer:
+					'The most widely used diff algorithm was published by Eugene Myers in 1986 in the paper "An O(ND) Difference Algorithm and Its Variations." It finds the shortest sequence of insertions and deletions needed to transform one text into another. This is the same core algorithm behind git diff, which developers around the world use millions of times a day to review code changes.',
+			},
+			{
+				question:
+					"What is the difference between unified and side-by-side view?",
+				answer:
+					"Unified view shows all changes in a single column: removed lines are marked with a red minus, added lines with a green plus, and unchanged lines appear as-is. Side-by-side view splits the output into two columns — the original on the left and the modified on the right — so you can compare them visually. Unified is compact; side-by-side is easier to scan when there are many scattered changes.",
+			},
+			{
+				question: "Is there a size limit on the input?",
+				answer:
+					"The tool handles up to 10 MB of text per side. For files beyond around 10,000 lines, the LCS algorithm may take a moment because it scales with the product of both line counts. A warning appears for large inputs so you know what to expect. For most configuration files, code diffs, and log comparisons, performance is instantaneous.",
+			},
+			{
+				question: "Can I compare files instead of pasting text?",
+				answer:
+					"Yes. Each input panel has an Upload button that accepts any text-based file — .txt, .json, .csv, .xml, .html, .py, .js, and many more. The file is read locally with the browser's FileReader API and never leaves your device. You can also drag and drop text into either textarea.",
+			},
+		],
 	});
 }
 

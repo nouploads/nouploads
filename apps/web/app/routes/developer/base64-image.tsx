@@ -23,6 +23,28 @@ export function meta(_args: Route.MetaArgs) {
 		keywords:
 			"base64 image encoder, base64 decoder, image to base64, data uri converter, base64 to image, encode image base64 online",
 		jsonLdName: "Base64 Image Encoder/Decoder",
+		faq: [
+			{
+				question: "Where does Base64 encoding come from?",
+				answer:
+					'Base64 encoding was first formally specified in RFC 1421 in 1993 for Privacy Enhanced Mail (PEM). The scheme maps binary data to a set of 64 printable ASCII characters (A-Z, a-z, 0-9, +, /) so it can be safely transmitted through text-based systems like email that were originally designed to carry only plain text. The "64" in Base64 refers to this 64-character alphabet.',
+			},
+			{
+				question: "When should I use base64 images?",
+				answer:
+					"Base64 images are useful for small icons, logos, or UI elements where eliminating an extra HTTP request improves performance. They're also handy for embedding images in email templates, single-file HTML documents, CSS data URIs, and API payloads. For images larger than a few KB, a regular file is usually more efficient since base64 adds roughly 33% overhead.",
+			},
+			{
+				question: "Does base64 encoding increase file size?",
+				answer:
+					"Yes. Base64 encoding increases the data size by approximately 33% because every 3 bytes of binary data become 4 bytes of text. A 30 KB image becomes about 40 KB as a base64 string. This trade-off is acceptable for small assets but can slow down page loads when used for large images.",
+			},
+			{
+				question: "What image formats can I encode?",
+				answer:
+					"This tool encodes any image your browser can read — PNG, JPG, WebP, GIF, AVIF, BMP, SVG, and TIFF. It preserves the original MIME type in the data URI prefix so the browser knows how to render it when decoded.",
+			},
+		],
 	});
 }
 
