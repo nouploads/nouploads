@@ -36,10 +36,19 @@ jobs:
           body: ${{ steps.changelog.outputs.BODY }}
           generate_release_notes: false
 
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.DEPLOY_APP_ID }}
+          private-key: ${{ secrets.DEPLOY_APP_PRIVATE_KEY }}
+          owner: nouploads
+          repositories: nouploads-infra
+
       - name: Trigger deploy
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.DEPLOY_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           repository: nouploads/nouploads-infra
           event-type: deploy
           client-payload: '{"ref": "${{ github.ref }}"}'
