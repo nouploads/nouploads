@@ -28,14 +28,31 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
+		question: "Why do URLs need percent-encoding?",
+		answer: (
+			<>
+				URL encoding (also called percent-encoding) was defined in RFC 1738 in
+				1994. Since URLs can only safely contain ASCII letters, digits, and a
+				handful of special characters, everything else — spaces, accented
+				letters, emoji, and most Unicode — must be represented as a percent sign
+				followed by two hex digits (e.g., %20 for a space). This scheme is what
+				makes it possible to link to resources in any language using the
+				ASCII-only URL syntax.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Percent-encoding"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "What is the difference between component and full URL encoding?",
 		answer:
 			"Component encoding (encodeURIComponent) encodes every special character including slashes, colons, and ampersands — use it for individual query parameter values or path segments. Full URL encoding (encodeURI) leaves structural characters like ://?#&= intact and only encodes characters that are not valid anywhere in a URL. Use component mode when encoding a value to embed in a URL, and full URL mode when encoding an entire URL that already has the right structure.",
-	},
-	{
-		question: "What characters does URL encoding convert?",
-		answer:
-			"URL encoding (also called percent-encoding) replaces unsafe characters with a percent sign followed by two hex digits. Spaces become %20, ampersands become %26, equals signs become %3D, and non-ASCII characters like accented letters are encoded as multi-byte UTF-8 sequences. The encoded form is safe to use in URLs, form submissions, and HTTP headers without ambiguity.",
 	},
 	{
 		question: "How does the URL breakdown work?",
@@ -47,11 +64,6 @@ const faqItems = [
 			"Can I encode non-ASCII characters like emoji or accented letters?",
 		answer:
 			"Yes. The encoder handles the full Unicode range. Characters outside the ASCII set are first encoded as UTF-8 bytes, then each byte is percent-encoded. For example, the emoji flag character or a Japanese kanji will produce a series of %XX sequences that any standards-compliant server can decode back to the original character.",
-	},
-	{
-		question: "Why use NoUploads instead of other URL encoder tools?",
-		answer:
-			"Most online URL encoders send your input to a server for processing — meaning API keys, tokens, and private query parameters pass through third-party infrastructure. NoUploads runs entirely in your browser using the native encodeURIComponent and decodeURIComponent APIs. Nothing is transmitted, there is no server, no account required, no usage limits, and it works offline after the first load. The source code is open for inspection.",
 	},
 ];
 
@@ -108,7 +120,7 @@ export default function UrlEncoderPage() {
 				<a
 					href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					encodeURIComponent API

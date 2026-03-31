@@ -29,9 +29,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "What is a Unix timestamp?",
-		answer:
-			"A Unix timestamp (also called epoch time or POSIX time) counts the number of seconds that have elapsed since January 1, 1970, 00:00:00 UTC — a moment known as the Unix epoch. It is the standard way computers represent time internally. For example, the timestamp 1700000000 represents November 14, 2023 at 22:13:20 UTC. Some systems use milliseconds instead of seconds, producing 13-digit numbers like 1700000000000.",
+		question: "Why does Unix time start on January 1, 1970?",
+		answer: (
+			<>
+				Unix time counts the number of seconds elapsed since midnight UTC on
+				January 1, 1970 — a moment known as the "Unix epoch." This zero-point
+				was chosen by early Unix developers at Bell Labs as a simple numerical
+				reference that any system could understand. The original 32-bit
+				timestamp will overflow on January 19, 2038 at 03:14:07 UTC, an event
+				known as the Year 2038 problem.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Unix_time"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does the tool detect seconds vs milliseconds?",
@@ -47,11 +63,6 @@ const faqItems = [
 		question: "Does the converter account for my local timezone?",
 		answer:
 			"Yes. The tool displays your detected timezone at the top of the page and shows both UTC and local-time representations. When you use the date picker, the selected date and time are interpreted in your local timezone. The ISO 8601 output always includes the timezone offset so there is no ambiguity. Unix timestamps themselves are always UTC-based.",
-	},
-	{
-		question: "Why use NoUploads instead of other timestamp converters?",
-		answer:
-			"Most timestamp converters are ad-supported pages loaded with trackers that log every value you enter. NoUploads runs the conversion entirely in your browser using the built-in Date API — no network requests, no server processing, no analytics on your input. It is free with no usage limits, works offline after the first load, requires no account, and the source code is open for anyone to audit.",
 	},
 ];
 
@@ -108,7 +119,7 @@ export default function TimestampConverterPage() {
 				<a
 					href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					Date API
@@ -117,7 +128,7 @@ export default function TimestampConverterPage() {
 				<a
 					href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					Intl.DateTimeFormat

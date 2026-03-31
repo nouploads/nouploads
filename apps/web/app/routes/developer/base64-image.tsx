@@ -28,9 +28,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "What is base64 encoding?",
-		answer:
-			"Base64 is a binary-to-text encoding scheme that represents binary data as a string of printable ASCII characters. Each group of three bytes becomes four characters from a 64-character alphabet (A-Z, a-z, 0-9, +, /). It's commonly used to embed images directly in HTML, CSS, or JSON without needing a separate file request.",
+		question: "Where does Base64 encoding come from?",
+		answer: (
+			<>
+				Base64 encoding was first formally specified in RFC 1421 in 1993 for
+				Privacy Enhanced Mail (PEM). The scheme maps binary data to a set of 64
+				printable ASCII characters (A–Z, a–z, 0–9, +, /) so it can be safely
+				transmitted through text-based systems like email that were originally
+				designed to carry only plain text. The "64" in Base64 refers to this
+				64-character alphabet.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Base64"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "When should I use base64 images?",
@@ -46,11 +62,6 @@ const faqItems = [
 		question: "What image formats can I encode?",
 		answer:
 			"This tool encodes any image your browser can read — PNG, JPG, WebP, GIF, AVIF, BMP, SVG, and TIFF. It preserves the original MIME type in the data URI prefix so the browser knows how to render it when decoded.",
-	},
-	{
-		question: "Why use NoUploads instead of other base64 tools?",
-		answer:
-			"Most base64 encoders upload your image to a server for processing. NoUploads converts everything directly in your browser using the FileReader API — your files never leave your device. There is no server, no tracking, no file size limits, and no signup required. It works offline after the first visit, and the source code is open for anyone to audit.",
 	},
 ];
 
@@ -105,7 +116,7 @@ export default function Base64ImagePage() {
 				<a
 					href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					FileReader API

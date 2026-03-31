@@ -29,9 +29,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "What does SVG optimization do?",
-		answer:
-			"SVG optimization removes unnecessary data from your SVG files without changing how they look. This includes XML comments, editor metadata (from Illustrator, Figma, Inkscape), redundant attributes, empty groups, and unoptimized path data. The result is a cleaner, smaller file that renders identically in every browser.",
+		question: "Why do SVG files from design tools need optimization?",
+		answer: (
+			<>
+				SVG files exported from tools like Adobe Illustrator, Figma, or Sketch
+				often contain editor-specific metadata, unused definitions, redundant
+				groups, and default attribute values that inflate file size without
+				affecting how the image renders. Removing this cruft typically reduces
+				SVG files by 30-60% — similar to how JavaScript minification strips
+				whitespace and comments to shrink code for faster delivery.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/SVG#Compression"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How much can SVG files be reduced in size?",
@@ -47,11 +63,6 @@ const faqItems = [
 		question: "What is SVGZ and when should I use it?",
 		answer:
 			"SVGZ is a gzip-compressed SVG file. It's typically 60-80% smaller than the optimized SVG and is supported by all modern browsers when served with the correct Content-Encoding header. Use SVGZ when you control the server configuration and want the absolute smallest file size for icons, illustrations, or logos.",
-	},
-	{
-		question: "Why use NoUploads instead of other SVG optimizer tools?",
-		answer:
-			"Unlike server-based SVG optimizers, NoUploads runs svgo directly in your browser. Your SVG files never leave your device — there's no upload, no server processing, and no risk of leaking proprietary icons or design assets. The tool is completely free with no file size limits, works offline after the first load, requires no account, and the source code is open for anyone to inspect.",
 	},
 ];
 

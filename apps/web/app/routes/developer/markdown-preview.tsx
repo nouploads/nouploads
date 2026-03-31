@@ -29,19 +29,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "What Markdown features are supported?",
-		answer:
-			"The editor supports full GitHub Flavored Markdown (GFM): headings, bold, italic, strikethrough, links, images, ordered and unordered lists, task lists with checkboxes, tables, blockquotes, inline code, fenced code blocks, and horizontal rules. The preview updates in real time as you type.",
-	},
-	{
-		question: "Can I edit and preview Markdown files from my computer?",
-		answer:
-			"Yes. Click the 'Upload .md' button or drag and drop any .md, .txt, or .markdown file onto the editor. The file is read locally using the browser's FileReader API — it never leaves your device. Once loaded, you can edit the Markdown and see the rendered output side by side.",
-	},
-	{
-		question: "How do I get the rendered HTML?",
-		answer:
-			"Click the 'Copy HTML' button in the toolbar to copy the rendered HTML to your clipboard. This is useful when you need the HTML output for a CMS, blog platform, email template, or documentation site. You can also download the raw Markdown as a .md file.",
+		question: "Who created Markdown?",
+		answer: (
+			<>
+				Markdown was created by John Gruber and Aaron Swartz in 2004 as a
+				lightweight markup language designed to read naturally as plain text
+				while converting cleanly to HTML. Gruber described it as "a text-to-HTML
+				conversion tool for web writers." Today Markdown has become ubiquitous —
+				it powers documentation on GitHub, posts on Stack Overflow and Reddit,
+				and note-taking in tools like Obsidian and Notion.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Markdown"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Is the preview accurate to how GitHub renders Markdown?",
@@ -49,9 +55,9 @@ const faqItems = [
 			"The editor uses the same GFM specification that GitHub follows. Tables, task lists, strikethrough, and fenced code blocks all render correctly. Minor visual differences in styling may occur since the preview uses its own CSS, but the underlying HTML structure matches GitHub's interpretation of the Markdown.",
 	},
 	{
-		question: "Why use NoUploads instead of other Markdown preview tools?",
+		question: "What happens to images and links in the preview?",
 		answer:
-			"Most online Markdown editors send your text to a server for rendering or require an account. NoUploads renders everything client-side — your Markdown never leaves your browser tab. There is no server processing, no data collection, no signup, and no usage limits. The tool works offline after the initial page load and the source code is fully open.",
+			"Image references render as actual images if they point to accessible URLs, but local file paths won't resolve since the preview runs in a sandboxed browser context. Relative links work within the preview but won't navigate anywhere. If you're previewing a README destined for GitHub, absolute URLs are the safest choice for images.",
 	},
 ];
 
@@ -107,7 +113,7 @@ export default function MarkdownPreviewPage() {
 				<a
 					href="https://github.com/markedjs/marked"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					marked

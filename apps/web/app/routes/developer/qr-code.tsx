@@ -28,9 +28,26 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "What data can I encode in a QR code?",
-		answer:
-			"You can encode virtually any text: URLs, email addresses, phone numbers, Wi-Fi credentials, plain text messages, vCard contact info, or even JSON payloads. QR codes support up to about 4,296 alphanumeric characters, though shorter content produces simpler codes that scan more reliably.",
+		question: "What's the story behind QR codes?",
+		answer: (
+			<>
+				The QR (Quick Response) code was invented in 1994 by Masahiro Hara at
+				Denso Wave, a subsidiary of Toyota. It was originally designed to track
+				automotive parts during manufacturing, replacing cumbersome barcodes
+				that could only hold about 20 characters. Denso Wave holds the patent
+				but made a deliberate decision not to exercise it, enabling the format's
+				worldwide adoption for everything from restaurant menus to mobile
+				payments.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/QR_code"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What error correction level should I use?",
@@ -46,11 +63,6 @@ const faqItems = [
 		question: "Should I download PNG or SVG?",
 		answer:
 			"SVG is ideal for print materials — it scales to any size without pixelation and produces smaller files. PNG is better for digital use: social media posts, emails, websites, and messaging apps that don't support SVG. If you plan to put the QR code on a billboard or large poster, use SVG. For a quick share on Slack or WhatsApp, PNG is simpler.",
-	},
-	{
-		question: "Why use NoUploads instead of other QR code generators?",
-		answer:
-			"Your text never leaves your device. Most QR generators send your content to a server to render the image — meaning the service sees every URL, credential, and message you encode. NoUploads generates the code entirely in your browser using client-side JavaScript. There is no upload, no server processing, no tracking, and no account required. It works offline after the first load, the source code is open, and there are no limits on how many codes you generate.",
 	},
 ];
 
@@ -106,7 +118,7 @@ export default function QrCodePage() {
 				<a
 					href="https://github.com/soldair/node-qrcode"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					qrcode

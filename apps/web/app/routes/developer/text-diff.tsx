@@ -29,9 +29,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How does the text diff algorithm work?",
-		answer:
-			"The tool uses Longest Common Subsequence (LCS), the same foundational algorithm behind Unix diff and Git. It splits both inputs into lines, builds a dynamic-programming table to find the longest sequence of matching lines, then backtracks to classify every line as equal, added, or removed. The result is a clean, minimal diff — not a noisy character-by-character comparison.",
+		question: "Where does the diff algorithm come from?",
+		answer: (
+			<>
+				The most widely used diff algorithm was published by Eugene Myers in
+				1986 in the paper "An O(ND) Difference Algorithm and Its Variations." It
+				finds the shortest sequence of insertions and deletions needed to
+				transform one text into another. This is the same core algorithm behind
+				git diff, which developers around the world use millions of times a day
+				to review code changes.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Diff"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What is the difference between unified and side-by-side view?",
@@ -47,11 +63,6 @@ const faqItems = [
 		question: "Can I compare files instead of pasting text?",
 		answer:
 			"Yes. Each input panel has an Upload button that accepts any text-based file — .txt, .json, .csv, .xml, .html, .py, .js, and many more. The file is read locally with the browser's FileReader API and never leaves your device. You can also drag and drop text into either textarea.",
-	},
-	{
-		question: "Why use NoUploads instead of other text diff tools?",
-		answer:
-			"Most online diff tools upload your text to a server for processing, which means proprietary code, config files, and sensitive logs pass through third-party infrastructure. NoUploads computes the entire diff in your browser using a pure JavaScript LCS implementation — no network requests, no server storage, no tracking. It is free, unlimited, works offline after the first load, requires no account, and the source code is open for inspection.",
 	},
 ];
 
@@ -107,7 +118,7 @@ export default function TextDiffPage() {
 				<a
 					href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					JavaScript Array API

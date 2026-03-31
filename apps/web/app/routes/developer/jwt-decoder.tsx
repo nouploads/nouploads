@@ -28,9 +28,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "What is a JWT token?",
-		answer:
-			"A JSON Web Token (JWT) is an open standard (RFC 7519) for securely transmitting information between parties as a compact, URL-safe JSON object. It consists of three parts separated by dots: a header (algorithm and token type), a payload (claims like user ID and expiration), and a cryptographic signature. JWTs are widely used for authentication and authorization in web applications.",
+		question: "How did JWTs become the standard for web authentication?",
+		answer: (
+			<>
+				JWT (JSON Web Token) was published as RFC 7519 in 2015 as a compact,
+				URL-safe way to transmit claims between parties. Every JWT has three
+				Base64-encoded sections separated by dots: a header (algorithm), a
+				payload (claims), and a signature. A common misconception is that JWTs
+				are encrypted — they are only signed, meaning anyone can read the
+				payload by simply Base64-decoding it.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/JSON_Web_Token"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Can this tool verify JWT signatures?",
@@ -38,19 +54,9 @@ const faqItems = [
 			"This tool decodes and displays the token contents but does not verify the cryptographic signature. Signature verification requires the secret key or public key used to sign the token, which should never be shared in a browser tool. Use this decoder to inspect token structure, check claims, and debug expiration issues — then verify signatures on your backend.",
 	},
 	{
-		question: "Is it safe to paste my JWT token here?",
-		answer:
-			"Yes. This tool runs entirely in your browser — the token never leaves your device. There is no server request, no logging, and no storage. The decoding happens with the browser's built-in base64 API (atob). You can verify this by disconnecting from the internet and using the tool offline.",
-	},
-	{
 		question: "What do the exp, iat, and sub claims mean?",
 		answer:
 			"These are standard JWT claims defined in RFC 7519. 'exp' (expiration time) is a Unix timestamp after which the token should be rejected. 'iat' (issued at) records when the token was created. 'sub' (subject) identifies the principal — typically a user ID. This tool automatically checks the exp claim and shows whether the token is still valid or has expired.",
-	},
-	{
-		question: "Why use NoUploads instead of other JWT decoder tools?",
-		answer:
-			"Most JWT decoders send your token to a server for processing — that means your authentication credentials pass through third-party infrastructure. NoUploads decodes entirely in your browser using JavaScript's built-in atob function. No network requests, no server logs, no cookies, no tracking. The source code is open for inspection, it works offline, and there are no limits or signups required.",
 	},
 ];
 
@@ -105,7 +111,7 @@ export default function JwtDecoderPage() {
 				<a
 					href="https://developer.mozilla.org/en-US/docs/Web/API/Window/atob"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					Base64 decoding API

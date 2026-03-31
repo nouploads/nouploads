@@ -28,9 +28,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How does the regex tester work?",
-		answer:
-			"The tester uses your browser's built-in RegExp engine and String.matchAll() to evaluate the pattern you enter against your test string. As you type, it runs the regex in real time and highlights every match directly in the output. Capture groups — both numbered and named — are extracted and displayed in a results table. No data leaves your browser at any point.",
+		question: "Where do regular expressions come from?",
+		answer: (
+			<>
+				Regular expressions were first described by mathematician Stephen Cole
+				Kleene in 1951 as a notation for describing patterns in formal language
+				theory. They entered practical computing when Ken Thompson built regex
+				matching into the QED text editor in 1968, and later into the Unix grep
+				command — whose name literally stands for "globally search for a regular
+				expression and print matching lines."{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Regular_expression"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What regex flags are supported?",
@@ -46,11 +62,6 @@ const faqItems = [
 		question: "Is there a size limit for the test string?",
 		answer:
 			"The tool handles test strings up to 1 MB, which covers most real-world use cases such as log files, CSV snippets, and code blocks. Performance depends on the complexity of the regex and the number of matches — simple patterns run instantly even on large inputs, while highly backtracking patterns may take longer. Everything processes on your device.",
-	},
-	{
-		question: "Why use NoUploads instead of other regex testers?",
-		answer:
-			"Most online regex testers send your test strings to a server, which can be a concern when you're matching against log data, credentials, or proprietary source code. NoUploads runs the entire evaluation in your browser tab using the native JavaScript RegExp engine — nothing is transmitted, stored, or logged. It's completely free with no usage caps, works offline once loaded, requires no account, and the source code is open for inspection.",
 	},
 ];
 
@@ -106,7 +117,7 @@ export default function RegexTesterPage() {
 				<a
 					href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					RegExp API

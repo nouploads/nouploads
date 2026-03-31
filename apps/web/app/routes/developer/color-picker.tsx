@@ -30,6 +30,27 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
+		question: "How did hex color codes become a web standard?",
+		answer: (
+			<>
+				The hexadecimal color notation used in web design (#FF5733) was
+				introduced with HTML 2.0 in 1995. The six hex digits encode red, green,
+				and blue channels — each with 256 possible intensity levels (00–FF) —
+				producing 16,777,216 possible colors. This system maps directly to how
+				computer monitors produce color by mixing light from red, green, and
+				blue subpixels.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Web_colors"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "What color formats does this picker support?",
 		answer:
 			"Eleven formats: HEX, RGB, HSL, HSV, HWB, CMYK, LAB (CIELAB), LCH (CIELCh), XYZ (CIE 1931), LUV (CIELUV), and OKLCH. All values are shown simultaneously in a grid so you can copy whichever you need. You can also type any valid CSS color into the input and the picker updates instantly.",
@@ -43,16 +64,6 @@ const faqItems = [
 		question: "How does the contrast checker work?",
 		answer:
 			"The tool calculates the WCAG 2.1 contrast ratio between your selected color and both white and black text. It shows whichever text color has higher contrast, the numeric ratio (e.g. 4.5:1), and the WCAG compliance level — AAA (7:1+), AA (4.5:1+), or Fail. This helps you verify that text on your chosen background is readable.",
-	},
-	{
-		question: "Can I type a color value instead of using the picker?",
-		answer:
-			"Yes. The text input accepts any valid CSS color — hex codes, rgb(), hsl(), oklch(), and even named colors like 'tomato' or 'cornflowerblue'. The visual picker updates in real time as you type.",
-	},
-	{
-		question: "Why use NoUploads instead of other color picker tools?",
-		answer:
-			"NoUploads runs entirely in your browser with no server communication, no tracking, and no cookie banners. It works offline after the first load, your format preference is saved locally, and the source code is open for anyone to inspect. It's a developer tool that gets out of your way.",
 	},
 ];
 

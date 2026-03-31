@@ -28,9 +28,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How does the JSON formatter work?",
-		answer:
-			"The formatter uses your browser's built-in JSON.parse() to validate the input and JSON.stringify() with indentation to produce clean, readable output. Parsing catches syntax errors instantly — missing commas, unquoted keys, trailing commas, and mismatched brackets are all flagged with a clear error message. No data is sent anywhere.",
+		question: "Who invented JSON?",
+		answer: (
+			<>
+				JSON (JavaScript Object Notation) was popularized by Douglas Crockford
+				in the early 2000s, though he has said he "discovered" rather than
+				invented it — the syntax was already part of JavaScript since ECMAScript
+				3 in 1999. JSON was formalized as ECMA-404 in 2013 and has largely
+				replaced XML as the dominant data interchange format for web APIs
+				because of its simplicity and readability.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/JSON"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What is the difference between formatting and minifying JSON?",
@@ -38,19 +54,9 @@ const faqItems = [
 			"Formatting (also called prettifying or beautifying) adds indentation and line breaks so the JSON is easy for humans to read and edit. Minifying removes all unnecessary whitespace, producing the most compact representation. Minified JSON is ideal for API payloads, configuration storage, and anywhere file size matters. Both operations preserve the data exactly — only whitespace changes.",
 	},
 	{
-		question: "Is there a file size limit?",
+		question: "How large of a JSON file can this handle?",
 		answer:
 			"The tool accepts JSON input up to 10 MB of raw text. That covers most configuration files, API responses, and data exports. For very large datasets, performance depends on your browser and device — modern browsers handle multi-megabyte JSON without issue, though deeply nested structures with thousands of nodes may take a moment to process.",
-	},
-	{
-		question: "Can I upload a .json file instead of pasting?",
-		answer:
-			"Yes. Click the 'Upload .json' button or drag and drop a file directly onto the editor. The file is read locally using the browser's FileReader API — it never leaves your device. Once loaded, you can format, minify, or edit the JSON just like pasted text.",
-	},
-	{
-		question: "Why use NoUploads instead of other JSON formatters?",
-		answer:
-			"Many online JSON tools send your data to a server for processing, which means sensitive configuration files, API keys, and private data pass through third-party infrastructure. NoUploads processes everything client-side — your JSON never leaves your browser tab. There is no server, no analytics on your input, no account required, and no usage limits. It works offline after the first load, and the code is open source.",
 	},
 ];
 
@@ -106,7 +112,7 @@ export default function JsonFormatterPage() {
 				<a
 					href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					JSON API

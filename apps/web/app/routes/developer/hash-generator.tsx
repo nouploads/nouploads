@@ -29,9 +29,26 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "What is a hash and why would I need one?",
-		answer:
-			"A cryptographic hash is a fixed-length fingerprint of any data — text, files, binaries. It's used to verify file integrity after downloads, compare passwords without storing them in plain text, detect duplicate content, and sign digital documents. Even a single-bit change in the input produces a completely different hash.",
+		question: "What's the story behind the SHA-2 family?",
+		answer: (
+			<>
+				A cryptographic hash function produces a fixed-size fingerprint from any
+				input, designed so that even changing a single bit produces a completely
+				different output — a property called the avalanche effect. SHA-256,
+				designed by the NSA and published by NIST in 2001 as part of the SHA-2
+				family, generates a 256-bit digest that is computationally infeasible to
+				reverse or forge, making it a cornerstone of digital signatures,
+				password storage, and blockchain systems.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/SHA-2"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Which hash algorithm should I use?",
@@ -47,11 +64,6 @@ const faqItems = [
 		question: "Can I hash large files?",
 		answer:
 			"Yes. The tool reads the entire file into memory and computes all five hashes in parallel using the Web Crypto API. Files up to several hundred megabytes work on most devices. Very large files (1 GB+) may cause browser memory pressure on mobile devices or older hardware.",
-	},
-	{
-		question: "Why use NoUploads instead of other hash generators?",
-		answer:
-			"Most online hash generators upload your file to a server for processing — meaning the service sees the contents of everything you hash. NoUploads computes all hashes locally in your browser using the Web Crypto API. Your files and text never leave your device, there is no server, no tracking, and no account required. It works offline after the first load, and the source code is open for anyone to verify.",
 	},
 ];
 
@@ -105,7 +117,7 @@ export default function HashGeneratorPage() {
 				<a
 					href="https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					Web Crypto API
