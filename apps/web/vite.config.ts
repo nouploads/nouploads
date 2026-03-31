@@ -21,6 +21,20 @@ export default defineConfig({
 		exclude: ["@jsquash/avif", "jxl-oxide-wasm"],
 	},
 	plugins: [
+		{
+			name: "silence-well-known",
+			configureServer(server) {
+				server.middlewares.use((req, res, next) => {
+					if (req.url?.startsWith("/.well-known/")) {
+						res.statusCode = 404;
+						res.setHeader("Content-Type", "application/json");
+						res.end("{}");
+						return;
+					}
+					next();
+				});
+			},
+		},
 		tailwindcss(),
 		reactRouter(),
 		tsconfigPaths(),
