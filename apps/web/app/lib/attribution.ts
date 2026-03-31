@@ -132,6 +132,11 @@ export const PACKAGES = {
 		repoUrl: "https://github.com/markedjs/marked",
 		license: "MIT",
 	},
+	"js-yaml": {
+		name: "js-yaml",
+		repoUrl: "https://github.com/nodeca/js-yaml",
+		license: "MIT",
+	},
 } as const satisfies Record<string, PackageAttribution>;
 
 export type PackageId = keyof typeof PACKAGES;

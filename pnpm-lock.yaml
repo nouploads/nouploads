@@ -98,6 +98,9 @@ importers:
       isbot:
         specifier: 5.1.36
         version: 5.1.36
+      js-yaml:
+        specifier: 4.1.1
+        version: 4.1.1
       jszip:
         specifier: 3.10.1
         version: 3.10.1
@@ -174,6 +177,9 @@ importers:
       '@types/culori':
         specifier: 4.0.1
         version: 4.0.1
+      '@types/js-yaml':
+        specifier: 4.0.9
+        version: 4.0.9
       '@types/node':
         specifier: 24.12.0
         version: 24.12.0
@@ -261,6 +267,9 @@ importers:
       fflate:
         specifier: 0.8.2
         version: 0.8.2
+      js-yaml:
+        specifier: 4.1.1
+        version: 4.1.1
       pdf-lib:
         specifier: 1.17.1
         version: 1.17.1
@@ -274,6 +283,9 @@ importers:
         specifier: 4.1.0
         version: 4.1.0
     devDependencies:
+      '@types/js-yaml':
+        specifier: 4.0.9
+        version: 4.0.9
       '@types/qrcode':
         specifier: 1.5.6
         version: 1.5.6
@@ -2157,6 +2169,9 @@ packages:
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
+
+  '@types/js-yaml@4.0.9':
+    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
 
   '@types/node@16.9.1':
     resolution: {integrity: sha512-QpLcX9ZSsq3YYUUnD3nFDY8H7wctAhQj/TFKL8Ya8v5fMm3CFXxo8zStsLAl780ltoYoo1WvKUVGBQK+1ifr7g==}
@@ -6271,6 +6286,8 @@ snapshots:
   '@types/deep-eql@4.0.2': {}
 
   '@types/estree@1.0.8': {}
+
+  '@types/js-yaml@4.0.9': {}
 
   '@types/node@16.9.1': {}
 
