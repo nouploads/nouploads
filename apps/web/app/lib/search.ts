@@ -10,12 +10,15 @@ export interface Tool {
 	comingSoon?: boolean;
 	category?: string;
 	categoryHref?: string;
+	/** Hidden search terms for the command palette — abbreviations, full names, related tech, common use cases */
+	keywords?: string[];
 }
 
 const fuseOptions: IFuseOptions<Tool> = {
 	keys: [
 		{ name: "title", weight: 2 },
 		{ name: "description", weight: 1 },
+		{ name: "keywords", weight: 1.5 },
 	],
 	threshold: 0.2,
 	ignoreLocation: true,

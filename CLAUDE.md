@@ -318,7 +318,7 @@ When adding any new tool, create these files:
 9. **E2E tests** — TWO Playwright test files per tool:
    - `apps/web/tests/e2e/<tool>.spec.ts` — static page test (heading, controls, FAQ, SEO meta, canonical)
    - `apps/web/tests/e2e/<tool>-upload.spec.ts` — happy-path test (for file-processing tools: upload fixture, wait for download button, verify result)
-10. **Homepage entry** — add to `apps/web/app/lib/tools.ts` gridTools array
+10. **Homepage entry** — add to `apps/web/app/lib/tools.ts` gridTools array with `keywords` array (see Command Palette Search Keywords rules)
 11. **Icon registry** — if the tool's `icon` field uses a lucide-react icon not already in `apps/web/app/components/marketing/tool-icon.tsx`, add the import and `iconMap` entry. Without this, the tool tile renders with no icon.
 12. **Prerender config** — add route to `apps/web/react-router.config.ts`
 13. **OG image** — add entry to `scripts/generate-og-images.ts` PAGES array, then run `npx tsx scripts/generate-og-images.ts`
@@ -328,7 +328,7 @@ Verify:
 - `pnpm run build` succeeds, prerendered HTML contains static content, meta tags correct
 - OG image exists in `apps/web/public/og/`
 - Tool icon renders on the homepage (check that the icon name in `tools.ts` has a matching entry in `tool-icon.tsx` iconMap)
-- Command palette indexes the new tool (automatic — `allTools` spreads `gridTools`, so adding to `gridTools` is sufficient)
+- Command palette indexes the new tool (automatic — `allTools` spreads `gridTools`, so adding to `gridTools` is sufficient). Verify the `keywords` array covers abbreviations, full format names, related software, and common use cases (see Command Palette Search Keywords rules)
 - FAQ has 2-4 items: trivia first (with "Source: Wikipedia" link), then page-specific only — no boilerplate, no duplicate questions across the site (see FAQ section rules above)
 - `buildMeta()` includes `faq` array with plain-text question/answer pairs for FAQPage JSON-LD — verify `FAQPage` appears in prerendered HTML
 
@@ -377,6 +377,27 @@ The homepage and category pages show ONE card per tool type (convert, compress, 
 4. Direct URL
 
 When a new tool type is added (e.g., "Video Compress"), it gets ONE card on the homepage. Format-specific variants (e.g., "Compress MP4", "Compress MOV") are landing pages with unique SEO copy, not homepage cards.
+
+### Command palette search keywords
+
+Every tool entry in `tools.ts` must include a `keywords` array with hidden search terms that help users find the tool via the command palette (`/` key). The `keywords` field is indexed by Fuse.js alongside `title` and `description`.
+
+**What to include in keywords:**
+- **Abbreviations and file extensions**: DCM, TIF, .psd, .xcf, CR3, JXL
+- **Full format/protocol names**: "DirectDraw Surface", "Encapsulated PostScript", "JPEG XL", "JSON Web Token"
+- **Related software names**: Photoshop, Illustrator, GIMP, Unity, Unreal, Lightroom, Blender — users search by the app that creates the file, not just the extension
+- **Common use cases and domains**: "CT scan", "game texture", "astrophotography", "email attachment"
+- **Alternative spellings**: "xray" / "X-ray", "colour" / "color", "Corel Draw" / "CorelDRAW"
+- **Synonyms and related actions**: "optimize" for compress, "epoch" for timestamp, "checksum" for hash
+
+**What NOT to include:**
+- Words already in the tool's `title` (Fuse.js already searches title at 2x weight)
+- Generic filler: "tool", "online", "free", "converter" (too vague to be useful)
+- Marketing terms: "best", "fastest", "ultimate"
+
+**Pattern:** Think about 3 different user personas who might search for this tool and what they'd type. A photographer searching for RAW conversion types "Lightroom" or "CR3". A game developer looking at DDS types "DirectX" or "normal map". A doctor with a DICOM file types "CT" or "MRI". Cover all three.
+
+**Maintenance:** When adding a new tool, always add keywords. When modifying a tool's capabilities (e.g., adding a new output format), update keywords to match.
 
 ---
 
