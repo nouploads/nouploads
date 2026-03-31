@@ -42,13 +42,13 @@ jobs:
         with:
           app-id: ${{ secrets.DEPLOY_APP_ID }}
           private-key: ${{ secrets.DEPLOY_APP_PRIVATE_KEY }}
-          owner: nouploads
-          repositories: nouploads-infra
+          owner: ${{ secrets.DEPLOY_OWNER }}
+          repositories: ${{ secrets.DEPLOY_REPO_NAME }}
 
       - name: Trigger deploy
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ steps.app-token.outputs.token }}
-          repository: nouploads/nouploads-infra
+          repository: ${{ secrets.DEPLOY_OWNER }}/${{ secrets.DEPLOY_REPO_NAME }}
           event-type: deploy
           client-payload: '{"ref": "${{ github.ref }}"}'
