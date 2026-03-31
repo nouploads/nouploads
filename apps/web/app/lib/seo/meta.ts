@@ -14,6 +14,8 @@ interface MetaOptions {
 	jsonLdName?: string;
 	/** Additional JSON-LD blocks to include (for non-WebApplication schemas) */
 	jsonLd?: Record<string, unknown>[];
+	/** Plain-text FAQ pairs for FAQPage JSON-LD structured data */
+	faq?: Array<{ question: string; answer: string }>;
 }
 
 export function buildMeta(opts: MetaOptions) {
@@ -69,6 +71,23 @@ export function buildMeta(opts: MetaOptions) {
 				browserRequirements:
 					"Requires a modern web browser with JavaScript and WebAssembly support",
 				permissions: "none",
+			},
+		});
+	}
+
+	if (opts.faq?.length) {
+		meta.push({
+			"script:ld+json": {
+				"@context": "https://schema.org",
+				"@type": "FAQPage",
+				mainEntity: opts.faq.map((item) => ({
+					"@type": "Question",
+					name: item.question,
+					acceptedAnswer: {
+						"@type": "Answer",
+						text: item.answer,
+					},
+				})),
 			},
 		});
 	}
