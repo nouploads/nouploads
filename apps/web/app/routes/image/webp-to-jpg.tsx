@@ -58,8 +58,20 @@ const faqItems = [
 	},
 	{
 		question: "What happens to transparent areas in a WebP image?",
-		answer:
-			"WebP supports alpha transparency but JPG does not. Any transparent regions in the WebP are composited onto a white background during conversion. If preserving transparency matters, convert to PNG instead.",
+		answer: (
+			<>
+				WebP supports alpha transparency but JPG does not. Any transparent
+				regions in the WebP are composited onto a white background during
+				conversion. If preserving transparency matters, use our{" "}
+				<a
+					href="/image/webp-to-png"
+					className="underline hover:text-foreground transition-colors"
+				>
+					WebP to PNG converter
+				</a>{" "}
+				instead.
+			</>
+		),
 	},
 ];
 

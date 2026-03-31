@@ -53,13 +53,39 @@ const faqItems = [
 	},
 	{
 		question: "What output quality should I use for HEIC to JPG?",
-		answer:
-			"92% (the default) is a good balance between file size and quality. Use 100% for maximum-quality JPG output — note that JPG is always lossy, so for truly lossless output, convert to PNG instead. For web use or sharing, 80–85% gives significantly smaller files with minimal visible difference.",
+		answer: (
+			<>
+				92% (the default) is a good balance between file size and quality. Use
+				100% for maximum-quality JPG output — note that JPG is always lossy, so
+				for truly lossless output, use our{" "}
+				<a
+					href="/image/convert"
+					className="underline hover:text-foreground transition-colors"
+				>
+					image converter
+				</a>{" "}
+				to convert to PNG instead. For web use or sharing, 80–85% gives
+				significantly smaller files with minimal visible difference.
+			</>
+		),
 	},
 	{
 		question: "Do HEIC files lose metadata during conversion?",
-		answer:
-			"The pixel data is fully preserved at your chosen quality level, but EXIF metadata like camera model, GPS coordinates, and shooting parameters is not carried over to the JPG output. If you need to retain metadata, export from Apple Photos directly instead.",
+		answer: (
+			<>
+				The pixel data is fully preserved at your chosen quality level, but EXIF
+				metadata like camera model, GPS coordinates, and shooting parameters is
+				not carried over to the JPG output. You can inspect what metadata your
+				photos contain with our{" "}
+				<a
+					href="/image/exif"
+					className="underline hover:text-foreground transition-colors"
+				>
+					EXIF viewer
+				</a>{" "}
+				before converting.
+			</>
+		),
 	},
 ];
 

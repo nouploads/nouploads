@@ -53,8 +53,20 @@ const faqItems = [
 	},
 	{
 		question: "What happens to transparent areas?",
-		answer:
-			"JPG doesn't support transparency. Any transparent areas in your PNG will be filled with a white background during conversion. If you need to preserve transparency, consider WebP or keep the PNG format.",
+		answer: (
+			<>
+				JPG doesn't support transparency. Any transparent areas in your PNG will
+				be filled with a white background during conversion. If you need to
+				preserve transparency, try our{" "}
+				<a
+					href="/image/png-to-webp"
+					className="underline hover:text-foreground transition-colors"
+				>
+					PNG to WebP converter
+				</a>{" "}
+				or keep the PNG format.
+			</>
+		),
 	},
 	{
 		question: "How much smaller will my files be?",

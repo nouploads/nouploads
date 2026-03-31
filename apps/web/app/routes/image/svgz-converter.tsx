@@ -58,8 +58,21 @@ const faqItems = [
 	},
 	{
 		question: "Can I get the uncompressed SVG instead of a raster image?",
-		answer:
-			"This converter outputs raster formats (JPG, PNG, WebP, AVIF). If you only need to decompress the SVGZ back to plain SVG, you can use any gzip decompression tool — SVGZ is literally gzipped SVG with a different file extension. On macOS or Linux, running 'gunzip file.svgz' in a terminal produces the raw SVG.",
+		answer: (
+			<>
+				This converter outputs raster formats (JPG, PNG, WebP, AVIF). If you
+				want to clean up the SVG markup at the same time, our{" "}
+				<a
+					href="/vector/svg-optimizer"
+					className="underline hover:text-foreground transition-colors"
+				>
+					SVG optimizer
+				</a>{" "}
+				can strip editor metadata and reduce file size. Otherwise, any gzip
+				decompression tool works — SVGZ is literally gzipped SVG with a
+				different file extension.
+			</>
+		),
 	},
 ];
 

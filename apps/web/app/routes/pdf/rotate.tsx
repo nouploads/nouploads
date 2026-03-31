@@ -50,8 +50,26 @@ const faqItems = [
 	},
 	{
 		question: "Can I rotate individual pages?",
-		answer:
-			"This tool currently rotates all pages in the PDF by the same angle. If you need to rotate only specific pages, split the PDF first, rotate the pages you need, then merge the files back together using the Merge PDFs tool.",
+		answer: (
+			<>
+				This tool currently rotates all pages in the PDF by the same angle. If
+				you need to rotate only specific pages, use our{" "}
+				<a
+					href="/pdf/split"
+					className="underline hover:text-foreground transition-colors"
+				>
+					PDF splitter
+				</a>{" "}
+				first, rotate the pages you need, then combine them with the{" "}
+				<a
+					href="/pdf/merge"
+					className="underline hover:text-foreground transition-colors"
+				>
+					PDF merger
+				</a>
+				.
+			</>
+		),
 	},
 	{
 		question: "Does rotating a PDF change the content or quality?",

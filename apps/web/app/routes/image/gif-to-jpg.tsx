@@ -58,8 +58,20 @@ const faqItems = [
 	},
 	{
 		question: "Will transparent areas be preserved?",
-		answer:
-			"No. GIF supports basic transparency (fully transparent or fully opaque pixels), but JPG doesn't support any transparency. Transparent areas become white in the JPG output. If you need transparency, convert to PNG instead.",
+		answer: (
+			<>
+				No. GIF supports basic transparency (fully transparent or fully opaque
+				pixels), but JPG doesn't support any transparency. Transparent areas
+				become white in the JPG output. If you need transparency, use our{" "}
+				<a
+					href="/image/convert"
+					className="underline hover:text-foreground transition-colors"
+				>
+					image converter
+				</a>{" "}
+				to convert to PNG instead.
+			</>
+		),
 	},
 ];
 

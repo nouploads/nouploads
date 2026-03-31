@@ -53,8 +53,27 @@ const faqItems = [
 	},
 	{
 		question: "What happens to transparent areas in my SVG?",
-		answer:
-			"JPG does not support transparency. Any transparent regions in your SVG are composited onto a white background before encoding. If you need to keep transparency, convert to PNG or WebP instead.",
+		answer: (
+			<>
+				JPG does not support transparency. Any transparent regions in your SVG
+				are composited onto a white background before encoding. If you need to
+				keep transparency, use our{" "}
+				<a
+					href="/image/svg-to-png"
+					className="underline hover:text-foreground transition-colors"
+				>
+					SVG to PNG
+				</a>{" "}
+				or{" "}
+				<a
+					href="/image/svg-to-webp"
+					className="underline hover:text-foreground transition-colors"
+				>
+					SVG to WebP
+				</a>{" "}
+				converter instead.
+			</>
+		),
 	},
 	{
 		question: "What JPG quality is best for SVG conversion?",
