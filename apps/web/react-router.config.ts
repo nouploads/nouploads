@@ -2,6 +2,10 @@ import type { Config } from "@react-router/dev/config";
 
 export default {
 	ssr: true,
+	// All routes are prerendered — no server to handle /__manifest requests.
+	// "initial" embeds the full route manifest in the HTML so client-side
+	// navigation works on static hosts (S3/CloudFront).
+	routeDiscovery: { mode: "initial" },
 	prerender: [
 		"/",
 		"/about",
