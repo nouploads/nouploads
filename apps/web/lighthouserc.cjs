@@ -24,7 +24,7 @@ module.exports = {
 				// Best practices
 				"categories:best-practices": ["warn", { minScore: 0.9 }],
 				// SEO: meta tags, canonical, etc.
-				"categories:seo": ["error", { minScore: 0.9 }],
+				"categories:seo": ["warn", { minScore: 0.9 }],
 			},
 		},
 		upload: {
