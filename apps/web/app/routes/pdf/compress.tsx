@@ -28,9 +28,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How does PDF compression work?",
-		answer:
-			"This tool re-renders each page of your PDF as a compressed JPG image at a reduced resolution, then assembles those images into a new PDF. The trade-off is that text becomes rasterized — it's no longer selectable — but the file size drops significantly for PDFs that contain photos, scans, or graphics.",
+		question: "What's actually inside a PDF file?",
+		answer: (
+			<>
+				A PDF file is not a simple document — internally it is a collection of
+				numbered objects (text streams, fonts, images, metadata) connected by a
+				cross-reference table that maps each object's byte offset. Compressing a
+				PDF typically means recompressing embedded images at lower quality and
+				stripping unused objects, since embedded images are almost always the
+				largest contributors to overall file size.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PDF#File_structure"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Will the compressed PDF look different?",
@@ -46,11 +62,6 @@ const faqItems = [
 		question: "Does this work with scanned PDFs?",
 		answer:
 			"Yes — scanned PDFs are essentially images already, so re-rendering them at a lower resolution and quality can reduce file size substantially. This tool handles scanned documents the same way it handles any other PDF: each page is rendered to canvas and re-exported as a compressed JPG.",
-	},
-	{
-		question: "Why use NoUploads instead of other PDF compressors?",
-		answer:
-			"Most PDF compression services require you to upload your document to their servers, which raises privacy concerns for contracts, tax forms, medical records, or any sensitive material. NoUploads compresses your PDF entirely inside your browser — the file never leaves your device. There are no daily limits, no watermarks, no account required, and the tool works offline after the first page load. The code is open source so you can verify exactly what happens to your files.",
 	},
 ];
 
@@ -105,7 +116,7 @@ export default function CompressPdfPage() {
 				<a
 					href="https://github.com/nicolo-ribaudo/pdfjs-dist"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					pdf.js
@@ -114,7 +125,7 @@ export default function CompressPdfPage() {
 				<a
 					href="https://github.com/Hopding/pdf-lib"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					pdf-lib

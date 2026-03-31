@@ -29,9 +29,26 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How does PDF text extraction work?",
-		answer:
-			"Your PDF is parsed entirely in the browser using PDF.js, the same rendering engine that powers Firefox's built-in PDF viewer. Each page's text layer is read and assembled into plain text. The PDF file never leaves your device — there's no server involved.",
+		question: "How does PDF actually store text internally?",
+		answer: (
+			<>
+				PDF stores text as individual characters positioned at exact x/y
+				coordinates with specific fonts — not as flowing paragraphs or lines.
+				Extracting readable text means reassembling these scattered characters
+				into logical reading order, which becomes surprisingly complex with
+				multi-column layouts, tables, footnotes, or right-to-left scripts. This
+				is why different PDF text extractors can produce different results from
+				the same file.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PDF"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What if my PDF contains only scanned images?",
@@ -47,11 +64,6 @@ const faqItems = [
 		question: "Can I extract text from password-protected PDFs?",
 		answer:
 			"No. If your PDF requires a password to open, you'll need to remove the password protection first using your PDF reader's security settings, then upload the unprotected version here.",
-	},
-	{
-		question: "Why use NoUploads instead of other PDF text extractors?",
-		answer:
-			"Most PDF text extraction tools require uploading your document to a remote server — a real concern when working with contracts, financial records, or personal files. NoUploads runs the entire extraction locally in your browser using PDF.js. Nothing is uploaded, no data is collected, and the tool works offline once loaded. It's free, has no page limits, requires no account, and the code is fully open source.",
 	},
 ];
 
@@ -105,7 +117,7 @@ export default function PdfToTextPage() {
 				<a
 					href="https://github.com/mozilla/pdf.js"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					PDF.js

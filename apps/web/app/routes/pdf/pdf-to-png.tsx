@@ -28,6 +28,27 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
+		question: "What makes PDF so complex to rasterize?",
+		answer: (
+			<>
+				A single PDF page can contain a rich mix of vector graphics, raster
+				images, live searchable text, embedded fonts, form fields, and even
+				JavaScript — all layered together. This is why converting a PDF to an
+				image (a process called rasterization) requires a full rendering engine
+				rather than simple pixel extraction: every element must be composited at
+				the target resolution to produce the final output.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PDF"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "Why choose PNG over JPG for PDF pages?",
 		answer:
 			"PNG is a lossless format, so every pixel is preserved exactly as rendered. This makes it ideal for documents with sharp text, line art, diagrams, or screenshots where JPG compression artifacts would be noticeable. PNG also supports transparency, which JPG does not.",
@@ -38,19 +59,9 @@ const faqItems = [
 			"PNG files are typically larger than JPG because PNG uses lossless compression. A single 300 DPI page can be several megabytes. If file size matters more than pixel-perfect quality, consider using the PDF to JPG tool instead.",
 	},
 	{
-		question: "How do I convert a multi-page PDF?",
-		answer:
-			'Simply drop your PDF file onto the tool. Every page is automatically converted into its own PNG image. You can download individual pages or use the "Download all as ZIP" button to get the entire set in one archive.',
-	},
-	{
 		question: "What resolution should I pick?",
 		answer:
 			"72 DPI matches typical screen resolution and produces the smallest files. 150 DPI is a solid middle ground for sharing or embedding in slides. 300 DPI is best for printing or when you need to capture fine details.",
-	},
-	{
-		question: "Why use NoUploads instead of other PDF to PNG converters?",
-		answer:
-			"Most online converters send your PDF to a remote server for processing — a real concern when dealing with contracts, medical records, or internal reports. NoUploads handles everything inside your browser using PDF.js. Nothing is uploaded, nothing is stored, and no account is required. The tool is free with no page limits, works offline once loaded, and the source code is public.",
 	},
 ];
 
@@ -104,7 +115,7 @@ export default function PdfToPngPage() {
 				<a
 					href="https://github.com/mozilla/pdf.js"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					PDF.js

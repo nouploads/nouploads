@@ -29,9 +29,26 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How does the PDF watermark tool work?",
-		answer:
-			"The tool loads your PDF in the browser using pdf-lib, then draws the watermark text on every page at the position, size, opacity, and angle you choose. The modified PDF is saved and made available for download — no server ever sees your document.",
+		question: "How do PDF watermarks differ from image watermarks?",
+		answer: (
+			<>
+				Unlike image watermarks that permanently alter pixel data, PDF
+				watermarks are implemented as a separate semi-transparent layer of
+				drawing commands overlaid on each page's content stream. The original
+				page content remains untouched underneath — which is why PDF watermarks
+				can theoretically be added and removed without degrading the document.
+				This layered approach is possible because PDF natively supports
+				transparency compositing.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PDF"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Can I customize the watermark appearance?",
@@ -39,19 +56,9 @@ const faqItems = [
 			'Yes. You can change the watermark text (default is "CONFIDENTIAL"), font size (20–120px), opacity (10%–100%), rotation angle (-90° to 90°), and color. All changes are applied live, so you can experiment until it looks right.',
 	},
 	{
-		question: "Does the watermark appear on every page?",
-		answer:
-			"Yes, the watermark is applied to every page of the PDF. Each page receives the same text, centered on the page, using the settings you configure.",
-	},
-	{
 		question: "Can I remove a watermark added with this tool?",
 		answer:
 			"The watermark is drawn directly into the PDF content stream, similar to how a printer stamps text on paper. It cannot be removed with a simple toggle. If you need the original, keep a copy of your unwatermarked file before processing.",
-	},
-	{
-		question: "Why use NoUploads instead of other PDF watermark tools?",
-		answer:
-			"Watermarking often involves sensitive documents — contracts, reports, legal drafts — that you wouldn't want on someone else's server. NoUploads processes the PDF entirely inside your browser, so the file never leaves your device. There are no daily limits, no account required, no watermarks on the watermark tool itself, and it works offline once loaded. The source code is open for anyone to inspect.",
 	},
 ];
 

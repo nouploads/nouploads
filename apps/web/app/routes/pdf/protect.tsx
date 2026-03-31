@@ -30,9 +30,26 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How does the PDF password protection work?",
-		answer:
-			"The tool uses the PDF Standard Security Handler (RC4-128) to add password protection directly inside your browser. It computes encryption keys from your passwords and embeds them in the PDF's security dictionary. The entire process runs client-side — your PDF and passwords never leave your device.",
+		question: "How did PDF encryption evolve over the years?",
+		answer: (
+			<>
+				PDF supports two distinct levels of password protection: a "user
+				password" required to open the file at all, and an "owner password" that
+				restricts specific actions like printing, copying text, or editing. The
+				encryption has evolved from 40-bit RC4 in early versions to AES-256 in
+				PDF 2.0. The password itself is never stored in the file — instead, it
+				derives the encryption key used to scramble the document's content
+				streams.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PDF#Security_and_signatures"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What is the difference between user and owner passwords?",
@@ -48,11 +65,6 @@ const faqItems = [
 		question: "Will the protected PDF work in all PDF viewers?",
 		answer:
 			"The protection follows the PDF specification's standard security handler, which is supported by all major PDF readers including Adobe Acrobat, Preview on macOS, Chrome's built-in viewer, and most third-party PDF apps. The file uses RC4-128 encryption, which has been part of the PDF standard since version 1.4.",
-	},
-	{
-		question: "Why use NoUploads instead of other PDF protection tools?",
-		answer:
-			"When you password-protect a document, the last thing you want is to upload it to a third-party server along with your chosen passwords. NoUploads processes everything in your browser — the PDF bytes and passwords never leave your machine. There is no server, no account, no daily limit. It works offline once the page loads, and the source code is open for anyone to audit.",
 	},
 ];
 

@@ -28,9 +28,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How do I merge PDF files?",
-		answer:
-			"Drop or select the PDF files you want to combine. Reorder them using the arrow buttons, then click the Merge button. The merged PDF is assembled entirely in your browser and ready to download in seconds.",
+		question: "Where did the PDF format come from?",
+		answer: (
+			<>
+				The Portable Document Format was conceived by Adobe co-founder John
+				Warnock, who described his vision in a 1991 internal memo called "The
+				Camelot Project." The goal was to let any document from any application
+				be sent electronically and rendered exactly as the author intended,
+				regardless of the recipient's operating system or printer. PDF became an
+				open ISO standard (ISO 32000) in 2008.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PDF"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Can I reorder pages before merging?",
@@ -46,11 +62,6 @@ const faqItems = [
 		question: "What about encrypted or password-protected PDFs?",
 		answer:
 			"The tool can read many encrypted PDFs that don't require a password to open (owner-password-only encryption). PDFs that require a user password to open cannot be merged — you'll see an error for that specific file.",
-	},
-	{
-		question: "Why use NoUploads instead of other PDF merge tools?",
-		answer:
-			"Most online PDF mergers upload your documents to remote servers — a real concern when your files contain contracts, medical records, or financial data. NoUploads processes everything locally in your browser using pdf-lib. Your files never leave your device, there is no server involved, and it works even without an internet connection after the page loads. It's free with no signup, no file limits, and fully open source.",
 	},
 ];
 
@@ -104,7 +115,7 @@ export default function MergePdfPage() {
 				<a
 					href="https://github.com/Hopding/pdf-lib"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					pdf-lib

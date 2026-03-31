@@ -30,9 +30,26 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How does this PDF unlock tool work?",
-		answer:
-			"The tool loads your password-protected PDF directly in the browser using pdf-lib, then re-saves it without the encryption layer. The result is a standard, unprotected PDF you can freely print, copy, and edit. No data leaves your device during this process.",
+		question: "How did PDF encryption evolve?",
+		answer: (
+			<>
+				PDF encryption (introduced in PDF 1.1 in 1994) scrambles the document's
+				content streams using a key derived from the password. The specification
+				defines two passwords: the "owner password" controls permissions like
+				printing and copying, while the "user password" gates access entirely.
+				Interestingly, many PDFs in the wild use only an owner password —
+				meaning the content is restricted but the decryption key can be derived
+				without any password at all.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PDF#Security_and_signatures"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Do I need to know the password to unlock the PDF?",
@@ -48,11 +65,6 @@ const faqItems = [
 		question: "Is the unlocked PDF identical to the original?",
 		answer:
 			"The content — text, images, layout, and page count — remains the same. The file size may differ slightly because the encryption metadata is stripped and the PDF is re-saved. Fonts, annotations, and form fields are preserved.",
-	},
-	{
-		question: "Why use NoUploads instead of other PDF unlock tools?",
-		answer:
-			"Most PDF unlock services require you to upload your file to their server, which is a privacy risk for sensitive documents like contracts, tax returns, or medical records. NoUploads processes everything inside your browser — the file never leaves your device. There are no daily limits, no account needed, and it works offline once the page has loaded. The code is open source, so you can verify exactly what happens to your files.",
 	},
 ];
 

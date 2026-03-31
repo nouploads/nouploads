@@ -28,9 +28,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How do I rotate a PDF?",
-		answer:
-			"Drop or select your PDF file, choose the rotation angle (90° clockwise, 180°, or 90° counter-clockwise), and the rotated PDF is generated instantly. Click Download to save the result.",
+		question: "How does PDF handle page rotation internally?",
+		answer: (
+			<>
+				PDF pages have a built-in rotation property stored in their page
+				dictionary — a simple value of 0, 90, 180, or 270 degrees. Changing this
+				value rotates the entire page display without modifying any of the
+				actual page content: text, images, and vector graphics all stay
+				untouched. This is why PDF rotation is instant and completely lossless,
+				regardless of how complex the page may be.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PDF"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Can I rotate individual pages?",
@@ -46,11 +62,6 @@ const faqItems = [
 		question: "What about scanned or landscape PDFs?",
 		answer:
 			"Scanned documents and landscape-oriented PDFs rotate the same way. If your scanner saved pages sideways, a 90° or 270° rotation will fix the orientation without any quality loss.",
-	},
-	{
-		question: "Why use NoUploads instead of other PDF rotation tools?",
-		answer:
-			"Online PDF rotators typically upload your file to a remote server, which is a problem for contracts, tax documents, or anything confidential. NoUploads rotates your PDF entirely in your browser using pdf-lib — the file never leaves your device. There are no file size limits, no daily caps, no watermarks, and no account required. It works offline after the page loads, and the source code is open for anyone to inspect.",
 	},
 ];
 
@@ -105,7 +116,7 @@ export default function RotatePdfPage() {
 				<a
 					href="https://github.com/Hopding/pdf-lib"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					pdf-lib

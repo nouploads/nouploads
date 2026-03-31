@@ -28,9 +28,26 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How does PDF to JPG conversion work?",
-		answer:
-			"Your PDF is loaded into the browser using PDF.js (the same engine Firefox uses to display PDFs). Each page is rendered onto a canvas at your chosen resolution, then exported as a JPG image. The entire process happens locally — the PDF never leaves your device.",
+		question: "Why was PDF invented in the first place?",
+		answer: (
+			<>
+				Before PDF, sharing documents between different computers and operating
+				systems was a persistent headache — fonts would be missing, margins
+				would shift, and graphics would break. Adobe co-founder John Warnock
+				envisioned a format that would preserve the exact visual appearance of
+				any document on any system. That idea became PDF, and it solved the
+				"what you see is what I see" problem that had plagued publishing for
+				years.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PDF"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What DPI setting should I choose?",
@@ -46,11 +63,6 @@ const faqItems = [
 		question: "Can I adjust the JPG quality?",
 		answer:
 			"Yes. A quality slider lets you choose between smaller file sizes and sharper images. The default of 92% offers a good balance. Lower values shrink files significantly with minimal visible difference for most documents.",
-	},
-	{
-		question: "Why use NoUploads instead of other PDF to JPG tools?",
-		answer:
-			"Typical PDF converters require you to upload your document to a remote server, which is a problem for confidential or sensitive files. NoUploads converts PDF pages to JPG entirely inside your browser — no upload, no server processing, no data collection. It's free, has no page limits, no watermarks, works offline after the first load, and is fully open source.",
 	},
 ];
 
@@ -105,7 +117,7 @@ export default function PdfToJpgPage() {
 				<a
 					href="https://github.com/mozilla/pdf.js"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					PDF.js

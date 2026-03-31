@@ -30,9 +30,26 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How does the page numbering tool work?",
-		answer:
-			"The tool loads your PDF entirely in the browser using pdf-lib, then draws a page number on each page at the position you choose. You pick the format, font size, and margin, and the modified PDF is generated instantly for download — your file never leaves your device.",
+		question: "What's the story behind page numbering in books?",
+		answer: (
+			<>
+				Page numbering became widespread in European printed books during the
+				late 15th century, shortly after Gutenberg introduced movable type
+				around 1440. Early manuscripts had no page numbers at all — readers
+				navigated by chapter headings or catchwords. Aldus Manutius, the
+				Venetian printer who also invented italic type and the modern semicolon,
+				was among the first to use Arabic numerals for pagination in the 1490s,
+				establishing a convention that has persisted for over five centuries.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Page_numbering"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What page number formats are available?",
@@ -48,11 +65,6 @@ const faqItems = [
 		question: "Does this work with scanned or image-based PDFs?",
 		answer:
 			"Yes. The tool adds text directly to the PDF page layer regardless of whether the pages contain searchable text, scanned images, or vector graphics. The page numbers are drawn on top of whatever content already exists.",
-	},
-	{
-		question: "Why use NoUploads instead of other PDF page numbering tools?",
-		answer:
-			"Most PDF numbering tools require you to upload your document to a server, which is a privacy risk for contracts, legal filings, or internal reports. NoUploads processes the entire PDF inside your browser, so nothing is transmitted. There are no file size limits, no account walls, no daily quotas, and it works offline once the page loads. The code is open source.",
 	},
 ];
 

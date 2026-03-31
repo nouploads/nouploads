@@ -28,9 +28,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How do I split a PDF into separate pages?",
-		answer:
-			'Drop or select a PDF file, then choose "Individual pages" mode and click Split. Each page becomes its own PDF file, ready to download independently. The entire operation happens in your browser — your document is never uploaded anywhere.',
+		question: "What makes PDF easy to split without losing quality?",
+		answer: (
+			<>
+				PDF's internal architecture uses numbered objects connected by a
+				cross-reference table, and each page is a largely self-contained object
+				that references its own fonts, images, and content streams. Splitting a
+				PDF into separate files copies the relevant page objects and their
+				dependencies into new files — no re-rendering is needed, which preserves
+				every element at its original quality.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PDF#File_structure"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Can I extract specific page ranges from a PDF?",
@@ -46,11 +62,6 @@ const faqItems = [
 		question: "Does splitting preserve the original formatting?",
 		answer:
 			"Yes. The tool copies pages directly from the source PDF without re-rendering or re-compressing. Fonts, images, annotations, and form fields are preserved exactly as they appear in the original document.",
-	},
-	{
-		question: "Why use NoUploads instead of other PDF split tools?",
-		answer:
-			"Other PDF splitters require you to upload sensitive documents to a remote server. NoUploads splits your PDF entirely in the browser using pdf-lib — nothing leaves your device. There are no file size limits, no watermarks, no signup required, and it works offline once the page has loaded. The tool is open source, so you can verify exactly what it does.",
 	},
 ];
 
@@ -104,7 +115,7 @@ export default function SplitPdfPage() {
 				<a
 					href="https://github.com/Hopding/pdf-lib"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					pdf-lib
