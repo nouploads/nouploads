@@ -75,7 +75,7 @@ export const PACKAGES = {
 	"@imgly/background-removal": {
 		name: "@imgly/background-removal",
 		repoUrl: "https://github.com/imgly/background-removal-js",
-		license: "SEE LICENSE",
+		license: "AGPL-3.0",
 	},
 	fflate: {
 		name: "fflate",
@@ -99,7 +99,7 @@ export const PACKAGES = {
 	},
 	"@webtoon/psd": {
 		name: "@webtoon/psd",
-		repoUrl: "https://github.com/nicedoc/psd",
+		repoUrl: "https://github.com/webtoon/psd",
 		license: "MIT",
 	},
 	daikon: {
