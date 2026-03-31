@@ -20,7 +20,7 @@ const OUT_PATH = join(__dirname, "../public/sitemap.xml");
 
 async function main() {
 	// Import the config to get the prerender list
-	const config = await import("../react-router.config.ts");
+	const config = await import("../react-router.config");
 	const routes: string[] = config.default.prerender;
 
 	if (!routes || routes.length === 0) {

@@ -13,7 +13,10 @@ async function digestToHex(
 	algorithm: "SHA-1" | "SHA-256" | "SHA-384" | "SHA-512",
 	data: Uint8Array,
 ): Promise<string> {
-	const hash = await crypto.subtle.digest(algorithm, data);
+	const hash = await crypto.subtle.digest(
+		algorithm,
+		data as Uint8Array<ArrayBuffer>,
+	);
 	return Array.from(new Uint8Array(hash))
 		.map((b) => b.toString(16).padStart(2, "0"))
 		.join("");

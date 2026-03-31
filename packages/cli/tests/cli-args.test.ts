@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
 import { findToolByFormats, getAllTools, getTool } from "@nouploads/core";
+import { describe, expect, it } from "vitest";
 
 describe("CLI tool resolution", () => {
 	it("should resolve tool by ID for existing tools", () => {

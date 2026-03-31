@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
 import { findToolByFormats, getAllTools, getTool } from "@nouploads/core";
+import { describe, expect, it } from "vitest";
 
 describe("tool registry", () => {
 	it("should have 80+ registered tools", () => {

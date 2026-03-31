@@ -32,7 +32,9 @@ self.onmessage = async (e: MessageEvent<FaviconWorkerMessage>) => {
 		bitmap.close();
 
 		const icoData = packIco(pngBuffers, sizes);
-		const icoBlob = new Blob([icoData], { type: "image/x-icon" });
+		const icoBlob = new Blob([icoData as Uint8Array<ArrayBuffer>], {
+			type: "image/x-icon",
+		});
 
 		self.postMessage({ icoBlob, sizes: sizeResults });
 	} catch (err) {
