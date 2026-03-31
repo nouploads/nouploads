@@ -16,7 +16,7 @@ is a template clone and must be fixed.
 ### Trivia item requirements
 - One genuinely interesting fact a normal person would appreciate (not dry spec details)
 - Working HTTPS link to an authoritative source (Wikipedia, W3C, IETF, ISO, official project page)
-- Link format: `Source: Wikipedia` — not "Learn more on Wikipedia" or "Read more at W3C"
+- Link format: plain text `Source:` followed by linked source name. Example: `Source: ` + `[Wikipedia](url)`. The word "Source:" is never part of the link — only the source name is clickable.
 - Link attributes: `target="_blank" rel="noopener"` — never add `noreferrer` on authority links
 - Question wording must be natural and varied across pages (no two identical questions site-wide)
 - Must not duplicate the About section content — trivia covers history/origin, About covers what the tool does

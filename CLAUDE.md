@@ -226,7 +226,7 @@ Write unique copy per tool. NEVER use a template with swapped words — Google p
 Every tool page must have a FAQ with 2-4 items. Quality over quantity.
 
 **Structure (in order):**
-1. **Authority trivia item (ALWAYS first)** — a genuinely interesting fact about the format, tool, or technique with a working HTTPS link to an authoritative source (Wikipedia, W3C, IETF, ISO). The answer uses JSX with a React fragment containing the trivia text and an `<a>` link styled as `Source: Wikipedia` at the end (className="underline hover:text-foreground transition-colors", target="_blank", rel="noopener"). The question must be unique across the entire site — vary naturally: "Where does X come from?", "What's the story behind X?", "Who invented X?". No corporate phrasing. Trivia text must have <40% meaningful word overlap with any other trivia entry. Verify the source URL resolves.
+1. **Authority trivia item (ALWAYS first)** — a genuinely interesting fact about the format, tool, or technique with a working HTTPS link to an authoritative source (Wikipedia, W3C, IETF, ISO). The answer uses JSX with a React fragment containing the trivia text, then plain text `Source:`, then an `<a>` link with just the source name (e.g., `Wikipedia`) at the end (className="underline hover:text-foreground transition-colors", target="_blank", rel="noopener"). "Source:" must be plain text outside the link — only the source name is clickable. The question must be unique across the entire site — vary naturally: "Where does X come from?", "What's the story behind X?", "Who invented X?". No corporate phrasing. Trivia text must have <40% meaningful word overlap with any other trivia entry. Verify the source URL resolves.
 2. **1-3 page-specific items** — answers must be unique to this particular tool/conversion and could NOT appear on any other page. Good: quality settings, transparency handling, layer behavior, format-specific limitations. Every FAQ answer must pass the swap test: if you substitute any other format name and the answer still reads correctly, it's boilerplate — remove or rewrite it.
 
 **Banned from individual tool page FAQs (site-wide features, not page-specific):**
@@ -959,7 +959,7 @@ Both Builder and Critic must agree on all of:
 - [ ] Trivia is FAQ #1 with natural question wording
 - [ ] Trivia source link resolves (curl returns 200 or 301/302)
 - [ ] Trivia fact is verifiable from the linked source
-- [ ] Source link says "Source: Wikipedia" not "Learn more on Wikipedia"
+- [ ] Source link renders as plain "Source: " text + linked source name (not "Source: Name" as one link)
 - [ ] Source link uses `rel="noopener"` not `rel="noopener noreferrer"`
 - [ ] No site-wide boilerplate FAQ items (privacy, batch, offline, "why NoUploads", "is this free")
 - [ ] Every FAQ answer passes the swap test
