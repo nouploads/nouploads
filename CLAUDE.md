@@ -276,7 +276,12 @@ Style: `text-xs text-muted-foreground mt-8` with underlined links.
 1. Check `node_modules/<library>/package.json` — the `repository` field has the canonical URL
 2. Or run `npm info <library> repository.url` to get it from the npm registry
 3. NEVER guess or infer a GitHub URL from the author's name. Always verify programmatically.
-4. After adding the link, verify it resolves to a real page (not a 404)
+4. After adding the link, verify it resolves to a real page (not a 404) by running `curl -sL -o /dev/null -w '%{http_code}' <URL>` — must return 200
+
+The attribution unit test enforces that every `repoUrl` matches the `repository` field from the package's own `package.json`. If the test fails, the URL is wrong — do not override the test, fix the URL.
+
+**License field must be a valid SPDX identifier:**
+The `license` field in `attribution.ts` must be a recognized SPDX license identifier (e.g. `MIT`, `Apache-2.0`, `AGPL-3.0`, `BSD-3-Clause`). Do NOT use vague strings like `"SEE LICENSE"`, `"SEE LICENSE IN LICENSE"`, or `"UNLICENSED"`. If `npm info <package> license` returns a non-SPDX value, check the package's GitHub repository for the actual license and use the correct SPDX identifier. The attribution unit test enforces this with a regex allowlist.
 
 ### Content audience
 

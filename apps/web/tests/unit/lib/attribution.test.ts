@@ -29,9 +29,63 @@ describe("attribution registry", () => {
 		}
 	});
 
-	it("every PACKAGES entry has a non-empty license", () => {
+	it("every PACKAGES repoUrl matches the npm registry repository field", () => {
+		// Extract "owner/repo" from any common repository URL format
+		function extractOwnerRepo(raw: string): string | null {
+			const cleaned = raw
+				.replace(/^git\+/, "")
+				.replace(/\.git$/, "")
+				.replace(/^github:/, "");
+			// git@github.com:owner/repo
+			const ssh = cleaned.match(/github\.com[:/]([^/]+\/[^/]+)$/);
+			if (ssh) return ssh[1].toLowerCase();
+			// https://github.com/owner/repo(/...extra paths)
+			const https = cleaned.match(/github\.com\/([^/]+\/[^/]+)/);
+			if (https) return https[1].toLowerCase();
+			// GitHub shorthand: "owner/repo"
+			const shorthand = cleaned.match(/^([^/]+\/[^/]+)$/);
+			if (shorthand) return shorthand[1].toLowerCase();
+			return null;
+		}
+
 		for (const [pkgName, meta] of Object.entries(PACKAGES)) {
-			expect(meta.license, `${pkgName} license`).toBeTruthy();
+			const pkgJsonPath = resolve(
+				__dirname,
+				`../../../node_modules/${pkgName}/package.json`,
+			);
+			let depPkg: { repository?: { url?: string } | string };
+			try {
+				depPkg = JSON.parse(readFileSync(pkgJsonPath, "utf-8"));
+			} catch {
+				continue; // not installed locally — covered by the "installed" test
+			}
+
+			const repoField =
+				typeof depPkg.repository === "string"
+					? depPkg.repository
+					: (depPkg.repository?.url ?? "");
+			if (!repoField) continue; // some packages omit repository entirely
+
+			const expected = extractOwnerRepo(repoField);
+			const actual = extractOwnerRepo(meta.repoUrl);
+
+			if (!expected) continue; // non-GitHub repo — skip
+
+			expect(
+				actual,
+				`${pkgName} repoUrl "${meta.repoUrl}" does not match package.json repository "${repoField}" (expected owner/repo: ${expected})`,
+			).toBe(expected);
+		}
+	});
+
+	it("every PACKAGES entry has a valid SPDX license identifier", () => {
+		const spdxPattern =
+			/^(?:MIT|Apache-2\.0|BSD-[23]-Clause|ISC|MPL-2\.0|LGPL-[23]\.[01]|GPL-[23]\.0|AGPL-3\.0|Unlicense|0BSD|BlueOak-1\.0\.0)$/;
+		for (const [pkgName, meta] of Object.entries(PACKAGES)) {
+			expect(
+				meta.license,
+				`${pkgName} license "${meta.license}" is not a recognized SPDX identifier`,
+			).toMatch(spdxPattern);
 		}
 	});
 
