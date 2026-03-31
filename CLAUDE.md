@@ -223,10 +223,28 @@ Write unique copy per tool. NEVER use a template with swapped words — Google p
 
 ### FAQ section
 
-Every tool page must have a FAQ with:
-- 3-5 relevant questions with natural, helpful answers
-- Keywords embedded naturally (not stuffed)
-- One required entry: "Why use NoUploads instead of other [tool category] tools?" mentioning: privacy (files stay on device), no upload/no server, free and unlimited, open source, works offline, no signup. Write this answer uniquely per tool — vary wording and emphasis.
+Every tool page must have a FAQ with 2-4 items. Quality over quantity.
+
+**Structure (in order):**
+1. **Authority trivia item (ALWAYS first)** — a genuinely interesting fact about the format, tool, or technique with a working HTTPS link to an authoritative source (Wikipedia, W3C, IETF, ISO). The answer uses JSX with a React fragment containing the trivia text and an `<a>` link styled as `Source: Wikipedia` at the end (className="underline hover:text-foreground transition-colors", target="_blank", rel="noopener"). The question must be unique across the entire site — vary naturally: "Where does X come from?", "What's the story behind X?", "Who invented X?". No corporate phrasing. Trivia text must have <40% meaningful word overlap with any other trivia entry. Verify the source URL resolves.
+2. **1-3 page-specific items** — answers must be unique to this particular tool/conversion and could NOT appear on any other page. Good: quality settings, transparency handling, layer behavior, format-specific limitations. Every FAQ answer must pass the swap test: if you substitute any other format name and the answer still reads correctly, it's boilerplate — remove or rewrite it.
+
+**Banned from individual tool page FAQs (site-wide features, not page-specific):**
+- "Why use NoUploads instead of...?" — site-wide pitch, not page-specific
+- "Is my data safe?" / privacy questions — covered by the site-wide privacy banner
+- "Does this work offline?" — site-wide feature
+- "Can I convert/process multiple files at once?" — generic batch info (keep only if answer discusses format-specific batch behavior)
+- "What is a [FORMAT]?" — redundant with the About section above the FAQ
+- "How do I convert/compress X?" — the tool IS the answer; this is filler
+- "Is this free?" / "What browsers are supported?" — site-wide features
+
+**No two FAQ questions across the entire site should be identical.** If two pages need similar questions (e.g., quality settings), differentiate by including the format name or tool context.
+
+### Outbound link policy
+
+- Authority/editorial links (Wikipedia, W3C, IETF, ISO, official project pages): use `rel="noopener"` only. Do NOT add `noreferrer` — we want the referrer sent to signal the editorial relationship.
+- Untrusted or affiliate links (we currently have none): use `rel="noopener noreferrer nofollow"`.
+- All external links use `target="_blank"`.
 
 ### Meta tags
 
@@ -309,6 +327,7 @@ Verify:
 - OG image exists in `apps/web/public/og/`
 - Tool icon renders on the homepage (check that the icon name in `tools.ts` has a matching entry in `tool-icon.tsx` iconMap)
 - Command palette indexes the new tool (automatic — `allTools` spreads `gridTools`, so adding to `gridTools` is sufficient)
+- FAQ has 2-4 items: trivia first (with "Source: Wikipedia" link), then page-specific only — no boilerplate, no duplicate questions across the site (see FAQ section rules above)
 
 ### Bidirectional conversion rule
 
@@ -931,6 +950,19 @@ Both Builder and Critic must agree on all of:
 - [ ] No network requests during processing
 - [ ] Page renders if new page was created
 - [ ] Tests pass
+- [ ] FAQ section follows rules (if new page was created — see below)
+
+**FAQ sign-off checklist (for new tool pages):**
+- [ ] Trivia is FAQ #1 with natural question wording
+- [ ] Trivia source link resolves (curl returns 200 or 301/302)
+- [ ] Trivia fact is verifiable from the linked source
+- [ ] Source link says "Source: Wikipedia" not "Learn more on Wikipedia"
+- [ ] Source link uses `rel="noopener"` not `rel="noopener noreferrer"`
+- [ ] No site-wide boilerplate FAQ items (privacy, batch, offline, "why NoUploads", "is this free")
+- [ ] Every FAQ answer passes the swap test
+- [ ] No FAQ question is identical to any existing question on another page
+- [ ] Trivia does not duplicate the About section
+- [ ] 2-4 FAQ items total
 
 ### Escalation
 
