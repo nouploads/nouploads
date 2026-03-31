@@ -20,6 +20,7 @@ const EXPECTED_CONVERSIONS = [
 	["gif", "png"],
 	["bmp", "jpg"],
 	["bmp", "png"],
+	["bmp", "webp"],
 	["svg", "png"],
 	["svg", "jpg"],
 	["svg", "webp"],
@@ -27,6 +28,7 @@ const EXPECTED_CONVERSIONS = [
 	["tiff", "png"],
 	["ico", "png"],
 	["ico", "jpg"],
+	["ico", "webp"],
 ] as const;
 
 describe("standard conversion tools", () => {
