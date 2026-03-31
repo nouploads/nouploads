@@ -18,5 +18,3 @@
 - Developer color picker (HEX/RGB/HSL/HSV/HWB/CMYK/LAB/LCH/OKLCH)
 - 18 custom zero-dependency format decoders in @nouploads/core
 - Node.js CLI with interactive TUI mode
-- 69 prerendered SEO-optimized pages
-- 540+ unit tests (472 web, 68 core), 41 E2E tests
