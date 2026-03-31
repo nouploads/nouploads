@@ -3,6 +3,17 @@
 	"version": "0.1.0",
 	"private": true,
 	"type": "module",
+	"description": "Core tool registry and processors for NoUploads",
+	"license": "AGPL-3.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/nouploads/nouploads.git",
+		"directory": "packages/core"
+	},
+	"homepage": "https://nouploads.com",
+	"bugs": {
+		"url": "https://github.com/nouploads/nouploads/issues"
+	},
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"exports": {

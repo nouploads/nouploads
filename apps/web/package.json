@@ -3,6 +3,17 @@
 	"private": true,
 	"type": "module",
 	"version": "0.0.1",
+	"description": "NoUploads web app — browser-based file tools with no server uploads",
+	"license": "AGPL-3.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/nouploads/nouploads.git",
+		"directory": "apps/web"
+	},
+	"homepage": "https://nouploads.com",
+	"bugs": {
+		"url": "https://github.com/nouploads/nouploads/issues"
+	},
 	"engines": {
 		"node": ">=24.14.0"
 	},
