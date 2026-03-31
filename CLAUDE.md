@@ -799,7 +799,7 @@ Minimum expectation:
 - typecheck
 - unit tests for changed logic
 - component tests if relevant
-- Playwright tests if user flow changed
+- **Playwright E2E tests** — always run `npx playwright test` after any route, component, processor, or test change. Do not skip this step or defer it to the user. Run the full suite, not just new tests, to catch regressions. If pre-existing failures exist, note them but do not count them as blockers for your changes.
 - production build
 - for route or UI changes: start the dev server and curl affected pages to verify they render correctly (build passes and TypeScript compiles don't guarantee runtime rendering works)
 
