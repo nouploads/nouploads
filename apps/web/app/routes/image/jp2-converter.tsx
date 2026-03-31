@@ -61,14 +61,14 @@ const faqItems = [
 				JPEG on the web, it found critical niches: the Digital Cinema Initiative
 				(DCI) standard requires JPEG 2000 for movie distribution, medical
 				imaging systems use it via DICOM, and satellite and aerial photography
-				rely on its superior quality at low bitrates.{" "}
+				rely on its superior quality at low bitrates. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/JPEG_2000"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

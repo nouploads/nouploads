@@ -56,14 +56,14 @@ const faqItems = [
 				Media. AV1 combines techniques from Google's VP10, Mozilla's Daala, and
 				Cisco's Thor into one royalty-free codec. When applied to still images,
 				AV1's advanced prediction, transform, and entropy coding stages produce
-				files significantly smaller than JPEG or even WebP.{" "}
+				files significantly smaller than JPEG or even WebP. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/AV1"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

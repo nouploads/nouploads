@@ -64,14 +64,14 @@ const faqItems = [
 				records, and specialized industries like game development. Many were
 				dominant formats in their era: PCX was the standard on DOS, TGA ruled 3D
 				rendering, and BMP was the native format of early Windows. Reading these
-				files today often requires specialized decoders.{" "}
+				files today often requires specialized decoders. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Image_file_format"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

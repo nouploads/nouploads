@@ -61,14 +61,14 @@ const faqItems = [
 				when the Macintosh dominated creative computing. The CDR format became
 				especially popular in the sign-making, screen printing, and engraving
 				industries, where CorelDRAW's precision drawing tools were considered
-				superior to the competition.{" "}
+				superior to the competition. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/CorelDRAW"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

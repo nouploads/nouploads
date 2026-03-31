@@ -58,14 +58,14 @@ const faqItems = [
 				value rotates the entire page display without modifying any of the
 				actual page content: text, images, and vector graphics all stay
 				untouched. This is why PDF rotation is instant and completely lossless,
-				regardless of how complex the page may be.{" "}
+				regardless of how complex the page may be. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PDF"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

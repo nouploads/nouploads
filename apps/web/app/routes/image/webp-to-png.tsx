@@ -60,14 +60,14 @@ const faqItems = [
 				same family as AVI video and WAV audio files. Inside this container,
 				WebP supports lossy compression (VP8-based), lossless compression, alpha
 				transparency, and animation with full color, essentially combining the
-				capabilities of JPEG, PNG, and GIF into a single file format.{" "}
+				capabilities of JPEG, PNG, and GIF into a single file format. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/WebP"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

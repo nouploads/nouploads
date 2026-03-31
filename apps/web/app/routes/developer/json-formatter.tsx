@@ -54,14 +54,14 @@ const faqItems = [
 				invented it — the syntax was already part of JavaScript since ECMAScript
 				3 in 1999. JSON was formalized as ECMA-404 in 2013 and has largely
 				replaced XML as the dominant data interchange format for web APIs
-				because of its simplicity and readability.{" "}
+				because of its simplicity and readability. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/JSON"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -62,14 +62,14 @@ const faqItems = [
 				Paper mills used watermarks to identify their products, and governments
 				adopted them for currency authentication. Digital watermarking adapts
 				the same concept — embedding ownership or origin data directly into a
-				file's content.{" "}
+				file's content. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Watermark"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

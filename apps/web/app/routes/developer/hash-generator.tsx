@@ -60,14 +60,14 @@ const faqItems = [
 				designed by the NSA and published by NIST in 2001 as part of the SHA-2
 				family, generates a 256-bit digest that is computationally infeasible to
 				reverse or forge, making it a cornerstone of digital signatures,
-				password storage, and blockchain systems.{" "}
+				password storage, and blockchain systems. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/SHA-2"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

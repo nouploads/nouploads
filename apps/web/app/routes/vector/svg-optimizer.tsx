@@ -59,14 +59,14 @@ const faqItems = [
 				groups, and default attribute values that inflate file size without
 				affecting how the image renders. Removing this cruft typically reduces
 				SVG files by 30-60% — similar to how JavaScript minification strips
-				whitespace and comments to shrink code for faster delivery.{" "}
+				whitespace and comments to shrink code for faster delivery. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/SVG#Compression"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

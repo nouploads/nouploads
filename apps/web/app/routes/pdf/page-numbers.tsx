@@ -62,13 +62,14 @@ const faqItems = [
 				Venetian printer who also invented italic type and the modern semicolon,
 				was among the first to use Arabic numerals for pagination in the 1490s,
 				establishing a convention that has persisted for over five centuries.{" "}
+				Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Page_numbering"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -62,14 +62,14 @@ const faqItems = [
 				proposals for web vector graphics were submitted in 1998, including
 				Adobe's PGML and Microsoft's VML. Rather than adopt any single proposal,
 				the W3C created an entirely new XML-based language — a decision that
-				ultimately produced a more elegant and extensible standard.{" "}
+				ultimately produced a more elegant and extensible standard. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/SVG"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -61,14 +61,14 @@ const faqItems = [
 				coder. For lossy mode, it applies predictive coding from the VP8 video
 				codec that analyzes surrounding pixel blocks to predict each new block's
 				content. Google's benchmarks showed WebP lossless files are on average
-				26% smaller than equivalent PNGs.{" "}
+				26% smaller than equivalent PNGs. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/WebP"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

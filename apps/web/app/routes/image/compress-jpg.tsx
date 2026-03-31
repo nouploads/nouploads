@@ -54,14 +54,14 @@ const faqItems = [
 				converts small blocks of pixels into frequency components, letting the
 				encoder discard high-frequency detail that humans barely perceive. The
 				same mathematical trick went on to power MP3 audio compression, H.264
-				video, and virtually every modern media codec.{" "}
+				video, and virtually every modern media codec. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Discrete_cosine_transform"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

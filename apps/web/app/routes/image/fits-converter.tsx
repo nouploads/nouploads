@@ -63,14 +63,14 @@ const faqItems = [
 				1981, it is endorsed by NASA and the International Astronomical Union.
 				Every image captured by the Hubble Space Telescope, the James Webb Space
 				Telescope, and virtually every ground-based observatory in the world is
-				stored and distributed in FITS format.{" "}
+				stored and distributed in FITS format. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/FITS"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

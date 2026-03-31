@@ -63,14 +63,14 @@ const faqItems = [
 				consistent color across devices, 16-bit-per-channel depth for smooth
 				gradients, and multiple lossless compression options. A TIFF file can
 				faithfully represent the full range of what a professional printing
-				press can produce.{" "}
+				press can produce. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/TIFF"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

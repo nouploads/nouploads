@@ -54,14 +54,14 @@ const faqItems = [
 				while converting cleanly to HTML. Gruber described it as "a text-to-HTML
 				conversion tool for web writers." Today Markdown has become ubiquitous —
 				it powers documentation on GitHub, posts on Stack Overflow and Reddit,
-				and note-taking in tools like Obsidian and Notion.{" "}
+				and note-taking in tools like Obsidian and Notion. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Markdown"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

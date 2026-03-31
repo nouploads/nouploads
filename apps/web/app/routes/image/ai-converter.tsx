@@ -61,14 +61,14 @@ const faqItems = [
 				language for on-screen rendering. Since Illustrator CS, the AI file
 				format is essentially a restricted form of PDF — which is why many tools
 				can extract preview images from AI files. There is literally a PDF
-				hidden inside every modern AI file.{" "}
+				hidden inside every modern AI file. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Adobe_Illustrator"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

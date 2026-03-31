@@ -63,14 +63,14 @@ const faqItems = [
 				literally a short header line followed by red, green, and blue values
 				written as plain ASCII numbers separated by whitespace — no compression,
 				no metadata, no complexity. They were designed as a "lowest common
-				denominator" that any program could read and write trivially.{" "}
+				denominator" that any program could read and write trivially. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Netpbm"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

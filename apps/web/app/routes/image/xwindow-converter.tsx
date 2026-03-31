@@ -61,13 +61,14 @@ const faqItems = [
 				XBM files are unique in that they are actually valid C source code: the
 				pixel data is stored as a C array that can be compiled directly into
 				applications without needing any image parsing library whatsoever.{" "}
+				Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/X_BitMap"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

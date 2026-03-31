@@ -59,14 +59,14 @@ const faqItems = [
 				&quot;stream object&quot; within the file's internal structure. The PDF
 				specification supports JPEG, JPEG 2000, JBIG2 (for scanned text), and
 				raw uncompressed image data — making it one of the most versatile
-				document containers for mixed image content.{" "}
+				document containers for mixed image content. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PDF"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

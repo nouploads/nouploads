@@ -54,14 +54,14 @@ const faqItems = [
 				than to changes in color — a principle called chroma subsampling. JPEG,
 				WebP, and AVIF all take advantage of this by storing color information
 				at lower resolution than brightness, often at half or even quarter the
-				resolution, without most viewers noticing any difference.{" "}
+				resolution, without most viewers noticing any difference. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Chroma_subsampling"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

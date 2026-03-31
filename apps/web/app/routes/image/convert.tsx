@@ -58,14 +58,14 @@ const faqItems = [
 				perception. Different image formats package these pixel values in
 				different ways — some with compression, some without, some with
 				transparency — but the underlying RGB data is remarkably consistent
-				across formats.{" "}
+				across formats. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/RGB_color_model"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

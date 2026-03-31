@@ -59,14 +59,14 @@ const faqItems = [
 				that could only hold about 20 characters. Denso Wave holds the patent
 				but made a deliberate decision not to exercise it, enabling the format's
 				worldwide adoption for everything from restaurant menus to mobile
-				payments.{" "}
+				payments. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/QR_code"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

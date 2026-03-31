@@ -61,14 +61,14 @@ const faqItems = [
 				the UC Berkeley lab where GIMP was created in 1996 by Spencer Kimball
 				and Peter Mattis as a university project. GIMP has since become one of
 				the longest-running open-source software projects, with over 25 years of
-				continuous development.{" "}
+				continuous development. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/XCF_(file_format)"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -61,14 +61,14 @@ const faqItems = [
 				existing JPEG files to roughly 20% smaller without any generational
 				quality loss, supports progressive decoding, animation, and HDR content.
 				The format emerged from merging Google's PIK and Cloudinary's FUIF
-				proposals into a single next-generation codec.{" "}
+				proposals into a single next-generation codec. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/JPEG_XL"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

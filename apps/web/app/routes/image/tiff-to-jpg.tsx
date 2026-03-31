@@ -57,14 +57,14 @@ const faqItems = [
 				format flexible enough to store everything from 1-bit fax images to
 				32-bit floating-point HDR data. The publishing and printing industries
 				still rely heavily on TIFF because it supports CMYK color spaces and
-				lossless compression.{" "}
+				lossless compression. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/TIFF"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

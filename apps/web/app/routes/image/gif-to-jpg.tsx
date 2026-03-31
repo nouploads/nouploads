@@ -56,14 +56,14 @@ const faqItems = [
 				frame but became the de facto standard for short animations on the web.
 				The format's pronunciation sparked one of the internet's longest-running
 				debates — creator Steve Wilhite insisted it was "jif" with a soft G,
-				though most people still say "gif" with a hard G.{" "}
+				though most people still say "gif" with a hard G. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/GIF"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

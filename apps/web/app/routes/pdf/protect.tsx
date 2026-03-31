@@ -61,14 +61,14 @@ const faqItems = [
 				encryption has evolved from 40-bit RC4 in early versions to AES-256 in
 				PDF 2.0. The password itself is never stored in the file — instead, it
 				derives the encryption key used to scramble the document's content
-				streams.{" "}
+				streams. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PDF#Security_and_signatures"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

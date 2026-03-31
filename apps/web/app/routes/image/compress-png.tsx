@@ -59,14 +59,14 @@ const faqItems = [
 				pixel's value from its neighbors. The filter stage doesn't compress
 				anything itself; it rearranges the data so DEFLATE can find more
 				redundant patterns. This two-step approach typically achieves 30–50%
-				compression without altering a single pixel value.{" "}
+				compression without altering a single pixel value. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PNG#Compression"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

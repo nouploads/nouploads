@@ -59,14 +59,14 @@ const faqItems = [
 				was chosen by early Unix developers at Bell Labs as a simple numerical
 				reference that any system could understand. The original 32-bit
 				timestamp will overflow on January 19, 2038 at 03:14:07 UTC, an event
-				known as the Year 2038 problem.{" "}
+				known as the Year 2038 problem. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Unix_time"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

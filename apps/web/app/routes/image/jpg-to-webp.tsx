@@ -57,13 +57,14 @@ const faqItems = [
 				Google estimated that if the entire web switched to WebP, it would save
 				approximately 50 petabytes of bandwidth per day — a major motivation for
 				a company that serves billions of images through search and YouTube.{" "}
+				Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/WebP"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

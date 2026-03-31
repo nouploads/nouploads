@@ -87,14 +87,14 @@ const faqItems = [
 				image sensor. Unlike JPEG, which bakes in white balance, sharpening, and
 				color adjustments at capture time, RAW preserves all the original data
 				so photographers can make these decisions later in post-processing with
-				maximum flexibility and quality.{" "}
+				maximum flexibility and quality. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Raw_image_format"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

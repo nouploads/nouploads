@@ -56,14 +56,14 @@ const faqItems = [
 				scale to any size without quality loss, from a tiny favicon to a
 				billboard. This property made SVG the standard format for logos, icons,
 				and UI elements once retina and HiDPI displays became common and
-				pixel-based formats started looking blurry.{" "}
+				pixel-based formats started looking blurry. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/SVG"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -58,14 +58,14 @@ const faqItems = [
 				ISO/IEC 26300 in 2006. ODF was created to ensure that documents would
 				never be locked into a single vendor's proprietary format. It is
 				natively supported by LibreOffice, Apache OpenOffice, and several other
-				office suites.{" "}
+				office suites. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/OpenDocument"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

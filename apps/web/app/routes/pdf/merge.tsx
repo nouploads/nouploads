@@ -58,14 +58,14 @@ const faqItems = [
 				Camelot Project." The goal was to let any document from any application
 				be sent electronically and rendered exactly as the author intended,
 				regardless of the recipient's operating system or printer. PDF became an
-				open ISO standard (ISO 32000) in 2008.{" "}
+				open ISO standard (ISO 32000) in 2008. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PDF"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

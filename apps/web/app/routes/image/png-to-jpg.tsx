@@ -56,14 +56,14 @@ const faqItems = [
 				was revolutionary — it made digital photography practical by shrinking
 				photo files to a fraction of their original size while keeping quality
 				visually acceptable to the human eye. More than three decades later,
-				JPEG remains the most widely used image format in the world.{" "}
+				JPEG remains the most widely used image format in the world. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/JPEG"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -58,14 +58,14 @@ const faqItems = [
 				printable ASCII characters (A–Z, a–z, 0–9, +, /) so it can be safely
 				transmitted through text-based systems like email that were originally
 				designed to carry only plain text. The "64" in Base64 refers to this
-				64-character alphabet.{" "}
+				64-character alphabet. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Base64"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

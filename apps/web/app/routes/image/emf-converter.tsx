@@ -62,14 +62,14 @@ const faqItems = [
 				instructions like &quot;draw a line from A to B&quot; or &quot;fill this
 				rectangle with blue.&quot; This makes it resolution-independent,
 				conceptually similar to SVG but built on Microsoft's proprietary
-				graphics model.{" "}
+				graphics model. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Windows_Metafile#EMF"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

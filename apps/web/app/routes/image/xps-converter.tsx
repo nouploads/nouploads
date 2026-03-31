@@ -59,14 +59,14 @@ const faqItems = [
 				XML files and embedded resources, making its internal structure easy to
 				inspect with any archive tool. Despite becoming an Ecma International
 				standard (ECMA-388), XPS never achieved widespread adoption outside the
-				Windows ecosystem.{" "}
+				Windows ecosystem. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Open_XML_Paper_Specification"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -61,14 +61,14 @@ const faqItems = [
 				open-sourced in 2003 and has since become the industry-standard high
 				dynamic range image format for visual effects, animation, and film
 				production, supporting 16-bit and 32-bit floating-point pixels per
-				channel.{" "}
+				channel. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/OpenEXR"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

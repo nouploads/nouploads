@@ -53,14 +53,14 @@ const faqItems = [
 				Base64-encoded sections separated by dots: a header (algorithm), a
 				payload (claims), and a signature. A common misconception is that JWTs
 				are encrypted — they are only signed, meaning anyone can read the
-				payload by simply Base64-decoding it.{" "}
+				payload by simply Base64-decoding it. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/JSON_Web_Token"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

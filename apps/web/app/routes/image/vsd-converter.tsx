@@ -65,14 +65,14 @@ const faqItems = [
 				became the de facto standard for business diagrams: flowcharts,
 				organizational charts, network topology maps, and floor plans. Visio's
 				stencil-and-connector approach made it possible for non-designers to
-				create professional-looking technical diagrams.{" "}
+				create professional-looking technical diagrams. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Microsoft_Visio"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

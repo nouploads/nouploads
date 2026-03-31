@@ -62,14 +62,14 @@ const faqItems = [
 				gap between basic word processors and professional page-layout software
 				like QuarkXPress and Adobe PageMaker. The PUB format stores rich page
 				layouts with embedded images, text frames, and design elements, though
-				it has remained a Windows-only format throughout its history.{" "}
+				it has remained a Windows-only format throughout its history. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Microsoft_Publisher"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -58,14 +58,14 @@ const faqItems = [
 				cross-reference table that maps each object's byte offset. Compressing a
 				PDF typically means recompressing embedded images at lower quality and
 				stripping unused objects, since embedded images are almost always the
-				largest contributors to overall file size.{" "}
+				largest contributors to overall file size. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PDF#File_structure"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

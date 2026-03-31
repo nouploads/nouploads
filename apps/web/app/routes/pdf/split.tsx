@@ -58,14 +58,14 @@ const faqItems = [
 				that references its own fonts, images, and content streams. Splitting a
 				PDF into separate files copies the relevant page objects and their
 				dependencies into new files — no re-rendering is needed, which preserves
-				every element at its original quality.{" "}
+				every element at its original quality. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PDF#File_structure"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

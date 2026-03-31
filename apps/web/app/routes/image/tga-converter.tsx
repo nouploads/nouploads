@@ -61,14 +61,14 @@ const faqItems = [
 				became the standard format for video game texture assets and 3D
 				rendering output throughout the 1990s, and remains widely used in game
 				development today because of its simplicity, alpha channel support, and
-				run-length encoding compression.{" "}
+				run-length encoding compression. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Truevision_TGA"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

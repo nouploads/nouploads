@@ -61,14 +61,14 @@ const faqItems = [
 				larger image, because automatic downscaling produces blurry,
 				unrecognizable results. Apple, Google, and Microsoft all publish
 				detailed human interface guidelines for icon design at various
-				resolutions.{" "}
+				resolutions. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Pixel_art"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

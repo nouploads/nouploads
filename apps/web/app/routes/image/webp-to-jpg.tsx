@@ -56,14 +56,14 @@ const faqItems = [
 				decade after launch. Google pushed adoption by converting YouTube
 				thumbnails and Chrome Web Store images to WebP. The format finally
 				reached universal browser support in 2020 and is now widely used by
-				major e-commerce platforms and CDNs to reduce image bandwidth.{" "}
+				major e-commerce platforms and CDNs to reduce image bandwidth. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/WebP"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

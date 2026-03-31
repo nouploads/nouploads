@@ -55,14 +55,14 @@ const faqItems = [
 				page content remains untouched underneath — which is why PDF watermarks
 				can theoretically be added and removed without degrading the document.
 				This layered approach is possible because PDF natively supports
-				transparency compositing.{" "}
+				transparency compositing. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PDF"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

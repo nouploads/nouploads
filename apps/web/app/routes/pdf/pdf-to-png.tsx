@@ -58,14 +58,14 @@ const faqItems = [
 				JavaScript — all layered together. This is why converting a PDF to an
 				image (a process called rasterization) requires a full rendering engine
 				rather than simple pixel extraction: every element must be composited at
-				the target resolution to produce the final output.{" "}
+				the target resolution to produce the final output. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PDF"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

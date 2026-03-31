@@ -61,14 +61,14 @@ const faqItems = [
 				prediction scheme. It supports both lossy and lossless compression, HDR
 				with up to 32-bit floating-point precision, wide color gamuts, and
 				animation — effectively unifying the capabilities of JPEG, PNG, GIF, and
-				HDR formats into a single file type.{" "}
+				HDR formats into a single file type. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/JPEG_XL"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

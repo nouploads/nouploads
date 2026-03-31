@@ -60,14 +60,14 @@ const faqItems = [
 				digital camera or smartphone, storing camera model, exposure settings,
 				GPS coordinates, and timestamps. Security researchers frequently advise
 				stripping EXIF data before sharing photos online to avoid inadvertently
-				revealing location information.{" "}
+				revealing location information. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Exif"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

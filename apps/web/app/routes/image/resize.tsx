@@ -60,14 +60,14 @@ const faqItems = [
 				mathematician Cornelius Lanczos. It uses a windowed sinc function to
 				calculate the ideal color value for each new pixel by considering a
 				neighborhood of surrounding original pixels, producing sharp results
-				with minimal ringing artifacts.{" "}
+				with minimal ringing artifacts. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Lanczos_resampling"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

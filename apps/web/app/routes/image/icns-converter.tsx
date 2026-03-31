@@ -60,14 +60,14 @@ const faqItems = [
 				Like Windows ICO files, a single ICNS file bundles multiple icon sizes —
 				but ICNS supports much larger resolutions, up to 1024×1024 pixels, to
 				accommodate Apple's Retina displays. Every app icon visible on a Mac is
-				stored as an ICNS file inside the application bundle.{" "}
+				stored as an ICNS file inside the application bundle. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Apple_Icon_Image_format"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

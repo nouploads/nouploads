@@ -62,14 +62,14 @@ const faqItems = [
 				Light & Magic — recognized its potential for film production. Adobe
 				acquired the distribution license in 1988, and Photoshop 1.0 shipped in
 				1990, creating the PSD format that remains the standard for layered
-				image editing.{" "}
+				image editing. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Adobe_Photoshop"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

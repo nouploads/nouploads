@@ -61,14 +61,14 @@ const faqItems = [
 				the late 1980s. It was one of the first image formats designed to store
 				actual physical light values (radiance) rather than display-ready pixel
 				colors, making it foundational to the entire field of high dynamic range
-				imaging.{" "}
+				imaging. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/RGBE_image_format"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

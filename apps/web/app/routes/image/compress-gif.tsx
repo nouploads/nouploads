@@ -59,14 +59,14 @@ const faqItems = [
 				practical design choice in 1987, when most computer displays could show
 				only 256 colors and modems ran at 1,200–2,400 baud. The constraint that
 				seems like a limitation today was actually a feature that kept file
-				sizes tiny enough for early online services like CompuServe.{" "}
+				sizes tiny enough for early online services like CompuServe. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/GIF#Palettes"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

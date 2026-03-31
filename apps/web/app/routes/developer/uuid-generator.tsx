@@ -59,14 +59,14 @@ const faqItems = [
 				2005. Version 4 (random) UUIDs are the most commonly generated today —
 				with 122 bits of randomness, the probability of a collision is so
 				vanishingly small that you could generate one billion UUIDs per second
-				for 85 years before reaching a 50% chance of a single duplicate.{" "}
+				for 85 years before reaching a 50% chance of a single duplicate. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Universally_unique_identifier"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

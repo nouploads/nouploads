@@ -56,14 +56,14 @@ const faqItems = [
 				root directory. The practice spread so quickly that HTML later
 				formalized it with the {'<link rel="icon">'} tag, letting sites specify
 				custom icon paths and formats. Modern favicons support PNG, SVG, and
-				multiple sizes for different devices and contexts.{" "}
+				multiple sizes for different devices and contexts. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Favicon"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

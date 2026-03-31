@@ -61,14 +61,14 @@ const faqItems = [
 				letters, emoji, and most Unicode — must be represented as a percent sign
 				followed by two hex digits (e.g., %20 for a space). This scheme is what
 				makes it possible to link to resources in any language using the
-				ASCII-only URL syntax.{" "}
+				ASCII-only URL syntax. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Percent-encoding"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -58,14 +58,14 @@ const faqItems = [
 				theory. They entered practical computing when Ken Thompson built regex
 				matching into the QED text editor in 1968, and later into the Unix grep
 				command — whose name literally stands for "globally search for a regular
-				expression and print matching lines."{" "}
+				expression and print matching lines." Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Regular_expression"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

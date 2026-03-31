@@ -59,14 +59,14 @@ const faqItems = [
 				envisioned a format that would preserve the exact visual appearance of
 				any document on any system. That idea became PDF, and it solved the
 				"what you see is what I see" problem that had plagued publishing for
-				years.{" "}
+				years. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PDF"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

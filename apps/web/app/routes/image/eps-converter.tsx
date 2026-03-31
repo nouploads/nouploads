@@ -61,14 +61,14 @@ const faqItems = [
 				Charles Geschke in 1982. PostScript was the technology that launched the
 				desktop publishing revolution — it was the language that enabled the
 				Apple LaserWriter to produce typeset-quality printed output from a
-				personal computer for the first time in history.{" "}
+				personal computer for the first time in history. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Encapsulated_PostScript"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

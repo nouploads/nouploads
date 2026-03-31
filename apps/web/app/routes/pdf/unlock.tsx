@@ -61,14 +61,14 @@ const faqItems = [
 				printing and copying, while the "user password" gates access entirely.
 				Interestingly, many PDFs in the wild use only an owner password —
 				meaning the content is restricted but the decryption key can be derived
-				without any password at all.{" "}
+				without any password at all. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PDF#Security_and_signatures"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

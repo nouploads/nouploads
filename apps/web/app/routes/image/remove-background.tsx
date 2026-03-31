@@ -60,14 +60,14 @@ const faqItems = [
 				separating complex foreground shapes (like hair or fur) from arbitrary
 				backgrounds was considered an extremely difficult computer vision
 				problem until deep learning breakthroughs around 2015 — now similar
-				models run directly in web browsers via WebAssembly.{" "}
+				models run directly in web browsers via WebAssembly. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Image_segmentation"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -61,13 +61,14 @@ const faqItems = [
 				DXT/BCn) that can be uploaded directly to graphics hardware without any
 				decompression step — making it the preferred format for video games and
 				real-time 3D applications where texture loading speed is critical.{" "}
+				Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/DirectDraw_Surface"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

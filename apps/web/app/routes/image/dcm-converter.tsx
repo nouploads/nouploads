@@ -61,14 +61,14 @@ const faqItems = [
 				virtually every MRI scanner, CT scanner, X-ray machine, and ultrasound
 				device in modern hospitals worldwide. Beyond the image data, DICOM files
 				embed extensive patient and study metadata, enabling hospitals to build
-				searchable archives of millions of medical images.{" "}
+				searchable archives of millions of medical images. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/DICOM"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

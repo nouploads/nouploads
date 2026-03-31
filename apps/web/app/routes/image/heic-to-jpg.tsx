@@ -56,14 +56,14 @@ const faqItems = [
 				depth maps, and even audio alongside the photo data — far more than a
 				simple JPG wrapper. Apple's decision to adopt it as the default iPhone
 				camera format in 2017 thrust an obscure ISO standard into the pockets of
-				billions of people almost overnight.{" "}
+				billions of people almost overnight. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/High_Efficiency_Image_File_Format"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

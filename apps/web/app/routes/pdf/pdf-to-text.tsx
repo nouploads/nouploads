@@ -60,14 +60,14 @@ const faqItems = [
 				into logical reading order, which becomes surprisingly complex with
 				multi-column layouts, tables, footnotes, or right-to-left scripts. This
 				is why different PDF text extractors can produce different results from
-				the same file.{" "}
+				the same file. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PDF"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

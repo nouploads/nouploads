@@ -55,14 +55,14 @@ const faqItems = [
 				heritage gives WebP access to sophisticated techniques developed for
 				video — block prediction, adaptive quantization, and loop filtering —
 				that were never available to the JPEG standard designed two decades
-				earlier.{" "}
+				earlier. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/VP8"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

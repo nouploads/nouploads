@@ -61,14 +61,14 @@ const faqItems = [
 				2 GB file size. PSB supports canvases up to 300,000 × 300,000 pixels —
 				essential for billboard-scale designs, gigapixel panoramas, and
 				large-format print work where a single image file can easily reach tens
-				of gigabytes.{" "}
+				of gigabytes. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Adobe_Photoshop#File_format"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -60,14 +60,14 @@ const faqItems = [
 				finds the shortest sequence of insertions and deletions needed to
 				transform one text into another. This is the same core algorithm behind
 				git diff, which developers around the world use millions of times a day
-				to review code changes.{" "}
+				to review code changes. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Diff"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -56,14 +56,14 @@ const faqItems = [
 				1985. Before Windows made BMP the default, PCX was the standard format
 				for DOS-based graphics applications. It used simple run-length encoding
 				for compression and supported up to 16 million colors in its later
-				versions.{" "}
+				versions. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PCX"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

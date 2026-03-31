@@ -56,14 +56,14 @@ const faqItems = [
 				counterpart. All modern web browsers can decompress and render SVGZ
 				natively. The compression uses the same DEFLATE algorithm found in ZIP
 				files and PNG images — a well-proven lossless method standardized in RFC
-				1951.{" "}
+				1951. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/SVG#Compression"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

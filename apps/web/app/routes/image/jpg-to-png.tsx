@@ -57,14 +57,14 @@ const faqItems = [
 				recursive acronym in the tradition of GNU. Unlike GIF, PNG supports full
 				24-bit color with an alpha transparency channel and lossless
 				compression, making it ideal for graphics that need crisp edges and
-				transparency.{" "}
+				transparency. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/PNG"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

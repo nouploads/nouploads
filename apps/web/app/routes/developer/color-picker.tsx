@@ -60,14 +60,14 @@ const faqItems = [
 				and blue channels — each with 256 possible intensity levels (00–FF) —
 				producing 16,777,216 possible colors. This system maps directly to how
 				computer monitors produce color by mixing light from red, green, and
-				blue subpixels.{" "}
+				blue subpixels. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Web_colors"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

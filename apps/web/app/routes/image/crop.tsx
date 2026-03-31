@@ -59,14 +59,14 @@ const faqItems = [
 				desired portion of a negative onto photographic paper. The "rule of
 				thirds" grid commonly found in modern crop tools was first articulated
 				by painter and engraver John Thomas Smith in 1797, in his book "Remarks
-				on Rural Scenery."{" "}
+				on Rural Scenery." Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Rule_of_thirds"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

@@ -61,13 +61,14 @@ const faqItems = [
 				cases — they simply rearrange existing pixel values without any
 				interpolation, which is why they are perfectly lossless. Any other angle
 				necessarily involves approximation that introduces slight softening.{" "}
+				Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Image_rotation"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

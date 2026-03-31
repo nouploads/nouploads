@@ -61,13 +61,14 @@ const faqItems = [
 				contain multiple images at different sizes and color depths, letting the
 				operating system choose the most appropriate version for each display
 				context — from tiny taskbar icons to high-resolution desktop shortcuts.{" "}
+				Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/ICO_(file_format)"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

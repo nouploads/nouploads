@@ -56,14 +56,14 @@ const faqItems = [
 				results. A blur kernel uses uniform values to average neighbors
 				together, edge detection uses negative values next to positive ones to
 				highlight transitions, and sharpening amplifies the difference between a
-				pixel and its surroundings.{" "}
+				pixel and its surroundings. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/Kernel_(image_processing)"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

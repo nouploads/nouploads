@@ -57,14 +57,14 @@ const faqItems = [
 				royalty-free, a deliberate response to the complex licensing surrounding
 				HEVC/H.265 which underpins the competing HEIF format. AVIF typically
 				achieves 30–50% smaller file sizes than JPEG at comparable visual
-				quality.{" "}
+				quality. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/AVIF"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),

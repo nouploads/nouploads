@@ -61,14 +61,14 @@ const faqItems = [
 				around 2010–2012 that browsers added robust native SVG rendering. The
 				proliferation of retina and HiDPI displays was the catalyst — suddenly
 				pixel-based icons looked fuzzy at 2x density, and SVG's resolution
-				independence went from nice-to-have to essential.{" "}
+				independence went from nice-to-have to essential. Source:{" "}
 				<a
 					href="https://en.wikipedia.org/wiki/SVG"
 					target="_blank"
 					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
-					Source: Wikipedia
+					Wikipedia
 				</a>
 			</>
 		),
