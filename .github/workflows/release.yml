@@ -35,3 +35,11 @@ jobs:
           name: v${{ steps.version.outputs.VERSION }}
           body: ${{ steps.changelog.outputs.BODY }}
           generate_release_notes: false
+
+      - name: Trigger deploy
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          repository: nouploads/nouploads-infra
+          event-type: deploy
+          client-payload: '{"ref": "${{ github.ref }}"}'
