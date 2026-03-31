@@ -37,6 +37,9 @@ Every FAQ answer must pass the swap test: replace the format name with any other
 Wrong: separate "What is HEIC?" and "Who created HEIF?" entries.
 Right: one trivia item that covers origin, creator, and an interesting fact in a single cohesive answer.
 
+### FAQPage JSON-LD structured data (MANDATORY)
+Every tool page must pass a `faq` array to `buildMeta()` containing plain-text `{ question, answer }` pairs. This generates a `FAQPage` schema in the page's `<head>`, enabling Google FAQ rich snippets. The plain-text answers must match the on-page content but strip all JSX, HTML links, and "Source: Wikipedia" attributions. Verify `FAQPage` appears in the prerendered HTML after building.
+
 ---
 
 ## Content Requirements by Page Type

@@ -141,6 +141,7 @@ The core conversion logic in `@nouploads/core` is platform-agnostic:
 - **Tool registry** — each tool is a `ToolDefinition` with metadata, options, and an execute function. The CLI auto-discovers all registered tools.
 - **Exotic decoders** — 18 pure-JS format decoders (no WASM, no Canvas) that work in both Node and browser.
 - **Web Workers** — the web app runs CPU-intensive operations off the main thread for a responsive UI. This is web-app specific; the CLI uses sharp directly.
+- **SEO structured data** — every tool page includes FAQPage JSON-LD for Google rich snippets, authority trivia with Wikipedia/W3C source links, and internal cross-links between related tools.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for a detailed breakdown.
 

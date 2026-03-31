@@ -240,6 +240,8 @@ Every tool page must have a FAQ with 2-4 items. Quality over quantity.
 
 **No two FAQ questions across the entire site should be identical.** If two pages need similar questions (e.g., quality settings), differentiate by including the format name or tool context.
 
+**FAQPage JSON-LD (MANDATORY):** Every tool page must pass plain-text FAQ data to `buildMeta()` via the `faq` property. This generates `FAQPage` structured data for Google rich snippets. The `faq` array contains `{ question: string; answer: string }` pairs — plain text only, no JSX, no HTML, no "Source: Wikipedia" attributions. Keep answers concise but factually complete. The questions must match the on-page `faqItems` array exactly. This is NOT optional — every new tool page must include `faq` in its `buildMeta()` call.
+
 ### Outbound link policy
 
 - Authority/editorial links (Wikipedia, W3C, IETF, ISO, official project pages): use `rel="noopener"` only. Do NOT add `noreferrer` — we want the referrer sent to signal the editorial relationship.
@@ -328,6 +330,7 @@ Verify:
 - Tool icon renders on the homepage (check that the icon name in `tools.ts` has a matching entry in `tool-icon.tsx` iconMap)
 - Command palette indexes the new tool (automatic — `allTools` spreads `gridTools`, so adding to `gridTools` is sufficient)
 - FAQ has 2-4 items: trivia first (with "Source: Wikipedia" link), then page-specific only — no boilerplate, no duplicate questions across the site (see FAQ section rules above)
+- `buildMeta()` includes `faq` array with plain-text question/answer pairs for FAQPage JSON-LD — verify `FAQPage` appears in prerendered HTML
 
 ### Bidirectional conversion rule
 
@@ -963,6 +966,8 @@ Both Builder and Critic must agree on all of:
 - [ ] No FAQ question is identical to any existing question on another page
 - [ ] Trivia does not duplicate the About section
 - [ ] 2-4 FAQ items total
+- [ ] `buildMeta()` includes `faq` array with plain-text pairs for FAQPage JSON-LD
+- [ ] Prerendered HTML contains `FAQPage` structured data
 
 ### Escalation
 
