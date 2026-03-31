@@ -31,9 +31,25 @@ const ACCEPT = { "image/avif": [".avif"] };
 
 const faqItems = [
 	{
-		question: "Why convert AVIF to PNG instead of JPG?",
-		answer:
-			"Choose PNG when you need lossless quality or when the AVIF image has transparency. PNG preserves every pixel without any compression artifacts, making it ideal for graphics, screenshots, and images you plan to edit further.",
+		question: "How does the AV1 codec behind AVIF actually work?",
+		answer: (
+			<>
+				AVIF uses the intra-frame coding mode of the AV1 video codec, which was
+				released in 2018 after years of development by the Alliance for Open
+				Media. AV1 combines techniques from Google's VP10, Mozilla's Daala, and
+				Cisco's Thor into one royalty-free codec. When applied to still images,
+				AV1's advanced prediction, transform, and entropy coding stages produce
+				files significantly smaller than JPEG or even WebP.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/AV1"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Is transparency preserved in the conversion?",
@@ -44,16 +60,6 @@ const faqItems = [
 		question: "Why is the PNG file so much larger?",
 		answer:
 			"AVIF is an extremely efficient format — often 50% smaller than PNG. When you convert to PNG, you're trading compression efficiency for universal compatibility and lossless pixel fidelity. The larger file size is expected.",
-	},
-	{
-		question: "Which browsers support AVIF?",
-		answer:
-			"Chrome 85+, Firefox 93+, and Safari 16.4+ can decode AVIF. If your browser can load this page and display images, it likely supports AVIF decoding. The conversion itself runs on the browser's built-in image pipeline.",
-	},
-	{
-		question: "Why use NoUploads instead of other AVIF to PNG converters?",
-		answer:
-			"AVIF is still new enough that many editing and publishing tools cannot open it. Converting to PNG gives you a lossless copy that preserves every pixel — including full alpha transparency — in a format every application understands. NoUploads decodes AVIF through your browser's built-in AV1 pipeline and writes the uncompressed result straight to PNG, so nothing is uploaded and no quality is lost in the process. Free, offline-capable, no signup, and open source.",
 	},
 ];
 

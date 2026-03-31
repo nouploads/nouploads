@@ -31,9 +31,26 @@ const ACCEPT = { "image/tiff": [".tiff", ".tif"] };
 
 const faqItems = [
 	{
-		question: "What is a TIFF file?",
-		answer:
-			"TIFF (Tagged Image File Format) is a high-quality image format widely used in printing, publishing, and professional photography. TIFF files preserve full detail but are typically much larger than JPG because they often store uncompressed or losslessly compressed pixel data.",
+		question: "Where does the TIFF format come from?",
+		answer: (
+			<>
+				TIFF (Tagged Image File Format) was created by Aldus Corporation in 1986
+				for use in desktop publishing — the emerging ability to design printed
+				materials on personal computers. It was designed to be a universal image
+				format flexible enough to store everything from 1-bit fax images to
+				32-bit floating-point HDR data. The publishing and printing industries
+				still rely heavily on TIFF because it supports CMYK color spaces and
+				lossless compression.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/TIFF"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Will converting to JPG reduce quality?",
@@ -44,16 +61,6 @@ const faqItems = [
 		question: "Does this handle CMYK and multi-page TIFFs?",
 		answer:
 			"Yes. CMYK color data is automatically converted to RGB during decoding. Multi-page TIFFs are supported — the first page is converted by default. Common TIFF compressions (LZW, ZIP, JPEG) are all handled.",
-	},
-	{
-		question: "Can I batch convert TIFF files?",
-		answer:
-			"Yes. Drop or select multiple TIFF files and they are all converted to JPG in a single batch. Each file processes independently, so one failure won't stop the rest.",
-	},
-	{
-		question: "Why use NoUploads instead of other TIFF converters?",
-		answer:
-			"TIFFs live in industries where confidentiality is non-negotiable — print houses handling unreleased packaging, radiology departments sharing DICOM-adjacent scans, law firms digitizing evidence. Uploading those files to a free converter site is a compliance risk. NoUploads decodes TIFF locally using the utif2 library, handling LZW, ZIP, JPEG, and CMYK variants on your own hardware. No pixel data reaches any server, no file size cap applies, and the tool stays functional after the page is cached — even on air-gapped workstations.",
 	},
 ];
 

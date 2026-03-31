@@ -38,9 +38,25 @@ const ACCEPT = {
 
 const faqItems = [
 	{
-		question: "What are Netpbm image formats?",
-		answer:
-			"Netpbm is a family of simple image formats dating back to the late 1980s. PBM stores black-and-white bitmaps, PGM stores grayscale images, PPM stores color images, and PNM is a catch-all extension for any of those three. PAM is a newer generalized format supporting arbitrary channel counts. PFM stores floating-point pixel data for high dynamic range work. Their plain-text variants are human-readable, making them popular as interchange formats in academic research, scientific imaging, and command-line image pipelines.",
+		question: "Why were the Netpbm formats designed to be so simple?",
+		answer: (
+			<>
+				The NetPBM formats (PBM, PGM, PPM) were created by Jef Poskanzer in 1988
+				and are among the simplest image formats ever designed. A PPM file is
+				literally a short header line followed by red, green, and blue values
+				written as plain ASCII numbers separated by whitespace — no compression,
+				no metadata, no complexity. They were designed as a "lowest common
+				denominator" that any program could read and write trivially.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Netpbm"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does this converter handle PFM float data?",
@@ -51,11 +67,6 @@ const faqItems = [
 		question: "Can I convert both ASCII and binary Netpbm files?",
 		answer:
 			"Yes. The decoder handles all ten Netpbm variants: ASCII formats (P1 PBM, P2 PGM, P3 PPM), binary formats (P4 PBM, P5 PGM, P6 PPM), PAM (P7), and PFM (Pf grayscale, PF color). Both ASCII and binary versions of PBM, PGM, and PPM are automatically detected from the magic number in the file header.",
-	},
-	{
-		question: "Why use NoUploads instead of other Netpbm converters?",
-		answer:
-			"Netpbm files often come from scientific instruments, medical imaging pipelines, or research data sets that may be sensitive or unpublished. This tool decodes every Netpbm variant entirely in your browser using a custom parser -- nothing is sent to a server. There is no file size limit beyond your device's memory, no account required, no watermarks, and it works offline once loaded. The source code is open for audit.",
 	},
 ];
 

@@ -31,9 +31,25 @@ const ACCEPT = { "image/x-xcf": [".xcf"] };
 
 const faqItems = [
 	{
-		question: "What is an XCF file?",
-		answer:
-			"XCF is the native file format for GIMP (GNU Image Manipulation Program). It preserves the full editing state — layers, channels, paths, and selection masks. Because XCF is specific to GIMP, most other applications cannot open it directly. This tool flattens the layered document into a standard image format that works everywhere.",
+		question: "What does XCF stand for?",
+		answer: (
+			<>
+				XCF is the native image format of GIMP (GNU Image Manipulation Program).
+				The name stands for "eXperimental Computing Facility," a reference to
+				the UC Berkeley lab where GIMP was created in 1996 by Spencer Kimball
+				and Peter Mattis as a university project. GIMP has since become one of
+				the longest-running open-source software projects, with over 25 years of
+				continuous development.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/XCF_(file_format)"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does the converter handle GIMP layers?",
@@ -49,11 +65,6 @@ const faqItems = [
 		question: "What about indexed-color and grayscale XCF files?",
 		answer:
 			"Both are supported. Indexed-color images have their palette embedded in the file, and the decoder maps each pixel index to its RGB value. Grayscale images are expanded to full RGB. The output is always a standard RGBA image regardless of the original color mode.",
-	},
-	{
-		question: "Why use NoUploads instead of other XCF converters?",
-		answer:
-			"GIMP project files often contain work-in-progress designs, unpublished artwork, or client drafts that should stay private. NoUploads decodes the XCF binary format entirely in your browser with a custom parser — no file ever leaves your device, no server processes your data. It handles RLE and zlib tile compression, all three color modes, and multi-layer compositing. Free, unlimited, works offline, open source, no signup required.",
 	},
 ];
 

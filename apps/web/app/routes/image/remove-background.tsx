@@ -29,9 +29,26 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How does the background removal work?",
-		answer:
-			"This tool runs an ONNX neural network model directly in your browser using WebAssembly. The AI model analyzes the image to distinguish foreground subjects from the background, then outputs a PNG with the background made transparent. No data is sent to any server — the entire inference pipeline runs on your device.",
+		question: "How did AI learn to separate foregrounds from backgrounds?",
+		answer: (
+			<>
+				Automatic background removal uses a deep learning technique called
+				semantic segmentation, where a neural network classifies every single
+				pixel in the image as either foreground or background. Accurately
+				separating complex foreground shapes (like hair or fur) from arbitrary
+				backgrounds was considered an extremely difficult computer vision
+				problem until deep learning breakthroughs around 2015 — now similar
+				models run directly in web browsers via WebAssembly.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Image_segmentation"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How long does processing take?",
@@ -47,11 +64,6 @@ const faqItems = [
 		question: "What image formats are supported?",
 		answer:
 			"You can upload JPG, PNG, and WebP images. The output is always a PNG file to preserve the transparent background. For best results, use a clear photo with a distinct subject.",
-	},
-	{
-		question: "Why use NoUploads instead of other background removers?",
-		answer:
-			"Most background removal tools upload your photos to cloud servers where they're processed by remote AI. Your images pass through third-party infrastructure, and you have no control over how they're stored or used. NoUploads runs the AI model entirely in your browser — your photos never leave your device. There's no account required, no watermarks, no daily limits, and it works offline after the model is cached. The code is open source so you can verify the privacy claims yourself.",
 	},
 ];
 
@@ -105,7 +117,7 @@ export default function RemoveBackgroundPage() {
 				<a
 					href="https://github.com/imgly/background-removal-js"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					@imgly/background-removal

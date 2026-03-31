@@ -31,9 +31,25 @@ const ACCEPT = { "image/svg+xml": [".svg"] };
 
 const faqItems = [
 	{
-		question: "What is WebP and why use it for SVG conversion?",
-		answer:
-			"WebP is a modern image format developed by Google that delivers significantly smaller files than PNG or JPG at equivalent visual quality. Converting your SVG to WebP gives you a lightweight raster image that loads faster on the web while keeping file sizes down — often 25-35% smaller than the same content saved as PNG.",
+		question: "What's the story behind SVG's slow rise to browser support?",
+		answer: (
+			<>
+				Despite being standardized by the W3C in 2001, SVG languished with poor
+				browser support for nearly a decade. It wasn't until the HTML5 era
+				around 2010–2012 that browsers added robust native SVG rendering. The
+				proliferation of retina and HiDPI displays was the catalyst — suddenly
+				pixel-based icons looked fuzzy at 2x density, and SVG's resolution
+				independence went from nice-to-have to essential.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/SVG"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Does WebP preserve transparency from my SVG?",
@@ -41,19 +57,14 @@ const faqItems = [
 			"Yes. Unlike JPG, WebP supports an alpha channel, so transparent regions in your SVG carry over to the WebP output. You get the transparency of PNG combined with the compression efficiency of a modern codec.",
 	},
 	{
-		question: "Which browsers support WebP images?",
-		answer:
-			"All major browsers — Chrome, Firefox, Safari, Edge, and Opera — support WebP. Safari added support in version 14 (2020), so coverage is now effectively universal. If you need to target very old browsers, PNG remains the safest fallback.",
-	},
-	{
 		question: "How does WebP compare to PNG for rasterized SVGs?",
 		answer:
 			"For flat-color SVGs like logos and icons, WebP files are typically 25-35% smaller than PNG with no visible quality loss. For SVGs that contain gradients or embedded images, the savings can be even larger. Both formats support transparency, but WebP achieves it at a lower byte cost.",
 	},
 	{
-		question: "Why use NoUploads instead of other SVG to WebP converters?",
+		question: "Which browsers support WebP images?",
 		answer:
-			"When you need to drop an SVG into an email newsletter, a social card, or an ad platform, those systems want a small raster file — not a vector. Converting to WebP gives you a compact image that is typically 25-35% lighter than the PNG equivalent while still supporting transparency. NoUploads rasterizes and encodes in one step inside your browser, so the SVG never leaves your machine. No account, no per-file fees, works offline, and the entire codebase is open source.",
+			"All major browsers — Chrome, Firefox, Safari, Edge, and Opera — support WebP. Safari added support in version 14 (2020), so coverage is now effectively universal. If you need to target very old browsers, PNG remains the safest fallback.",
 	},
 ];
 

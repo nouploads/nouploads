@@ -31,6 +31,28 @@ const ACCEPT = { "image/tiff": [".tiff", ".tif"] };
 
 const faqItems = [
 	{
+		question: "Why has TIFF survived for decades in professional publishing?",
+		answer: (
+			<>
+				TIFF endures in publishing and prepress because it supports features
+				critical for print production that most web formats lack: CMYK color
+				spaces for four-color printing, embedded ICC color profiles for
+				consistent color across devices, 16-bit-per-channel depth for smooth
+				gradients, and multiple lossless compression options. A TIFF file can
+				faithfully represent the full range of what a professional printing
+				press can produce.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/TIFF"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "Why convert TIFF to PNG instead of JPG?",
 		answer:
 			"PNG preserves every pixel exactly — no compression artifacts. Choose PNG when your TIFF contains sharp text, line art, logos, or transparency. JPG is better for photographs where smaller file size matters more than pixel-perfect accuracy.",
@@ -44,16 +66,6 @@ const faqItems = [
 		question: "Does this preserve transparency from the TIFF?",
 		answer:
 			"Yes. If your TIFF includes an alpha channel, it carries through to the PNG output. PNG fully supports per-pixel transparency, making it the right choice for graphics that need to overlay other content.",
-	},
-	{
-		question: "Can I convert multi-page TIFFs?",
-		answer:
-			"The tool converts the first page of a multi-page TIFF. This covers the vast majority of use cases — single-image TIFFs from scanners, cameras, and design software.",
-	},
-	{
-		question: "Why use NoUploads instead of other TIFF to PNG converters?",
-		answer:
-			"TIFF is the go-to format for archival scans, medical imaging, and pre-press proofs — files you almost certainly do not want on someone else's server. NoUploads converts TIFF to PNG on your own device, preserving every pixel losslessly. The decoder handles CMYK, 16-bit depth, and all standard TIFF compression schemes (LZW, ZIP, JPEG) automatically. No upload, no watermarks, no account, works offline, and the code is open source.",
 	},
 ];
 

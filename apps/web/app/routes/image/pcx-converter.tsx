@@ -31,9 +31,25 @@ const ACCEPT = { "image/x-pcx": [".pcx"] };
 
 const faqItems = [
 	{
-		question: "What is a PCX file?",
-		answer:
-			"PCX (PiCture eXchange) is one of the earliest bitmap image formats, created by ZSoft for their PC Paintbrush program in the 1980s. It uses simple run-length encoding (RLE) compression and supports monochrome, 256-color indexed, and 24-bit RGB images. While largely replaced by PNG and JPEG, PCX files still appear in legacy archives, retro game assets, and older CAD or medical imaging systems.",
+		question: "How did PCX become the first mainstream PC image format?",
+		answer: (
+			<>
+				PCX was one of the first widely used image formats on IBM-compatible
+				PCs, created by ZSoft Corporation for their PC Paintbrush program in
+				1985. Before Windows made BMP the default, PCX was the standard format
+				for DOS-based graphics applications. It used simple run-length encoding
+				for compression and supported up to 16 million colors in its later
+				versions.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PCX"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does PCX compression work?",
@@ -44,11 +60,6 @@ const faqItems = [
 		question: "What color modes does this converter support?",
 		answer:
 			"This tool decodes all standard PCX color modes: 24-bit RGB (3 planes at 8 bits each) for full-color photographs, 256-color indexed images that use a VGA palette stored at the end of the file, and 1-bit monochrome for line art and scanned documents. The built-in RLE decompressor handles both compressed and uncompressed variants.",
-	},
-	{
-		question: "Why use NoUploads instead of other PCX converters?",
-		answer:
-			"Legacy image files often come from archives or projects you'd rather keep private. NoUploads decodes PCX binary data entirely in your browser with a custom parser — your files never leave your device. It handles indexed-color palettes, multi-plane RGB, and monochrome PCX images without any server processing. Free, unlimited, works offline, no account required.",
 	},
 ];
 

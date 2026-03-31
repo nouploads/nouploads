@@ -31,9 +31,25 @@ const ACCEPT = { "image/fits": [".fits", ".fts", ".fit"] };
 
 const faqItems = [
 	{
-		question: "What is a FITS file?",
-		answer:
-			"FITS (Flexible Image Transport System) is the standard digital file format used in astronomy. Developed by NASA and the International Astronomical Union, it stores scientific image data along with metadata headers describing the observation — telescope, coordinates, exposure time, filters, and calibration parameters. Unlike consumer image formats, FITS preserves the full dynamic range and precision of the original sensor data, which is essential for scientific analysis.",
+		question: "How did FITS become the universal astronomy format?",
+		answer: (
+			<>
+				FITS (Flexible Image Transport System) is the standard data format used
+				in astronomy. Developed in the late 1970s and first standardized in
+				1981, it is endorsed by NASA and the International Astronomical Union.
+				Every image captured by the Hubble Space Telescope, the James Webb Space
+				Telescope, and virtually every ground-based observatory in the world is
+				stored and distributed in FITS format.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/FITS"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Why do FITS images look black or washed out without stretching?",
@@ -50,11 +66,6 @@ const faqItems = [
 			"Can I use this for images from Hubble, JWST, or ground telescopes?",
 		answer:
 			"Yes. FITS files from any telescope or survey — including Hubble, James Webb, Chandra, ALMA, and ground-based observatories — can be converted here as long as they are 2D image data (not data cubes, tables, or multi-extension files with complex structures). Public archive data from MAST, ESO, or IRSA typically works out of the box.",
-	},
-	{
-		question: "Why use NoUploads instead of other FITS converters?",
-		answer:
-			"Research data can be proprietary, embargoed, or subject to data-sharing agreements that prohibit uploading to third-party servers. NoUploads parses FITS headers and pixel data entirely in your browser with a custom decoder — nothing leaves your machine. There is no file size cap imposed by an upload endpoint, no account to create, no watermarks added. The tool works offline once loaded and is fully open source, so your institution can audit the code.",
 	},
 ];
 

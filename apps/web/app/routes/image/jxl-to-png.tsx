@@ -31,6 +31,27 @@ const ACCEPT = { "image/jxl": [".jxl"] };
 
 const faqItems = [
 	{
+		question: "What makes JPEG XL different from older image formats?",
+		answer: (
+			<>
+				Unlike JPEG's fixed 8x8 block Discrete Cosine Transform, JPEG XL uses
+				variable-size DCT blocks (up to 256x256) combined with an advanced
+				prediction scheme. It supports both lossy and lossless compression, HDR
+				with up to 32-bit floating-point precision, wide color gamuts, and
+				animation — effectively unifying the capabilities of JPEG, PNG, GIF, and
+				HDR formats into a single file type.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/JPEG_XL"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "Why convert JXL to PNG instead of JPG?",
 		answer:
 			"PNG preserves every pixel losslessly and supports transparency. Choose PNG when your JXL contains graphics with sharp edges, text, logos, or alpha transparency. JPG is better when you want the smallest file size for photographs.",
@@ -44,11 +65,6 @@ const faqItems = [
 		question: "How large will the PNG output be?",
 		answer:
 			"PNG files are typically larger than both JXL and JPG because PNG uses lossless compression. A 500KB lossless JXL might become a 2-3MB PNG. The tradeoff is zero quality loss and universal compatibility.",
-	},
-	{
-		question: "Why use NoUploads instead of other JXL to PNG tools?",
-		answer:
-			"Going from lossless JXL to lossless PNG means zero quality loss in the conversion chain — every pixel arrives intact, including transparency. That matters when you are archiving or editing and cannot afford generational degradation. NoUploads handles the decode with browser-native support on Firefox and a jxl-oxide WASM fallback elsewhere, then writes the raw pixel data straight to PNG. Nothing is uploaded, there are no file size caps, and the tool works offline. Free and open source.",
 	},
 ];
 

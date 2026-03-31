@@ -31,14 +31,25 @@ const ACCEPT = { "image/jp2": [".jp2", ".j2k", ".jpf", ".jpx"] };
 
 const faqItems = [
 	{
-		question: "What is a JPEG 2000 (JP2) file?",
-		answer:
-			"JPEG 2000 is an image compression standard published as ISO 15444-1 in 2000. Unlike traditional JPEG which uses discrete cosine transforms, JPEG 2000 uses wavelet-based compression that produces fewer blocking artifacts at low bitrates. JP2 files use the .jp2 container format, while .j2k files contain the raw codestream without the box wrapper. The format supports lossless and lossy compression, high bit depths up to 16 bits per channel, and multiple color spaces including grayscale and RGB.",
-	},
-	{
-		question: "Where is JPEG 2000 actually used?",
-		answer:
-			"JPEG 2000 is widely used in industries that need high-fidelity image preservation. Digital cinema (DCI) packages store frames as J2K codestreams inside MXF containers. Satellite and geospatial imaging agencies like NASA and ESA distribute imagery in JP2. Medical imaging uses JPEG 2000 as a compression option inside DICOM files. National archives and libraries — including the Library of Congress and the British Library — adopt JP2 for long-term digital preservation because it supports lossless compression and metadata embedding.",
+		question: "Why did JPEG 2000 never replace JPEG on the web?",
+		answer: (
+			<>
+				JPEG 2000 was created by the Joint Photographic Experts Group in 2000 as
+				a wavelet-based successor to the original JPEG. While it never replaced
+				JPEG on the web, it found critical niches: the Digital Cinema Initiative
+				(DCI) standard requires JPEG 2000 for movie distribution, medical
+				imaging systems use it via DICOM, and satellite and aerial photography
+				rely on its superior quality at low bitrates.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/JPEG_2000"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Why can't I open JP2 files in most programs?",
@@ -51,9 +62,9 @@ const faqItems = [
 			"A .jp2 file wraps the compressed image data inside a box-based container (similar to how MP4 wraps video). The container holds metadata like color space, resolution, and intellectual property rights. A .j2k (or .jpc) file contains only the raw JPEG 2000 codestream with no container. Both encode pixels identically — the difference is packaging. This tool handles both formats transparently.",
 	},
 	{
-		question: "Why use NoUploads instead of other JP2 converters?",
+		question: "Where is JPEG 2000 actually used?",
 		answer:
-			"Most online JPEG 2000 converters upload your file to a server for processing, which is slow for large satellite or archival images and exposes your data to third parties. NoUploads decodes JP2 files entirely in your browser using the OpenJPEG codec compiled to WebAssembly — the same proven C library used by GDAL, FFmpeg, and the Library of Congress. No file ever leaves your device. The tool is free, requires no signup, has no file size limits imposed by an upload endpoint, works offline, and is fully open source.",
+			"JPEG 2000 is widely used in industries that need high-fidelity image preservation. Digital cinema (DCI) packages store frames as J2K codestreams inside MXF containers. Satellite and geospatial imaging agencies like NASA and ESA distribute imagery in JP2. Medical imaging uses JPEG 2000 as a compression option inside DICOM files. National archives and libraries — including the Library of Congress and the British Library — adopt JP2 for long-term digital preservation because it supports lossless compression and metadata embedding.",
 	},
 ];
 

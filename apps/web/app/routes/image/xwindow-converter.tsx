@@ -36,12 +36,27 @@ const ACCEPT = {
 
 const faqItems = [
 	{
-		question: "What are XBM, XPM, and XWD files?",
-		answer:
-			"These are image formats from the X Window System, the graphical framework used on Unix and Linux desktops since the 1980s. XBM (X BitMap) stores monochrome icons as C source code. XPM (X PixMap) extends this to color images with a character-to-color mapping, also embedded in C source. XWD (X Window Dump) is a binary screenshot format produced by the xwd command-line tool. All three are rarely used outside X11 development today.",
+		question: "What's unusual about the XBM file format?",
+		answer: (
+			<>
+				XBM, XPM, and XWD are image formats from the X Window System — the
+				graphical framework that has powered Unix and Linux desktops since 1984.
+				XBM files are unique in that they are actually valid C source code: the
+				pixel data is stored as a C array that can be compiled directly into
+				applications without needing any image parsing library whatsoever.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/X_BitMap"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
-		question: "How does the conversion work without uploading my files?",
+		question: "How does in-browser X Window format conversion work?",
 		answer:
 			"Each format has a dedicated parser written in JavaScript that runs entirely in your browser. XBM and XPM are C source files — the parser reads the text, extracts width/height defines and pixel data, and reconstructs the image locally. XWD is a binary format — the parser reads the header fields, optional colormap, and raw pixel bytes. No file ever leaves your device.",
 	},
@@ -49,11 +64,6 @@ const faqItems = [
 		question: "Where do X Window image files come from?",
 		answer:
 			"XBM files were widely used for cursor and icon bitmaps in X11 applications. XPM became the standard for color icons and pixmaps in toolkits like Motif and early GTK. XWD files are produced by the `xwd` screenshot utility on X11 systems — developers and sysadmins used them to capture window contents for bug reports and documentation. You may encounter these files in old Unix archives, retro computing projects, or legacy X11 application source trees.",
-	},
-	{
-		question: "Why use NoUploads instead of other X Window image converters?",
-		answer:
-			"X Window files often come from system archives or development environments where privacy matters. NoUploads parses every byte on your device with zero-dependency custom decoders — no server, no upload, no external library. There are no file size limits, no watermarks, no accounts, and conversion works fully offline. The code is open source so you can inspect exactly how each format is decoded.",
 	},
 ];
 

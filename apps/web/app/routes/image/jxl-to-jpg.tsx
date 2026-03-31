@@ -31,9 +31,25 @@ const ACCEPT = { "image/jxl": [".jxl"] };
 
 const faqItems = [
 	{
-		question: "What is a JXL file?",
-		answer:
-			"JXL (JPEG XL) is a next-generation image format designed as the successor to JPEG. It supports both lossy and lossless compression, achieving 30-60% better compression than JPEG at equivalent quality. It also supports animation, transparency, and HDR — features that required separate formats like GIF, PNG, or AVIF before.",
+		question: "Where does JPEG XL come from?",
+		answer: (
+			<>
+				JPEG XL was standardized as ISO/IEC 18181 in 2022 and is designed to
+				eventually replace both JPEG and PNG. It can losslessly recompress
+				existing JPEG files to roughly 20% smaller without any generational
+				quality loss, supports progressive decoding, animation, and HDR content.
+				The format emerged from merging Google's PIK and Cloudinary's FUIF
+				proposals into a single next-generation codec.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/JPEG_XL"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Why can't I open JXL files?",
@@ -49,11 +65,6 @@ const faqItems = [
 		question: "Does this handle animated JXL files?",
 		answer:
 			"Yes. If an animated JXL is detected, the first frame is converted to a static JPG image. Animation support for frame-by-frame extraction will be available in a future update.",
-	},
-	{
-		question: "Why use NoUploads instead of other JXL converters?",
-		answer:
-			"JPEG XL is a cutting-edge format that most image tools and platforms still cannot open. Finding a converter that actually supports it — and does not require installing desktop software — is surprisingly hard. NoUploads decodes JXL using the jxl-oxide WASM decoder in browsers that lack native support and leverages Firefox's built-in decoder where available. Everything runs locally, so your files are never uploaded. No account, no queue, no file size cap, works offline, and the project is fully open source.",
 	},
 ];
 

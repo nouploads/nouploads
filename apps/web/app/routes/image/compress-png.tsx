@@ -29,6 +29,27 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
+		question: "How does PNG achieve lossless compression under the hood?",
+		answer: (
+			<>
+				PNG uses the DEFLATE algorithm — a combination of LZ77 pattern matching
+				and Huffman coding — preceded by a prediction filter that guesses each
+				pixel's value from its neighbors. The filter stage doesn't compress
+				anything itself; it rearranges the data so DEFLATE can find more
+				redundant patterns. This two-step approach typically achieves 30–50%
+				compression without altering a single pixel value.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PNG#Compression"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "How does PNG compression work?",
 		answer:
 			"PNG is normally lossless, so traditional quality sliders don't apply. This tool uses color quantization — reducing the number of unique colors in the image (e.g., from millions to 256). Fewer colors means a dramatically smaller file while preserving transparency.",
@@ -42,16 +63,6 @@ const faqItems = [
 		question: "Does this preserve transparency?",
 		answer:
 			"Yes. Alpha transparency is fully preserved during color quantization. Your transparent PNGs will remain transparent.",
-	},
-	{
-		question: "Is my data safe?",
-		answer:
-			"Yes. Your files never leave your device. All compression happens directly in your browser — no server upload, no cloud processing, no data collection.",
-	},
-	{
-		question: "Why use NoUploads instead of other PNG compressors?",
-		answer:
-			"PNG screenshots often capture sensitive content — terminal output, private messages, internal dashboards. Uploading those to a compression server defeats the point. NoUploads runs the image-q color quantization algorithm entirely in your browser, producing results comparable to pngquant without any file ever leaving your machine. There are no daily limits, no watermarks, and no account to create. The project is open source, so you can inspect the exact quantization code yourself.",
 	},
 ];
 

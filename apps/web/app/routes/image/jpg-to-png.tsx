@@ -31,9 +31,26 @@ const ACCEPT = { "image/jpeg": [".jpg", ".jpeg"] };
 
 const faqItems = [
 	{
-		question: "Why convert JPG to PNG?",
-		answer:
-			"PNG supports transparency and uses lossless compression, making it ideal for logos, icons, screenshots, and graphics with sharp edges. Converting from JPG to PNG won't add transparency to an existing photo, but it stops further quality loss from re-saving.",
+		question: "How did PNG come about as a format?",
+		answer: (
+			<>
+				PNG was developed in 1996 as a patent-free replacement for GIF after
+				Unisys began enforcing patents on the LZW compression algorithm that GIF
+				used. The format's name originally stood for "PNG's Not GIF" — a
+				recursive acronym in the tradition of GNU. Unlike GIF, PNG supports full
+				24-bit color with an alpha transparency channel and lossless
+				compression, making it ideal for graphics that need crisp edges and
+				transparency.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PNG"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Will the file size increase?",
@@ -41,19 +58,9 @@ const faqItems = [
 			"Usually yes. PNG uses lossless compression while JPG is lossy, so the PNG output is often larger. The tradeoff is perfect pixel fidelity — no compression artifacts are introduced.",
 	},
 	{
-		question: "Can I add a transparent background after converting?",
-		answer:
-			"This converter preserves the image as-is in PNG format. To make a background transparent, you'd need an image editor. However, having the file in PNG format is the first step since JPG doesn't support transparency at all.",
-	},
-	{
 		question: "Does converting JPG to PNG improve image quality?",
 		answer:
 			"No. Converting formats doesn't recover detail lost during JPG compression. What it does is prevent any additional quality loss — once in PNG format, the image can be edited and re-saved without degradation.",
-	},
-	{
-		question: "Why use NoUploads instead of other JPG to PNG converters?",
-		answer:
-			"When you are converting to PNG, the whole point is preserving quality — so it makes no sense to re-compress through an upload-download round-trip on someone else's server. NoUploads draws the JPG onto an HTML Canvas and exports the raw pixels as a lossless PNG, all on your machine. Zero network overhead means zero additional quality degradation. There is no queue, no watermark, and the conversion is instantaneous because no bytes leave your device.",
 	},
 ];
 

@@ -31,9 +31,25 @@ const ACCEPT = { "image/x-tga": [".tga"] };
 
 const faqItems = [
 	{
-		question: "What is a TGA file?",
-		answer:
-			"TGA (Targa) is an image format created by Truevision in 1984. It supports 8, 16, 24, and 32-bit color depths with optional RLE compression and an alpha channel. TGA remains widely used in game development, 3D rendering, and texture authoring because it stores pixel data with minimal processing — exactly what GPU pipelines expect.",
+		question: "What's the story behind the TGA format?",
+		answer: (
+			<>
+				The TGA format (Truevision Advanced Raster Graphics Adapter) was
+				developed by Truevision Inc. in 1984 for their video graphics cards. It
+				became the standard format for video game texture assets and 3D
+				rendering output throughout the 1990s, and remains widely used in game
+				development today because of its simplicity, alpha channel support, and
+				run-length encoding compression.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Truevision_TGA"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Why is TGA still used in game development?",
@@ -49,11 +65,6 @@ const faqItems = [
 		question: "Why do some TGA files appear upside down?",
 		answer:
 			"Most TGA files store pixel rows bottom-to-top — a convention inherited from early graphics hardware. Programs that ignore the origin flag in the TGA header display the image flipped. This tool reads the origin bit and automatically flips the image to the correct orientation.",
-	},
-	{
-		question: "Why use NoUploads instead of other TGA converters?",
-		answer:
-			"Game assets and textures are often proprietary. NoUploads parses the TGA binary format entirely in your browser with a custom decoder — no file is ever sent to a server. It handles every common TGA variant: uncompressed, RLE, 8 to 32 bpp, color-mapped, and bottom-origin images. Free, unlimited, works offline, no account needed.",
 	},
 ];
 

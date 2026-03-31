@@ -34,9 +34,25 @@ const ACCEPT = {
 
 const faqItems = [
 	{
-		question: "What is an XPS file?",
-		answer:
-			"XPS (XML Paper Specification) is a fixed-layout document format created by Microsoft as an alternative to PDF. It was built into Windows Vista through Windows 10 as the default print-to-file format. OXPS is the newer Open XPS variant standardized by Ecma International. Both use a ZIP archive containing XAML pages, fonts, and embedded images.",
+		question: "Why did Microsoft create XPS as an alternative to PDF?",
+		answer: (
+			<>
+				XPS (XML Paper Specification) was Microsoft's answer to Adobe's PDF,
+				released alongside Windows Vista in 2006. It uses a ZIP-based package of
+				XML files and embedded resources, making its internal structure easy to
+				inspect with any archive tool. Despite becoming an Ecma International
+				standard (ECMA-388), XPS never achieved widespread adoption outside the
+				Windows ecosystem.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Open_XML_Paper_Specification"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does this tool convert XPS files without a server?",
@@ -44,14 +60,9 @@ const faqItems = [
 			"XPS files are ZIP archives under the hood. This tool opens the archive in your browser using JSZip, scans for embedded raster images (PNG, JPG, TIFF), and extracts the largest one. The extracted image is then available for download as JPG, PNG, WebP, or AVIF. All processing happens locally on your device — the file never leaves your browser.",
 	},
 	{
-		question: "What are the limitations of XPS image extraction?",
+		question: "What should I know before converting XPS files?",
 		answer:
 			"This tool extracts embedded raster images, not the full page layout. Text, vector graphics, and page positioning are not rendered — that would require a complete XAML rendering engine. XPS files that contain only vector content or text without any embedded images cannot be converted. For full XPS rendering, use the built-in XPS Viewer on Windows or a desktop application like Okular.",
-	},
-	{
-		question: "Why use NoUploads instead of other XPS converters?",
-		answer:
-			"XPS documents often contain sensitive business or personal content that should not be uploaded to third-party servers. NoUploads opens the ZIP archive and extracts images entirely on your device — nothing leaves your browser. There are no file size limits, no daily caps, no watermarks, and no account required. The tool works offline after the first page load and is fully open source.",
 	},
 ];
 

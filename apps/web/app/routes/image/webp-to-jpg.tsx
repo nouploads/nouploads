@@ -31,9 +31,25 @@ const ACCEPT = { "image/webp": [".webp"] };
 
 const faqItems = [
 	{
-		question: "Why convert WebP to JPG?",
-		answer:
-			"WebP is a newer format that not all software supports. If you downloaded an image from the web and your photo editor, presentation software, or social media platform doesn't accept WebP, converting to JPG gives you universal compatibility.",
+		question: "How did WebP go from a Google experiment to a web standard?",
+		answer: (
+			<>
+				When Google released WebP in 2010, adoption was painfully slow — most
+				notably, Apple's Safari didn't add support until September 2020, a full
+				decade after launch. Google pushed adoption by converting YouTube
+				thumbnails and Chrome Web Store images to WebP. The format finally
+				reached universal browser support in 2020 and is now widely used by
+				major e-commerce platforms and CDNs to reduce image bandwidth.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/WebP"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Will I lose quality converting WebP to JPG?",
@@ -41,19 +57,9 @@ const faqItems = [
 			"There's a small quality reduction because both formats use lossy compression and re-encoding introduces slight degradation. At the default quality setting (92%), the difference is essentially invisible to the human eye.",
 	},
 	{
-		question: "Why are some website images in WebP format?",
+		question: "What happens to transparent areas in a WebP image?",
 		answer:
-			"Web developers use WebP because it produces smaller file sizes than JPG at similar quality, which speeds up page loading. When you right-click and save these images, you get a .webp file that older software may not open.",
-	},
-	{
-		question: "Can I batch convert WebP files?",
-		answer:
-			"Yes. Drop multiple WebP files at once and they'll all be converted to JPG. Useful when you've saved several images from the web and need them in a standard format for a document or presentation.",
-	},
-	{
-		question: "Why use NoUploads instead of other WebP converters?",
-		answer:
-			"You right-clicked an image on a website and got a .webp file you cannot open. The last thing you want is to upload it somewhere, wait in a queue, and download the result — that takes longer than the original page load. NoUploads decodes the WebP and re-encodes it as JPG in a single Canvas pass, so the file is ready before you can alt-tab to your file manager. Everything happens on your machine with no server queue, no daily cap, and no account.",
+			"WebP supports alpha transparency but JPG does not. Any transparent regions in the WebP are composited onto a white background during conversion. If preserving transparency matters, convert to PNG instead.",
 	},
 ];
 

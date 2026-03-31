@@ -31,14 +31,25 @@ const ACCEPT = { "image/x-exr": [".exr"] };
 
 const faqItems = [
 	{
-		question: "What is an EXR file?",
-		answer:
-			"EXR (OpenEXR) is a high dynamic range image format developed by Industrial Light & Magic for visual effects production. It stores pixel values as floating-point numbers rather than 8-bit integers, preserving the full range of light in a scene — from deep shadows to bright highlights. EXR is the standard output format for 3D renderers like Arnold, V-Ray, and RenderMan.",
-	},
-	{
-		question: "Why are EXR files used in VFX and 3D rendering?",
-		answer:
-			"Visual effects artists need HDR data to composite CG elements into live-action plates with realistic lighting. EXR preserves the mathematical relationship between light intensities that JPEG and PNG destroy. A 32-bit float channel in EXR can represent values from near-zero to thousands, giving compositors the dynamic range they need for color grading, light wrapping, and exposure adjustments.",
+		question: "How did OpenEXR end up as the VFX industry standard?",
+		answer: (
+			<>
+				OpenEXR was created by Industrial Light & Magic (ILM) and first used in
+				production on Harry Potter and the Sorcerer's Stone in 2001. It was
+				open-sourced in 2003 and has since become the industry-standard high
+				dynamic range image format for visual effects, animation, and film
+				production, supporting 16-bit and 32-bit floating-point pixels per
+				channel.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/OpenEXR"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does tone mapping work for EXR conversion?",
@@ -51,9 +62,9 @@ const faqItems = [
 			"This tool decodes scanline-based EXR files with uncompressed, ZIPS, or ZIP compression — the three most common variants exported by Blender, Nuke, and most 3D renderers. It handles half-float (16-bit), full-float (32-bit), and unsigned integer channels. Tiled EXR and less common compressions like PIZ or B44 are not currently supported.",
 	},
 	{
-		question: "Why use NoUploads instead of other EXR converters?",
+		question: "Why are EXR files used in VFX and 3D rendering?",
 		answer:
-			"VFX renders and 3D assets are often confidential project files under NDA. NoUploads decodes and tone-maps EXR data entirely in your browser — the file never touches a server. There are no file size limits imposed by an upload API, no watermarks, no account required. The tool works offline once loaded and is completely open source, so studios can verify exactly what happens to their files.",
+			"Visual effects artists need HDR data to composite CG elements into live-action plates with realistic lighting. EXR preserves the mathematical relationship between light intensities that JPEG and PNG destroy. A 32-bit float channel in EXR can represent values from near-zero to thousands, giving compositors the dynamic range they need for color grading, light wrapping, and exposure adjustments.",
 	},
 ];
 

@@ -31,9 +31,25 @@ const ACCEPT = { "image/jpeg": [".jpg", ".jpeg"] };
 
 const faqItems = [
 	{
-		question: "Why convert JPG to WebP?",
-		answer:
-			"WebP produces files 25–35% smaller than JPG at comparable visual quality. If you're optimizing images for a website, app, or want to save storage space, WebP gives you noticeably better compression without visible quality loss.",
+		question: "Why did Google create WebP?",
+		answer: (
+			<>
+				WebP was developed by Google and first released in 2010. It uses
+				predictive coding derived from the VP8 video codec to achieve lossy
+				compression roughly 30% smaller than JPEG at equivalent visual quality.
+				Google estimated that if the entire web switched to WebP, it would save
+				approximately 50 petabytes of bandwidth per day — a major motivation for
+				a company that serves billions of images through search and YouTube.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/WebP"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Do all browsers support WebP?",
@@ -44,16 +60,6 @@ const faqItems = [
 		question: "Is WebP better than JPG?",
 		answer:
 			"For file size, yes. WebP consistently achieves smaller files at the same visual quality. JPG still has wider support in legacy software and some social media platforms, so the choice depends on where you're using the images.",
-	},
-	{
-		question: "Can I convert JPG photos to WebP in bulk?",
-		answer:
-			"Yes. Drop multiple JPG files at once to batch convert them all to WebP. Ideal for optimizing an entire folder of photos before uploading to your website or CMS.",
-	},
-	{
-		question: "Why use NoUploads instead of other JPG to WebP converters?",
-		answer:
-			"If you manage a site with hundreds of product shots or blog images, the typical workflow is uploading each one to a converter API, waiting for the response, and hoping you do not hit a rate limit. NoUploads replaces that pipeline: drop an entire directory of JPGs and the browser's Canvas API re-encodes them to WebP locally, as fast as your CPU allows. No API key, no rate limit, no per-image fee. Your product catalog stays on your laptop, which matters when the images are pre-launch or under NDA.",
 	},
 ];
 

@@ -31,9 +31,25 @@ const ACCEPT = { "image/vnd.radiance": [".hdr"] };
 
 const faqItems = [
 	{
-		question: "What is a Radiance HDR file?",
-		answer:
-			"A Radiance HDR (.hdr) file stores high dynamic range image data using the RGBE pixel format — each pixel has red, green, blue, and a shared exponent byte that lets it represent a much wider brightness range than standard 8-bit images. The format was created by Greg Ward for the Radiance lighting simulation system and is widely used in 3D rendering, VFX compositing, and environment lighting (IBL).",
+		question: "Where does the Radiance HDR format come from?",
+		answer: (
+			<>
+				The Radiance HDR format (.hdr) was created by Greg Ward for the Radiance
+				lighting simulation system at Lawrence Berkeley National Laboratory in
+				the late 1980s. It was one of the first image formats designed to store
+				actual physical light values (radiance) rather than display-ready pixel
+				colors, making it foundational to the entire field of high dynamic range
+				imaging.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/RGBE_image_format"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does tone mapping work in this converter?",
@@ -49,11 +65,6 @@ const faqItems = [
 		question: "What is the difference between HDR and EXR?",
 		answer:
 			"Both store high dynamic range data, but they use different formats. Radiance HDR (.hdr) uses RGBE encoding with 32 bits per pixel and is compact but limited to one layer. OpenEXR (.exr) supports multiple channels, layers, deep data, and higher precision. For simple environment maps and light probes, HDR is more common; for VFX render passes, EXR is the industry standard.",
-	},
-	{
-		question: "Why use NoUploads instead of other HDR converters?",
-		answer:
-			"HDR environment maps are often part of paid asset packs or proprietary studio lighting setups. Uploading them to an online converter means giving a third-party server access to your licensed assets. NoUploads parses the Radiance RGBE format entirely in your browser using a custom decoder — your files never leave your device. There is no account, no watermark, no usage limit, and it works offline once the page loads. The tool is open source so you can verify exactly what happens to your data.",
 	},
 ];
 

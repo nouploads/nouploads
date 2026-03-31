@@ -32,9 +32,25 @@ const ACCEPT = { "application/x-mspublisher": [".pub"] };
 
 const faqItems = [
 	{
-		question: "What is a PUB file?",
-		answer:
-			"PUB is the native file format for Microsoft Publisher, a desktop publishing application included in some Microsoft Office editions. PUB files contain page layouts with text, images, shapes, and formatting designed for brochures, newsletters, flyers, and similar print materials. The format uses the OLE2 compound file structure shared by older Office formats like DOC and XLS.",
+		question: "Where does Microsoft Publisher come from?",
+		answer: (
+			<>
+				Microsoft Publisher was first released in 1991 as an entry-level desktop
+				publishing tool aimed at small businesses and home users. It filled the
+				gap between basic word processors and professional page-layout software
+				like QuarkXPress and Adobe PageMaker. The PUB format stores rich page
+				layouts with embedded images, text frames, and design elements, though
+				it has remained a Windows-only format throughout its history.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Microsoft_Publisher"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does this tool extract images from PUB files?",
@@ -42,7 +58,7 @@ const faqItems = [
 			"Publisher files embed images directly within their OLE2 binary structure. This tool reads the compound file using the cfb library, scans every internal stream for JPEG, PNG, or BMP signatures, and extracts the largest image found. The extracted image can then be downloaded as JPG, PNG, WebP, or AVIF. No rendering of the full page layout is attempted.",
 	},
 	{
-		question: "What are the limitations?",
+		question: "What are the constraints of PUB conversion in a browser?",
 		answer:
 			"This tool extracts embedded raster images, not the complete page layout. Text blocks, shapes, tables, and precise positioning are not reproduced. Publisher files that contain only text and vector shapes without any embedded images cannot be converted. For full PUB editing, you need Microsoft Publisher — no other application fully supports the format.",
 	},
@@ -50,11 +66,6 @@ const faqItems = [
 		question: "Why is it hard to open PUB files without Publisher?",
 		answer:
 			"Microsoft has never published a full specification for the PUB format. Unlike DOCX or XLSX, which use the open OOXML standard, PUB remains a proprietary binary format. LibreOffice offers partial PUB import, but layout fidelity varies. This tool takes a practical approach: instead of trying to render the layout, it extracts the embedded photos and graphics.",
-	},
-	{
-		question: "Why use NoUploads instead of other PUB converters?",
-		answer:
-			"Publisher files often contain sensitive marketing materials, internal newsletters, or business documents. Online PUB converters require uploading your file to someone else's server. NoUploads reads the OLE2 structure and extracts images entirely in your browser — nothing is transmitted. There are no file limits, no watermarks, no signups, and the tool works offline.",
 	},
 ];
 

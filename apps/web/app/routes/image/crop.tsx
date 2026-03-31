@@ -29,9 +29,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "How do I select the crop area?",
-		answer:
-			"After dropping an image, a crop rectangle appears on top of it. Drag the center to move the selection, or drag the corner and edge handles to resize it. The dark overlay shows which parts will be removed.",
+		question: "What's the origin of the rule of thirds in cropping?",
+		answer: (
+			<>
+				Image cropping predates digital photography entirely — in the darkroom,
+				photographers used an easel with adjustable borders to expose only the
+				desired portion of a negative onto photographic paper. The "rule of
+				thirds" grid commonly found in modern crop tools was first articulated
+				by painter and engraver John Thomas Smith in 1797, in his book "Remarks
+				on Rural Scenery."{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Rule_of_thirds"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Can I crop to a specific aspect ratio?",
@@ -47,11 +63,6 @@ const faqItems = [
 		question: "Does cropping reduce image quality?",
 		answer:
 			"Cropping itself does not reduce quality — it simply extracts the selected pixel region from your original. If you save as JPG or WebP, the lossy encoding may introduce minimal artifacts, but at the default 92% quality they are imperceptible. Choose PNG for a lossless crop.",
-	},
-	{
-		question: "Why use NoUploads instead of other image croppers?",
-		answer:
-			"Online croppers typically upload your image to a server, introducing privacy risks and network delays. NoUploads crops entirely in your browser using the Canvas API — your file stays on your device from start to finish. There is no account required, no daily limit, no watermark, and the tool works even without an internet connection. It is free and open source.",
 	},
 ];
 

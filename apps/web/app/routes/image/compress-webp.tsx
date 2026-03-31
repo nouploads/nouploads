@@ -29,29 +29,36 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
+		question: "What's the connection between WebP and video codecs?",
+		answer: (
+			<>
+				WebP's lossy mode is built directly on the VP8 video codec that Google
+				acquired when it purchased On2 Technologies in 2010. A single WebP image
+				is essentially one keyframe extracted from a VP8 video stream. This
+				heritage gives WebP access to sophisticated techniques developed for
+				video — block prediction, adaptive quantization, and loop filtering —
+				that were never available to the JPEG standard designed two decades
+				earlier.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/VP8"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "Why compress WebP?",
 		answer:
 			"WebP already produces smaller files than JPG at the same quality, but you can squeeze even more savings by lowering the quality setting. This is useful for web performance where every kilobyte counts.",
 	},
 	{
-		question: "What quality setting should I use?",
+		question: "What WebP quality level should I target?",
 		answer:
 			"80% (the default) is a good starting point. WebP handles low quality settings better than JPG — even 50–60% can look acceptable for web use. Use the before/after slider to find your sweet spot.",
-	},
-	{
-		question: "Is my data safe?",
-		answer:
-			"Yes. Your files never leave your device. All compression happens directly in your browser using the Canvas API — no server upload, no cloud processing, no data collection.",
-	},
-	{
-		question: "Can I compress multiple files at once?",
-		answer:
-			"Yes. Drop or select multiple WebP files and they'll all be compressed in a batch. You can download each result individually or all at once.",
-	},
-	{
-		question: "Why use NoUploads instead of other WebP compressors?",
-		answer:
-			"If you optimize WebP assets as part of a build or design workflow, you do it often. Server-based tools add API latency and usage caps that slow you down. NoUploads gives you a zero-overhead feedback loop: drag a file, move the quality slider, see the result instantly — no network round-trip, no waiting in a queue. Because it runs entirely in the browser, you can iterate on quality settings as fast as you can move a slider. Free, offline-capable, open source, and nothing is ever uploaded.",
 	},
 ];
 

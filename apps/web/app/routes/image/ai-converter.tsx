@@ -31,9 +31,25 @@ const ACCEPT = { "application/illustrator": [".ai"] };
 
 const faqItems = [
 	{
-		question: "What is an AI file?",
-		answer:
-			"AI (Adobe Illustrator) is a vector graphics format used by Adobe Illustrator. Since Illustrator version 9 (released in 2000), AI files have been saved as PDF-based documents with additional Illustrator-specific metadata. This means modern AI files can be parsed by any PDF reader, which is how this tool renders them without needing Illustrator installed.",
+		question: "What's the story behind Adobe Illustrator's file format?",
+		answer: (
+			<>
+				Adobe Illustrator was first developed for the Apple Macintosh in 1987
+				and was one of the earliest applications to use Adobe's PostScript
+				language for on-screen rendering. Since Illustrator CS, the AI file
+				format is essentially a restricted form of PDF — which is why many tools
+				can extract preview images from AI files. There is literally a PDF
+				hidden inside every modern AI file.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Adobe_Illustrator"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does this tool convert AI files?",
@@ -49,11 +65,6 @@ const faqItems = [
 		question: "Does this tool handle multi-artboard AI files?",
 		answer:
 			"The tool renders the first page of the PDF structure within the AI file, which corresponds to the primary artboard. Multi-artboard AI files store each artboard as a separate PDF page. Currently, only the first artboard is converted. For full multi-artboard export, desktop software like Illustrator or Inkscape offers more control.",
-	},
-	{
-		question: "Why use NoUploads instead of other AI file converters?",
-		answer:
-			"AI files typically contain proprietary design work — logos, brand assets, client artwork — that should stay confidential. NoUploads converts your AI files entirely on your device using the browser's built-in rendering engine and PDF.js. Nothing is uploaded to any server, there are no conversion limits or watermarks, no account is needed, and the tool works offline once loaded. It is also completely open source.",
 	},
 ];
 

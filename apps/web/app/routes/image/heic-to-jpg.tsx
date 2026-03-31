@@ -29,34 +29,37 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "What is a HEIC file?",
-		answer:
-			"HEIC (High Efficiency Image Container) is the default photo format on iPhones and iPads since iOS 11. It offers better compression than JPG while maintaining image quality, but isn't universally supported by all apps and websites.",
+		question: "Where does the HEIF image standard come from?",
+		answer: (
+			<>
+				HEIF (High Efficiency Image File Format) was developed by the Moving
+				Picture Experts Group (MPEG) and finalized as ISO/IEC 23008-12 in 2015.
+				It is built on the same container architecture as the MP4 video format
+				(ISOBMFF), which is why a single HEIF file can store image sequences,
+				depth maps, and even audio alongside the photo data — far more than a
+				simple JPG wrapper. Apple's decision to adopt it as the default iPhone
+				camera format in 2017 thrust an obscure ISO standard into the pockets of
+				billions of people almost overnight.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/High_Efficiency_Image_File_Format"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
-		question: "Is my data safe?",
+		question: "What output quality should I use for HEIC to JPG?",
 		answer:
-			"Yes. Your files never leave your device. All conversion happens directly in your browser using WebAssembly — no server upload, no cloud processing, no data collection.",
+			"92% (the default) is a good balance between file size and quality. Use 100% for maximum-quality JPG output — note that JPG is always lossy, so for truly lossless output, convert to PNG instead. For web use or sharing, 80–85% gives significantly smaller files with minimal visible difference.",
 	},
 	{
-		question: "What quality setting should I use?",
+		question: "Do HEIC files lose metadata during conversion?",
 		answer:
-			"92% (the default) is a good balance between file size and quality. Use 100% for lossless-quality JPG output. For web use or sharing, 80–85% gives significantly smaller files with minimal visible difference.",
-	},
-	{
-		question: "Can I convert multiple files at once?",
-		answer:
-			"Yes. Drop or select multiple HEIC files and they'll all be converted in a batch. You can download each result individually or all at once.",
-	},
-	{
-		question: "Does this work offline?",
-		answer:
-			"Yes. After the page loads once, the conversion engine is cached in your browser. You can convert HEIC files even without an internet connection.",
-	},
-	{
-		question: "Why use NoUploads instead of other HEIC converters?",
-		answer:
-			"HEIC files are your personal photo library — vacations, family gatherings, selfies you haven't shared yet. Most converter sites ask you to hand those photos to a stranger's server. NoUploads decodes them with a local WebAssembly engine so your camera roll never leaves your device. You can batch-convert an entire 500-photo vacation album on a train with no Wi-Fi and no one else sees a single frame. There is no account, no cost, and the source code is public.",
+			"The pixel data is fully preserved at your chosen quality level, but EXIF metadata like camera model, GPS coordinates, and shooting parameters is not carried over to the JPG output. If you need to retain metadata, export from Apple Photos directly instead.",
 	},
 ];
 

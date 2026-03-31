@@ -31,9 +31,25 @@ const ACCEPT = { "image/svg+xml": [".svg"] };
 
 const faqItems = [
 	{
-		question: "Why convert SVG to PNG?",
-		answer:
-			"SVG is a vector format that not all platforms accept — social media, email clients, and many CMS systems require raster images. Converting to PNG gives you a pixel-based image that works everywhere while preserving any transparency in the original SVG.",
+		question: "What makes SVG resolution-independent?",
+		answer: (
+			<>
+				SVG describes images using mathematical definitions — lines, curves,
+				shapes, and text — rather than a grid of pixels. This means an SVG can
+				scale to any size without quality loss, from a tiny favicon to a
+				billboard. This property made SVG the standard format for logos, icons,
+				and UI elements once retina and HiDPI displays became common and
+				pixel-based formats started looking blurry.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/SVG"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What resolution will the PNG be?",
@@ -44,16 +60,6 @@ const faqItems = [
 		question: "Will transparency be preserved?",
 		answer:
 			"Yes. Any transparent regions in your SVG remain transparent in the PNG output. PNG fully supports alpha transparency, so backgrounds, overlapping elements, and opacity effects all carry over.",
-	},
-	{
-		question: "Can I convert SVG logos and icons?",
-		answer:
-			"Absolutely. This is one of the most common use cases — converting vector logos to PNG for documents, email signatures, presentations, or platforms that don't render SVG. Drop your SVG file and download a clean PNG in seconds.",
-	},
-	{
-		question: "Why use NoUploads instead of other SVG converters?",
-		answer:
-			"Many platforms — email clients, social media, Slack previews — reject SVG uploads, so you need a raster version. Server-based converters can mis-render custom fonts or complex filters because their rendering engine differs from yours. NoUploads rasterizes the SVG using your own browser's rendering engine, so the PNG matches exactly what you see on screen. You control the output resolution through the SVG's own dimensions. No upload, no account, works offline, and the code is fully open source.",
 	},
 ];
 

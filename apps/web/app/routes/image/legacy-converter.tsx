@@ -39,9 +39,25 @@ const ACCEPT = {
 
 const faqItems = [
 	{
-		question: "What legacy image formats does this tool support?",
-		answer:
-			"This converter handles six vintage formats that modern software often cannot open: SGI (Silicon Graphics), Sun Raster (.ras), WBMP (Wireless Bitmap), SFW (Seattle Film Works), PCD (Kodak Photo CD), and PICT (Apple QuickDraw). Drop any of these and get a standard JPG, PNG, or WebP you can use anywhere.",
+		question: "Why do legacy image formats still survive today?",
+		answer: (
+			<>
+				Image formats from the 1980s and 1990s — PCX, TGA, BMP, Sun Raster, and
+				others — survive in archives, museum digitization projects, government
+				records, and specialized industries like game development. Many were
+				dominant formats in their era: PCX was the standard on DOS, TGA ruled 3D
+				rendering, and BMP was the native format of early Windows. Reading these
+				files today often requires specialized decoders.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Image_file_format"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Where do these legacy image files come from?",
@@ -49,14 +65,9 @@ const faqItems = [
 			"SGI images originate from Silicon Graphics workstations popular in film and scientific visualization during the 1990s. Sun Raster files come from Sun Microsystems Unix workstations. WBMP was used on early WAP mobile phones. SFW files were mailed to customers by Seattle Film Works photo processing. PCD was Kodak's disc-based photo delivery format. PICT was the native image format on classic Macintosh computers.",
 	},
 	{
-		question: "How does the conversion work without uploading my files?",
+		question: "How can a browser decode image formats from the 1980s?",
 		answer:
 			"Each format has a dedicated binary parser built in JavaScript that runs directly in your browser. The parser reads the raw byte structure of the file — headers, color tables, compressed scanlines — and reconstructs the pixel data locally. No server ever sees your file. For formats that embed JPEG data (SFW, some PICT files), the browser's native JPEG decoder handles the inner image.",
-	},
-	{
-		question: "Why use NoUploads instead of other legacy image converters?",
-		answer:
-			"Legacy files often come from personal archives — old family photos, archived project files, retro computing collections. Uploading them to a random server is unnecessary and risky. NoUploads decodes every byte on your device with zero-dependency custom parsers. There is no file size limit, no watermark, no account, and it works fully offline. The source code is open so you can verify exactly what happens to your data.",
 	},
 ];
 

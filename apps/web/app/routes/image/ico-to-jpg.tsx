@@ -31,6 +31,26 @@ const ACCEPT = { "image/x-icon": [".ico", ".cur"] };
 
 const faqItems = [
 	{
+		question: "Where does the ICO file format come from?",
+		answer: (
+			<>
+				The ICO format was introduced by Microsoft with Windows 1.0 in 1985 to
+				store icons for the new graphical user interface. A single ICO file can
+				contain multiple images at different sizes and color depths, letting the
+				operating system choose the most appropriate version for each display
+				context — from tiny taskbar icons to high-resolution desktop shortcuts.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/ICO_(file_format)"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "When should I convert ICO to JPG instead of PNG?",
 		answer:
 			"Choose JPG when you need the smallest possible file size and the icon is a photograph or has complex gradients. For logos and icons with flat colors or transparency, PNG is usually the better choice since JPG discards transparency and can introduce artifacts around sharp edges.",
@@ -44,11 +64,6 @@ const faqItems = [
 		question: "Which icon size does it extract?",
 		answer:
 			"The tool automatically selects the highest-resolution frame embedded in the ICO file. Modern favicons typically include a 256x256 PNG-compressed frame alongside smaller BMP versions, so you get the best quality available.",
-	},
-	{
-		question: "Why use NoUploads instead of other ICO to JPG converters?",
-		answer:
-			"Need a quick photo-ready version of a favicon for a slide deck, a Notion doc, or a design mockup? NoUploads extracts the highest-resolution frame from the ICO container and encodes it as a standard JPG — all on your device, in under a second. It automatically picks the best embedded resolution and handles both BMP and PNG-compressed ICO frames. No upload, no server, no signup, works offline, and it is completely free and open source.",
 	},
 ];
 

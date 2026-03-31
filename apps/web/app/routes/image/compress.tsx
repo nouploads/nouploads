@@ -29,6 +29,27 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
+		question: "How does lossy compression exploit human vision?",
+		answer: (
+			<>
+				Lossy image compression works by exploiting limitations of the human
+				visual system. Our eyes are far more sensitive to changes in brightness
+				than to changes in color — a principle called chroma subsampling. JPEG,
+				WebP, and AVIF all take advantage of this by storing color information
+				at lower resolution than brightness, often at half or even quarter the
+				resolution, without most viewers noticing any difference.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Chroma_subsampling"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "Which image formats can I compress?",
 		answer:
 			"You can compress JPG, PNG, WebP, AVIF, and GIF images. Static formats are re-encoded at the quality level you choose, while animated GIFs are compressed using lossy LZW optimization via gifsicle — keeping the same file type while reducing size.",
@@ -37,21 +58,6 @@ const faqItems = [
 		question: "How does the quality slider work?",
 		answer:
 			"The slider controls the compression level from 10% (maximum compression, smallest file, most artifacts) to 100% (minimal compression, largest file, best quality). For most uses, 70–85% gives a good balance between size and visual quality.",
-	},
-	{
-		question: "Can I compress multiple images at once?",
-		answer:
-			"Yes. Drop or select multiple image files and they'll all be compressed in a batch. You can download each result individually or grab everything at once with the Download All button.",
-	},
-	{
-		question: "Is my data safe?",
-		answer:
-			"Completely. Your images never leave your device. All compression runs in your browser using the Canvas API — there's no server upload, no cloud processing, and no data collection.",
-	},
-	{
-		question: "Why use NoUploads instead of other image compressors?",
-		answer:
-			"Most online compressors upload your photos to remote servers, which means your personal images pass through someone else's infrastructure. NoUploads processes everything locally in your browser. There's no queue, no daily limit, no watermark, and it works even offline. It's free, open source, and you can verify the code yourself.",
 	},
 ];
 

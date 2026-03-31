@@ -31,9 +31,26 @@ const ACCEPT = { "image/avif": [".avif"] };
 
 const faqItems = [
 	{
-		question: "What is an AVIF file?",
-		answer:
-			"AVIF (AV1 Image File Format) is a next-generation image format based on the AV1 video codec. It achieves exceptionally small file sizes at high quality, but not all software and platforms support it yet.",
+		question: "What's the story behind the AVIF format?",
+		answer: (
+			<>
+				AVIF is based on the AV1 video codec, developed by the Alliance for Open
+				Media — a consortium that includes Google, Mozilla, Apple, Microsoft,
+				Netflix, and Amazon. The format was designed from the ground up to be
+				royalty-free, a deliberate response to the complex licensing surrounding
+				HEVC/H.265 which underpins the competing HEIF format. AVIF typically
+				achieves 30–50% smaller file sizes than JPEG at comparable visual
+				quality.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/AVIF"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Why can't I open AVIF files on my computer?",
@@ -44,16 +61,6 @@ const faqItems = [
 		question: "Will the conversion lose quality?",
 		answer:
 			"There's minimal quality loss. AVIF images are typically very high quality to start with, and converting to JPG at 92% quality preserves nearly all visible detail. The resulting file will be larger than the AVIF original because JPG compression is less efficient.",
-	},
-	{
-		question: "Can I batch convert AVIF files?",
-		answer:
-			"Yes. Select or drop multiple AVIF files and they're all converted to JPG simultaneously. Handy when you've received a set of images in AVIF format and need them in standard JPG.",
-	},
-	{
-		question: "Why use NoUploads instead of other AVIF converters?",
-		answer:
-			"Most converter sites either do not support AVIF at all or lean on a slow server-side decoder. NoUploads takes a different approach: your browser already ships a native AV1 image decoder (Chrome 85+, Firefox 93+, Safari 16.4+), so there is no third-party WASM binary to download and decoding is hardware-accelerated on many devices. The decoded bitmap goes straight to a Canvas for JPG encoding — the entire pipeline runs locally without any network request. It is the fastest path from AVIF to a universally compatible file.",
 	},
 ];
 

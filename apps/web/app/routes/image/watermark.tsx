@@ -30,6 +30,28 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
+		question: "Where does the word 'watermark' come from?",
+		answer: (
+			<>
+				The word "watermark" originates from 13th-century Italian papermaking,
+				where a raised design on the wire mold left a thinner area in the wet
+				pulp that became visible when the dried paper was held up to light.
+				Paper mills used watermarks to identify their products, and governments
+				adopted them for currency authentication. Digital watermarking adapts
+				the same concept — embedding ownership or origin data directly into a
+				file's content.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Watermark"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "What is the difference between centered and tiled watermarks?",
 		answer:
 			"A centered watermark places a single text label in the middle of your image, useful for branding a preview or proof. A tiled watermark repeats the text across the entire image in a grid pattern, making it much harder to crop or remove — ideal for protecting stock photography or draft materials.",
@@ -40,19 +62,9 @@ const faqItems = [
 			"Yes. The opacity slider lets you set visibility from 10% (barely visible) to 100% (fully opaque). Most watermarks work well between 20% and 40% — visible enough to deter theft but subtle enough to keep the image usable as a preview.",
 	},
 	{
-		question: "What image formats does the watermark tool support?",
-		answer:
-			"You can watermark JPG, PNG, WebP, GIF, BMP, TIFF, and AVIF images. The output preserves the original format so you don't lose compatibility. Processing uses the browser's Canvas API, so there's nothing to install.",
-	},
-	{
 		question: "Will the watermark reduce my image quality?",
 		answer:
 			"The tool redraws your image at its original resolution and overlays the text. For lossless formats like PNG the quality is identical. For lossy formats like JPG and WebP, a high-quality encoding (92%) is used by default to minimize any compression artifacts.",
-	},
-	{
-		question: "Why use NoUploads instead of other watermark tools?",
-		answer:
-			"Most online watermark services upload your images to remote servers, which defeats the purpose of protecting your work. NoUploads applies the watermark entirely in your browser — the image never leaves your device. There are no file size limits enforced by a server, no daily quotas, no account required, and it works offline. The tool is free and open source.",
 	},
 ];
 

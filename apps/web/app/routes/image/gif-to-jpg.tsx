@@ -31,29 +31,35 @@ const ACCEPT = { "image/gif": [".gif"] };
 
 const faqItems = [
 	{
+		question: "What's the story behind the GIF format?",
+		answer: (
+			<>
+				GIF was introduced by CompuServe in 1987, making it one of the oldest
+				image formats still in everyday use. It supports only 256 colors per
+				frame but became the de facto standard for short animations on the web.
+				The format's pronunciation sparked one of the internet's longest-running
+				debates — creator Steve Wilhite insisted it was "jif" with a soft G,
+				though most people still say "gif" with a hard G.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/GIF"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "What happens to animated GIFs?",
 		answer:
 			"Animated GIFs are parsed frame by frame and displayed in a visual filmstrip. You can scroll through the timeline and click any frame to select it — the selected frame is then converted to a static JPG. If the GIF has only one frame, it's converted directly without showing the selector.",
 	},
 	{
-		question: "Why convert GIF to JPG?",
-		answer:
-			"GIF files — even static ones — are often much larger than necessary because GIF uses an older compression algorithm. Converting to JPG typically shrinks the file substantially, especially for photographic content. JPG is also more widely accepted for uploads and email attachments.",
-	},
-	{
 		question: "Will transparent areas be preserved?",
 		answer:
 			"No. GIF supports basic transparency (fully transparent or fully opaque pixels), but JPG doesn't support any transparency. Transparent areas become white in the JPG output. If you need transparency, convert to PNG instead.",
-	},
-	{
-		question: "Can I batch convert multiple GIFs?",
-		answer:
-			"Yes. Drop several GIF files at once to convert them all to JPG. Each file's first frame is extracted and saved as a separate JPG download.",
-	},
-	{
-		question: "Why use NoUploads instead of other GIF converters?",
-		answer:
-			"GIFs you save from group chats, Slack threads, and social feeds are often the kind of content you would rather not park on a stranger's server — reaction memes from a private conversation, screen recordings of internal tools, or clips you grabbed in passing. NoUploads parses the GIF locally with gifuct-js, gives you a frame picker to choose exactly the still you want, and exports the JPG without any network round-trip. The frame-selection feature alone sets it apart from typical converters that only extract the first frame and call it done.",
 	},
 ];
 

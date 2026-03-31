@@ -31,9 +31,24 @@ const ACCEPT = { "image/webp": [".webp"] };
 
 const faqItems = [
 	{
-		question: "Why convert WebP to PNG instead of JPG?",
-		answer:
-			"Choose PNG when your WebP image has transparency or when you need a lossless format for further editing. PNG preserves every pixel exactly — no compression artifacts are introduced, unlike JPG. If you just need compatibility and don't care about transparency, JPG works too.",
+		question: "Where does the WebP format come from?",
+		answer: (
+			<>
+				WebP uses the RIFF (Resource Interchange File Format) container — the
+				same family as AVI video and WAV audio files. Inside this container,
+				WebP supports lossy compression (VP8-based), lossless compression, alpha
+				transparency, and animation with full color, essentially combining the
+				capabilities of JPEG, PNG, and GIF into a single file format.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/WebP"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Does the conversion preserve transparency?",
@@ -49,11 +64,6 @@ const faqItems = [
 		question: "Can I convert animated WebP files?",
 		answer:
 			"This tool converts the first frame of animated WebP images into a static PNG. For full animated WebP conversion, a dedicated animation tool would be needed.",
-	},
-	{
-		question: "Why use NoUploads instead of other WebP to PNG tools?",
-		answer:
-			"When you convert WebP to PNG, preserving the alpha channel matters — a sloppy tool can flatten transparency onto a white background and ruin your asset. NoUploads decodes WebP using your browser's native image pipeline and writes the full RGBA data into the PNG, so every semi-transparent pixel survives intact. The entire operation happens on your device with no upload step. No signup, no file limits, works offline, and the source is open for inspection.",
 	},
 ];
 

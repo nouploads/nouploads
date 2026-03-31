@@ -31,9 +31,25 @@ const ACCEPT = { "application/postscript": [".eps", ".ps"] };
 
 const faqItems = [
 	{
-		question: "What is an EPS file?",
-		answer:
-			"EPS (Encapsulated PostScript) is a vector graphics format created by Adobe in 1992. It contains PostScript drawing commands that describe shapes, text, and colors at any resolution. EPS files are widely used in print publishing, logo design, and professional prepress workflows. Most EPS files also embed a low-resolution preview image so applications can display a thumbnail without interpreting the full PostScript.",
+		question: "How did PostScript and EPS shape the publishing industry?",
+		answer: (
+			<>
+				EPS (Encapsulated PostScript) is based on the PostScript page
+				description language, created by Adobe co-founders John Warnock and
+				Charles Geschke in 1982. PostScript was the technology that launched the
+				desktop publishing revolution — it was the language that enabled the
+				Apple LaserWriter to produce typeset-quality printed output from a
+				personal computer for the first time in history.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Encapsulated_PostScript"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does this tool extract a preview from EPS files?",
@@ -41,7 +57,7 @@ const faqItems = [
 			"Most EPS files contain an embedded preview image — typically a TIFF bitmap stored in a DOS EPS binary wrapper, or a hex-encoded bitmap in an EPSI header section. This tool reads the binary structure, locates the preview data, and decodes it into a standard image you can save as JPG, PNG, or WebP. It does not render the PostScript vector data itself, since that requires a full PostScript interpreter.",
 	},
 	{
-		question: "What are the limitations of EPS preview extraction?",
+		question: "What can't this tool extract from EPS files?",
 		answer:
 			"The extracted preview is only as detailed as what the original application embedded — often a low-to-medium resolution bitmap, not the full vector quality. EPS files without any embedded preview cannot be converted in a browser. WMF-format previews are not currently supported. For full-resolution vector rendering, use desktop software like Inkscape, Adobe Illustrator, or Ghostscript.",
 	},
@@ -49,11 +65,6 @@ const faqItems = [
 		question: "Can this tool open .ps (PostScript) files too?",
 		answer:
 			"The tool accepts .ps files but can only extract embedded preview images, not render arbitrary PostScript programs. Standalone .ps files rarely contain preview sections, so most will show an error. EPS files are far more likely to include usable preview data since embedding previews is part of the EPS specification.",
-	},
-	{
-		question: "Why use NoUploads instead of other EPS converters?",
-		answer:
-			"EPS files are commonly used for brand logos, client artwork, and proprietary designs that should not be uploaded to third-party servers. NoUploads extracts the embedded preview entirely on your device — your EPS files never leave your browser. There are no file size limits, no daily conversion caps, and no account required. The tool works offline after the first page load and is completely open source.",
 	},
 ];
 

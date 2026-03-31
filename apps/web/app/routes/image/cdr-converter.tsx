@@ -31,9 +31,25 @@ const ACCEPT = { "application/vnd.corel-draw": [".cdr"] };
 
 const faqItems = [
 	{
-		question: "What is a CDR file?",
-		answer:
-			"CDR is the native file format for CorelDRAW, a vector graphics editor first released in 1989. CDR files store vector drawings, text, bitmaps, and page layout information. The format has evolved significantly — older versions use a RIFF container structure, while CDR X5 and later versions use a ZIP-based archive format similar to OOXML documents.",
+		question: "How did CorelDRAW and the CDR format get started?",
+		answer: (
+			<>
+				CorelDRAW was first released in 1989 and was one of the first
+				professional vector graphics editors available for Windows, at a time
+				when the Macintosh dominated creative computing. The CDR format became
+				especially popular in the sign-making, screen printing, and engraving
+				industries, where CorelDRAW's precision drawing tools were considered
+				superior to the competition.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/CorelDRAW"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does this tool convert CDR files without a server?",
@@ -41,7 +57,7 @@ const faqItems = [
 			"CorelDRAW files typically embed preview images for quick display in file managers and other applications. This tool extracts that embedded preview — checking RIFF DISP chunks in classic CDR files and thumbnail images in ZIP-based CDR archives. The preview is then available for download as JPG, PNG, WebP, or AVIF. All processing runs in your browser.",
 	},
 	{
-		question: "What are the limitations of CDR preview extraction?",
+		question: "What are the limitations of CDR conversion in a browser?",
 		answer:
 			"This tool extracts the embedded preview image, not the full vector artwork. The preview resolution depends on what CorelDRAW stored when saving the file — typically a mid-resolution bitmap suitable for thumbnails and quick previews. CDR files without embedded previews cannot be converted. For full vector editing, you need CorelDRAW or Inkscape.",
 	},
@@ -49,11 +65,6 @@ const faqItems = [
 		question: "Which CDR versions are supported?",
 		answer:
 			"Both classic RIFF-based CDR files (versions up through X4) and newer ZIP-based CDR files (X5 and later) are supported. The decoder checks the file structure and uses the appropriate extraction method. Very old CDR files from the early 1990s that lack embedded previews may not work.",
-	},
-	{
-		question: "Why use NoUploads instead of other CDR converters?",
-		answer:
-			"Design files are often proprietary and confidential. NoUploads extracts the CDR preview entirely on your device — the file never leaves your browser, no data goes to any server. There are no file size limits, no daily conversion caps, and no watermarks on the output. The tool works offline after the first load, requires no account, and is open source.",
 	},
 ];
 

@@ -31,9 +31,24 @@ const ACCEPT = { "image/vnd-ms.dds": [".dds"] };
 
 const faqItems = [
 	{
-		question: "What is a DDS file?",
-		answer:
-			"DDS (DirectDraw Surface) is a container format created by Microsoft for storing textures and environment maps used in DirectX applications. DDS files can hold compressed textures using S3TC block compression (DXT1, DXT3, DXT5), uncompressed pixel data, mipmaps, cubemaps, and volume textures. The format is a standard in game engines and GPU-accelerated rendering because GPUs can decompress S3TC blocks directly in hardware.",
+		question: "Where does the DDS texture format come from?",
+		answer: (
+			<>
+				DirectDraw Surface (DDS) was introduced by Microsoft as part of DirectX
+				7 in 1999. It stores textures in GPU-native compressed formats (like
+				DXT/BCn) that can be uploaded directly to graphics hardware without any
+				decompression step — making it the preferred format for video games and
+				real-time 3D applications where texture loading speed is critical.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/DirectDraw_Surface"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What are DXT1, DXT3, and DXT5 compression?",
@@ -49,11 +64,6 @@ const faqItems = [
 		question: "Why would I need to convert a DDS file?",
 		answer:
 			"Game developers and 3D artists frequently work with DDS textures in tools like Unreal Engine, Unity, Blender, and Substance Painter. When you need to share a texture preview with a colleague, embed it in documentation, or post it online, converting to JPG or PNG gives you a universally viewable image. This tool lets you inspect and convert DDS assets without installing dedicated texture viewers.",
-	},
-	{
-		question: "Why use NoUploads instead of other DDS converters?",
-		answer:
-			"Game textures and proprietary assets should stay on your machine. NoUploads decompresses DDS S3TC blocks entirely in your browser using a custom parser — nothing leaves your device. It handles DXT1, DXT3, DXT5, and uncompressed RGBA without needing server-side processing. Free, unlimited, no account, works offline. Your textures remain private.",
 	},
 ];
 

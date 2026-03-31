@@ -29,6 +29,27 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
+		question: "Why is GIF limited to 256 colors per frame?",
+		answer: (
+			<>
+				GIF uses indexed color — each frame contains a palette of up to 256
+				colors, and every pixel is simply an index into that palette. This was a
+				practical design choice in 1987, when most computer displays could show
+				only 256 colors and modems ran at 1,200–2,400 baud. The constraint that
+				seems like a limitation today was actually a feature that kept file
+				sizes tiny enough for early online services like CompuServe.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/GIF#Palettes"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "How does GIF compression work?",
 		answer:
 			"This tool uses gifsicle's lossy LZW compression, which subtly modifies pixel data so the LZW algorithm can compress it more efficiently. It also optimizes transparency — replacing duplicate pixels between frames with transparent ones so there's less data to store. The result is a smaller GIF that looks nearly identical to the original.",
@@ -39,24 +60,9 @@ const faqItems = [
 			"The slider controls quality from 10% (maximum compression, smallest file, most artifacts) to 100% (minimal compression, largest file, best quality). For most GIFs, 70–85% gives a good balance between file size and visual fidelity. Start at the default (80%) and adjust based on the preview.",
 	},
 	{
-		question: "What does the Colors slider do?",
-		answer:
-			"The Colors slider reduces the number of colors in the GIF palette (2–256). Many GIFs use far fewer than 256 unique colors, so lowering this value can significantly shrink file size with little visible change. Try 128 or 64 for a good balance. At 256 (the default), no color reduction is applied.",
-	},
-	{
 		question: "Will my animated GIF still animate after compression?",
 		answer:
 			"Yes. The compression preserves all frames, timing, and loop settings. It reduces file size by optimizing how frame data is stored, not by removing frames. The output is still a fully animated GIF.",
-	},
-	{
-		question: "Can I compress multiple GIFs at once?",
-		answer:
-			"Yes. Drop or select several GIF files and they'll all be compressed in a batch at the same compression level. Download each individually or grab everything at once.",
-	},
-	{
-		question: "Why use NoUploads instead of other GIF compressors?",
-		answer:
-			"GIF compression is tricky — a bad tool can break animation timing, drop frames, or flatten transparency. NoUploads runs gifsicle compiled to WebAssembly, the same battle-tested algorithm behind the gifsicle CLI that professionals use on the desktop. The difference is it runs right in your browser tab: no install, no upload, no server. Animation, frame timing, and loop count are all preserved. Free, unlimited, works offline, and the code is open source.",
 	},
 ];
 

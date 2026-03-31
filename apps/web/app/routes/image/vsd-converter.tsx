@@ -35,9 +35,25 @@ const ACCEPT = {
 
 const faqItems = [
 	{
-		question: "What are VSD and VSDX files?",
-		answer:
-			"VSD is the legacy binary format for Microsoft Visio diagrams, used from Visio 2003 and earlier. VSDX is the newer XML-based format introduced with Visio 2013, built on the same OOXML packaging standard as modern Office documents. Both formats store flowcharts, org charts, network diagrams, and other technical drawings.",
+		question: "How did Visio and the VSD format come about?",
+		answer: (
+			<>
+				Visio was originally developed as a product called Axon by Shapeware
+				Corporation in 1992, then acquired by Microsoft in 2000. The VSD format
+				became the de facto standard for business diagrams: flowcharts,
+				organizational charts, network topology maps, and floor plans. Visio's
+				stencil-and-connector approach made it possible for non-designers to
+				create professional-looking technical diagrams.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Microsoft_Visio"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does this tool handle both VSD and VSDX formats?",
@@ -45,7 +61,7 @@ const faqItems = [
 			"The two formats use completely different internal structures. VSD files are OLE2 compound files — the tool reads them with the cfb library and scans binary streams for embedded JPEG, PNG, or BMP images. VSDX files are ZIP archives — the tool opens them with JSZip and looks for the OOXML thumbnail or media images. Both paths extract the best available preview.",
 	},
 	{
-		question: "What are the limitations?",
+		question: "What should I expect when converting VSD files?",
 		answer:
 			"This tool extracts embedded images and thumbnails rather than rendering the full diagram. Text, shapes, connectors, and page layout are not reproduced — that would require a complete Visio rendering engine. The quality depends on what Visio stored as a preview when the file was saved. For full diagram editing, use Microsoft Visio, draw.io, or Lucidchart.",
 	},
@@ -53,11 +69,6 @@ const faqItems = [
 		question: "Can I convert Visio files with multiple pages?",
 		answer:
 			"The tool extracts the primary thumbnail or the largest embedded image, which typically represents the first page or a composite preview. Individual page-by-page extraction is not supported — the goal is to produce a usable image from the diagram as quickly as possible.",
-	},
-	{
-		question: "Why use NoUploads instead of other Visio converters?",
-		answer:
-			"Visio diagrams frequently contain sensitive business information — network topologies, organizational structures, process flows. NoUploads processes the file entirely on your device. Nothing is uploaded, no API key is needed, and the tool works offline. It handles both legacy VSD and modern VSDX files in one place, with no conversion limits or watermarks.",
 	},
 ];
 

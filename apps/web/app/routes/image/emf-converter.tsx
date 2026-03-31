@@ -31,9 +31,26 @@ const ACCEPT = { "image/x-emf": [".emf"] };
 
 const faqItems = [
 	{
-		question: "What is an EMF file?",
-		answer:
-			"EMF (Enhanced Metafile) is a Windows vector graphics format introduced with Win32. It stores drawing commands — rectangles, ellipses, lines, polygons, embedded bitmaps, pen and brush selections — as a sequence of GDI records. Applications like Microsoft Office, Visio, and many CAD tools export EMF for clipboard operations, printing, and document embedding.",
+		question: "How did the EMF format originate?",
+		answer: (
+			<>
+				Enhanced Metafile (EMF) was introduced with Windows NT 3.1 in 1993 as a
+				successor to the older WMF format. Rather than storing pixels, EMF
+				records a sequence of GDI (Graphics Device Interface) drawing commands —
+				instructions like &quot;draw a line from A to B&quot; or &quot;fill this
+				rectangle with blue.&quot; This makes it resolution-independent,
+				conceptually similar to SVG but built on Microsoft's proprietary
+				graphics model.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Windows_Metafile#EMF"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Which EMF features does this tool support?",
@@ -49,11 +66,6 @@ const faqItems = [
 		question: "Can I convert EMF files on a Mac or Linux machine?",
 		answer:
 			"Yes. Because this tool runs entirely in your browser, it works on macOS, Linux, ChromeOS, and Windows — anywhere with a modern browser. No Windows-specific software is needed. Drop your EMF file and download a standard JPG, PNG, or WebP image.",
-	},
-	{
-		question: "Why use NoUploads instead of other EMF converters?",
-		answer:
-			"EMF files often contain proprietary diagrams, internal documents, or clipboard data you don't want on someone else's server. NoUploads parses the EMF binary format and renders it to a Canvas element entirely in your browser — your file never leaves your device. There's no upload, no server processing, no daily limit, and no account required. The tool is free, open source, and works offline once loaded.",
 	},
 ];
 

@@ -31,9 +31,27 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "Which image formats can I convert between?",
-		answer:
-			"You can convert from any browser-supported format — JPG, PNG, WebP, AVIF, GIF, BMP, TIFF, and SVG — to JPG, PNG, WebP, or AVIF output. The converter auto-detects the input format from the file you drop in.",
+		question: "How do digital images represent color under the hood?",
+		answer: (
+			<>
+				Most digital images use the RGB color model, where each pixel stores
+				red, green, and blue intensity values. The standard of 8 bits per
+				channel (256 levels per color, 16.7 million total colors) became
+				established in the early 1990s as a practical match for human color
+				perception. Different image formats package these pixel values in
+				different ways — some with compression, some without, some with
+				transparency — but the underlying RGB data is remarkably consistent
+				across formats.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/RGB_color_model"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Will converting my image reduce its quality?",
@@ -41,19 +59,9 @@ const faqItems = [
 			"It depends on the output format. Converting to PNG produces a lossless copy at the target format. Converting to JPG, WebP, or AVIF uses lossy compression, but at high default quality (92%) the difference is imperceptible for most images. Transparency is preserved when converting to PNG or WebP.",
 	},
 	{
-		question: "Can I convert multiple images at once?",
-		answer:
-			"Yes. Drop or select multiple files and they'll all be converted in a batch to your chosen output format. You can download each file individually or all at once.",
-	},
-	{
 		question: "What happens to transparent backgrounds?",
 		answer:
 			"PNG and WebP preserve transparency. If you convert a transparent image to JPG, the transparent areas become white — JPG doesn't support alpha channels.",
-	},
-	{
-		question: "Why use NoUploads instead of other image converters?",
-		answer:
-			"Most online converters upload your images to remote servers for processing. NoUploads converts everything directly in your browser using the Canvas API — your files never leave your device. There's no signup, no watermarks, no file size limits, and it works offline. It's free and open source.",
 	},
 ];
 

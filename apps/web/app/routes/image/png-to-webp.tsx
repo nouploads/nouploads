@@ -31,19 +31,30 @@ const ACCEPT = { "image/png": [".png"] };
 
 const faqItems = [
 	{
+		question: "How does WebP achieve smaller files than PNG?",
+		answer: (
+			<>
+				WebP's lossless mode uses techniques that PNG lacks — including
+				cross-color transforms, a subtract-green transform, and a custom entropy
+				coder. For lossy mode, it applies predictive coding from the VP8 video
+				codec that analyzes surrounding pixel blocks to predict each new block's
+				content. Google's benchmarks showed WebP lossless files are on average
+				26% smaller than equivalent PNGs.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/WebP"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "Does PNG to WebP preserve transparency?",
 		answer:
 			"Yes. WebP supports alpha transparency just like PNG. Your transparent backgrounds, rounded corners, and semi-transparent effects will carry over perfectly to the WebP output.",
-	},
-	{
-		question: "How much smaller will my files be?",
-		answer:
-			"WebP typically produces files 26–34% smaller than PNG for the same image content. For photographs stored as PNG, the savings can be even more dramatic — often 70%+ reduction. Graphics with flat colors see moderate but still meaningful savings.",
-	},
-	{
-		question: "When should I keep PNG instead of converting?",
-		answer:
-			"Keep PNG if you need pixel-perfect lossless quality for technical diagrams, if your target platform doesn't support WebP, or if you're archiving images and want maximum compatibility with future software.",
 	},
 	{
 		question: "Is the conversion lossless?",
@@ -51,9 +62,9 @@ const faqItems = [
 			"WebP supports both lossy and lossless modes. This converter uses lossy compression at high quality (92%) by default, which provides the best size-to-quality ratio. The visual difference is essentially imperceptible.",
 	},
 	{
-		question: "Why use NoUploads instead of other PNG to WebP tools?",
+		question: "When should I keep PNG instead of converting?",
 		answer:
-			"Switching from PNG to WebP is one of the easiest web performance wins — typical savings run 25-35% with no visible quality difference. Most converters make you upload each file and wait for a server response. NoUploads encodes WebP locally using the browser's built-in codec, so conversion is near-instant and your images are never transmitted anywhere. Ideal for batch-optimizing assets before deployment. No account, no rate limits, works fully offline, and the project is open source.",
+			"Keep PNG if you need pixel-perfect lossless quality for technical diagrams, if your target platform doesn't support WebP, or if you're archiving images and want maximum compatibility with future software.",
 	},
 ];
 

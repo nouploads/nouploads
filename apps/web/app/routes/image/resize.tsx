@@ -29,6 +29,28 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
+		question: "Where does the Lanczos resampling algorithm come from?",
+		answer: (
+			<>
+				When you resize an image, the software must create or remove pixels
+				through a process called resampling. The most common algorithm for
+				high-quality downscaling, Lanczos resampling, is named after Hungarian
+				mathematician Cornelius Lanczos. It uses a windowed sinc function to
+				calculate the ideal color value for each new pixel by considering a
+				neighborhood of surrounding original pixels, producing sharp results
+				with minimal ringing artifacts.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Lanczos_resampling"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "How do I resize an image without stretching it?",
 		answer:
 			"Keep the aspect ratio locked (the lock icon between width and height). When you change one dimension, the other adjusts automatically to maintain the original proportions. This prevents any distortion or stretching.",
@@ -39,19 +61,9 @@ const faqItems = [
 			"You can save your resized image as JPG, PNG, or WebP. JPG and WebP support a quality slider so you can balance file size and visual clarity. PNG produces lossless output at the cost of larger files.",
 	},
 	{
-		question: "Can I resize by percentage instead of exact pixels?",
-		answer:
-			"Yes. Use the 50% or 25% preset buttons to scale the image down quickly. You can also type exact pixel values for width and height if you need a specific size.",
-	},
-	{
 		question: "Is there a maximum image size I can resize?",
 		answer:
 			"The tool handles images up to 16,384 pixels on either side, which covers virtually every use case from phone photos to high-resolution scans. Processing happens in a Web Worker so your browser stays responsive even with large files.",
-	},
-	{
-		question: "Why use NoUploads instead of other image resizers?",
-		answer:
-			"Traditional image resizers upload your files to a server, which means your photos travel across the internet before being processed. NoUploads resizes everything locally in your browser using the Canvas API. Your images never leave your device, there are no daily limits or watermarks, and it works offline. The tool is free, open source, and requires no signup.",
 	},
 ];
 

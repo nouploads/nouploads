@@ -31,14 +31,25 @@ const ACCEPT = { "application/dicom": [".dcm"] };
 
 const faqItems = [
 	{
-		question: "What is a DICOM file?",
-		answer:
-			"DICOM (Digital Imaging and Communications in Medicine) is the universal standard for storing and transmitting medical images. Every CT scan, MRI, X-ray, ultrasound, and PET scan your hospital produces is saved as one or more DICOM files. Each file bundles the pixel data with hundreds of metadata tags — patient name, study date, modality, slice position, window/level presets, and more. The .dcm extension is most common, though some systems omit it entirely.",
-	},
-	{
-		question: "Is my medical data safe with this tool?",
-		answer:
-			"Yes. This tool processes DICOM files entirely in your browser using JavaScript. No pixel data, metadata, or patient information is ever uploaded to any server. The file never leaves your device — it is read into memory, decoded, and rendered locally. You can verify this by disconnecting from the internet before using the tool; it will still work. This makes it suitable for handling protected health information (PHI) without violating HIPAA or GDPR data-handling requirements.",
+		question: "What's the history behind the DICOM standard?",
+		answer: (
+			<>
+				DICOM (Digital Imaging and Communications in Medicine) has been the
+				universal standard for medical imaging since 1993. It is used by
+				virtually every MRI scanner, CT scanner, X-ray machine, and ultrasound
+				device in modern hospitals worldwide. Beyond the image data, DICOM files
+				embed extensive patient and study metadata, enabling hospitals to build
+				searchable archives of millions of medical images.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/DICOM"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What is window/level and how does it affect the output?",
@@ -51,9 +62,9 @@ const faqItems = [
 			"This converter handles any standard DICOM file that contains 2D grayscale pixel data — including CT, MRI, X-ray (CR/DX), mammography, nuclear medicine, and ultrasound images stored as single-frame DICOM. It reads both 8-bit and 16-bit data, applies rescale slope/intercept transforms, and handles MONOCHROME1 (inverted) and MONOCHROME2 photometric interpretations. Compressed transfer syntaxes (JPEG, JPEG 2000, JPEG-LS, RLE) are supported via the daikon library's built-in decompressors.",
 	},
 	{
-		question: "Why use NoUploads instead of other DICOM viewers?",
+		question: "Does converting a DICOM file strip the medical metadata?",
 		answer:
-			"Most online DICOM viewers require you to upload medical files to a remote server, which creates compliance risks for patient data. Desktop DICOM software like Horos, OsiriX, or RadiAnt requires installation and often a license. NoUploads runs entirely in the browser — your files stay on your machine, there is no account to create, no watermark on exports, and no file size cap imposed by an upload endpoint. It works offline once loaded, is free and unlimited, and is fully open source so your IT or compliance team can audit exactly what the code does.",
+			"Yes. The exported JPG, PNG, or WebP contains only the pixel data — all DICOM metadata (patient name, study date, modality, slice position, etc.) is discarded during conversion. This is useful when sharing an image outside clinical systems, but means the output cannot be reimported into a PACS as a valid DICOM object.",
 	},
 ];
 

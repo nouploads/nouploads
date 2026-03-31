@@ -31,9 +31,25 @@ const ACCEPT = { "image/png": [".png"] };
 
 const faqItems = [
 	{
-		question: "Why convert PNG to JPG?",
-		answer:
-			"JPG files are significantly smaller than PNGs for photographic content. If you have screenshots or photos saved as PNG and need to reduce file size for email, web uploads, or storage, converting to JPG is the fastest way to shrink them.",
+		question: "How did JPEG become the universal photo format?",
+		answer: (
+			<>
+				JPEG was created in 1992 by the Joint Photographic Experts Group, a
+				collaboration between ISO and the ITU. Its lossy compression algorithm
+				was revolutionary — it made digital photography practical by shrinking
+				photo files to a fraction of their original size while keeping quality
+				visually acceptable to the human eye. More than three decades later,
+				JPEG remains the most widely used image format in the world.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/JPEG"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What happens to transparent areas?",
@@ -44,16 +60,6 @@ const faqItems = [
 		question: "How much smaller will my files be?",
 		answer:
 			"It depends on the image content. Photographs converted from PNG to JPG typically shrink by 50–90%. Simple graphics with flat colors see less dramatic savings because JPG compression is optimized for continuous-tone images.",
-	},
-	{
-		question: "Can I convert multiple PNGs at once?",
-		answer:
-			"Yes. Select or drag multiple PNG files and they'll all be converted to JPG in a batch. Download each result individually or grab everything at once.",
-	},
-	{
-		question: "Why use NoUploads instead of other PNG to JPG tools?",
-		answer:
-			"Screenshots regularly capture things you would never share intentionally — visible passwords, private DMs, confidential code, patient records on a second monitor. Uploading those PNGs to a conversion site puts all of that data on a third-party server you do not control. With NoUploads the Canvas API re-encodes the pixels to JPG right on your machine, so sensitive information in the screenshot never touches the network. No account is needed and the tool keeps working after you disconnect from the internet.",
 	},
 ];
 

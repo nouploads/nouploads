@@ -31,9 +31,25 @@ const ACCEPT = { "image/vnd.adobe.photoshop-large": [".psb"] };
 
 const faqItems = [
 	{
-		question: "What is a PSB file?",
-		answer:
-			"PSB (Photoshop Big / Large Document) is Adobe's format for images that exceed the 30,000 x 30,000 pixel or 2 GB limit of standard PSD files. PSB supports canvases up to 300,000 x 300,000 pixels and is common in large-format print, panoramic photography, and high-resolution compositing workflows.",
+		question: "Why did Adobe need a format bigger than PSD?",
+		answer: (
+			<>
+				PSB (Photoshop Big) was introduced with Adobe Photoshop CS in 2003 to
+				handle documents that exceed PSD's limits of 30,000 × 30,000 pixels and
+				2 GB file size. PSB supports canvases up to 300,000 × 300,000 pixels —
+				essential for billboard-scale designs, gigapixel panoramas, and
+				large-format print work where a single image file can easily reach tens
+				of gigabytes.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Adobe_Photoshop#File_format"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How is PSB different from PSD?",
@@ -49,11 +65,6 @@ const faqItems = [
 		question: "Does it support CMYK PSB files?",
 		answer:
 			"Yes. CMYK color data in PSB files is automatically converted to RGB during compositing. The output works correctly in web browsers, email clients, and standard image viewers without any manual color profile adjustment.",
-	},
-	{
-		question: "Why use NoUploads instead of other PSB converters?",
-		answer:
-			"PSB files are typically massive — often hundreds of megabytes — containing high-value creative assets like billboard artwork, panoramic stitches, or client deliverables. Uploading files that large to a remote server is slow, risky, and unnecessary. NoUploads decodes PSB files entirely on your device using the @webtoon/psd library. Nothing is uploaded, no account is needed, and it works offline. Free, unlimited, and open source.",
 	},
 ];
 

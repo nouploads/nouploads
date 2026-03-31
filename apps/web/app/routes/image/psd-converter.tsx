@@ -31,9 +31,26 @@ const ACCEPT = { "image/vnd.adobe.photoshop": [".psd"] };
 
 const faqItems = [
 	{
-		question: "What is a PSD file?",
-		answer:
-			"PSD (Photoshop Document) is Adobe Photoshop's native file format. It stores layers, masks, adjustment layers, color profiles, and full editing history. PSD files are typically large and can only be opened by a handful of applications — this tool lets you convert them to standard image formats anyone can view.",
+		question: "How did Photoshop and the PSD format get started?",
+		answer: (
+			<>
+				Photoshop was created by brothers Thomas and John Knoll. Thomas wrote
+				the original program in 1987 as a graduate student at the University of
+				Michigan, and his brother John — a visual effects artist at Industrial
+				Light & Magic — recognized its potential for film production. Adobe
+				acquired the distribution license in 1988, and Photoshop 1.0 shipped in
+				1990, creating the PSD format that remains the standard for layered
+				image editing.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Adobe_Photoshop"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does this handle PSD layers?",
@@ -46,14 +63,9 @@ const faqItems = [
 			"Yes. CMYK color data is automatically converted to RGB during compositing so the output works correctly in web browsers, email clients, and standard image viewers. No manual color profile conversion is needed.",
 	},
 	{
-		question: "Is there a file size limit?",
+		question: "How large of a PSD file can this handle?",
 		answer:
 			"There is no server-imposed limit since everything runs in your browser. In practice, PSD files up to roughly 200MB process well on modern devices. Very large PSDs (500MB+) may run slowly or exceed browser memory on older machines or mobile devices.",
-	},
-	{
-		question: "Why use NoUploads instead of other PSD converters?",
-		answer:
-			"Photoshop files often contain confidential creative work — unreleased designs, client mockups, proprietary assets. NoUploads processes PSD files entirely on your device using the @webtoon/psd library. Your files are never uploaded to any server, there is no account required, and it works offline once loaded. Completely free, unlimited, and open source.",
 	},
 ];
 

@@ -29,9 +29,26 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "What is EXIF data?",
-		answer:
-			"EXIF (Exchangeable Image File Format) is metadata embedded inside photo files by cameras and phones. It can include the camera model, exposure settings, date and time, GPS coordinates, lens information, and software used to edit the image. This data travels with the file whenever you share it.",
+		question: "Where did the EXIF standard come from?",
+		answer: (
+			<>
+				EXIF (Exchangeable Image File Format) was developed by the Japan
+				Electronic Industries Development Association (JEIDA) and first
+				published in 1995. It is embedded in virtually every photo taken by a
+				digital camera or smartphone, storing camera model, exposure settings,
+				GPS coordinates, and timestamps. Security researchers frequently advise
+				stripping EXIF data before sharing photos online to avoid inadvertently
+				revealing location information.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Exif"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What types of metadata can this tool read?",
@@ -47,11 +64,6 @@ const faqItems = [
 		question: "Can this tool read metadata from PNG files?",
 		answer:
 			"Yes. While PNG files don't use EXIF in the traditional sense, they can contain tEXt, iTXt, and other metadata chunks. This tool reads whatever metadata is present in PNG, JPG, WebP, TIFF, HEIC, and AVIF files. If a file has no embedded metadata, the viewer will tell you.",
-	},
-	{
-		question: "Why use NoUploads instead of other EXIF viewers?",
-		answer:
-			"Most EXIF tools require you to upload your photo to a server, which means your GPS coordinates, camera serial numbers, and other personal data pass through someone else's infrastructure. NoUploads processes everything locally in your browser — your files and their metadata never leave your device. There is no account required, no usage limits, and the tool works offline once loaded. The source code is open for anyone to audit.",
 	},
 ];
 
@@ -107,7 +119,7 @@ export default function ExifPage() {
 				<a
 					href="https://github.com/MikeKovarik/exifr"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					exifr

@@ -29,14 +29,32 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
+		question: "Why is designing tiny icons so difficult?",
+		answer: (
+			<>
+				Designing icons at 16×16 or 32×32 pixels is a specialized discipline
+				closely related to pixel art — each individual pixel matters because
+				there are so few of them. Professional icon designers often hand-edit
+				icons pixel by pixel at small sizes rather than simply scaling down a
+				larger image, because automatic downscaling produces blurry,
+				unrecognizable results. Apple, Google, and Microsoft all publish
+				detailed human interface guidelines for icon design at various
+				resolutions.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Pixel_art"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
+	},
+	{
 		question: "What sizes are included in the generated favicon?",
 		answer:
 			"The tool generates three sizes: 16x16 pixels (used in browser tabs), 32x32 pixels (used in bookmark menus and taskbar shortcuts), and 48x48 pixels (used by Windows for desktop shortcuts). All three are packed into a single .ico file that works across browsers and operating systems.",
-	},
-	{
-		question: "What image formats can I use as input?",
-		answer:
-			"You can use any common image format as your source: PNG, JPG, WebP, SVG, GIF, BMP, AVIF, or TIFF. Square images produce the best results since favicons are square. Non-square images will be scaled to fit, which may crop edges.",
 	},
 	{
 		question: "How do I add the favicon to my website?",
@@ -47,11 +65,6 @@ const faqItems = [
 		question: "Can I download individual PNG sizes separately?",
 		answer:
 			"Yes. After generating the favicon, each size (16x16, 32x32, 48x48) is shown as a preview with its own download button. You can grab individual PNGs for use as Apple touch icons, Android icons, or anywhere else that needs a specific size.",
-	},
-	{
-		question: "Why use NoUploads instead of other favicon generators?",
-		answer:
-			"Most favicon generators upload your image to a server for processing — your logo or brand asset passes through third-party infrastructure. NoUploads generates the favicon entirely in your browser using the Canvas API and manual ICO binary packing. Your images never leave your device, there are no daily limits, no watermarks, and no signup required. It works offline once loaded, and the source code is open for anyone to verify.",
 	},
 ];
 

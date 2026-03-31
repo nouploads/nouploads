@@ -31,9 +31,25 @@ const ACCEPT = { "image/svg+xml": [".svg"] };
 
 const faqItems = [
 	{
-		question: "Why convert SVG to JPG instead of PNG?",
-		answer:
-			"JPG produces smaller file sizes than PNG for photographic or gradient-heavy SVGs. If your SVG contains complex gradients, blurs, or embedded images rather than flat colors, JPG will give you a more compact file that loads faster on the web and in emails.",
+		question: "Where does the SVG format come from?",
+		answer: (
+			<>
+				Scalable Vector Graphics (SVG) was developed by the World Wide Web
+				Consortium (W3C) beginning in 1999. It emerged after six competing
+				proposals for web vector graphics were submitted in 1998, including
+				Adobe's PGML and Microsoft's VML. Rather than adopt any single proposal,
+				the W3C created an entirely new XML-based language — a decision that
+				ultimately produced a more elegant and extensible standard.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/SVG"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "What happens to transparent areas in my SVG?",
@@ -41,7 +57,7 @@ const faqItems = [
 			"JPG does not support transparency. Any transparent regions in your SVG are composited onto a white background before encoding. If you need to keep transparency, convert to PNG or WebP instead.",
 	},
 	{
-		question: "What quality setting should I use?",
+		question: "What JPG quality is best for SVG conversion?",
 		answer:
 			"For most SVGs with text and simple shapes, quality 85-90 gives a clean result at a reasonable file size. For SVGs with embedded photographs or complex gradients, 80 is usually enough. Lower values reduce file size but may introduce visible compression artifacts around sharp edges.",
 	},
@@ -49,11 +65,6 @@ const faqItems = [
 		question: "Can I convert SVGs with embedded fonts or external resources?",
 		answer:
 			"Embedded fonts and inline styles are rendered correctly since the browser handles the SVG natively. External resources like linked stylesheets or images referenced via URL may not load because the file is processed locally without network access to those remote assets.",
-	},
-	{
-		question: "Why use NoUploads instead of other SVG to JPG converters?",
-		answer:
-			"SVG files are often proprietary brand assets — your logo, icon system, or pitch-deck illustrations. Handing them to a conversion server means your design IP sits in someone else's logs. NoUploads rasterizes SVGs by loading them into an Image element and drawing onto a Canvas, all inside your browser tab. The vector data never leaves your machine, which is exactly what you want for unreleased brand work or files under client NDA. Once the page is cached, it keeps working without a connection.",
 	},
 ];
 

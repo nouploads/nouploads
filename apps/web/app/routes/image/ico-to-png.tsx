@@ -31,14 +31,25 @@ const ACCEPT = { "image/x-icon": [".ico", ".cur"] };
 
 const faqItems = [
 	{
-		question: "What is an ICO file?",
-		answer:
-			"ICO is the icon format used by Windows and web browsers for favicons. A single ICO file can contain multiple images at different sizes (16x16, 32x32, 48x48, 256x256) so the system can pick the right one for each context. This tool extracts the largest, highest-quality version.",
-	},
-	{
-		question: "Why convert ICO to PNG?",
-		answer:
-			"Developers and designers often need a favicon as a standard image — for documentation, brand guides, or social media. PNG gives you a clean, transparent image from the ICO that any image editor or platform can open.",
+		question: "How did the favicon become a web standard?",
+		answer: (
+			<>
+				The favicon concept originated with Internet Explorer 5 in 1999, which
+				automatically looked for a file named favicon.ico at every website's
+				root directory. The practice spread so quickly that HTML later
+				formalized it with the {'<link rel="icon">'} tag, letting sites specify
+				custom icon paths and formats. Modern favicons support PNG, SVG, and
+				multiple sizes for different devices and contexts.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/Favicon"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Does it keep the transparent background?",
@@ -49,11 +60,6 @@ const faqItems = [
 		question: "Can I convert CUR (cursor) files too?",
 		answer:
 			"Yes. CUR files use the same container format as ICO but include cursor hotspot metadata. The tool extracts the image data the same way — the hotspot information is simply ignored since it only applies to mouse cursors.",
-	},
-	{
-		question: "Why use NoUploads instead of other ICO converters?",
-		answer:
-			"Developers typically need this when auditing a site's favicon or rebuilding a brand kit — quick, low-friction tasks that do not warrant creating an account on a converter service. NoUploads parses the ICO binary with the decode-ico library right in your browser, inspects every embedded frame, and automatically selects the highest resolution available. It handles both legacy BMP-encoded frames and modern PNG-compressed frames inside the same ICO container, which many online tools get wrong. Once the page is cached you can keep extracting favicons on a plane.",
 	},
 ];
 

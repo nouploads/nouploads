@@ -29,9 +29,25 @@ export function meta(_args: Route.MetaArgs) {
 
 const faqItems = [
 	{
-		question: "What image formats can I combine into a PDF?",
-		answer:
-			"You can combine JPG, PNG, WebP, GIF, BMP, TIFF, AVIF, SVG, and HEIC images into a single PDF. JPG and PNG images are embedded directly, while other formats are automatically converted to PNG before embedding to ensure compatibility.",
+		question: "How does PDF actually store images internally?",
+		answer: (
+			<>
+				PDF was designed from the start to embed images alongside text and
+				vector graphics. When images are placed inside a PDF, each one becomes a
+				&quot;stream object&quot; within the file's internal structure. The PDF
+				specification supports JPEG, JPEG 2000, JBIG2 (for scanned text), and
+				raw uncompressed image data — making it one of the most versatile
+				document containers for mixed image content.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/PDF"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "Can I reorder images before creating the PDF?",
@@ -47,11 +63,6 @@ const faqItems = [
 		question: "Is there a limit on how many images I can combine?",
 		answer:
 			"There is no hard limit. Since processing runs entirely in your browser, the practical limit depends on your device's memory. Most modern devices handle dozens of images without issue. Very large batches (100+ high-resolution photos) may be slow on phones or tablets.",
-	},
-	{
-		question: "Why use NoUploads instead of other image-to-PDF tools?",
-		answer:
-			"Every image you drop stays on your device — nothing is uploaded to any server, ever. There is no account to create, no watermark on the output, no daily cap on conversions, and no file size restriction beyond what your browser can handle. The tool works offline after the first load, and the source code is open for anyone to inspect.",
 	},
 ];
 
@@ -105,7 +116,7 @@ export default function ToPdfPage() {
 				<a
 					href="https://github.com/Hopding/pdf-lib"
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="noopener"
 					className="underline hover:text-foreground transition-colors"
 				>
 					pdf-lib

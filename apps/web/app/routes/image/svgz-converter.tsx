@@ -31,9 +31,25 @@ const ACCEPT = { "image/svg+xml-compressed": [".svgz"] };
 
 const faqItems = [
 	{
-		question: "What is an SVGZ file?",
-		answer:
-			"SVGZ is a gzip-compressed version of the SVG (Scalable Vector Graphics) format. It contains the same XML-based vector markup as a regular SVG file but wrapped in gzip compression, reducing file size by 20-50%. SVGZ files are commonly used in web servers, mapping applications, and embedded systems where bandwidth matters. Most modern browsers can render SVGZ directly, but many image editors and preview tools cannot open the compressed variant without first decompressing it.",
+		question: "How does SVGZ compression actually work?",
+		answer: (
+			<>
+				SVGZ is simply a gzip-compressed SVG file, typically reducing file size
+				by 20–50% while remaining functionally identical to its uncompressed
+				counterpart. All modern web browsers can decompress and render SVGZ
+				natively. The compression uses the same DEFLATE algorithm found in ZIP
+				files and PNG images — a well-proven lossless method standardized in RFC
+				1951.{" "}
+				<a
+					href="https://en.wikipedia.org/wiki/SVG#Compression"
+					target="_blank"
+					rel="noopener"
+					className="underline hover:text-foreground transition-colors"
+				>
+					Source: Wikipedia
+				</a>
+			</>
+		),
 	},
 	{
 		question: "How does this tool convert SVGZ files?",
@@ -44,11 +60,6 @@ const faqItems = [
 		question: "Can I get the uncompressed SVG instead of a raster image?",
 		answer:
 			"This converter outputs raster formats (JPG, PNG, WebP, AVIF). If you only need to decompress the SVGZ back to plain SVG, you can use any gzip decompression tool — SVGZ is literally gzipped SVG with a different file extension. On macOS or Linux, running 'gunzip file.svgz' in a terminal produces the raw SVG.",
-	},
-	{
-		question: "Why use NoUploads instead of other SVGZ converters?",
-		answer:
-			"SVGZ files often contain proprietary vector artwork, internal diagrams, or map data that should not be uploaded to third-party servers. NoUploads decompresses and rasterizes the file entirely on your device — nothing leaves your browser. There are no file size limits, no watermarks, no daily conversion caps, and no account required. The tool works offline after the first page load and is fully open source.",
 	},
 ];
 
