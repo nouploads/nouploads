@@ -14,7 +14,7 @@ export function GitHubLink({ href }: { href: string }) {
 					<a
 						href={href}
 						target="_blank"
-						rel="noopener noreferrer"
+						rel="noopener"
 						className="inline-flex items-center justify-center h-9 w-9 rounded-md text-muted-foreground hover:text-foreground transition-colors"
 						aria-label="GitHub"
 					>

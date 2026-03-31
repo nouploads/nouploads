@@ -23,7 +23,7 @@ function AttrLink({
 		<a
 			href={href}
 			target="_blank"
-			rel="noopener noreferrer"
+			rel="noopener"
 			className="underline hover:text-foreground transition-colors"
 		>
 			{children}

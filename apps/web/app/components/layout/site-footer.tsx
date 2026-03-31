@@ -21,7 +21,7 @@ export function SiteFooter() {
 						<a
 							href={GITHUB_URL}
 							target="_blank"
-							rel="noopener noreferrer"
+							rel="noopener"
 							className="hover:text-foreground transition-colors"
 						>
 							GitHub
@@ -32,7 +32,7 @@ export function SiteFooter() {
 						<a
 							href={`${GITHUB_URL}/blob/main/LICENSE`}
 							target="_blank"
-							rel="noopener noreferrer"
+							rel="noopener"
 							className="underline hover:text-foreground transition-colors"
 						>
 							AGPL-3.0
@@ -41,7 +41,7 @@ export function SiteFooter() {
 						<a
 							href={`${GITHUB_URL}/releases`}
 							target="_blank"
-							rel="noopener noreferrer"
+							rel="noopener"
 							className="hover:text-foreground transition-colors"
 						>
 							Version {__APP_VERSION__}

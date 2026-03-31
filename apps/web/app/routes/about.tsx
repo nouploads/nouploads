@@ -69,7 +69,7 @@ export default function AboutPage() {
 									href={GITHUB_URL}
 									className="text-primary underline underline-offset-2"
 									target="_blank"
-									rel="noopener noreferrer"
+									rel="noopener"
 								>
 									GitHub
 								</a>
@@ -105,7 +105,7 @@ export default function AboutPage() {
 								href={`${GITHUB_URL}/blob/main/LICENSE`}
 								className="text-primary underline underline-offset-2"
 								target="_blank"
-								rel="noopener noreferrer"
+								rel="noopener"
 							>
 								AGPL-3.0 license
 							</a>
