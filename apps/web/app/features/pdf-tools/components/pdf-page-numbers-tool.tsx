@@ -152,7 +152,7 @@ export default function PdfPageNumbersTool() {
 							value={format}
 							onValueChange={(v) => setFormat(v as NumberFormat)}
 						>
-							<SelectTrigger className="w-full">
+							<SelectTrigger className="w-full" aria-label="Number format">
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
@@ -174,6 +174,7 @@ export default function PdfPageNumbersTool() {
 							</span>
 						</div>
 						<Slider
+							aria-label="Font size"
 							value={[fontSize]}
 							onValueChange={([v]) => setFontSize(v)}
 							min={8}
@@ -191,6 +192,7 @@ export default function PdfPageNumbersTool() {
 							</span>
 						</div>
 						<Slider
+							aria-label="Margin"
 							value={[margin]}
 							onValueChange={([v]) => setMargin(v)}
 							min={20}

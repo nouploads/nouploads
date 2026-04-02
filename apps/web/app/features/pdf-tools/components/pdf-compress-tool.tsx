@@ -101,7 +101,7 @@ export default function PdfCompressTool() {
 					value={level}
 					onValueChange={(v) => setLevel(v as CompressionLevel)}
 				>
-					<SelectTrigger className="w-[240px]">
+					<SelectTrigger className="w-[240px]" aria-label="Compression level">
 						<SelectValue />
 					</SelectTrigger>
 					<SelectContent>

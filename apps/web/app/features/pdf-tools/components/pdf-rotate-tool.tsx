@@ -190,7 +190,7 @@ export default function PdfRotateTool() {
 					value={String(rotation)}
 					onValueChange={(v) => setRotation(Number(v) as RotationAngle)}
 				>
-					<SelectTrigger className="w-[240px]">
+					<SelectTrigger className="w-[240px]" aria-label="Rotation angle">
 						<SelectValue />
 					</SelectTrigger>
 					<SelectContent>

@@ -407,6 +407,7 @@ export default function HeicToWebpTool() {
 			<div className="space-y-2">
 				<span className="text-sm font-medium">WebP Quality: {quality}%</span>
 				<Slider
+					aria-label="WebP quality"
 					value={[quality]}
 					onValueChange={(v) => setQuality(v[0])}
 					min={10}

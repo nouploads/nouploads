@@ -281,7 +281,7 @@ export default function PdfToImageTool({
 						value={String(dpi)}
 						onValueChange={(v) => setDpi(Number(v) as Dpi)}
 					>
-						<SelectTrigger className="w-[200px]">
+						<SelectTrigger className="w-[200px]" aria-label="Resolution">
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
@@ -298,6 +298,7 @@ export default function PdfToImageTool({
 					<div className="space-y-2 flex-1 min-w-[200px]">
 						<span className="text-sm font-medium">JPG Quality: {quality}%</span>
 						<Slider
+							aria-label="JPG quality"
 							value={[quality]}
 							onValueChange={(v) => setQuality(v[0])}
 							min={10}

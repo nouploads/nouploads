@@ -925,7 +925,7 @@ export default function ImageConverterTool({
 				<div className="flex items-center gap-3">
 					<span className="text-sm font-medium">Output format:</span>
 					<Select value={outputFormat} onValueChange={handleOutputFormatChange}>
-						<SelectTrigger>
+						<SelectTrigger aria-label="Output format">
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>

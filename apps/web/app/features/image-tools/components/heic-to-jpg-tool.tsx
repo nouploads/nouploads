@@ -407,6 +407,7 @@ export default function HeicToJpgTool() {
 			<div className="space-y-2">
 				<span className="text-sm font-medium">JPG Quality: {quality}%</span>
 				<Slider
+					aria-label="JPG quality"
 					value={[quality]}
 					onValueChange={(v) => setQuality(v[0])}
 					min={10}

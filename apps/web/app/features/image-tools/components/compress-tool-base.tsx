@@ -618,6 +618,7 @@ export function CompressToolBase(props: CompressToolBaseProps) {
 							{activeConfig.sliderLabel(sliderValue)}
 						</span>
 						<Slider
+							aria-label="Quality"
 							value={[sliderValue]}
 							onValueChange={(v) => setSliderValue(v[0])}
 							min={activeConfig.sliderMin}
@@ -631,6 +632,7 @@ export function CompressToolBase(props: CompressToolBaseProps) {
 								{activeConfig.slider2Label?.(slider2Value)}
 							</span>
 							<Slider
+								aria-label="Colors"
 								value={[slider2Value]}
 								onValueChange={(v) => setSlider2Value(v[0])}
 								min={activeConfig.slider2Min}

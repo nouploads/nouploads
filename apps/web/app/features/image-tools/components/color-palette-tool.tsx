@@ -163,6 +163,7 @@ export default function ColorPaletteTool() {
 								Number of colors: {colorCount}
 							</label>
 							<Slider
+								aria-label="Number of colors"
 								id="color-count"
 								min={3}
 								max={12}

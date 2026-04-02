@@ -152,7 +152,7 @@ function GenerateTab() {
 
 			{/* Bulk generation */}
 			<div className="space-y-3 border-t pt-6">
-				<h3 className="text-sm font-medium">Bulk Generation</h3>
+				<h2 className="text-sm font-medium">Bulk Generation</h2>
 				<div className="flex items-center gap-3">
 					<label htmlFor="bulk-count" className="text-sm text-muted-foreground">
 						Count:

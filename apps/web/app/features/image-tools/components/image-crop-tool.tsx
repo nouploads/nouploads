@@ -603,7 +603,7 @@ export default function ImageCropTool() {
 								value={outputFormat}
 								onValueChange={(v) => setOutputFormat(v as OutputFormat)}
 							>
-								<SelectTrigger className="w-24">
+								<SelectTrigger className="w-24" aria-label="Output format">
 									<SelectValue />
 								</SelectTrigger>
 								<SelectContent>
@@ -620,6 +620,7 @@ export default function ImageCropTool() {
 							<div className="space-y-2 w-48">
 								<span className="text-sm font-medium">Quality: {quality}%</span>
 								<Slider
+									aria-label="Quality"
 									value={[quality]}
 									onValueChange={(v) => setQuality(v[0])}
 									min={10}

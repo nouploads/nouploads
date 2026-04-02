@@ -277,6 +277,7 @@ export default function PdfWatermarkTool() {
 							</span>
 						</div>
 						<Slider
+							aria-label="Font size"
 							value={[fontSize]}
 							onValueChange={([v]) => setFontSize(v)}
 							min={20}
@@ -293,6 +294,7 @@ export default function PdfWatermarkTool() {
 							</span>
 						</div>
 						<Slider
+							aria-label="Opacity"
 							value={[opacity]}
 							onValueChange={([v]) => setOpacity(v)}
 							min={0.1}
@@ -309,6 +311,7 @@ export default function PdfWatermarkTool() {
 							</span>
 						</div>
 						<Slider
+							aria-label="Rotation"
 							value={[rotation]}
 							onValueChange={([v]) => setRotation(v)}
 							min={-90}

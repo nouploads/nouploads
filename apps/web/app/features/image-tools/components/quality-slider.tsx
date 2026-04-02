@@ -53,6 +53,7 @@ export function QualitySlider({ format, value, onChange }: QualitySliderProps) {
 		<div className="space-y-2 max-w-sm">
 			<span className="text-sm font-medium">{config.label(value)}</span>
 			<Slider
+				aria-label="Quality"
 				value={[value]}
 				onValueChange={(v) => onChange(v[0])}
 				min={config.min}
