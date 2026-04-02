@@ -813,53 +813,19 @@ No bluffing.
 
 ## Output Rules
 
-When reporting completion, the agent must state:
-
-- what changed
-- which files changed
-- what tests were added or updated
-- what checks passed
-- any known caveats
-- whether bundle boundaries or guardrails were affected
-
-Be concise and precise.
-
-Do not give marketing-style summaries.
+When reporting completion, state: what changed, which files, tests added/updated, checks passed, known caveats, bundle boundary impacts. Be concise — no marketing-style summaries.
 
 ---
 
 ## Failure Recovery Rules
 
-If tests fail, the agent must:
-1. inspect the failing test output
-2. identify the smallest likely cause
-3. fix only the relevant scope
-4. rerun the relevant checks
-
-Do not respond to one failing test by rewriting broad sections of the codebase.
-
-Fix narrowly first.
+If tests fail: inspect output, identify the smallest likely cause, fix only the relevant scope, rerun checks. Do not respond to one failure by rewriting broad sections. Fix narrowly first.
 
 ---
 
 ## Prompt Interpretation Rules
 
-If the user gives a broad request like:
-- "build this tool"
-- "add this feature"
-- "fix this page"
-
-the agent must internally decompose it into:
-- route work
-- component work
-- processor work
-- tests
-- metadata
-- prerender updates
-
-Then implement the smallest safe sequence.
-
-Do not attempt a giant one-shot rewrite.
+For broad requests ("build this tool", "add this feature"), decompose into route, component, processor, tests, metadata, and prerender work. Implement the smallest safe sequence — no giant one-shot rewrites.
 
 ---
 
@@ -901,40 +867,6 @@ A task involving a new public tool is only done if:
 - no unrelated files were changed
 
 If these are not true, the task is not done.
-
----
-
-## Standard "Smallest Safe Change" Definition
-
-The best solution is usually:
-- fewer files changed
-- fewer abstractions added
-- fewer new concepts introduced
-- fewer dependencies added
-- more reuse of existing patterns
-
-The agent should always prefer this path.
-
----
-
-## Repository Philosophy
-
-This repository is designed for repeatable AI-assisted shipping.
-
-The agent must optimize for:
-- speed
-- reliability
-- consistency
-- maintainability
-- low surprise
-
-Do not optimize for:
-- novelty
-- cleverness
-- framework fashion
-- speculative abstraction
-
-When in doubt, choose the more boring solution.
 
 ---
 
@@ -981,19 +913,7 @@ Both Builder and Critic must agree on all of:
 - [ ] Tests pass
 - [ ] FAQ section follows rules (if new page was created — see below)
 
-**FAQ sign-off checklist (for new tool pages):**
-- [ ] Trivia is FAQ #1 with natural question wording
-- [ ] Trivia source link resolves (curl returns 200 or 301/302)
-- [ ] Trivia fact is verifiable from the linked source
-- [ ] Source link renders as plain "Source: " text + linked source name (not "Source: Name" as one link)
-- [ ] Source link uses `rel="noopener"` not `rel="noopener noreferrer"`
-- [ ] No site-wide boilerplate FAQ items (privacy, batch, offline, "why NoUploads", "is this free")
-- [ ] Every FAQ answer passes the swap test
-- [ ] No FAQ question is identical to any existing question on another page
-- [ ] Trivia does not duplicate the About section
-- [ ] 2-4 FAQ items total
-- [ ] `buildMeta()` includes `faq` array with plain-text pairs for FAQPage JSON-LD
-- [ ] Prerendered HTML contains `FAQPage` structured data
+- [ ] FAQ section follows rules (see FAQ section above)
 
 ### Escalation
 
@@ -1005,12 +925,3 @@ If Builder and Critic cannot agree after 3 rounds on a specific issue, document 
 - Not a blocker for fun. If the Builder provides hard proof, the Critic accepts it.
 - Not responsible for writing code. It only questions, challenges, and verifies.
 
----
-
-## Final Instruction
-
-Follow existing patterns.
-Change as little as possible.
-Add tests.
-Keep bundle boundaries clean.
-Do not pretend a task is complete unless it is actually verified.
