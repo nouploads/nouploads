@@ -91,14 +91,14 @@ pnpm dev            # start web dev server
 
 ```bash
 pnpm --filter @nouploads/web dev      # dev server at localhost:5173
-pnpm --filter @nouploads/web test     # 769 unit tests
+pnpm --filter @nouploads/web test     # 1017 unit tests
 pnpm --filter @nouploads/web test:e2e # Playwright e2e tests
 ```
 
 ### Run package tests
 
 ```bash
-pnpm --filter @nouploads/core test    # 68 tests (unit + sharp integration)
+pnpm --filter @nouploads/core test    # 197 tests (unit + sharp integration)
 pnpm test                              # all tests across all packages
 ```
 

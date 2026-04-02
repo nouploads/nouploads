@@ -1,8 +1,8 @@
 # Agent Workflow Rules
 
-## Builder + Critic System
+## Builder + Critic + Fact-checker System
 
-All non-trivial implementation tasks use a **Builder + Critic** adversarial workflow. No code is considered complete until both roles sign off.
+All non-trivial tasks use a **Builder + Critic + Fact-checker** adversarial workflow. No code is considered complete until all three roles sign off. See CLAUDE.md "Quality Process" for the universal mandate.
 
 ### Builder Role
 
@@ -12,10 +12,21 @@ All non-trivial implementation tasks use a **Builder + Critic** adversarial work
 
 ### Critic Role
 
-- Challenges every assumption with "prove it"
-- Verifies libraries exist (`npm info`), APIs match docs, files actually decode
+- Scrutinizes every assumption, guess, thought, action, and identifies gaps/blind spots
+- Challenges with "prove it" — does not accept hand-waving or plausible-sounding claims
 - Demands local test evidence: hex dumps, console output, dimension checks
 - Tests error handling with corrupt/truncated files
+
+### Fact-checker Role
+
+- Independently verifies every factual statement, API claim, library behavior, and technical assertion
+- Does not trust the Builder's word — runs its own checks (`npm info`, docs reads, hex dumps, test runs)
+- Verifies libraries exist, APIs match docs, files actually decode
+- Flags any discrepancy between claimed and observed behavior
+
+### Double-pass Sanity Check
+
+Before sign-off, review all output twice: first for correctness (are the facts right?), then for completeness (is anything missing?). Only proceed when both passes are clean.
 
 ### Sign-off Checklist (required for every format)
 
@@ -45,9 +56,9 @@ After 3 failed rounds on a specific issue, document the disagreement in the trac
 ## SEO Content Rules
 
 Before creating any new tool page, the Builder must provide unique content for
-all required sections (see SEO_RULES.md). The Critic must verify:
+all required sections (see SEO_RULES.md). The Critic and Fact-checker must verify:
 
-1. The "Why NoUploads" FAQ answer is genuinely unique — not a word-swap of another page.
+1. The authority trivia FAQ is genuinely unique — not a word-swap of another page. No banned FAQ topics (see CLAUDE.md).
 2. The About section mentions at least one fact specific to this conversion pair.
 3. The page passes the swap test (remove format names → still distinguishable).
 4. Title and meta description are unique across the entire site.

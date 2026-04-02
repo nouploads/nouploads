@@ -50,13 +50,15 @@ Example: adding `/image/remove-metadata`
 
 Expected files:
 
-- `app/routes/image/remove-metadata.tsx`
-- `app/features/image-tools/components/remove-metadata-tool.tsx`
-- `app/features/image-tools/processors/remove-metadata.ts`
-- `tests/unit/processors/remove-metadata.test.ts`
-- `tests/component/features/remove-metadata-tool.test.tsx`
-- `tests/e2e/remove-metadata.spec.ts`
-- fixture files under `tests/e2e/fixtures/` as needed
+- `apps/web/app/routes/image/remove-metadata.tsx`
+- `apps/web/app/features/image-tools/components/remove-metadata-tool.tsx`
+- `apps/web/app/features/image-tools/processors/remove-metadata.ts`
+- `packages/core/src/tools/strip-metadata.ts` (core tool definition)
+- `packages/core/tests/strip-metadata.test.ts` (core tests)
+- `apps/web/tests/unit/processors/remove-metadata.test.ts`
+- `apps/web/tests/unit/components/tools/RemoveMetadataTool.test.tsx`
+- `apps/web/tests/e2e/remove-metadata.spec.ts`
+- fixture files under `apps/web/tests/e2e/fixtures/` as needed
 
 Optional:
 - feature-local helper files
@@ -150,7 +152,7 @@ Do not build a custom page structure unless there is a strong reason.
 ---
 
 ### Step 6: Add route file
-Create the route module under `app/routes/`.
+Create the route module under `apps/web/app/routes/`.
 
 The route file should:
 - export `meta()`
@@ -180,16 +182,18 @@ Prefer using shared SEO helpers.
 
 ---
 
-### Step 7b: Register tool in app/lib/tools.ts and tool-icon.tsx
+### Step 7b: Register tool in tools.ts, tool-icon.tsx, and packages/core
 
-Add the tool entry to the `tools` array in `app/lib/tools.ts` with title, description, href, icon name, and colors. Set `comingSoon: false` (or remove the field).
+Add the tool entry to the `tools` array in `apps/web/app/lib/tools.ts` with title, description, href, icon name, and colors. Set `comingSoon: false` (or remove the field).
 
-Then add the Lucide icon import to the `iconMap` in `app/components/marketing/tool-icon.tsx`. If you forget this step, the icon will silently fail in production (a dev-time console warning will remind you).
+Then add the Lucide icon import to the `iconMap` in `apps/web/app/components/marketing/tool-icon.tsx`. If you forget this step, the icon will silently fail in production (a dev-time console warning will remind you).
+
+Also register the core tool definition in `packages/core/src/tools/` and add the side-effect import in `packages/core/src/index.ts`.
 
 ---
 
 ### Step 8: Add prerender entry
-If the route is a public indexed page, add it to the prerender list in `react-router.config.ts`.
+If the route is a public indexed page, add it to the prerender list in `apps/web/react-router.config.ts`.
 
 Public tool pages should generally be prerendered so crawlers receive HTML immediately.
 
@@ -254,6 +258,7 @@ If any fail, the tool is not done.
 Use this shape:
 
 ```tsx
+// File: apps/web/app/routes/image/remove-metadata.tsx
 import type { Route } from "./+types/remove-metadata";
 import { lazy, Suspense } from "react";
 import { buildMeta } from "~/lib/seo/meta";
@@ -365,8 +370,9 @@ Keep tools grouped by clear categories.
 Examples:
 
 - Image Tools
+- PDF Tools
+- Vector Tools
 - Developer Tools
-- PDF Tools (future)
 - Video Tools (future)
 - Audio Tools (future)
 
@@ -404,12 +410,15 @@ Task: add `/image/remove-metadata`.
 Follow the exact structure and conventions used by the canonical example tool.
 
 Allowed to change:
-- app/routes/image/remove-metadata.tsx
-- app/features/image-tools/components/remove-metadata-tool.tsx
-- app/features/image-tools/processors/remove-metadata.ts
-- tests/unit/processors/remove-metadata.test.ts
-- tests/component/features/remove-metadata-tool.test.tsx
-- tests/e2e/remove-metadata.spec.ts
+- apps/web/app/routes/image/remove-metadata.tsx
+- apps/web/app/features/image-tools/components/remove-metadata-tool.tsx
+- apps/web/app/features/image-tools/processors/remove-metadata.ts
+- packages/core/src/tools/strip-metadata.ts
+- packages/core/tests/strip-metadata.test.ts
+- packages/core/src/index.ts (add side-effect import)
+- apps/web/tests/unit/processors/remove-metadata.test.ts
+- apps/web/tests/unit/components/tools/RemoveMetadataTool.test.tsx
+- apps/web/tests/e2e/remove-metadata.spec.ts
 
 Do not change:
 - shared layout components
