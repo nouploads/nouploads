@@ -5,24 +5,12 @@ import { ToolDropzone } from "~/components/tool/tool-dropzone";
 import { Button } from "~/components/ui/button";
 import { Spinner } from "~/components/ui/spinner";
 import {
-	getPdfPageCount,
-	reorderPdf,
-} from "~/features/pdf-tools/processors/reorder-pdf";
+	loadPdfDocument,
+	renderPdfPageToDataUrl,
+} from "~/features/pdf-tools/lib/pdf-thumbnail";
+import { reorderPdf } from "~/features/pdf-tools/processors/reorder-pdf";
 import { ACCEPT_PDF } from "~/lib/accept";
 import { formatFileSize } from "~/lib/utils";
-
-let pdfjsReady: typeof import("pdfjs-dist") | null = null;
-
-async function getPdfjs() {
-	if (pdfjsReady) return pdfjsReady;
-	const pdfjsLib = await import("pdfjs-dist");
-	pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-		"pdfjs-dist/build/pdf.worker.min.mjs",
-		import.meta.url,
-	).href;
-	pdfjsReady = pdfjsLib;
-	return pdfjsLib;
-}
 
 interface PageThumbnail {
 	/** 0-based page index in the original document */
@@ -73,40 +61,27 @@ export default function PdfReorderTool() {
 			const bytes = new Uint8Array(await selected.arrayBuffer());
 			setPdfBytes(bytes);
 
-			const count = await getPdfPageCount(bytes);
+			const doc = await loadPdfDocument(bytes);
+			const count = doc.numPages;
 			setPageCount(count);
 			setPageOrder(Array.from({ length: count }, (_, i) => i));
 
-			// Render thumbnails
-			const pdfjsLib = await getPdfjs();
-			const pdf = await pdfjsLib.getDocument({ data: bytes.slice() }).promise;
+			// Render thumbnails using shared utility
 			const thumbs: PageThumbnail[] = [];
-
 			for (let i = 1; i <= count; i++) {
-				const page = await pdf.getPage(i);
-				const viewport = page.getViewport({ scale: 0.3 });
-				const canvas = document.createElement("canvas");
-				canvas.width = Math.floor(viewport.width);
-				canvas.height = Math.floor(viewport.height);
-				const ctx = canvas.getContext("2d");
-				if (!ctx) continue;
-
-				ctx.fillStyle = "#ffffff";
-				ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-				await page.render({
-					canvasContext: ctx,
-					viewport,
-					canvas,
-				} as never).promise;
-
+				const dataUrl = await renderPdfPageToDataUrl(doc, i, {
+					scale: 0.3,
+					format: "jpeg",
+					quality: 0.7,
+				});
 				thumbs.push({
 					originalIndex: i - 1,
 					pageNumber: i,
-					dataUrl: canvas.toDataURL("image/jpeg", 0.7),
+					dataUrl,
 				});
 			}
 
+			doc.destroy();
 			setThumbnails(thumbs);
 			setLoading(false);
 		} catch (err) {
@@ -145,7 +120,7 @@ export default function PdfReorderTool() {
 
 	// Drag and drop handlers
 	const handleDragStart = useCallback(
-		(e: React.DragEvent<HTMLDivElement>, index: number) => {
+		(e: React.DragEvent<HTMLElement>, index: number) => {
 			dragItemRef.current = index;
 			e.dataTransfer.effectAllowed = "move";
 			// Make the dragged element semi-transparent
@@ -156,7 +131,7 @@ export default function PdfReorderTool() {
 		[],
 	);
 
-	const handleDragEnd = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+	const handleDragEnd = useCallback((e: React.DragEvent<HTMLElement>) => {
 		if (e.currentTarget instanceof HTMLElement) {
 			e.currentTarget.style.opacity = "1";
 		}
@@ -165,7 +140,7 @@ export default function PdfReorderTool() {
 	}, []);
 
 	const handleDragOver = useCallback(
-		(e: React.DragEvent<HTMLDivElement>, index: number) => {
+		(e: React.DragEvent<HTMLElement>, index: number) => {
 			e.preventDefault();
 			e.dataTransfer.dropEffect = "move";
 			dragOverItemRef.current = index;
@@ -173,7 +148,7 @@ export default function PdfReorderTool() {
 		[],
 	);
 
-	const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+	const handleDrop = useCallback((e: React.DragEvent<HTMLElement>) => {
 		e.preventDefault();
 		const from = dragItemRef.current;
 		const to = dragOverItemRef.current;
