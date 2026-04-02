@@ -19,10 +19,12 @@
 		"dev": "turbo run dev --parallel",
 		"lint": "turbo run lint",
 		"lint:fix": "turbo run lint:fix",
-		"clean": "turbo run clean"
+		"clean": "turbo run clean",
+		"prepare": "husky"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.8",
+		"husky": "9.1.7",
 		"turbo": "2.8.21",
 		"typescript": "5.9.3",
 		"vitest": "4.1.1"

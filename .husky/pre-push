@@ -1,0 +1,2 @@
+pnpm --filter @nouploads/web typecheck
+pnpm exec biome check .
