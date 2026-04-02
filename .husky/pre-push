@@ -1,2 +1,21 @@
-pnpm --filter @nouploads/web typecheck
-pnpm exec biome check .
+#!/bin/sh
+echo "Pre-push: running full CI checks locally..."
+
+echo "→ Typecheck"
+pnpm --filter @nouploads/web typecheck || exit 1
+
+echo "→ Lint"
+pnpm exec biome check . || exit 1
+
+echo "→ Build"
+pnpm build || exit 1
+
+echo "→ Unit tests"
+pnpm test || exit 1
+
+echo "→ Lighthouse"
+cd apps/web
+npx lhci autorun || exit 1
+cd ../..
+
+echo "✓ All pre-push checks passed"
