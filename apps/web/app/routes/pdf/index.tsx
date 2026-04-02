@@ -95,14 +95,14 @@ export default function PdfCategoryPage() {
 									iconBg={tool.iconBg}
 								/>
 								<div className="min-w-0">
-									<h3 className="font-semibold text-card-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+									<h2 className="font-semibold text-card-foreground group-hover:text-primary transition-colors flex items-center gap-2">
 										{tool.title}
 										{tool.comingSoon && (
 											<span className="text-xs font-normal bg-muted text-muted-foreground px-2 py-0.5 rounded-full">
 												Soon
 											</span>
 										)}
-									</h3>
+									</h2>
 									<p className="text-sm text-muted-foreground mt-1">
 										{tool.description}
 									</p>
