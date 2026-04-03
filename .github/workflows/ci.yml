@@ -166,20 +166,6 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: build-output
-      - name: Cache Lighthouse CI
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm/_npx
-          key: lhci-${{ runner.os }}
-      - name: Install Lighthouse CI
-        run: npm install -g @lhci/cli
-      - name: Run Lighthouse CI
+      - name: Run Lighthouse
         working-directory: apps/web
-        run: lhci autorun
-      - name: Upload Lighthouse report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: lighthouse-report
-          path: apps/web/.lighthouseci/
-          retention-days: 14
+        run: node scripts/lighthouse-ci.mjs

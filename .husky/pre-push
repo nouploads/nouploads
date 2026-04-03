@@ -14,8 +14,6 @@ echo "→ Unit tests"
 pnpm test || exit 1
 
 echo "→ Lighthouse"
-cd apps/web
-npx lhci autorun || exit 1
-cd ../..
+node apps/web/scripts/lighthouse-ci.mjs || exit 1
 
 echo "✓ All pre-push checks passed"

@@ -36,7 +36,7 @@ if ! pnpm test 2>&1; then
 fi
 
 echo "→ Lighthouse"
-if ! (cd apps/web && npx lhci autorun 2>&1); then
+if ! node apps/web/scripts/lighthouse-ci.mjs 2>&1; then
   echo "BLOCKED: Lighthouse checks failed."
   exit 1
 fi
