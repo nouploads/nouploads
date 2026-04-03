@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+import { spawn } from "node:child_process";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import * as chromeLauncher from "chrome-launcher";
 /**
  * Lighthouse CI — runs Lighthouse 13 against prerendered static build.
  *
@@ -7,13 +11,10 @@
  * missing clean-URL redirects / content negotiation).
  */
 import lighthouseFn from "lighthouse";
-import * as chromeLauncher from "chrome-launcher";
-import { spawn } from "node:child_process";
-import { resolve, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const config = (await import(resolve(__dirname, "../lighthouserc.cjs"))).default;
+const config = (await import(resolve(__dirname, "../lighthouserc.cjs")))
+	.default;
 
 const STATIC_DIR = resolve(__dirname, "..", config.ci.collect.staticDistDir);
 const URLS = config.ci.collect.url;
@@ -22,13 +23,20 @@ const ASSERTIONS = config.ci.assert.assertions;
 // Start `serve` on a random port
 const port = 10000 + Math.floor(Math.random() * 50000);
 const serveBin = resolve(__dirname, "../node_modules/.bin/serve");
-const serveProc = spawn(serveBin, [STATIC_DIR, "-l", String(port), "--no-clipboard"], {
-	stdio: ["ignore", "pipe", "pipe"],
-});
+const serveProc = spawn(
+	serveBin,
+	[STATIC_DIR, "-l", String(port), "--no-clipboard"],
+	{
+		stdio: ["ignore", "pipe", "pipe"],
+	},
+);
 
 // Wait for server to be ready
 await new Promise((resolve, reject) => {
-	const timeout = setTimeout(() => reject(new Error("serve startup timeout")), 15000);
+	const timeout = setTimeout(
+		() => reject(new Error("serve startup timeout")),
+		15000,
+	);
 	const handler = (data) => {
 		if (data.toString().includes("Accepting connections")) {
 			clearTimeout(timeout);
@@ -77,7 +85,9 @@ for (const urlTemplate of URLS) {
 				for (const ref of report.categories[category].auditRefs) {
 					const a = report.audits[ref.id];
 					if (a?.score !== null && a?.score < 1 && ref.weight > 0) {
-						failures.push(`  ↳ ${ref.id} (weight:${ref.weight}, score:${a.score})`);
+						failures.push(
+							`  ↳ ${ref.id} (weight:${ref.weight}, score:${a.score})`,
+						);
 					}
 				}
 			}
