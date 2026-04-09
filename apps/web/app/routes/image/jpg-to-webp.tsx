@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert JPG to WebP Online — Free, Private, No Upload | NoUploads",
+		title: "JPG to WebP — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert JPG images to WebP for smaller file sizes with similar quality. Free and private.",
+			"Convert JPG to WebP for 25-34% smaller files at the same visual quality in your browser. Ideal for web performance and Lighthouse scores. No upload, no signup.",
 		path: "/image/jpg-to-webp",
 		keywords:
 			"jpg to webp, jpeg to webp, convert jpg to webp, webp converter, reduce image size webp",
@@ -31,14 +31,9 @@ export function meta(_args: Route.MetaArgs) {
 					"WebP was developed by Google and first released in 2010. It uses predictive coding derived from the VP8 video codec to achieve lossy compression roughly 30% smaller than JPEG at equivalent visual quality. Google estimated that if the entire web switched to WebP, it would save approximately 50 petabytes of bandwidth per day — a major motivation for a company that serves billions of images through search and YouTube.",
 			},
 			{
-				question: "Do all browsers support WebP?",
+				question: "What quality setting gives the best JPG-to-WebP tradeoff?",
 				answer:
-					"Yes, all modern browsers — Chrome, Firefox, Safari, Edge — support WebP. The only exceptions are very old browser versions (Safari added support in 2020). For web usage in 2024+, WebP is safe to use universally.",
-			},
-			{
-				question: "Is WebP better than JPG?",
-				answer:
-					"For file size, yes. WebP consistently achieves smaller files at the same visual quality. JPG still has wider support in legacy software and some social media platforms, so the choice depends on where you're using the images.",
+					"For photographic content, quality 75-80 in WebP roughly matches quality 85-90 in JPG visually while being 25-34% smaller. At quality 50 and below, WebP introduces blocky artifacts in gradients differently than JPG's banding — test with your actual images. For sharp-edged graphics like screenshots, lossless WebP is often smaller than a high-quality JPG.",
 			},
 		],
 	});
@@ -70,14 +65,9 @@ const faqItems = [
 		),
 	},
 	{
-		question: "Do all browsers support WebP?",
+		question: "What quality setting gives the best JPG-to-WebP tradeoff?",
 		answer:
-			"Yes, all modern browsers — Chrome, Firefox, Safari, Edge — support WebP. The only exceptions are very old browser versions (Safari added support in 2020). For web usage in 2024+, WebP is safe to use universally.",
-	},
-	{
-		question: "Is WebP better than JPG?",
-		answer:
-			"For file size, yes. WebP consistently achieves smaller files at the same visual quality. JPG still has wider support in legacy software and some social media platforms, so the choice depends on where you're using the images.",
+			"For photographic content, quality 75-80 in WebP roughly matches quality 85-90 in JPG visually while being 25-34% smaller. At quality 50 and below, WebP introduces blocky artifacts in gradients differently than JPG's banding — test with your actual images. For sharp-edged graphics like screenshots, lossless WebP is often smaller than a high-quality JPG.",
 	},
 ];
 

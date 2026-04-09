@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert TIFF to JPG Online — Free, Private, No Upload | NoUploads",
+		title: "TIFF to JPG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert TIFF images to compact JPG format entirely in your browser. No upload, no signup, no limits.",
+			"Convert large TIFF images to compact JPG for easy sharing in your browser. Handles CMYK color spaces and multi-page TIFFs automatically. No upload, no signup.",
 		path: "/image/tiff-to-jpg",
 		keywords:
 			"tiff to jpg, tiff to jpeg, convert tiff to jpg, tif to jpg online, tiff converter, tiff to jpg free",

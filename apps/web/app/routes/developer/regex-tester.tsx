@@ -16,9 +16,9 @@ const RegexTesterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Regex Tester Online — Free Regular Expression Tester | NoUploads",
+		title: "Regex Tester Online — Free, Instant | NoUploads",
 		description:
-			"Test regex patterns with real-time match highlighting and capture groups. Free, private, runs in your browser.",
+			"Test regex patterns with real-time match highlighting and capture groups in your browser — free, with flag toggles. No data sent to any server. Up to 1 MB text.",
 		path: "/developer/regex-tester",
 		keywords:
 			"regex tester, regular expression tester, regex match, regex online, test regex, regex debugger, regex capture groups, regex flags",

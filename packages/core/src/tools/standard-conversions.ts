@@ -113,6 +113,14 @@ createImageConversionTool({
 
 // TIFF conversions are in exotic-conversions.ts (with JS decoder fallback)
 
+// --- BMP conversions ---
+createImageConversionTool({
+	from: "bmp",
+	to: "webp",
+	description:
+		"Convert BMP images to WebP format. Dramatically reduces file size with modern compression.",
+});
+
 // --- ICO conversions ---
 createImageConversionTool({
 	from: "ico",
@@ -125,4 +133,11 @@ createImageConversionTool({
 	from: "ico",
 	to: "jpg",
 	description: "Convert ICO icon files to JPG format.",
+});
+
+createImageConversionTool({
+	from: "ico",
+	to: "webp",
+	description:
+		"Convert ICO icon files to WebP format. Modern compression with transparency support.",
 });

@@ -16,10 +16,9 @@ const ExifViewerTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"EXIF Viewer Online — View & Strip Photo Metadata, Free & Private | NoUploads",
+		title: "EXIF Viewer Online — Free, No Limits | NoUploads",
 		description:
-			"View and strip EXIF metadata from photos online for free. No upload, no signup — files never leave your device.",
+			"View EXIF, GPS, camera, and lens metadata from JPG, PNG, WebP, and HEIC photos in your browser — free, no upload. Fields organized by category at a glance.",
 		path: "/image/exif",
 		keywords:
 			"exif viewer, exif remover, strip exif data, remove photo metadata, photo metadata viewer, private exif stripper, free exif tool",

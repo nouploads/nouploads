@@ -16,9 +16,9 @@ const PdfToImageTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert PDF to PNG Online — Free, Private, No Upload | NoUploads",
+		title: "PDF to PNG Converter — Free, No Limits | NoUploads",
 		description:
-			"Turn PDF pages into lossless PNG images right in your browser. No upload, no server, no signup.",
+			"Convert PDF pages to lossless PNG images in your browser — free, no upload, no page limit. Pick 72, 150, or 300 DPI for pixel-perfect text and graphics.",
 		path: "/pdf/pdf-to-png",
 		keywords:
 			"pdf to png, convert pdf to png, pdf to image, pdf page to png online, free pdf to png, private pdf converter, lossless pdf export",

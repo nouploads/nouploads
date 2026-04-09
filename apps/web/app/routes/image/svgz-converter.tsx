@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert SVGZ Online — Free, Private, No Upload | NoUploads",
+		title: "Convert SVGZ Online — Free, Instant | NoUploads",
 		description:
-			"Decompress SVGZ files and convert to JPG, PNG, WebP, or AVIF in your browser. No upload, no server.",
+			"Convert compressed SVG (SVGZ) files to JPG, PNG, WebP, or AVIF in your browser. Decompresses gzip-encoded vector graphics on the fly. No upload, no signup.",
 		path: "/image/svgz-converter",
 		keywords:
 			"svgz to png, svgz to jpg, svgz converter online, open svgz file, compressed svg converter",

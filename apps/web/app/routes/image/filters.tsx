@@ -17,10 +17,9 @@ const ImageFiltersTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Image Filters Online — Apply Effects Free, Private, No Upload | NoUploads",
+		title: "Image Filters Online — Free, No Limits | NoUploads",
 		description:
-			"Apply grayscale, sepia, blur, brightness, contrast, and more to images. Free, private, processed entirely in your browser.",
+			"Apply grayscale, sepia, blur, brightness, contrast, and more to images in your browser — free, no upload, real-time preview. Includes one-click presets.",
 		path: "/image/filters",
 		keywords:
 			"image filters online, photo effects free, grayscale image, sepia filter, blur image, adjust brightness contrast, image effects no upload, private photo editor",

@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert SVG to WebP Online — Free, Private, No Upload | NoUploads",
+		title: "SVG to WebP — Free, Instant, No Upload | NoUploads",
 		description:
-			"Turn SVG vectors into compact WebP images with transparency support. Runs in your browser — no upload needed.",
+			"Rasterize SVG vectors into compact WebP images in your browser. Keeps full transparency and produces smaller files than equivalent PNG. No upload, no signup.",
 		path: "/image/svg-to-webp",
 		keywords:
 			"svg to webp, convert svg to webp, svg to webp online, svg webp converter, rasterize svg webp, vector to webp",

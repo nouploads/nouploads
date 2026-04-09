@@ -17,9 +17,9 @@ const SvgOptimizerTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Optimize SVG Online — Free, Private, No Upload | NoUploads",
+		title: "Optimize SVG Instantly — Free, No Upload | NoUploads",
 		description:
-			"Minify and optimize SVG files in your browser. Remove metadata, comments, and redundant attributes. Download optimized SVG or SVGZ.",
+			"Minify SVG files and strip editor metadata in your browser — free, no upload, instant results. Typically reduces file size 30-60% with zero visual change.",
 		path: "/vector/svg-optimizer",
 		keywords:
 			"optimize svg, minify svg, svg optimizer online, compress svg, svgo online, svg minifier, reduce svg file size, svgz",

@@ -294,7 +294,7 @@ export default function VectorConverterTool({
 				<div className="flex items-center gap-3">
 					<span className="text-sm font-medium">Output format:</span>
 					<Select value={outputFormat} onValueChange={handleOutputFormatChange}>
-						<SelectTrigger>
+						<SelectTrigger aria-label="Output format">
 							<SelectValue />
 						</SelectTrigger>
 						<SelectContent>
@@ -314,7 +314,7 @@ export default function VectorConverterTool({
 							value={String(scale)}
 							onValueChange={(v) => setScale(Number(v))}
 						>
-							<SelectTrigger>
+							<SelectTrigger aria-label="Scale">
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
@@ -333,6 +333,7 @@ export default function VectorConverterTool({
 				<div className="space-y-2 max-w-sm">
 					<span className="text-sm font-medium">Quality: {quality}%</span>
 					<Slider
+						aria-label="Quality"
 						value={[quality]}
 						onValueChange={(v) => setQuality(v[0])}
 						min={10}

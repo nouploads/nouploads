@@ -17,10 +17,9 @@ const PdfProtectTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Protect PDF Online — Add Password Protection | Free, Private | NoUploads",
+		title: "Protect PDF Online — Free, No Limits | NoUploads",
 		description:
-			"Add password protection and permission restrictions to a PDF. Set open and owner passwords, control printing, copying, and editing. Free, private, no upload.",
+			"Add password protection and permission restrictions to any PDF in your browser — free, no upload, no limits. Control printing, copying, and editing access.",
 		path: "/pdf/protect",
 		keywords:
 			"protect pdf, password protect pdf, encrypt pdf, pdf password, lock pdf, restrict pdf printing, restrict pdf copying, free pdf protection, private pdf encrypt",

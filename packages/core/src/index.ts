@@ -51,6 +51,7 @@ import "./tools/rotate-image.js";
 import "./tools/watermark-image.js";
 // METADATA & PDF
 import "./tools/exif.js";
+import "./tools/strip-metadata.js";
 import "./tools/images-to-pdf.js";
 // BROWSER-ONLY STUBS + HEIC VARIANTS
 import "./tools/browser-only-stubs.js";
@@ -61,6 +62,7 @@ import "./tools/watermark-pdf.js";
 import "./tools/pdf-to-text.js";
 import "./tools/rotate-pdf.js";
 import "./tools/split-pdf.js";
+import "./tools/reorder-pdf.js";
 import "./tools/qr-code.js";
 import "./tools/base64.js";
 import "./tools/favicon-generator.js";
@@ -77,6 +79,14 @@ import "./tools/uuid-generator.js";
 import "./tools/url-encoder.js";
 import "./tools/text-diff.js";
 import "./tools/markdown-preview.js";
+import "./tools/word-counter.js";
+import "./tools/css-formatter.js";
+import "./tools/color-palette.js";
+import "./tools/json-csv.js";
+import "./tools/case-converter.js";
+import "./tools/yaml-json.js";
+import "./tools/cron-parser.js";
+import "./tools/lorem-ipsum.js";
 
 // HIGH-LEVEL CONVENIENCE FUNCTION
 import { findToolByFormats } from "./registry.js";

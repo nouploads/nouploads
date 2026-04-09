@@ -16,9 +16,9 @@ const JwtDecoderTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "JWT Decoder Online — Free, Private, No Upload | NoUploads",
+		title: "JWT Decoder Online — Free, Instant | NoUploads",
 		description:
-			"Decode JWT tokens and inspect header, payload, and expiration status. Free, private, runs in your browser.",
+			"Decode JWT tokens and inspect header, payload, and expiry claims in your browser — free, with automatic exp validation. No data sent to any server. Paste and go",
 		path: "/developer/jwt-decoder",
 		keywords:
 			"jwt decoder, jwt debugger, decode jwt token, jwt viewer, jwt online, json web token decoder, jwt inspector",

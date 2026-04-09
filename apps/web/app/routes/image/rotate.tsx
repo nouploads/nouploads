@@ -17,9 +17,9 @@ const ImageRotateTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Rotate & Flip Images Online — Free, Private, No Upload | NoUploads",
+		title: "Rotate & Flip Images Online — Free, No Limits | NoUploads",
 		description:
-			"Rotate images 90, 180, or 270 degrees and flip horizontally or vertically. Free, private, runs in your browser.",
+			"Rotate images 90, 180, or 270 degrees and flip horizontally or vertically in your browser — free, no upload. Orthogonal transforms are perfectly lossless.",
 		path: "/image/rotate",
 		keywords:
 			"rotate image online, flip image, rotate photo 90 degrees, mirror image, rotate image free, flip photo horizontal, rotate image no upload, private image rotation",

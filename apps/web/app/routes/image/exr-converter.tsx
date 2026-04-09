@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert EXR Online — Free, Private, No Upload | NoUploads",
+		title: "Convert EXR Online — Free, Instant | NoUploads",
 		description:
-			"Convert OpenEXR files to JPG, PNG, or WebP in your browser. Tone-maps HDR data to viewable images with no server upload.",
+			"Convert OpenEXR files to JPG, PNG, or WebP in your browser. The industry-standard HDR format for VFX compositing and film production. No upload, no signup.",
 		path: "/image/exr-converter",
 		keywords:
 			"exr to jpg, exr converter, openexr converter, open exr file online, exr to png, exr viewer, convert exr to image",

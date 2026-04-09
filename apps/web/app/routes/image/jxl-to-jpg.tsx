@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert JXL to JPG Online — Free, Private, No Upload | NoUploads",
+		title: "JXL to JPG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert JPEG XL images to widely compatible JPG format. Runs entirely in your browser with no upload.",
+			"Convert JPEG XL images to widely compatible JPG in your browser. Solves limited JXL support across most apps, browsers, and OS versions. No upload, no signup.",
 		path: "/image/jxl-to-jpg",
 		keywords:
 			"jxl to jpg, jpeg xl to jpg, convert jxl to jpg, open jxl file, jxl converter online, jpeg xl converter",

@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert ODG Online — Free, Private, No Upload | NoUploads",
+		title: "Convert ODG Online — Free, Instant | NoUploads",
 		description:
-			"Extract the thumbnail from ODG (LibreOffice Draw) files and convert to JPG, PNG, or WebP in your browser. No upload needed.",
+			"Convert LibreOffice Draw ODG files to JPG, PNG, or WebP in your browser. Extracts the embedded thumbnail from OpenDocument drawings. No upload, no signup.",
 		path: "/image/odg-converter",
 		keywords:
 			"odg to jpg, odg to png, odg converter online, open odg file, libreoffice draw converter, opendocument graphics",

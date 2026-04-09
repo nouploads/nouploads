@@ -17,9 +17,9 @@ const TimestampConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Unix Timestamp Converter Online — Free, Private | NoUploads",
+		title: "Timestamp Converter Online — Free, Instant | NoUploads",
 		description:
-			"Convert Unix timestamps to readable dates and back. Detects seconds vs milliseconds automatically. Free, private, no server.",
+			"Convert Unix timestamps to readable dates and back in your browser — free, detects seconds vs milliseconds. No data sent to any server. Displays UTC and local.",
 		path: "/developer/timestamp-converter",
 		keywords:
 			"unix timestamp converter, epoch converter, timestamp to date, date to timestamp, unix time, epoch time, unix epoch converter online",

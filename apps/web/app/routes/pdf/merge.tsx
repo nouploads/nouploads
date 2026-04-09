@@ -16,9 +16,9 @@ const PdfMergeTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Merge PDF Files Online — Free, Private, No Upload | NoUploads",
+		title: "Merge PDF Online — Free, No Limits | NoUploads",
 		description:
-			"Combine multiple PDFs into one file. Drag to reorder, then merge. No upload — runs in your browser.",
+			"Combine multiple PDF files into one document in your browser — free, no upload, no page limit. Drag to reorder files before merging into a single PDF.",
 		path: "/pdf/merge",
 		keywords:
 			"merge pdf, combine pdf, join pdf files, merge pdf online free, private pdf merger, pdf combiner",

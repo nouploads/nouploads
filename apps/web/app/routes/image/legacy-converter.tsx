@@ -17,10 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Convert Legacy Images Online — Free, Private, No Upload | NoUploads",
+		title: "Legacy Image Converter — Free, Instant | NoUploads",
 		description:
-			"Open and convert SGI, Sun Raster, WBMP, SFW, Photo CD, and PICT files in your browser. No server, no signup.",
+			"Convert SGI, Sun Raster, WBMP, SFW, Photo CD, and PICT files to JPG, PNG, or WebP in your browser. Decodes rare formats from the 1980s. No upload, no signup.",
 		path: "/image/legacy-converter",
 		keywords:
 			"sgi converter, sun raster converter, wbmp converter, sfw converter, pcd converter, pict converter, legacy image formats, convert old images online",

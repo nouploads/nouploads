@@ -17,10 +17,9 @@ const ImageWatermarkTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Add Watermark to Image Online — Free, Private, No Upload | NoUploads",
+		title: "Add Watermark Online — Free, No Limits | NoUploads",
 		description:
-			"Add text watermarks to images for free. Centered or tiled, adjustable opacity and rotation. Files never leave your device.",
+			"Add centered or tiled text watermarks to images in your browser — free, no upload, adjustable opacity, rotation, and font size. Ideal for proofs and drafts.",
 		path: "/image/watermark",
 		keywords:
 			"add watermark to image, image watermark online, text watermark, watermark photo, free watermark tool, private watermark, watermark no upload, tiled watermark",

@@ -25,9 +25,6 @@ test.describe("HEIC to JPG Tool Page", () => {
 		await expect(
 			page.getByText("Where does the HEIF image standard come from?"),
 		).toBeVisible();
-		await expect(
-			page.getByText("What output quality should I use for HEIC to JPG?"),
-		).toBeVisible();
 	});
 
 	test("should have SEO meta description", async ({ page }) => {

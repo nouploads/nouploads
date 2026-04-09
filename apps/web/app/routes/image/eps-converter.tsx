@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert EPS Online — Free, Private, No Upload | NoUploads",
+		title: "Convert EPS Online — Free, Instant | NoUploads",
 		description:
-			"Extract the embedded preview from EPS files and convert to JPG, PNG, or WebP in your browser. No upload, no server.",
+			"Convert Encapsulated PostScript EPS files to JPG, PNG, or WebP in your browser. Extracts the embedded TIFF or bitmap preview image. No upload, no signup.",
 		path: "/image/eps-converter",
 		keywords:
 			"eps to jpg, eps to png, eps converter online, open eps file, encapsulated postscript converter",

@@ -19,9 +19,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert Images Online — Free, Private, No Upload | NoUploads",
+		title: "Convert Images Online — Free, No Limits | NoUploads",
 		description:
-			"Convert between JPG, PNG, WebP, AVIF, and more for free. No upload, no signup — files never leave your device.",
+			"Convert between JPG, PNG, WebP, AVIF, and more formats in your browser — free, no upload, transparency preserved where supported. Batch-ready converter.",
 		path: "/image/convert",
 		keywords:
 			"image converter, convert image format, png to jpg, jpg to webp, webp to png, free image converter, private image converter, batch image convert, convert images online",

@@ -17,10 +17,9 @@ const ColorPickerTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Color Picker Online — HEX, RGB, HSL, OKLCH | Free & Private | NoUploads",
+		title: "Color Picker Online — Free, Instant | NoUploads",
 		description:
-			"Pick colors and convert between HEX, RGB, HSL, and OKLCH formats. Free, no signup, works offline.",
+			"Pick colors and convert between HEX, RGB, HSL, and OKLCH formats in your browser — free, with WCAG contrast checking. No data sent to any server. 11 formats.",
 		path: "/developer/color-picker",
 		keywords:
 			"color picker online, hex color picker, rgb to hex, hsl color picker, oklch color picker, color converter, free color tool",

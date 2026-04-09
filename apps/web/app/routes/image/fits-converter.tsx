@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert FITS Online — Free, Private, No Upload | NoUploads",
+		title: "Convert FITS Online — Free, Instant | NoUploads",
 		description:
-			"Convert FITS astronomy images to JPG, PNG, or WebP in your browser. Auto-stretched preview, no upload, no signup.",
+			"Convert FITS astronomy images to JPG, PNG, or WebP in your browser. Used by NASA, Hubble, and JWST for scientific imaging data files. No upload, no signup.",
 		path: "/image/fits-converter",
 		keywords:
 			"fits to jpg, fits converter, fits viewer, open fits file, astronomy image converter, fits to png online",

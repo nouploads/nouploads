@@ -48,7 +48,7 @@ Do not introduce alternative frameworks, UI systems, state managers, or test run
 ## File and Folder Rules
 
 ### Routes
-All public pages live under `app/routes/`.
+All public pages live under `apps/web/app/routes/`.
 
 Route modules may:
 - export `meta()`
@@ -63,27 +63,32 @@ Route modules must not:
 
 ### Components
 Shared UI components live under:
-- `app/components/layout/`
-- `app/components/tool/`
-- `app/components/marketing/`
-- `app/components/ui/`
+- `apps/web/app/components/layout/`
+- `apps/web/app/components/tool/`
+- `apps/web/app/components/marketing/`
+- `apps/web/app/components/ui/`
 
 Do not place feature-specific business logic in shared UI components.
 
 ### Features
 Feature logic lives under:
-- `app/features/image-tools/`
-- `app/features/developer-tools/`
+- `apps/web/app/features/image-tools/`
+- `apps/web/app/features/pdf-tools/`
+- `apps/web/app/features/vector-tools/`
+- `apps/web/app/features/developer-tools/`
 
 Each feature area should contain:
 - `components/`
 - `processors/`
-- `lib/`
+- `lib/` (optional)
+- `decoders/` (optional, for format-specific decoders)
+
+### Core library
+Platform-agnostic tool logic, format decoders, and the tool registry live in `packages/core/`. The same logic powers the website, CLI, and future apps.
 
 ### Shared utilities
 Only truly shared low-level utilities belong in:
-- `app/lib/`
-- `app/features/shared/lib/`
+- `apps/web/app/lib/`
 
 Examples:
 - filename helpers
@@ -126,7 +131,7 @@ Each public route must define:
 - Open Graph title
 - Open Graph description
 
-Prefer shared helpers from `app/lib/seo/` instead of hand-writing repeated metadata.
+Prefer shared helpers from `apps/web/app/lib/seo/` instead of hand-writing repeated metadata.
 
 If relevant, include JSON-LD structured data.
 
@@ -147,7 +152,7 @@ Each tool page should include:
 - result state
 - FAQ or supporting content if useful for SEO
 
-Use shared components from `app/components/tool/` whenever possible.
+Use shared components from `apps/web/app/components/tool/` whenever possible.
 
 Do not invent a new page structure for each tool.
 

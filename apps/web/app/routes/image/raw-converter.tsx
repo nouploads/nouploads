@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert Camera RAW Online — CR2, NEF, ARW, DNG & More | NoUploads",
+		title: "Camera RAW Converter — Free, Instant | NoUploads",
 		description:
-			"Convert camera RAW files (CR2, NEF, ARW, DNG, RAF, ORF) to JPG, PNG, or WebP in your browser. No upload, no signup.",
+			"Convert camera RAW files (CR2, NEF, ARW, DNG, RAF, ORF) to JPG, PNG, or WebP in your browser. Extracts the embedded full-res preview. No upload, no signup.",
 		path: "/image/raw-converter",
 		keywords:
 			"raw to jpg, cr2 converter, nef to jpg, arw converter, dng to jpg online, raw converter online",

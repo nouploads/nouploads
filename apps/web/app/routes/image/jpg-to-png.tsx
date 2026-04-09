@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert JPG to PNG Online — Free, Private, No Upload | NoUploads",
+		title: "JPG to PNG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert JPG images to PNG format with transparency support. Free, private, runs in your browser.",
+			"Convert JPG to lossless PNG with no quality loss in your browser. Enables transparency support and prevents further compression artifacts. No upload, no signup.",
 		path: "/image/jpg-to-png",
 		keywords:
 			"jpg to png, jpeg to png, convert jpg to png online, jpg to png converter free, jpg to png transparent background",

@@ -17,9 +17,9 @@ const HeicToJpgTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert HEIC to JPG Online — Free, Private, No Upload | NoUploads",
+		title: "HEIC to JPG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert iPhone HEIC photos to JPG online for free. No upload, no signup — files never leave your device.",
+			"Convert iPhone HEIC photos to universally compatible JPG in your browser. iOS has used HEIC as its default camera format since 2017. No upload, no signup.",
 		path: "/image/heic-to-jpg",
 		keywords:
 			"heic to jpg, convert heic, heic converter, iphone photo converter, heic to jpeg online, free heic converter, private file converter, batch heic convert",

@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { Breadcrumbs } from "~/components/layout/breadcrumbs";
 import { PrivacyBanner } from "~/components/layout/privacy-banner";
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
@@ -9,10 +10,9 @@ import type { Route } from "./+types/index";
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"PDF Tools — Free Online PDF Split, Merge, Rotate & More | NoUploads",
+		title: "PDF Tools — Free Online Editor & Converter | NoUploads",
 		description:
-			"Free online PDF tools that run in your browser. Split, merge, rotate, watermark, compress, and extract text from PDFs. No upload, no signup.",
+			"Free browser-based PDF tools with no file size or page count limits. Merge, split, compress, rotate, watermark, and extract text — no upload, no signup.",
 		path: "/pdf",
 		keywords:
 			"pdf tools online, free pdf converter, merge pdf online, split pdf online, rotate pdf, pdf watermark, pdf to text, compress pdf online, pdf editor no upload, private pdf tools",
@@ -43,6 +43,7 @@ const conversionLinks = [
 ];
 
 const editingLinks = [
+	{ href: "/pdf/reorder", label: "Reorder Pages" },
 	{ href: "/pdf/page-numbers", label: "Add Page Numbers" },
 	{ href: "/pdf/watermark", label: "Add Watermark" },
 	{ href: "/pdf/protect", label: "Password Protect" },
@@ -70,6 +71,8 @@ export default function PdfCategoryPage() {
 		<>
 			<SiteHeader />
 			<main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+				<Breadcrumbs />
+
 				<div className="mb-6">
 					<PrivacyBanner />
 				</div>
@@ -94,14 +97,14 @@ export default function PdfCategoryPage() {
 									iconBg={tool.iconBg}
 								/>
 								<div className="min-w-0">
-									<h3 className="font-semibold text-card-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+									<h2 className="font-semibold text-card-foreground group-hover:text-primary transition-colors flex items-center gap-2">
 										{tool.title}
 										{tool.comingSoon && (
 											<span className="text-xs font-normal bg-muted text-muted-foreground px-2 py-0.5 rounded-full">
 												Soon
 											</span>
 										)}
-									</h3>
+									</h2>
 									<p className="text-sm text-muted-foreground mt-1">
 										{tool.description}
 									</p>

@@ -249,6 +249,7 @@ export default function ImageFiltersTool() {
 									{s.unit}
 								</span>
 								<Slider
+									aria-label={s.label}
 									value={[filters[s.key]]}
 									onValueChange={(v) => updateFilter(s.key, v[0])}
 									min={s.min}

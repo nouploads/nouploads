@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { Breadcrumbs } from "~/components/layout/breadcrumbs";
 import { PrivacyBanner } from "~/components/layout/privacy-banner";
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
@@ -9,10 +10,9 @@ import type { Route } from "./+types/index";
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Developer Tools — Free Online Color Picker, Formatters & More | NoUploads",
+		title: "Developer Tools — Free, No Upload | NoUploads",
 		description:
-			"Free browser-based developer utilities. Color picker, JSON formatter, hash generator, JWT decoder, and more — no upload, no signup, works offline.",
+			"Free browser-based developer tools — JSON formatter, color picker, hash generator, regex tester, and more. No data leaves your device. Works offline, no signup.",
 		path: "/developer",
 		keywords:
 			"developer tools online, free color picker, json formatter, hash generator, jwt decoder, code formatter, online dev tools, private developer tools, browser-based dev tools",
@@ -43,6 +43,13 @@ const quickLinks = [
 	{ href: "/developer/url-encoder", label: "URL Encoder" },
 	{ href: "/developer/text-diff", label: "Text Diff" },
 	{ href: "/developer/markdown-preview", label: "Markdown Preview" },
+	{ href: "/developer/word-counter", label: "Word Counter" },
+	{ href: "/developer/css-formatter", label: "CSS Formatter" },
+	{ href: "/developer/case-converter", label: "Case Converter" },
+	{ href: "/developer/cron-parser", label: "CRON Parser" },
+	{ href: "/developer/json-csv", label: "JSON ↔ CSV" },
+	{ href: "/developer/yaml-json", label: "YAML ↔ JSON" },
+	{ href: "/developer/lorem-ipsum", label: "Lorem Ipsum" },
 ];
 
 function PillLinks({ links }: { links: { href: string; label: string }[] }) {
@@ -66,6 +73,8 @@ export default function DeveloperCategoryPage() {
 		<>
 			<SiteHeader />
 			<main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+				<Breadcrumbs />
+
 				<div className="mb-6">
 					<PrivacyBanner />
 				</div>
@@ -92,14 +101,14 @@ export default function DeveloperCategoryPage() {
 									iconBg={tool.iconBg}
 								/>
 								<div className="min-w-0">
-									<h3 className="font-semibold text-card-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+									<h2 className="font-semibold text-card-foreground group-hover:text-primary transition-colors flex items-center gap-2">
 										{tool.title}
 										{tool.comingSoon && (
 											<span className="text-xs font-normal bg-muted text-muted-foreground px-2 py-0.5 rounded-full">
 												Soon
 											</span>
 										)}
-									</h3>
+									</h2>
 									<p className="text-sm text-muted-foreground mt-1">
 										{tool.description}
 									</p>

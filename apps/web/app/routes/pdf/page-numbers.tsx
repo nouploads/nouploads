@@ -17,10 +17,9 @@ const PdfPageNumbersTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Add Page Numbers to PDF Online — Free, Private, No Upload | NoUploads",
+		title: "Add Page Numbers to PDF — Free, No Limits | NoUploads",
 		description:
-			"Insert page numbers on every page of a PDF. Choose position, format, and font size. Runs in your browser — no upload required.",
+			"Insert page numbers into any PDF in your browser — free, no upload, no limits. Choose position, numbering format, font size, and custom starting number.",
 		path: "/pdf/page-numbers",
 		keywords:
 			"add page numbers to pdf, pdf page numbers, number pdf pages, pdf page numbering online, free pdf page number tool, insert page numbers pdf",

@@ -17,9 +17,9 @@ const ImageCropTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Crop Images Online — Free, Private, No Upload | NoUploads",
+		title: "Crop Images Online — Free, No Limits | NoUploads",
 		description:
-			"Crop images to any size or aspect ratio for free. Drag to select, choose 1:1, 4:3, or 16:9 presets. Files never leave your device.",
+			"Crop images with custom dimensions or preset aspect ratios like 1:1, 4:3, and 16:9 in your browser — free, no upload. Drag to select the perfect frame.",
 		path: "/image/crop",
 		keywords:
 			"crop image, image cropper online, crop photo, crop image to square, crop image 16:9, free image cropper, private image cropper, crop image online free",

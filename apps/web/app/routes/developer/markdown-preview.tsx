@@ -16,10 +16,9 @@ const MarkdownPreviewTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Markdown Preview Online — Live Editor with GFM Support | Free, Private | NoUploads",
+		title: "Markdown Preview Online — Free, Instant | NoUploads",
 		description:
-			"Edit and preview Markdown with live rendering, GFM tables, task lists, and code blocks. Runs entirely in your browser.",
+			"Edit and preview Markdown with live rendering in your browser — free, with GFM tables, task lists, and code blocks. No data sent to any server. Export as HTML.",
 		path: "/developer/markdown-preview",
 		keywords:
 			"markdown preview, markdown editor, markdown to html, gfm, github flavored markdown, markdown live preview, markdown renderer, markdown online",

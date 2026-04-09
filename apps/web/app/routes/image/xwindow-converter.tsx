@@ -17,10 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Convert X Window Images Online — Free, Private, No Upload | NoUploads",
+		title: "X Window Converter — Free, Instant | NoUploads",
 		description:
-			"Open and convert XBM, XPM, and XWD files from the X Window System in your browser. No server, no signup.",
+			"Convert X Window XBM, XPM, and XWD image files to JPG, PNG, or WebP in your browser. Parses legacy X11 bitmap and pixmap formats. No upload, no signup.",
 		path: "/image/xwindow-converter",
 		keywords:
 			"xbm converter, xpm converter, xwd converter, x window image, x11 bitmap, x pixmap, x window dump, convert xbm online, convert xpm online",

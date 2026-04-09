@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.0] - 2026-03-31
+
+### Added
+
+- 7 new image conversion tools: GIF→PNG, HEIC→PNG, HEIC→WebP, ICO→WebP, BMP→JPG, BMP→PNG, BMP→WebP
+- OG image generation now runs automatically during build
+
+### Fixed
+
+- Sitemap uses real git modification dates per route instead of uniform build date
+- Sitemap priority tiers differentiate core tools from niche converters
+- Route discovery works correctly on static S3 hosting
+- Broken library attribution links for @webtoon/psd and @imgly/background-removal
+
 ## [0.1.0] - 2026-03-31
 
 ### Added

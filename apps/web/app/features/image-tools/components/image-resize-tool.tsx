@@ -321,7 +321,7 @@ export default function ImageResizeTool() {
 								value={outputFormat}
 								onValueChange={(v) => setOutputFormat(v as OutputFormat)}
 							>
-								<SelectTrigger className="w-24">
+								<SelectTrigger className="w-24" aria-label="Output format">
 									<SelectValue />
 								</SelectTrigger>
 								<SelectContent>
@@ -339,6 +339,7 @@ export default function ImageResizeTool() {
 						<div className="space-y-2 max-w-sm">
 							<span className="text-sm font-medium">Quality: {quality}%</span>
 							<Slider
+								aria-label="Quality"
 								value={[quality]}
 								onValueChange={(v) => setQuality(v[0])}
 								min={10}

@@ -17,10 +17,9 @@ const PdfUnlockTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Unlock PDF Online — Remove Password Protection | Free, Private | NoUploads",
+		title: "Unlock PDF Online — Free, No Limits | NoUploads",
 		description:
-			"Remove password protection from PDFs in your browser. No upload, no server — your files stay on your device.",
+			"Remove password protection from a PDF in your browser — free, no upload, no limits. Strips owner-password print and copy restrictions without a password.",
 		path: "/pdf/unlock",
 		keywords:
 			"unlock pdf, remove pdf password, pdf password remover, unprotect pdf, decrypt pdf online, free pdf unlock tool, private pdf unlocker",

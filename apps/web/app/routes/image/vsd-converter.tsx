@@ -17,10 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Convert Visio VSD/VSDX Online — Free, Private, No Upload | NoUploads",
+		title: "Visio Converter — Free, Instant | NoUploads",
 		description:
-			"Convert Microsoft Visio VSD and VSDX diagrams to JPG, PNG, or WebP in your browser. No server, no upload.",
+			"Convert Visio VSD and VSDX diagram files to JPG, PNG, or WebP in your browser. Extracts thumbnails from flowcharts and network maps. No upload, no signup.",
 		path: "/image/vsd-converter",
 		keywords:
 			"vsd to jpg, vsdx to png, visio converter online, open vsd file, vsdx converter, visio to image, convert visio free",

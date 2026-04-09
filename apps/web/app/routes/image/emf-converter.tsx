@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert EMF Online — Free, Private, No Upload | NoUploads",
+		title: "Convert EMF Online — Free, Instant | NoUploads",
 		description:
-			"Convert Windows EMF metafiles to JPG, PNG, or WebP in your browser. Renders shapes, lines, fills, and embedded bitmaps.",
+			"Convert Windows Enhanced Metafile EMF files to JPG, PNG, or WebP in your browser. Renders vector shapes, lines, and fills to pixels. No upload, no signup.",
 		path: "/image/emf-converter",
 		keywords:
 			"emf to jpg, emf converter, emf to png, open emf file, convert emf online, emf viewer, enhanced metafile converter, emf to image",

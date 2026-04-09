@@ -11,6 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # ── Fast checks (no build needed) ──────────────────────────────────
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -24,6 +25,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec biome check .
 
+  # ── Build once, share with all downstream jobs ─────────────────────
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -36,7 +38,37 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            packages/core/dist
+            packages/backend-canvas/dist
+            packages/backend-sharp/dist
+            packages/cli/dist
+            apps/web/build
+            apps/web/.react-router
+          retention-days: 1
 
+  # ── Typecheck (needs package types from build) ─────────────────────
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+      - run: pnpm --filter @nouploads/web typecheck
+
+  # ── Unit tests ─────────────────────────────────────────────────────
   test-core:
     name: Test Core
     runs-on: ubuntu-latest
@@ -49,8 +81,9 @@ jobs:
           node-version: 24.14.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @nouploads/core build
-      - run: pnpm --filter @nouploads/backend-sharp build
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
       - run: pnpm --filter @nouploads/core test
 
   test-web:
@@ -65,24 +98,12 @@ jobs:
           node-version: 24.14.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @nouploads/core build
-      - run: pnpm --filter @nouploads/backend-canvas build
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
       - run: pnpm --filter @nouploads/web test
 
-  typecheck:
-    name: Typecheck
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24.14.0
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-      - run: pnpm --filter @nouploads/web typecheck
-
+  # ── E2E smoke tests (needs build + Playwright browsers) ────────────
   e2e-smoke:
     name: E2E Smoke
     runs-on: ubuntu-latest
@@ -95,10 +116,23 @@ jobs:
           node-version: 24.14.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('apps/web/package.json') }}
       - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         working-directory: apps/web
         run: pnpm exec playwright install --with-deps
+      - name: Install Playwright system deps only
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        working-directory: apps/web
+        run: pnpm exec playwright install-deps
       - name: Run E2E smoke tests
         working-directory: apps/web
         run: |
@@ -116,6 +150,7 @@ jobs:
           path: apps/web/playwright-report/
           retention-days: 7
 
+  # ── Lighthouse performance audit ───────────────────────────────────
   lighthouse:
     name: Lighthouse
     runs-on: ubuntu-latest
@@ -128,16 +163,9 @@ jobs:
           node-version: 24.14.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-      - name: Install Lighthouse CI
-        run: npm install -g @lhci/cli
-      - name: Run Lighthouse CI
-        working-directory: apps/web
-        run: lhci autorun
-      - name: Upload Lighthouse report
-        if: always()
-        uses: actions/upload-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
-          name: lighthouse-report
-          path: apps/web/.lighthouseci/
-          retention-days: 14
+          name: build-output
+      - name: Run Lighthouse
+        working-directory: apps/web
+        run: node scripts/lighthouse-ci.mjs

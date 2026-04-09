@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert SVG to JPG Online — Free, Private, No Upload | NoUploads",
+		title: "SVG to JPG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert SVG vector graphics to JPG images with adjustable quality and white background. Free and private.",
+			"Rasterize SVG vector graphics to JPG in your browser. Transparent regions render on a white background with adjustable JPEG quality. No upload, no signup.",
 		path: "/image/svg-to-jpg",
 		keywords:
 			"svg to jpg, convert svg to jpg, svg to jpeg online, svg to jpg converter, rasterize svg jpeg, svg converter",

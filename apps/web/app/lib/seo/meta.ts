@@ -4,6 +4,76 @@ export const SITE_NAME = import.meta.env.VITE_SITE_NAME || "NoUploads";
 export const GITHUB_URL =
 	import.meta.env.VITE_GITHUB_URL || "https://github.com/nouploads/nouploads";
 
+/** Human-readable names for URL category segments. */
+const CATEGORY_LABELS: Record<string, string> = {
+	image: "Image Tools",
+	pdf: "PDF Tools",
+	developer: "Developer Tools",
+	vector: "Vector Tools",
+	about: "About",
+	privacy: "Privacy",
+	"self-hosting": "Self-Hosting",
+};
+
+/**
+ * Build BreadcrumbList JSON-LD from a URL path.
+ * e.g. "/image/heic-to-jpg" → Home > Image Tools > HEIC to JPG
+ */
+function buildBreadcrumbs(
+	path: string,
+	title: string,
+): Record<string, unknown> | null {
+	if (path === "/") return null;
+
+	const segments = path.split("/").filter(Boolean);
+	const items: Record<string, unknown>[] = [
+		{
+			"@type": "ListItem",
+			position: 1,
+			name: "Home",
+			item: SITE_URL,
+		},
+	];
+
+	if (segments.length >= 1) {
+		const category = segments[0];
+		const categoryLabel = CATEGORY_LABELS[category] ?? category;
+		if (segments.length === 1) {
+			// Category page itself — no item URL on last element
+			items.push({
+				"@type": "ListItem",
+				position: 2,
+				name: categoryLabel,
+			});
+		} else {
+			items.push({
+				"@type": "ListItem",
+				position: 2,
+				name: categoryLabel,
+				item: `${SITE_URL}/${category}`,
+			});
+			// Tool page — derive name from title (strip modifiers/brand suffix)
+			const toolName =
+				title
+					.replace(/\s+Online\b.*$/, "")
+					.replace(/\s+—.*$/, "")
+					.replace(/\s+\|.*$/, "")
+					.trim() || title;
+			items.push({
+				"@type": "ListItem",
+				position: 3,
+				name: toolName,
+			});
+		}
+	}
+
+	return {
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		itemListElement: items,
+	};
+}
+
 interface MetaOptions {
 	title: string;
 	description: string;
@@ -96,6 +166,12 @@ export function buildMeta(opts: MetaOptions) {
 		for (const block of opts.jsonLd) {
 			meta.push({ "script:ld+json": block });
 		}
+	}
+
+	// Auto-generate BreadcrumbList JSON-LD from path
+	const breadcrumbs = buildBreadcrumbs(opts.path, opts.title);
+	if (breadcrumbs) {
+		meta.push({ "script:ld+json": breadcrumbs });
 	}
 
 	return meta;

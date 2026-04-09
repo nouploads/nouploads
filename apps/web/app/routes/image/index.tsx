@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { Breadcrumbs } from "~/components/layout/breadcrumbs";
 import { PrivacyBanner } from "~/components/layout/privacy-banner";
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
@@ -10,10 +11,9 @@ import type { Route } from "./+types/index";
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Image Tools — Free Online Image Converter, Compressor & More | NoUploads",
+		title: "Image Tools — Free, No Upload | NoUploads",
 		description:
-			"Free online image tools that run in your browser. Convert, compress, resize images with no upload, no signup. Private, unlimited, works offline.",
+			"Free browser-based image tools — convert, compress, and resize JPG, PNG, WebP, AVIF, and HEIC. No files leave your device. Batch processing with no size limits.",
 		path: "/image",
 		keywords:
 			"image tools online, free image converter, compress image online, resize image online, image editor no upload, private image tools, batch image converter",
@@ -39,6 +39,8 @@ const imageTools = gridTools.filter((t) => t.href.startsWith("/image/"));
 
 const conversionLinks = [
 	{ href: "/image/heic-to-jpg", label: "HEIC → JPG" },
+	{ href: "/image/heic-to-png", label: "HEIC → PNG" },
+	{ href: "/image/heic-to-webp", label: "HEIC → WebP" },
 	{ href: "/image/jpg-to-png", label: "JPG → PNG" },
 	{ href: "/image/png-to-jpg", label: "PNG → JPG" },
 	{ href: "/image/webp-to-jpg", label: "WebP → JPG" },
@@ -51,9 +53,14 @@ const conversionLinks = [
 	{ href: "/image/avif-to-jpg", label: "AVIF → JPG" },
 	{ href: "/image/avif-to-png", label: "AVIF → PNG" },
 	{ href: "/image/gif-to-jpg", label: "GIF → JPG" },
+	{ href: "/image/gif-to-png", label: "GIF → PNG" },
+	{ href: "/image/bmp-to-jpg", label: "BMP → JPG" },
+	{ href: "/image/bmp-to-png", label: "BMP → PNG" },
+	{ href: "/image/bmp-to-webp", label: "BMP → WebP" },
 	{ href: "/image/tiff-to-jpg", label: "TIFF → JPG" },
 	{ href: "/image/tiff-to-png", label: "TIFF → PNG" },
 	{ href: "/image/ico-to-png", label: "ICO → PNG" },
+	{ href: "/image/ico-to-webp", label: "ICO → WebP" },
 	{ href: "/image/jxl-to-jpg", label: "JXL → JPG" },
 	{ href: "/image/jxl-to-png", label: "JXL → PNG" },
 ];
@@ -169,6 +176,8 @@ const editingLinks = [
 	{ href: "/image/watermark", label: "Watermark" },
 	{ href: "/image/remove-background", label: "Remove Background" },
 	{ href: "/image/exif", label: "EXIF Viewer" },
+	{ href: "/image/strip-metadata", label: "Strip Metadata" },
+	{ href: "/image/color-palette", label: "Color Palette" },
 	{ href: "/image/favicon-generator", label: "Favicon Generator" },
 	{ href: "/image/to-pdf", label: "Images to PDF" },
 ];
@@ -228,6 +237,8 @@ export default function ImageCategoryPage() {
 		<>
 			<SiteHeader />
 			<main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+				<Breadcrumbs />
+
 				<div className="mb-6">
 					<PrivacyBanner />
 				</div>
@@ -253,14 +264,14 @@ export default function ImageCategoryPage() {
 									iconBg={tool.iconBg}
 								/>
 								<div className="min-w-0">
-									<h3 className="font-semibold text-card-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+									<h2 className="font-semibold text-card-foreground group-hover:text-primary transition-colors flex items-center gap-2">
 										{tool.title}
 										{tool.comingSoon && (
 											<span className="text-xs font-normal bg-muted text-muted-foreground px-2 py-0.5 rounded-full">
 												Soon
 											</span>
 										)}
-									</h3>
+									</h2>
 									<p className="text-sm text-muted-foreground mt-1">
 										{tool.description}
 									</p>

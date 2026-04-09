@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert Netpbm Online — Free, Private, No Upload | NoUploads",
+		title: "Netpbm Converter — Free, Instant | NoUploads",
 		description:
-			"Convert PBM, PGM, PPM, PNM, PAM, and PFM files to JPG, PNG, or WebP in your browser. No upload, no signup.",
+			"Convert PBM, PGM, PPM, PNM, PAM, and PFM files to JPG, PNG, or WebP in your browser. The simplest Unix image formats ever designed. No upload, no signup.",
 		path: "/image/netpbm-converter",
 		keywords:
 			"pbm to png, pgm converter, ppm to jpg, netpbm viewer, pam to png, pfm converter, convert pnm online",

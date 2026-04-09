@@ -17,9 +17,9 @@ const CompressPngTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Compress PNG Online — Free, Private, No Upload | NoUploads",
+		title: "Compress PNG Online — Free, No Limits | NoUploads",
 		description:
-			"Compress PNG images online for free with color quantization. No upload, no signup — files never leave your device.",
+			"Shrink PNG files via color quantization in your browser — free, no upload, adjustable palette from 2 to 256 colors. Alpha transparency fully preserved.",
 		path: "/image/compress-png",
 		keywords:
 			"compress png, reduce png size, png compressor online, png optimization, free png compressor, private png compressor, png color quantization",

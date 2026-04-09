@@ -40,6 +40,16 @@ const PAGES: PageInfo[] = [
 		title: "About NoUploads",
 		description: "Privacy-first file tools — no uploads, no servers",
 	},
+	{
+		path: "/privacy",
+		title: "Privacy",
+		description: "No data collection, no cookies, no third-party scripts",
+	},
+	{
+		path: "/self-hosting",
+		title: "Self-Host NoUploads",
+		description: "Run your own instance with Docker or any web server",
+	},
 	// Image tools
 	{
 		path: "/image",
@@ -50,6 +60,16 @@ const PAGES: PageInfo[] = [
 		path: "/image/heic-to-jpg",
 		title: "HEIC to JPG",
 		description: "Convert iPhone HEIC photos to JPG format",
+	},
+	{
+		path: "/image/heic-to-png",
+		title: "HEIC to PNG",
+		description: "Convert iPhone HEIC photos to lossless PNG",
+	},
+	{
+		path: "/image/heic-to-webp",
+		title: "HEIC to WebP",
+		description: "Convert iPhone HEIC photos to modern WebP",
 	},
 	{
 		path: "/image/compress",
@@ -132,6 +152,26 @@ const PAGES: PageInfo[] = [
 		description: "Convert GIF images to compact JPG format",
 	},
 	{
+		path: "/image/gif-to-png",
+		title: "GIF to PNG",
+		description: "Convert GIF images to lossless PNG with transparency",
+	},
+	{
+		path: "/image/bmp-to-jpg",
+		title: "BMP to JPG",
+		description: "Convert BMP bitmap images to compact JPG",
+	},
+	{
+		path: "/image/bmp-to-png",
+		title: "BMP to PNG",
+		description: "Convert BMP bitmap images to lossless PNG",
+	},
+	{
+		path: "/image/bmp-to-webp",
+		title: "BMP to WebP",
+		description: "Convert BMP bitmap images to modern WebP",
+	},
+	{
 		path: "/image/resize",
 		title: "Image Resize",
 		description: "Resize images by pixels, percentage, or presets",
@@ -150,6 +190,11 @@ const PAGES: PageInfo[] = [
 		path: "/image/exif",
 		title: "EXIF Viewer",
 		description: "View and strip photo metadata",
+	},
+	{
+		path: "/image/strip-metadata",
+		title: "EXIF Metadata Remover",
+		description: "Strip GPS, camera info, and all metadata from photos",
 	},
 	{
 		path: "/image/to-pdf",
@@ -195,6 +240,11 @@ const PAGES: PageInfo[] = [
 		path: "/image/ico-to-jpg",
 		title: "ICO to JPG",
 		description: "Convert ICO favicon files to JPG images",
+	},
+	{
+		path: "/image/ico-to-webp",
+		title: "ICO to WebP",
+		description: "Convert ICO favicon files to WebP images",
 	},
 	{
 		path: "/image/jxl-to-jpg",
@@ -479,6 +529,56 @@ const PAGES: PageInfo[] = [
 		path: "/developer/markdown-preview",
 		title: "Markdown Preview",
 		description: "Live Markdown editor with GitHub Flavored Markdown support",
+	},
+	{
+		path: "/developer/word-counter",
+		title: "Word Counter",
+		description:
+			"Count characters, words, sentences, paragraphs and reading time",
+	},
+	{
+		path: "/developer/css-formatter",
+		title: "CSS Formatter",
+		description: "Minify or beautify CSS with size comparison",
+	},
+	{
+		path: "/developer/case-converter",
+		title: "Case Converter",
+		description:
+			"Convert text between camelCase, snake_case, kebab-case, and more",
+	},
+	{
+		path: "/developer/cron-parser",
+		title: "CRON Expression Parser",
+		description:
+			"Parse cron expressions into human-readable schedules with next run times",
+	},
+	{
+		path: "/developer/json-csv",
+		title: "JSON ↔ CSV Converter",
+		description:
+			"Convert between JSON arrays and CSV with nested object flattening",
+	},
+	{
+		path: "/developer/yaml-json",
+		title: "YAML ↔ JSON Converter",
+		description: "Convert between YAML and JSON with validation and formatting",
+	},
+	{
+		path: "/developer/lorem-ipsum",
+		title: "Lorem Ipsum Generator",
+		description: "Generate placeholder text with configurable length",
+	},
+	{
+		path: "/image/color-palette",
+		title: "Color Palette Extractor",
+		description: "Extract dominant colors from any image as hex, RGB, and HSL",
+	},
+	{
+		path: "/pdf/reorder",
+		title: "Reorder PDF Pages",
+		description:
+			"Drag and drop to rearrange or remove PDF pages — free and private",
 	},
 ];
 

@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+import { Breadcrumbs } from "~/components/layout/breadcrumbs";
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
 import { buildMeta, GITHUB_URL } from "~/lib/seo/meta";
@@ -5,9 +7,9 @@ import type { Route } from "./+types/about";
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "About NoUploads — How It Works & Privacy Guarantee",
+		title: "About NoUploads — Privacy-First File Tools",
 		description:
-			"Learn how NoUploads processes files 100% in your browser. No uploads, no servers, no tracking. Verify our privacy claims yourself.",
+			"NoUploads processes files in your browser with JavaScript and WebAssembly — no servers, no tracking, no accounts. Open source so you can verify every claim.",
 		path: "/about",
 	});
 }
@@ -17,6 +19,7 @@ export default function AboutPage() {
 		<>
 			<SiteHeader />
 			<main className="mx-auto w-full max-w-3xl flex-1 px-4 py-12">
+				<Breadcrumbs />
 				<h1 className="text-3xl font-bold mb-8">About NoUploads</h1>
 
 				<div className="space-y-8 text-muted-foreground">
@@ -122,24 +125,140 @@ export default function AboutPage() {
 						<h2 className="text-xl font-semibold text-foreground mb-3">
 							Self-hosting
 						</h2>
-						<p>Run your own instance:</p>
-						<div className="mt-3 space-y-3">
-							<div>
-								<p className="font-medium text-foreground text-sm">Docker</p>
-								<code className="block bg-muted rounded px-3 py-2 text-sm mt-1">
-									docker run -d -p 8080:80 ghcr.io/nouploads/nouploads:latest
-								</code>
-							</div>
-							<div>
-								<p className="font-medium text-foreground text-sm">
-									Build from source
-								</p>
-								<code className="block bg-muted rounded px-3 py-2 text-sm mt-1">
-									git clone {GITHUB_URL}.git && cd nouploads && npm install &&
-									npm run build
-								</code>
-							</div>
+						<p>
+							Self-hosting is simple — it&rsquo;s just static files. Build from
+							source or use Docker. Even when self-hosted, all file processing
+							remains client-side.
+						</p>
+						<p className="mt-2">
+							<Link
+								to="/self-hosting"
+								className="text-primary underline underline-offset-2"
+							>
+								Read the self-hosting guide &rarr;
+							</Link>
+						</p>
+					</section>
+
+					<section>
+						<h2 className="text-xl font-semibold text-foreground mb-3">
+							NoUploads vs. alternatives
+						</h2>
+						<div className="overflow-x-auto">
+							<table className="w-full text-sm border-collapse">
+								<thead>
+									<tr className="border-b">
+										<th className="text-left py-2 pr-4 font-medium text-foreground">
+											Feature
+										</th>
+										<th className="text-left py-2 px-3 font-medium text-foreground">
+											NoUploads
+										</th>
+										<th className="text-left py-2 px-3 font-medium text-foreground">
+											ILovePDF
+										</th>
+										<th className="text-left py-2 px-3 font-medium text-foreground">
+											TinyPNG
+										</th>
+										<th className="text-left py-2 px-3 font-medium text-foreground">
+											Squoosh
+										</th>
+										<th className="text-left py-2 px-3 font-medium text-foreground">
+											CloudConvert
+										</th>
+									</tr>
+								</thead>
+								<tbody className="[&_td]:py-2 [&_td]:px-3 [&_tr]:border-b">
+									<tr>
+										<td className="pr-4">Files uploaded to server</td>
+										<td className="text-green-500 font-medium">No</td>
+										<td>Yes</td>
+										<td>Yes</td>
+										<td className="text-green-500 font-medium">No</td>
+										<td>Yes</td>
+									</tr>
+									<tr>
+										<td className="pr-4">Open source</td>
+										<td className="text-green-500 font-medium">
+											Yes (AGPL-3.0)
+										</td>
+										<td>No</td>
+										<td>No</td>
+										<td className="text-green-500 font-medium">
+											Yes (Apache-2.0)
+										</td>
+										<td>No</td>
+									</tr>
+									<tr>
+										<td className="pr-4">Self-hostable</td>
+										<td className="text-green-500 font-medium">Yes</td>
+										<td>No</td>
+										<td>No</td>
+										<td className="text-green-500 font-medium">Yes</td>
+										<td>No</td>
+									</tr>
+									<tr>
+										<td className="pr-4">File size limit</td>
+										<td className="text-green-500 font-medium">None*</td>
+										<td>100 MB free</td>
+										<td>5 MB free</td>
+										<td className="text-green-500 font-medium">None</td>
+										<td>Varies</td>
+									</tr>
+									<tr>
+										<td className="pr-4">Signup required</td>
+										<td className="text-green-500 font-medium">No</td>
+										<td>No (limited)</td>
+										<td>No (limited)</td>
+										<td className="text-green-500 font-medium">No</td>
+										<td>No (limited)</td>
+									</tr>
+									<tr>
+										<td className="pr-4">Works offline</td>
+										<td className="text-green-500 font-medium">Yes</td>
+										<td>No</td>
+										<td>No</td>
+										<td className="text-green-500 font-medium">Yes</td>
+										<td>No</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
+						<p className="text-xs mt-3">
+							*Limited only by device memory. Competitor data verified April
+							2026 — limits may change.
+						</p>
+					</section>
+
+					<section>
+						<h2 className="text-xl font-semibold text-foreground mb-3">
+							For organizations
+						</h2>
+						<p>
+							Organizations subject to data handling policies (HIPAA, GDPR,
+							internal compliance) can{" "}
+							<Link
+								to="/self-hosting"
+								className="text-primary underline underline-offset-2"
+							>
+								self-host NoUploads
+							</Link>{" "}
+							on their own infrastructure. All file processing remains
+							client-side even when self-hosted — the server only serves static
+							files. No data leaves the user&rsquo;s device.
+						</p>
+						<p className="mt-2">
+							NoUploads is licensed under{" "}
+							<a
+								href={`${GITHUB_URL}/blob/main/LICENSE`}
+								className="text-primary underline underline-offset-2"
+								target="_blank"
+								rel="noopener"
+							>
+								AGPL-3.0
+							</a>
+							. For commercial licensing inquiries, open an issue on GitHub.
+						</p>
 					</section>
 				</div>
 			</main>

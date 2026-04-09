@@ -17,9 +17,9 @@ const PdfWatermarkTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Watermark PDF Online — Free, Private, No Upload | NoUploads",
+		title: "Watermark PDF Online — Free, No Limits | NoUploads",
 		description:
-			"Add a text watermark to every page of a PDF. Customize text, size, opacity, rotation, and color. Free, private, no upload.",
+			"Stamp a custom text watermark on every page of a PDF in your browser — free, no upload, no limits. Adjust font size, opacity, rotation angle, and color.",
 		path: "/pdf/watermark",
 		keywords:
 			"watermark pdf, add watermark to pdf, pdf watermark online, stamp pdf, pdf text overlay, free pdf watermark tool, private pdf watermark",

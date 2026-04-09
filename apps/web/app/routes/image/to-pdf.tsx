@@ -16,10 +16,9 @@ const ImageToPdfTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Images to PDF Online — Combine Images into PDF, Free & Private | NoUploads",
+		title: "Images to PDF Online — Free, No Limits | NoUploads",
 		description:
-			"Combine multiple images into a PDF online for free. No upload, no signup — files never leave your device.",
+			"Combine multiple JPG, PNG, or WebP images into a single multi-page PDF in your browser — free, no upload. Reorder pages and pick A4 or Letter page sizes.",
 		path: "/image/to-pdf",
 		keywords:
 			"images to pdf, combine images pdf, jpg to pdf, png to pdf, free image to pdf converter, private pdf creator, merge images into pdf",

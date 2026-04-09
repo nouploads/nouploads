@@ -6,5 +6,15 @@ build
 .env
 .env.local
 .turbo
+.claude
+.husky
+.github
+PROMPTS
 playwright-report
 test-results
+tests
+fixtures
+*.md
+!pnpm-workspace.yaml
+scripts/generate-og-images.ts
+scripts/pre-push-gate.sh

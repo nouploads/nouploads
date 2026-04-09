@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert AI Online — Free, Private, No Upload | NoUploads",
+		title: "Convert AI Online — Free, Instant | NoUploads",
 		description:
-			"Convert Adobe Illustrator AI files to JPG, PNG, or WebP in your browser. No upload, no server, no signup.",
+			"Convert Adobe Illustrator AI files to JPG, PNG, WebP, or AVIF in your browser. Renders the embedded PDF structure at high resolution. No upload, no signup.",
 		path: "/image/ai-converter",
 		keywords:
 			"ai to jpg, ai to png, adobe illustrator converter, open ai file online, ai file viewer",

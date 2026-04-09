@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert TGA Online — Free, Private, No Upload | NoUploads",
+		title: "Convert TGA Online — Free, Instant | NoUploads",
 		description:
-			"Convert Targa TGA files to JPG, PNG, or WebP in your browser. Handles RLE compression and all color depths.",
+			"Convert Targa TGA files to JPG, PNG, or WebP in your browser. Widely used for game textures with RLE compression and alpha channels. No upload, no signup.",
 		path: "/image/tga-converter",
 		keywords:
 			"tga to jpg, tga converter, targa converter, open tga file, tga to png, convert tga online, tga viewer",

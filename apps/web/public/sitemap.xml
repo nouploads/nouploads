@@ -2,536 +2,434 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://nouploads.com/</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/about</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-04-03</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/privacy</loc>
+    <lastmod>2026-04-03</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/self-hosting</loc>
+    <lastmod>2026-04-03</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-04-02</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/heic-to-jpg</loc>
+    <lastmod>2026-03-30</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/image/heic-to-png</loc>
     <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouploads.com/image/heic-to-webp</loc>
+    <lastmod>2026-03-31</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/compress</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/compress-jpg</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/compress-png</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/compress-webp</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/compress-gif</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/convert</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/jpg-to-png</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/png-to-jpg</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/webp-to-jpg</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/webp-to-png</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/jpg-to-webp</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/png-to-webp</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/svg-to-png</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/avif-to-jpg</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/avif-to-png</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/gif-to-jpg</loc>
+    <lastmod>2026-03-30</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/image/gif-to-png</loc>
     <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouploads.com/image/bmp-to-jpg</loc>
+    <lastmod>2026-03-31</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/image/bmp-to-png</loc>
+    <lastmod>2026-03-31</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/image/bmp-to-webp</loc>
+    <lastmod>2026-03-31</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/resize</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/crop</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/rotate</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/exif</loc>
+    <lastmod>2026-03-30</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/image/strip-metadata</loc>
     <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://nouploads.com/image/to-pdf</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/svg-to-jpg</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/svg-to-webp</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/remove-background</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/watermark</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/tiff-to-jpg</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/tiff-to-png</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/ico-to-png</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/ico-to-jpg</loc>
+    <lastmod>2026-03-30</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/image/ico-to-webp</loc>
     <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://nouploads.com/image/jxl-to-jpg</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/jxl-to-png</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/psd-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/tga-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/hdr-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/exr-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/dds-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/pcx-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/netpbm-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/fits-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/dcm-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/raw-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/jp2-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/psb-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/icns-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/eps-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/ai-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/legacy-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/svgz-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/xps-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/odg-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/xcf-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/xwindow-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/cdr-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/vsd-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/pub-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/emf-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/favicon-generator</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/pdf</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-04-02</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/pdf/pdf-to-jpg</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/pdf/pdf-to-png</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/pdf/merge</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/pdf/compress</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/pdf/split</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/pdf/rotate</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/pdf/pdf-to-text</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/pdf/watermark</loc>
+    <lastmod>2026-03-30</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/pdf/reorder</loc>
     <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://nouploads.com/vector</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-04-02</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/vector/svg-optimizer</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-04-02</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer/color-picker</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer/base64-image</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer/qr-code</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer/json-formatter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer/hash-generator</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer/jwt-decoder</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer/uuid-generator</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer/regex-tester</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer/timestamp-converter</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer/url-encoder</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer/text-diff</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/developer/markdown-preview</loc>
+    <lastmod>2026-03-30</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/word-counter</loc>
     <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/css-formatter</loc>
+    <lastmod>2026-03-31</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/case-converter</loc>
+    <lastmod>2026-03-31</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/cron-parser</loc>
+    <lastmod>2026-03-31</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/yaml-json</loc>
+    <lastmod>2026-03-31</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/json-csv</loc>
+    <lastmod>2026-03-31</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/developer/lorem-ipsum</loc>
+    <lastmod>2026-03-31</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/pdf/page-numbers</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/pdf/protect</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/pdf/unlock</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-03-30</lastmod>
   </url>
   <url>
     <loc>https://nouploads.com/image/filters</loc>
+    <lastmod>2026-03-30</lastmod>
+  </url>
+  <url>
+    <loc>https://nouploads.com/image/color-palette</loc>
     <lastmod>2026-03-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
   </url>
 </urlset>

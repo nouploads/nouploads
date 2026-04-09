@@ -16,9 +16,9 @@ const PdfRotateTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Rotate PDF Online — Free, Private, No Upload | NoUploads",
+		title: "Rotate PDF Online — Free, No Limits | NoUploads",
 		description:
-			"Rotate PDF pages by 90, 180, or 270 degrees. Runs in your browser — no upload, no server.",
+			"Rotate all PDF pages by 90, 180, or 270 degrees in your browser — free, no upload, no limits. Lossless metadata-only rotation preserves every element.",
 		path: "/pdf/rotate",
 		keywords:
 			"rotate pdf, rotate pdf pages, pdf rotation online, turn pdf sideways, flip pdf upside down, free pdf rotator",

@@ -28,14 +28,14 @@ Legend:
 | Status | Format | Lib Verified | Decode Proof | Output Valid | Edge Cases | Sign-off |
 |--------|--------|-------------|-------------|-------------|-----------|---------|
 | ✅ | **F12 — PSD** (psd) | @webtoon/psd 0.4.0 ✅ | Mock verified ✅ | RGBA ✅ | Abort, corrupt ✅ | Signed off |
-| ➖ | **F13 — JPEG 2000** (jp2) | | | | | |
+| ✅ | **F13 — JPEG 2000** (jp2) | @cornerstonejs/codec-openjpeg 1.3.0 ✅ | WASM decoder ✅ | PNG intermediate ✅ | Abort, corrupt ✅ | Signed off |
 | ✅ | **F14 — OpenEXR** (exr) | Custom parser ✅ | Synthetic EXR ✅ | Reinhard tonemap ✅ | ZIP decomp, abort ✅ | Signed off |
 | ✅ | **F15 — Radiance HDR** (hdr) | Custom parser ✅ | Synthetic HDR ✅ | Reinhard tonemap ✅ | RLE, abort ✅ | Signed off |
 | ✅ | **F16 — TGA** (tga) | Custom parser ✅ | Synthetic TGA ✅ | BGR→RGBA swap ✅ | RLE, flip, abort ✅ | Signed off |
 | ✅ | **F17 — DDS** (dds) | Custom parser ✅ | Synthetic DDS ✅ | DXT1/3/5 ✅ | Uncompressed, abort ✅ | Signed off |
 | ✅ | **F18 — PCX** (pcx) | Custom parser ✅ | Synthetic PCX ✅ | RLE, palette ✅ | 24-bit, 8-bit, 1-bit ✅ | Signed off |
 | ✅ | **F19 — Netpbm** (pbm, pgm, ppm, pnm, pam, pfm) | Custom parser ✅ | P3, P5 tested ✅ | All 10 variants ✅ | PFM float, 16-bit ✅ | Signed off |
-| ➖ | **F20 — XCF** (xcf) | | | | | |
+| ✅ | **F20 — XCF** (xcf) | Custom parser ✅ | Synthetic XCF ✅ | RGBA ✅ | Abort, corrupt ✅ | Signed off |
 
 ## Batch 3: Specialized Formats (F21–F30)
 
@@ -51,7 +51,7 @@ Legend:
 
 - [ ] **P01 — Hub page update** (mainstream prominent, niche in collapsible section)
 - [ ] **P02 — README.md update** (comprehensive format tables)
-- [ ] **P03 — AGENTS.md** (codify Builder+Critic workflow)
+- [x] **P03 — AGENTS.md** (codify Builder+Critic workflow)
 - [ ] **P04 — Smoke test all formats**
 
 ## Disputes Log

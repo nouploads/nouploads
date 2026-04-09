@@ -153,7 +153,7 @@ export default function ImageToPdfTool() {
 						setResultBlob(null);
 					}}
 				>
-					<SelectTrigger>
+					<SelectTrigger aria-label="Page size">
 						<SelectValue />
 					</SelectTrigger>
 					<SelectContent>

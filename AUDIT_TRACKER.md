@@ -1,5 +1,7 @@
 # Final Audit Tracker
 
+> **Last updated:** 2026-04-01. Counts reflect the current state of the codebase.
+
 ## 1. Gap Verification
 | # | Item | Status | Evidence | Fix Applied |
 |---|------|--------|----------|-------------|
@@ -12,12 +14,17 @@
 | G07 | Animation detection — AVIF | ✅ | detect-animation.ts: `detectAvif()` checks ftyp for avis brand | — |
 | G08 | Animation detection — JXL | ✅ | Post-decode via jxl-oxide-wasm `.animated` property | — |
 
-## 2. Route Audit — ALL 46 routes verified
-19 mainstream conversion pages ✅
-25 niche converter pages ✅
-2 vector pages ✅
+## 2. Route Audit — 100 tool routes + 4 category indexes + 2 static pages = 106 total
 
-Every route has: `<title>`, meta description, `<h1>`, ToolDropzone.
+| Category | Tool routes | Index page |
+|----------|-----------|------------|
+| Image | 68 | ✅ `/image` |
+| PDF | 12 | ✅ `/pdf` |
+| Developer | 19 | ✅ `/developer` |
+| Vector | 1 | ✅ `/vector` |
+| Static | 2 (home, about) | — |
+
+Every route has: `<title>`, meta description, `<h1>`, ToolDropzone (where applicable).
 
 ## 3. Decoder Audit — ALL 22 follow-up decoders registered
 decode-sgi ✅ | decode-ras ✅ | decode-wbmp ✅ | decode-sfw ✅ | decode-pcd ✅ | decode-pict ✅
@@ -38,7 +45,7 @@ No dead-code decoders found. All registered in PIXEL_DECODERS.
 ## 5. README Audit
 | # | Check | Status |
 |---|-------|--------|
-| R01 | Every URL resolves to real route | ✅ (63/63 verified) |
+| R01 | Every URL resolves to real route | ✅ (106 routes verified via prerender list) |
 | R02 | Niche table includes all shipped decoders | ✅ |
 | R03 | Vector table includes SVG optimizer | ✅ |
 | R04 | Killed formats NOT listed as supported | ✅ (SK, CGM, FLIF, MNG, G3, G4, PES, GV all absent) |
@@ -46,7 +53,7 @@ No dead-code decoders found. All registered in PIXEL_DECODERS.
 ## 6. Build Health
 | # | Check | Status |
 |---|-------|--------|
-| B01 | npm run build succeeds | ✅ |
-| B02 | npm test — 472/472 pass | ✅ |
+| B01 | pnpm build succeeds | ✅ |
+| B02 | pnpm test — 1250 tests pass (1017 web + 197 core + 36 root) | ✅ |
 | B03 | No console.log in decoder files | ✅ (0 found) |
 | B04 | No dead-code decoders | ✅ |

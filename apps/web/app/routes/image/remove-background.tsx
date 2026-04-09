@@ -16,10 +16,9 @@ const RemoveBackgroundTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Remove Image Background Online — Free, Private, AI-Powered | NoUploads",
+		title: "Remove Background Online — Free, No Limits | NoUploads",
 		description:
-			"Remove backgrounds from photos using AI. Runs locally in your browser — no upload, no server, free and unlimited.",
+			"Remove image backgrounds using an on-device AI model in your browser — free, no upload, runs on your CPU with no server. Outputs a transparent PNG instantly.",
 		path: "/image/remove-background",
 		keywords:
 			"remove background, background remover, remove bg, background eraser, ai background removal, free background remover, private background removal",

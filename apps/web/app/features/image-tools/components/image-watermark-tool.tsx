@@ -197,6 +197,7 @@ export default function ImageWatermarkTool() {
 								Font size: {fontSize}px
 							</span>
 							<Slider
+								aria-label="Font size"
 								value={[fontSize]}
 								onValueChange={(v) => setFontSize(v[0])}
 								min={12}
@@ -210,6 +211,7 @@ export default function ImageWatermarkTool() {
 								Opacity: {Math.round(opacity * 100)}%
 							</span>
 							<Slider
+								aria-label="Opacity"
 								value={[opacity * 100]}
 								onValueChange={(v) => setOpacity(v[0] / 100)}
 								min={10}
@@ -221,6 +223,7 @@ export default function ImageWatermarkTool() {
 						<div className="space-y-2">
 							<span className="text-sm font-medium">Rotation: {rotation}°</span>
 							<Slider
+								aria-label="Rotation"
 								value={[rotation]}
 								onValueChange={(v) => setRotation(v[0])}
 								min={-90}
