@@ -20,27 +20,6 @@ const SITE_URL = process.env.VITE_SITE_URL || "https://nouploads.com";
 const OUT_PATH = join(__dirname, "../public/sitemap.xml");
 const APP_DIR = join(__dirname, "..");
 
-/** Core tools that deserve higher priority in the sitemap. */
-const CORE_TOOLS = new Set([
-	"/image/compress",
-	"/image/convert",
-	"/image/resize",
-	"/image/crop",
-	"/image/heic-to-jpg",
-	"/pdf/merge",
-	"/pdf/split",
-	"/pdf/compress",
-]);
-
-function getPriority(path: string): string {
-	if (path === "/") return "1.0";
-	// Category pages: /image, /pdf, /vector, /developer
-	if (path.split("/").length === 2 && path !== "/about") return "0.9";
-	if (CORE_TOOLS.has(path)) return "0.8";
-	if (path === "/about") return "0.3";
-	return "0.6";
-}
-
 /**
  * Get the last git-modified date for the route file corresponding to a URL path.
  * Falls back to today's date if git log returns nothing.
@@ -89,12 +68,10 @@ async function main() {
 	const urls = routes
 		.map((path) => {
 			const loc = `${SITE_URL}${path}`;
-			const priority = getPriority(path);
 			const lastmod = getLastModified(path);
 			return `  <url>
     <loc>${loc}</loc>
     <lastmod>${lastmod}</lastmod>
-    <priority>${priority}</priority>
   </url>`;
 		})
 		.join("\n");
