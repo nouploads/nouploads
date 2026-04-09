@@ -136,18 +136,15 @@ describe("unlockPdf processor", () => {
 		const lockedFile = await createLockedPdf("locked.pdf");
 
 		// Verify input has /Encrypt
-		const inputDoc = await PDFDocument.load(
-			await lockedFile.arrayBuffer(),
-			{ ignoreEncryption: true },
-		);
+		const inputDoc = await PDFDocument.load(await lockedFile.arrayBuffer(), {
+			ignoreEncryption: true,
+		});
 		expect(inputDoc.context.trailerInfo.Encrypt).toBeDefined();
 
 		const result = await unlockPdf(lockedFile);
 
 		// Output must NOT have /Encrypt
-		const outputDoc = await PDFDocument.load(
-			await result.blob.arrayBuffer(),
-		);
+		const outputDoc = await PDFDocument.load(await result.blob.arrayBuffer());
 		expect(outputDoc.context.trailerInfo.Encrypt).toBeUndefined();
 		expect(result.pageCount).toBe(1);
 	});

@@ -37,9 +37,9 @@ test.describe("Image Filters — happy path", () => {
 		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		await uploadViaDropzone(page, join(fixtures, "sample.jpg"));
-		await expect(
-			page.getByRole("button", { name: /download/i }),
-		).toBeVisible({ timeout: 30000 });
+		await expect(page.getByRole("button", { name: /download/i })).toBeVisible({
+			timeout: 30000,
+		});
 
 		// Apply Grayscale preset
 		await page.getByRole("button", { name: "Grayscale" }).click();

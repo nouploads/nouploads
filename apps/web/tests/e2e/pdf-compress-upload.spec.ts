@@ -19,9 +19,9 @@ test.describe("Compress PDF — upload flow", () => {
 		await uploadViaDropzone(page, join(fixtures, "sample.pdf"));
 
 		// Wait for processing to complete — warning appears instead of download
-		await expect(
-			page.getByText(/couldn't be compressed further/i),
-		).toBeVisible({ timeout: 30000 });
+		await expect(page.getByText(/couldn't be compressed further/i)).toBeVisible(
+			{ timeout: 30000 },
+		);
 
 		// Download button should NOT appear when result is larger
 		await expect(
