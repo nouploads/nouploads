@@ -33,7 +33,7 @@ export function meta(_args: Route.MetaArgs) {
 			{
 				question: "How does tone mapping work in this converter?",
 				answer:
-					"HDR files contain brightness values that exceed what a monitor can display. This tool uses the Reinhard tone mapping operator to compress the full dynamic range into the 0\u2013255 range that standard image formats support. Bright highlights are smoothly rolled off rather than clipped, preserving detail across the entire image.",
+					"HDR files contain brightness values that exceed what a monitor can display. This tool uses the Reinhard tone mapping operator to compress the full dynamic range into the 0–255 range that standard image formats support. Bright highlights are smoothly rolled off rather than clipped, preserving detail across the entire image.",
 			},
 			{
 				question: "Can I use this for HDRI environment maps?",

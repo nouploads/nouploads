@@ -45,7 +45,7 @@ export function meta(_args: Route.MetaArgs) {
 				question:
 					"Can I use this for images from Hubble, JWST, or ground telescopes?",
 				answer:
-					"Yes. FITS files from any telescope or survey \u2014 including Hubble, James Webb, Chandra, ALMA, and ground-based observatories \u2014 can be converted here as long as they are 2D image data (not data cubes, tables, or multi-extension files with complex structures). Public archive data from MAST, ESO, or IRSA typically works out of the box.",
+					"Yes. FITS files from any telescope or survey — including Hubble, James Webb, Chandra, ALMA, and ground-based observatories — can be converted here as long as they are 2D image data (not data cubes, tables, or multi-extension files with complex structures). Public archive data from MAST, ESO, or IRSA typically works out of the box.",
 			},
 		],
 	});

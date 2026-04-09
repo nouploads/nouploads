@@ -38,12 +38,12 @@ export function meta(_args: Route.MetaArgs) {
 			{
 				question: "What is the difference between JP2 and J2K files?",
 				answer:
-					"A .jp2 file wraps the compressed image data inside a box-based container (similar to how MP4 wraps video). The container holds metadata like color space, resolution, and intellectual property rights. A .j2k (or .jpc) file contains only the raw JPEG 2000 codestream with no container. Both encode pixels identically \u2014 the difference is packaging. This tool handles both formats transparently.",
+					"A .jp2 file wraps the compressed image data inside a box-based container (similar to how MP4 wraps video). The container holds metadata like color space, resolution, and intellectual property rights. A .j2k (or .jpc) file contains only the raw JPEG 2000 codestream with no container. Both encode pixels identically — the difference is packaging. This tool handles both formats transparently.",
 			},
 			{
 				question: "Where is JPEG 2000 actually used?",
 				answer:
-					"JPEG 2000 is widely used in industries that need high-fidelity image preservation. Digital cinema (DCI) packages store frames as J2K codestreams inside MXF containers. Satellite and geospatial imaging agencies like NASA and ESA distribute imagery in JP2. Medical imaging uses JPEG 2000 as a compression option inside DICOM files. National archives and libraries \u2014 including the Library of Congress and the British Library \u2014 adopt JP2 for long-term digital preservation because it supports lossless compression and metadata embedding.",
+					"JPEG 2000 is widely used in industries that need high-fidelity image preservation. Digital cinema (DCI) packages store frames as J2K codestreams inside MXF containers. Satellite and geospatial imaging agencies like NASA and ESA distribute imagery in JP2. Medical imaging uses JPEG 2000 as a compression option inside DICOM files. National archives and libraries — including the Library of Congress and the British Library — adopt JP2 for long-term digital preservation because it supports lossless compression and metadata embedding.",
 			},
 		],
 	});

@@ -18,7 +18,7 @@ const ImageFiltersTool = lazy(
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
 		title:
-			"Image Filters Online \u2014 Apply Effects Free, Private, No Upload | NoUploads",
+			"Image Filters Online — Apply Effects Free, Private, No Upload | NoUploads",
 		description:
 			"Apply grayscale, sepia, blur, brightness, contrast, and more to images. Free, private, processed entirely in your browser.",
 		path: "/image/filters",
@@ -84,7 +84,7 @@ export default function FiltersPage() {
 	return (
 		<ToolPageLayout
 			title="Image Filters"
-			description="Apply visual effects like grayscale, sepia, blur, brightness, and contrast to any image \u2014 free, private, no upload required."
+			description="Apply visual effects like grayscale, sepia, blur, brightness, and contrast to any image — free, private, no upload required."
 		>
 			<Suspense
 				fallback={

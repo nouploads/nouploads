@@ -28,7 +28,7 @@ export function meta(_args: Route.MetaArgs) {
 			{
 				question: "What's the story behind Apple's ICNS format?",
 				answer:
-					"ICNS is Apple's icon format for macOS, in use since Mac OS 8.5 in 1998. Like Windows ICO files, a single ICNS file bundles multiple icon sizes \u2014 but ICNS supports much larger resolutions, up to 1024\u00d71024 pixels, to accommodate Apple's Retina displays. Every app icon visible on a Mac is stored as an ICNS file inside the application bundle.",
+					"ICNS is Apple's icon format for macOS, in use since Mac OS 8.5 in 1998. Like Windows ICO files, a single ICNS file bundles multiple icon sizes — but ICNS supports much larger resolutions, up to 1024×1024 pixels, to accommodate Apple's Retina displays. Every app icon visible on a Mac is stored as an ICNS file inside the application bundle.",
 			},
 			{
 				question: "How does this tool pick which icon size to extract?",

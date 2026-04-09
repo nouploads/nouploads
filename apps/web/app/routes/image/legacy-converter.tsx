@@ -29,7 +29,7 @@ export function meta(_args: Route.MetaArgs) {
 			{
 				question: "Why do legacy image formats still survive today?",
 				answer:
-					"Image formats from the 1980s and 1990s \u2014 PCX, TGA, BMP, Sun Raster, and others \u2014 survive in archives, museum digitization projects, government records, and specialized industries like game development. Many were dominant formats in their era: PCX was the standard on DOS, TGA ruled 3D rendering, and BMP was the native format of early Windows. Reading these files today often requires specialized decoders.",
+					"Image formats from the 1980s and 1990s — PCX, TGA, BMP, Sun Raster, and others — survive in archives, museum digitization projects, government records, and specialized industries like game development. Many were dominant formats in their era: PCX was the standard on DOS, TGA ruled 3D rendering, and BMP was the native format of early Windows. Reading these files today often requires specialized decoders.",
 			},
 			{
 				question: "Where do these legacy image files come from?",
@@ -39,7 +39,7 @@ export function meta(_args: Route.MetaArgs) {
 			{
 				question: "How can a browser decode image formats from the 1980s?",
 				answer:
-					"Each format has a dedicated binary parser built in JavaScript that runs directly in your browser. The parser reads the raw byte structure of the file \u2014 headers, color tables, compressed scanlines \u2014 and reconstructs the pixel data locally. No server ever sees your file. For formats that embed JPEG data (SFW, some PICT files), the browser's native JPEG decoder handles the inner image.",
+					"Each format has a dedicated binary parser built in JavaScript that runs directly in your browser. The parser reads the raw byte structure of the file — headers, color tables, compressed scanlines — and reconstructs the pixel data locally. No server ever sees your file. For formats that embed JPEG data (SFW, some PICT files), the browser's native JPEG decoder handles the inner image.",
 			},
 		],
 	});

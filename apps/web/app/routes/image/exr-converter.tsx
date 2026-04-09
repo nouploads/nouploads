@@ -33,12 +33,12 @@ export function meta(_args: Route.MetaArgs) {
 			{
 				question: "How does tone mapping work for EXR conversion?",
 				answer:
-					"EXR images contain far more brightness levels than a monitor can display. Tone mapping compresses that range into the 0\u2013255 values standard displays use. This tool applies the Reinhard operator \u2014 a widely used algorithm that preserves relative brightness differences while preventing blown-out highlights. Very bright areas compress smoothly rather than clipping to white.",
+					"EXR images contain far more brightness levels than a monitor can display. Tone mapping compresses that range into the 0–255 values standard displays use. This tool applies the Reinhard operator — a widely used algorithm that preserves relative brightness differences while preventing blown-out highlights. Very bright areas compress smoothly rather than clipping to white.",
 			},
 			{
 				question: "Which EXR variants does this tool support?",
 				answer:
-					"This tool decodes scanline-based EXR files with uncompressed, ZIPS, or ZIP compression \u2014 the three most common variants exported by Blender, Nuke, and most 3D renderers. It handles half-float (16-bit), full-float (32-bit), and unsigned integer channels. Tiled EXR and less common compressions like PIZ or B44 are not currently supported.",
+					"This tool decodes scanline-based EXR files with uncompressed, ZIPS, or ZIP compression — the three most common variants exported by Blender, Nuke, and most 3D renderers. It handles half-float (16-bit), full-float (32-bit), and unsigned integer channels. Tiled EXR and less common compressions like PIZ or B44 are not currently supported.",
 			},
 			{
 				question: "Why are EXR files used in VFX and 3D rendering?",

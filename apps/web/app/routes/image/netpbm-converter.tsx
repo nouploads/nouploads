@@ -28,7 +28,7 @@ export function meta(_args: Route.MetaArgs) {
 			{
 				question: "Why were the Netpbm formats designed to be so simple?",
 				answer:
-					'The NetPBM formats (PBM, PGM, PPM) were created by Jef Poskanzer in 1988 and are among the simplest image formats ever designed. A PPM file is literally a short header line followed by red, green, and blue values written as plain ASCII numbers separated by whitespace \u2014 no compression, no metadata, no complexity. They were designed as a "lowest common denominator" that any program could read and write trivially.',
+					'The NetPBM formats (PBM, PGM, PPM) were created by Jef Poskanzer in 1988 and are among the simplest image formats ever designed. A PPM file is literally a short header line followed by red, green, and blue values written as plain ASCII numbers separated by whitespace — no compression, no metadata, no complexity. They were designed as a "lowest common denominator" that any program could read and write trivially.',
 			},
 			{
 				question: "How does this converter handle PFM float data?",
