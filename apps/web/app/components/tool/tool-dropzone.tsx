@@ -35,7 +35,15 @@ export function ToolDropzone({
 
 			for (const file of files) {
 				if (file.size > maxBytes) {
-					setError(`File "${file.name}" exceeds ${maxSizeMB}MB limit.`);
+					const sizeMB = Math.round(file.size / 1024 / 1024);
+					// macOS Safari auto-converts HEIC/HEIF to uncompressed PNG with
+					// a temp filename — show a helpful message instead of the temp name.
+					const isTempConversion = /^tempImage/i.test(file.name);
+					setError(
+						isTempConversion
+							? `Your browser converted this file to a ${sizeMB}MB image, which exceeds the ${maxSizeMB}MB limit. Try exporting as JPEG first.`
+							: `File exceeds ${maxSizeMB}MB limit (${sizeMB}MB). Try using a smaller file.`,
+					);
 					return;
 				}
 			}
