@@ -11,6 +11,19 @@ cd "$(git rev-parse --show-toplevel)" || exit 1
 
 echo "Pre-push gate: running full CI checks..."
 
+# Stash uncommitted changes so checks run against the committed state.
+# This prevents auto-fixed files in the working tree from masking errors.
+STASH_NAME="pre-push-gate-$(date +%s)"
+git stash push -q --keep-index --include-untracked -m "$STASH_NAME"
+STASHED=$?
+
+cleanup() {
+  if [ "$STASHED" -eq 0 ] && git stash list | grep -q "$STASH_NAME"; then
+    git stash pop -q
+  fi
+}
+trap cleanup EXIT
+
 echo "→ Typecheck"
 if ! pnpm --filter @nouploads/web typecheck 2>&1; then
   echo "BLOCKED: TypeScript typecheck failed."
