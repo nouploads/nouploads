@@ -384,6 +384,19 @@ If any check fails, do not claim success. If checks cannot all run, state exactl
 
 ---
 
+## Pre-Push Validation
+
+Before running `git push`, you MUST pass all of the following checks locally. Do not push with `--no-verify`. Do not skip checks because they "passed earlier" or "only metadata changed."
+
+1. **Typecheck:** `pnpm --filter @nouploads/web typecheck` (must exit 0)
+2. **Lint:** `pnpm exec biome check .` (must exit 0 — warnings are OK, errors are not)
+3. **Build:** `pnpm build` (must exit 0)
+4. **Unit tests:** `pnpm test` (must exit 0)
+
+If any check fails, fix the issue before pushing. These are the same checks that the husky `pre-push` hook enforces at the git level. Running them yourself first avoids wasted round-trips.
+
+---
+
 ## Output & Failure Recovery
 
 **Output:** State what changed, which files, tests added/updated, checks passed, known caveats, bundle impacts. Be concise.
