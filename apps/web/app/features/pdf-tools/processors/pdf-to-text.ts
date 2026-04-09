@@ -1,7 +1,34 @@
+/**
+ * Safari/WebKit does not implement Symbol.asyncIterator on ReadableStream,
+ * which pdfjs-dist v5 requires (it uses `for await...of` on streams
+ * returned by `page.getTextContent()`). Polyfill it once before loading
+ * pdfjs-dist.
+ */
+function polyfillReadableStreamAsyncIterator() {
+	if (
+		typeof ReadableStream !== "undefined" &&
+		!ReadableStream.prototype[Symbol.asyncIterator]
+	) {
+		ReadableStream.prototype[Symbol.asyncIterator] = async function* () {
+			const reader = this.getReader();
+			try {
+				for (;;) {
+					const { done, value } = await reader.read();
+					if (done) return;
+					yield value;
+				}
+			} finally {
+				reader.releaseLock();
+			}
+		};
+	}
+}
+
 let pdfjsReady: typeof import("pdfjs-dist") | null = null;
 
 async function getPdfjs() {
 	if (pdfjsReady) return pdfjsReady;
+	polyfillReadableStreamAsyncIterator();
 	const pdfjsLib = await import("pdfjs-dist");
 	pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
 		"pdfjs-dist/build/pdf.worker.min.mjs",
