@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert PCX Online — Free, Private, No Upload | NoUploads",
+		title: "Convert PCX Online — Free, Instant | NoUploads",
 		description:
-			"Convert ZSoft PCX images to JPG, PNG, or WebP in your browser. Handles 256-color, 24-bit RGB, and monochrome PCX files.",
+			"Convert ZSoft PCX files to JPG, PNG, or WebP in your browser. A legacy DOS-era format supporting 256-color and 24-bit RGB images. No upload, no signup.",
 		path: "/image/pcx-converter",
 		keywords:
 			"pcx to jpg, pcx converter, pcx to png, convert pcx online, open pcx file, pcx viewer, zsoft pcx",

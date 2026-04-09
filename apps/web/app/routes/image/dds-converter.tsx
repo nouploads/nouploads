@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert DDS Online — Free, Private, No Upload | NoUploads",
+		title: "Convert DDS Online — Free, Instant | NoUploads",
 		description:
-			"Convert DirectDraw Surface DDS textures to JPG, PNG, or WebP in your browser. Supports DXT1, DXT3, DXT5, and uncompressed formats.",
+			"Convert DirectDraw Surface files to JPG, PNG, or WebP in your browser. Decodes DXT1, DXT3, and DXT5 GPU-compressed game textures. No upload, no signup.",
 		path: "/image/dds-converter",
 		keywords:
 			"dds to jpg, dds converter, dds to png, convert dds texture, open dds file",

@@ -16,9 +16,9 @@ const CaseConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Case Converter Online — Free, Private, No Upload | NoUploads",
+		title: "Case Converter Online — Free, Instant | NoUploads",
 		description:
-			"Convert text between camelCase, snake_case, kebab-case, PascalCase, UPPERCASE and more. Free, private, runs in your browser.",
+			"Convert text between camelCase, snake_case, kebab-case, PascalCase, and UPPERCASE in your browser — free, detects word boundaries. No data sent to any server.",
 		path: "/developer/case-converter",
 		keywords:
 			"case converter, camelCase, snake_case, kebab-case, PascalCase, CONSTANT_CASE, text case converter online, naming convention converter, variable name converter",

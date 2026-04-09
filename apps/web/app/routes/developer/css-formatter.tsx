@@ -16,10 +16,9 @@ const CssFormatterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"CSS Minifier & Beautifier Online — Free, Private, No Upload | NoUploads",
+		title: "CSS Formatter Online — Free, Instant | NoUploads",
 		description:
-			"Minify or beautify CSS instantly in your browser. Strip comments, collapse whitespace, or format with proper indentation. Free, private.",
+			"Minify or beautify CSS in your browser — free, strips comments and collapses whitespace or adds clean indentation. No data sent to any server. No dependencies.",
 		path: "/developer/css-formatter",
 		keywords:
 			"css minifier, css beautifier, css formatter, minify css online, prettify css, format css, compress css, css optimizer",

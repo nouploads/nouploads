@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert JXL to PNG Online — Free, Private, No Upload | NoUploads",
+		title: "JXL to PNG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert JPEG XL images to lossless PNG with transparency preserved. No upload needed.",
+			"Convert JPEG XL images to lossless PNG with no quality loss in your browser. Preserves full alpha transparency and wide color gamut data. No upload, no signup.",
 		path: "/image/jxl-to-png",
 		keywords:
 			"jxl to png, jpeg xl to png, convert jxl to png online, jxl to png converter, jxl transparent png",

@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { Breadcrumbs } from "~/components/layout/breadcrumbs";
 import { PrivacyBanner } from "~/components/layout/privacy-banner";
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
@@ -9,10 +10,9 @@ import type { Route } from "./+types/index";
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Vector Tools — Free Online SVG Converter & Vector Utilities | NoUploads",
+		title: "Vector Tools — Free Online SVG Optimizer | NoUploads",
 		description:
-			"Free online vector tools that run in your browser. Convert, optimize, and rasterize SVG and other vector formats with no upload, no signup.",
+			"Free browser-based vector tools for SVG optimization and format conversion. Minify, compress to SVGZ, and clean up design tool exports — no upload needed.",
 		path: "/vector",
 		keywords:
 			"vector tools online, free svg converter, svg to png, vector to raster, svg optimizer, private vector tools, browser-based vector converter",
@@ -41,6 +41,8 @@ export default function VectorCategoryPage() {
 		<>
 			<SiteHeader />
 			<main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+				<Breadcrumbs />
+
 				<div className="mb-6">
 					<PrivacyBanner />
 				</div>

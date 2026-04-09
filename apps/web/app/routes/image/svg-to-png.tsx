@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert SVG to PNG Online — Free, Private, No Upload | NoUploads",
+		title: "SVG to PNG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Rasterize SVG vector graphics to PNG images. Preserves transparency. Free and private.",
+			"Rasterize SVG vector graphics to PNG in your browser. Renders at the declared viewBox dimensions and preserves full alpha transparency. No upload, no signup.",
 		path: "/image/svg-to-png",
 		keywords:
 			"svg to png, convert svg to png, svg to png online, rasterize svg, svg to image, svg converter",

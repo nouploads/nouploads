@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert HDR Online — Free, Private, No Upload | NoUploads",
+		title: "Convert HDR Online — Free, Instant | NoUploads",
 		description:
-			"Convert Radiance HDR files to JPG, PNG, or WebP in your browser. Tone-mapped preview, no upload, no signup.",
+			"Convert Radiance HDR files to JPG, PNG, or WebP in your browser. Tone-maps high dynamic range lighting data into viewable images. No upload, no signup.",
 		path: "/image/hdr-converter",
 		keywords:
 			"hdr to jpg, hdr converter, radiance hdr, open hdr file, hdr to png online",

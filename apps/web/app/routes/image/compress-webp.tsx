@@ -17,9 +17,9 @@ const CompressWebpTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Compress WebP Online — Free, Private, No Upload | NoUploads",
+		title: "Compress WebP Online — Free, No Limits | NoUploads",
 		description:
-			"Compress WebP images online for free. Adjust quality, reduce file size. No upload, no signup — files never leave your device.",
+			"Reduce WebP file size with adjustable quality settings in your browser — free, no upload, side-by-side before-and-after comparison. Great for the web.",
 		path: "/image/compress-webp",
 		keywords:
 			"compress webp, reduce webp size, webp compressor online, free webp compressor, private webp compressor, webp optimization",

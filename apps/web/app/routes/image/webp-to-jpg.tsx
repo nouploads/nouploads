@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert WebP to JPG Online — Free, Private, No Upload | NoUploads",
+		title: "WebP to JPG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert WebP images to JPG for universal compatibility. Free, private, no upload needed.",
+			"Convert WebP images to universally compatible JPG in your browser. Produces files every email client, editor, and social platform accepts. No upload, no signup.",
 		path: "/image/webp-to-jpg",
 		keywords:
 			"webp to jpg, webp to jpeg, convert webp to jpg, webp converter, open webp file as jpg",

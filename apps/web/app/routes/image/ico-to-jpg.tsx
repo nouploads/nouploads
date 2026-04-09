@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert ICO to JPG Online — Free, Private, No Upload | NoUploads",
+		title: "ICO to JPG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert ICO favicon files to JPG images in your browser. Extracts the largest icon frame as a photo.",
+			"Extract the largest icon frame from ICO favicon files as JPG in your browser. Transparent areas are composited onto a white background. No upload, no signup.",
 		path: "/image/ico-to-jpg",
 		keywords:
 			"ico to jpg, convert ico to jpeg, favicon to jpg, ico to jpg converter, icon to jpg online",

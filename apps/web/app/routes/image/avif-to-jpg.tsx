@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert AVIF to JPG Online — Free, Private, No Upload | NoUploads",
+		title: "AVIF to JPG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert AVIF images to widely compatible JPG format. Fast, free, and private — runs in your browser.",
+			"Convert AVIF images to widely compatible JPG in your browser. Solves limited AVIF support on Windows, older macOS, and most editors. No upload, no signup.",
 		path: "/image/avif-to-jpg",
 		keywords:
 			"avif to jpg, avif to jpeg, convert avif to jpg, open avif file, avif converter, avif to jpg online",

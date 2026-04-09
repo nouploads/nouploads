@@ -17,10 +17,9 @@ const YamlJsonTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"YAML to JSON Converter Online \u2014 Free, Private, No Upload | NoUploads",
+		title: "YAML to JSON Converter — Free, Instant | NoUploads",
 		description:
-			"Convert between YAML and JSON with validation and formatting. Handles anchors, aliases, and complex structures. Free, private.",
+			"Convert between YAML and JSON with validation in your browser — free, resolves anchors, aliases, and merge keys. No data sent to any server. Bidirectional.",
 		path: "/developer/yaml-json",
 		keywords:
 			"yaml to json, json to yaml, yaml converter, yaml parser, yaml validator, convert yaml online, yaml json online, kubernetes yaml",

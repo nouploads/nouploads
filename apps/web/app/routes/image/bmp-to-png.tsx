@@ -16,9 +16,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert BMP to PNG Online — Free, Private, No Upload | NoUploads",
+		title: "BMP to PNG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert BMP bitmap images to lossless PNG. Smaller files with no quality loss. Free, private, no upload.",
+			"Convert BMP bitmap images to lossless PNG with no quality loss in your browser. Applies DEFLATE compression for much smaller file output. No upload, no signup.",
 		path: "/image/bmp-to-png",
 		keywords:
 			"bmp to png, convert bmp to png, bitmap to png, bmp converter lossless, bmp to png free",

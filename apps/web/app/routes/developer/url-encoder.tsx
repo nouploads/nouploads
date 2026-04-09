@@ -16,9 +16,9 @@ const UrlEncoderTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "URL Encoder / Decoder Online — Free, Private | NoUploads",
+		title: "URL Encoder / Decoder Online — Free, Instant | NoUploads",
 		description:
-			"Encode and decode URLs or URL components instantly in your browser. Parses query parameters, supports full URL and component modes.",
+			"Encode and decode URLs or components in your browser — free, with query parameter parsing and URL breakdown. No data sent to any server. Full Unicode support.",
 		path: "/developer/url-encoder",
 		keywords:
 			"url encoder, url decoder, encode url online, decode url, percent encoding, urlencode, urldecode, query string parser, url parser",

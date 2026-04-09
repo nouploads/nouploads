@@ -16,9 +16,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert BMP to WebP Online — Free, Private, No Upload | NoUploads",
+		title: "BMP to WebP — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert BMP bitmap images to WebP. Modern compression with transparency support. Free, private, no upload.",
+			"Convert uncompressed BMP bitmaps to modern WebP in your browser. Achieves 95-99% size reduction with VP8 lossy or lossless compression. No upload, no signup.",
 		path: "/image/bmp-to-webp",
 		keywords:
 			"bmp to webp, convert bmp to webp, bitmap to webp, bmp converter webp, bmp to webp free",

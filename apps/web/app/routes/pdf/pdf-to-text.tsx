@@ -16,10 +16,9 @@ const PdfToTextTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Extract Text from PDF Online — Free, Private, No Upload | NoUploads",
+		title: "PDF to Text Extractor — Free, No Limits | NoUploads",
 		description:
-			"Extract all text from PDF documents in your browser. Copy or download as .txt. No upload required.",
+			"Extract all selectable text from any PDF in your browser — free, no upload, no limits. Copy to clipboard or download as a plain .txt file in one click.",
 		path: "/pdf/pdf-to-text",
 		keywords:
 			"pdf to text, extract text from pdf, pdf text extractor, copy text from pdf, pdf to txt online, free pdf text tool, private pdf extractor",

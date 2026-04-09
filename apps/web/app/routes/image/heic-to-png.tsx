@@ -17,9 +17,9 @@ const HeicToPngTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert HEIC to PNG Online — Free, Private, No Upload | NoUploads",
+		title: "HEIC to PNG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert iPhone HEIC photos to lossless PNG. Preserves transparency and full quality. No upload, no signup.",
+			"Convert HEIC photos to lossless PNG with no quality loss in your browser. Preserves every pixel and enables transparency for editing. No upload, no signup.",
 		path: "/image/heic-to-png",
 		keywords:
 			"heic to png, convert heic to png, heic converter lossless, iphone photo to png, heif to png, free heic converter",

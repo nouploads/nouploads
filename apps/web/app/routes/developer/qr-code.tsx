@@ -16,9 +16,9 @@ const QrCodeTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "QR Code Generator Online — Free, Private, No Upload | NoUploads",
+		title: "QR Code Generator Online — Free, Instant | NoUploads",
 		description:
-			"Generate QR codes from any text or URL. Customize size, colors, error correction. Download as PNG or SVG. Free and private.",
+			"Generate QR codes from text or URLs in your browser — free, with custom sizes, colors, and error correction. No data sent to any server. Download as PNG or SVG.",
 		path: "/developer/qr-code",
 		keywords:
 			"qr code generator, create qr code, qr code maker, free qr code, qr code online, custom qr code, qr code png svg",

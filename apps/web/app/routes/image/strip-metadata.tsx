@@ -16,9 +16,9 @@ const StripMetadataTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Remove EXIF Data Online — Free, Private, No Upload | NoUploads",
+		title: "Remove EXIF Data Online — Free, No Limits | NoUploads",
 		description:
-			"Strip GPS location, camera info, and all metadata from JPEG, PNG, and WebP images. Free, private, processes in your browser.",
+			"Strip GPS coordinates, camera details, and all EXIF metadata from photos in your browser — free, no upload. Canvas re-encoding produces a completely clean file.",
 		path: "/image/strip-metadata",
 		keywords:
 			"remove exif data, strip metadata, remove gps from photo, exif remover online, photo metadata remover, strip image metadata, privacy photo tool",

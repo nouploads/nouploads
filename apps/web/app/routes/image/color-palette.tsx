@@ -17,10 +17,9 @@ const ColorPaletteTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Image Color Palette Extractor Online \u2014 Free, Private, No Upload | NoUploads",
+		title: "Color Palette Extractor — Free, No Limits | NoUploads",
 		description:
-			"Extract dominant colors from any image as hex, RGB, and HSL values. Free, private, processes entirely in your browser.",
+			"Extract dominant colors from any image as HEX, RGB, and HSL values in your browser — free, no upload, powered by median-cut quantization for accurate results.",
 		path: "/image/color-palette",
 		keywords:
 			"color palette extractor, extract colors from image, dominant colors, hex color picker, RGB from image, HSL, palette generator, color scheme, image colors",

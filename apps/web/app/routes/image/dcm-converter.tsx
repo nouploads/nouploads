@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert DICOM Online — Free, Private, No Upload | NoUploads",
+		title: "Convert DICOM Online — Free, Instant | NoUploads",
 		description:
-			"Convert DICOM medical images (.dcm) to JPG, PNG, or WebP in your browser. No data leaves your device.",
+			"Convert DICOM medical images to JPG, PNG, or WebP in your browser. Used for CT scans, MRI, and X-ray data in hospitals worldwide. No upload, no signup.",
 		path: "/image/dcm-converter",
 		keywords:
 			"dicom to jpg, dicom converter, dcm to png, dicom viewer online, medical image converter, dicom to image",

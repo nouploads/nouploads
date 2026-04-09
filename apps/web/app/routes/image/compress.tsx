@@ -17,9 +17,9 @@ const ImageCompressorTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Compress Images Online — Free, Private, No Upload | NoUploads",
+		title: "Compress Images Online — Free, No Limits | NoUploads",
 		description:
-			"Compress JPG, PNG, WebP, and GIF images online for free. Adjust quality, see before and after. Files never leave your device.",
+			"Compress JPG, PNG, WebP, and GIF images in your browser — free, no upload, adjustable quality slider. Batch-process multiple files without any limits.",
 		path: "/image/compress",
 		keywords:
 			"compress image, reduce image size, image compressor online, free image compressor, compress jpg png webp gif, private image compression, batch compress images",

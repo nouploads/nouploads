@@ -16,9 +16,9 @@ const Base64ImageTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Base64 Image Encoder & Decoder Online — Free & Private | NoUploads",
+		title: "Base64 Image Encoder Online — Free, Instant | NoUploads",
 		description:
-			"Encode images to base64 data URIs or decode base64 strings back to images. Free, private, runs in your browser.",
+			"Encode images to base64 data URIs or decode base64 strings back to images in your browser — free, supports all common formats. No data sent to any server.",
 		path: "/developer/base64-image",
 		keywords:
 			"base64 image encoder, base64 decoder, image to base64, data uri converter, base64 to image, encode image base64 online",

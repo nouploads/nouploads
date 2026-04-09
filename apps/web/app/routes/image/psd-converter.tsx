@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert PSD Online — Free, Private, No Upload | NoUploads",
+		title: "Convert PSD Online — Free, Instant | NoUploads",
 		description:
-			"Convert PSD files to JPG, PNG, WebP, or AVIF entirely in your browser. No upload, no signup, no limits.",
+			"Convert Photoshop PSD files to JPG, PNG, WebP, or AVIF in your browser. Composites all visible layers into a single flattened image. No upload, no signup.",
 		path: "/image/psd-converter",
 		keywords:
 			"psd to jpg, psd to png, psd converter online, open psd file, psd to webp, convert psd free",

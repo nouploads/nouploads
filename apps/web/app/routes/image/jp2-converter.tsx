@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert JP2 Online — Free, Private, No Upload | NoUploads",
+		title: "Convert JPEG 2000 Online — Free, Instant | NoUploads",
 		description:
-			"Convert JPEG 2000 (JP2, J2K) files to JPG, PNG, or WebP in your browser. No upload, no server, fully private.",
+			"Convert JPEG 2000 (JP2, J2K) files to JPG, PNG, or WebP in your browser. Uses wavelet compression for cinema and satellite imagery. No upload, no signup.",
 		path: "/image/jp2-converter",
 		keywords:
 			"jp2 to jpg, jpeg 2000 converter, j2k converter, open jp2 file online, jp2 to png, convert jpeg 2000",

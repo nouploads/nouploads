@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { Breadcrumbs } from "~/components/layout/breadcrumbs";
 import { PrivacyBanner } from "~/components/layout/privacy-banner";
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
@@ -10,10 +11,9 @@ import type { Route } from "./+types/index";
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Image Tools — Free Online Image Converter, Compressor & More | NoUploads",
+		title: "Image Tools — Free, No Upload | NoUploads",
 		description:
-			"Free online image tools that run in your browser. Convert, compress, resize images with no upload, no signup. Private, unlimited, works offline.",
+			"Free browser-based image tools — convert, compress, and resize JPG, PNG, WebP, AVIF, and HEIC. No files leave your device. Batch processing with no size limits.",
 		path: "/image",
 		keywords:
 			"image tools online, free image converter, compress image online, resize image online, image editor no upload, private image tools, batch image converter",
@@ -237,6 +237,8 @@ export default function ImageCategoryPage() {
 		<>
 			<SiteHeader />
 			<main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+				<Breadcrumbs />
+
 				<div className="mb-6">
 					<PrivacyBanner />
 				</div>

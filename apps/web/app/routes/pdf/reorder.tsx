@@ -16,9 +16,9 @@ const PdfReorderTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Reorder PDF Pages Online — Free, Private, No Upload | NoUploads",
+		title: "Reorder PDF Pages — Free, No Limits | NoUploads",
 		description:
-			"Drag and drop to rearrange PDF pages or remove unwanted pages. Free, private, processes entirely in your browser.",
+			"Drag and drop to rearrange or remove PDF pages visually in your browser — free, no upload, no limits. Page thumbnails update instantly as you reorder.",
 		path: "/pdf/reorder",
 		keywords:
 			"reorder pdf pages, rearrange pdf, sort pdf pages, remove pdf pages, drag drop pdf, organize pdf pages, pdf page order",

@@ -17,9 +17,9 @@ const CompressGifTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Compress GIF Online — Free, Private, No Upload | NoUploads",
+		title: "Compress GIF Online — Free, No Limits | NoUploads",
 		description:
-			"Compress animated GIFs with lossy LZW compression and transparency optimization. Free, private, no upload — files stay on your device.",
+			"Shrink animated GIFs using lossy LZW compression and transparency optimization in your browser — free, no upload, preserves every frame and loop setting.",
 		path: "/image/compress-gif",
 		keywords:
 			"compress gif, reduce gif size, gif compressor, optimize gif, lossy gif compression, gif optimizer online, shrink gif file size",

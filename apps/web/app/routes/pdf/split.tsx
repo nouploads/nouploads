@@ -16,9 +16,9 @@ const PdfSplitTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Split PDF Online — Free, Private, No Upload | NoUploads",
+		title: "Split PDF Online — Free, No Limits | NoUploads",
 		description:
-			"Split PDFs into individual pages or custom ranges. Runs in your browser — no upload, no server.",
+			"Split a PDF into individual pages or custom page ranges in your browser — free, no upload, no page limit. Download each extracted section as a separate file.",
 		path: "/pdf/split",
 		keywords:
 			"split pdf, extract pdf pages, pdf splitter online free, separate pdf pages, split pdf by page range, private pdf splitter",

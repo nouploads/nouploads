@@ -17,9 +17,9 @@ const HeicToWebpTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert HEIC to WebP Online — Free, Private, No Upload | NoUploads",
+		title: "HEIC to WebP — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert iPhone HEIC photos to WebP. Smaller than JPG with better quality. No upload, no signup.",
+			"Convert HEIC photos to WebP for smaller files than JPG at similar quality in your browser. All modern browsers support WebP since 2020. No upload, no signup.",
 		path: "/image/heic-to-webp",
 		keywords:
 			"heic to webp, convert heic to webp, heic converter webp, iphone photo to webp, heif to webp, free heic converter",

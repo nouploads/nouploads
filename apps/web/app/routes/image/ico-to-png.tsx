@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert ICO to PNG Online — Free, Private, No Upload | NoUploads",
+		title: "ICO to PNG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert ICO favicon files to PNG images in your browser. Extracts the highest resolution frame.",
+			"Extract the highest-resolution frame from ICO favicon files as PNG in your browser. Preserves the original transparent background intact. No upload, no signup.",
 		path: "/image/ico-to-png",
 		keywords:
 			"ico to png, convert ico to png, favicon to png, ico converter online, extract favicon image, ico to png free",

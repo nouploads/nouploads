@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert GIF to JPG Online — Free, Private, No Upload | NoUploads",
+		title: "GIF to JPG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert GIF to JPG with frame-by-frame selection. Pick the exact frame you want from animated GIFs. Free and private.",
+			"Convert GIF images to JPG with frame-by-frame selection in your browser. Pick any frame from animated GIFs and export as a static photo. No upload, no signup.",
 		path: "/image/gif-to-jpg",
 		keywords:
 			"gif to jpg, gif to jpeg, convert gif to jpg, gif frame extract, gif to image, gif converter",

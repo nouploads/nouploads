@@ -16,9 +16,9 @@ const PdfToImageTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert PDF to JPG Online — Free, Private, No Upload | NoUploads",
+		title: "PDF to JPG Converter — Free, No Limits | NoUploads",
 		description:
-			"Convert PDF pages to JPG images in your browser. Choose DPI, adjust quality. No upload required.",
+			"Turn PDF pages into JPG images directly in your browser — free, no upload, no page or file size limit. Choose DPI from 72 to 300 and adjust JPEG quality.",
 		path: "/pdf/pdf-to-jpg",
 		keywords:
 			"pdf to jpg, convert pdf to jpg, pdf to image, pdf to jpeg online, free pdf converter, private pdf to jpg, pdf page to image",

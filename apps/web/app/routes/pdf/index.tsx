@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { Breadcrumbs } from "~/components/layout/breadcrumbs";
 import { PrivacyBanner } from "~/components/layout/privacy-banner";
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
@@ -9,10 +10,9 @@ import type { Route } from "./+types/index";
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"PDF Tools — Free Online PDF Split, Merge, Rotate & More | NoUploads",
+		title: "PDF Tools — Free Online Editor & Converter | NoUploads",
 		description:
-			"Free online PDF tools that run in your browser. Split, merge, rotate, watermark, compress, and extract text from PDFs. No upload, no signup.",
+			"Free browser-based PDF tools with no file size or page count limits. Merge, split, compress, rotate, watermark, and extract text — no upload, no signup.",
 		path: "/pdf",
 		keywords:
 			"pdf tools online, free pdf converter, merge pdf online, split pdf online, rotate pdf, pdf watermark, pdf to text, compress pdf online, pdf editor no upload, private pdf tools",
@@ -71,6 +71,8 @@ export default function PdfCategoryPage() {
 		<>
 			<SiteHeader />
 			<main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+				<Breadcrumbs />
+
 				<div className="mb-6">
 					<PrivacyBanner />
 				</div>

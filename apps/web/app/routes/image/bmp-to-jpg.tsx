@@ -16,9 +16,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert BMP to JPG Online — Free, Private, No Upload | NoUploads",
+		title: "BMP to JPG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert BMP bitmap images to compact JPG. Dramatically reduces file size. Free, private, no upload.",
+			"Convert uncompressed BMP bitmaps to compact JPG in your browser. Typically shrinks files by 90-95% compared to the raw bitmap original. No upload, no signup.",
 		path: "/image/bmp-to-jpg",
 		keywords:
 			"bmp to jpg, convert bmp to jpeg, bitmap to jpg, bmp converter online, bmp to jpg free",

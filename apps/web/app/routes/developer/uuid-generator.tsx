@@ -16,10 +16,9 @@ const UuidGeneratorTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"UUID Generator Online — Generate v4 & v7 UUIDs | Free, Private | NoUploads",
+		title: "UUID Generator Online — Free, Instant | NoUploads",
 		description:
-			"Generate random UUID v4 or timestamp-ordered UUID v7 identifiers. Bulk generation, validation, and copy — free, private, in-browser.",
+			"Generate UUID v4 and v7 identifiers in your browser — free, with bulk generation and one-click copy. No data sent to any server. Includes validation and parse.",
 		path: "/developer/uuid-generator",
 		keywords:
 			"uuid generator, uuid v4, uuid v7, random uuid, guid generator, unique id generator, bulk uuid, uuid validator, rfc 9562",

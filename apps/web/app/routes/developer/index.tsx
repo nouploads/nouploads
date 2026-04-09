@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { Breadcrumbs } from "~/components/layout/breadcrumbs";
 import { PrivacyBanner } from "~/components/layout/privacy-banner";
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
@@ -9,10 +10,9 @@ import type { Route } from "./+types/index";
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Developer Tools — Free Online Color Picker, Formatters & More | NoUploads",
+		title: "Developer Tools — Free, No Upload | NoUploads",
 		description:
-			"Free browser-based developer utilities. Color picker, JSON formatter, hash generator, JWT decoder, and more — no upload, no signup, works offline.",
+			"Free browser-based developer tools — JSON formatter, color picker, hash generator, regex tester, and more. No data leaves your device. Works offline, no signup.",
 		path: "/developer",
 		keywords:
 			"developer tools online, free color picker, json formatter, hash generator, jwt decoder, code formatter, online dev tools, private developer tools, browser-based dev tools",
@@ -73,6 +73,8 @@ export default function DeveloperCategoryPage() {
 		<>
 			<SiteHeader />
 			<main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+				<Breadcrumbs />
+
 				<div className="mb-6">
 					<PrivacyBanner />
 				</div>

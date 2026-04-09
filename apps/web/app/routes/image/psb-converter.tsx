@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert PSB Online — Free, Private, No Upload | NoUploads",
+		title: "Convert PSB Online — Free, Instant | NoUploads",
 		description:
-			"Convert Photoshop Large Document PSB files to JPG, PNG, WebP, or AVIF in your browser. No upload, no server, no limits.",
+			"Convert Photoshop Large Document PSB files to JPG, PNG, WebP, or AVIF in your browser. Handles oversized canvases beyond PSD limits. No upload, no signup.",
 		path: "/image/psb-converter",
 		keywords:
 			"psb to jpg, psb converter, photoshop large document converter, open psb file, psb to png, convert psb online free",

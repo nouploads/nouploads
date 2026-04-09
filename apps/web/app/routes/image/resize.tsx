@@ -17,9 +17,9 @@ const ImageResizeTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Resize Images Online — Free, Private, No Upload | NoUploads",
+		title: "Resize Images Online — Free, No Limits | NoUploads",
 		description:
-			"Resize images by pixels or percentage for free. Lock aspect ratio, pick output format, preview instantly. Files never leave your device.",
+			"Resize images by exact pixels, percentage, or common presets in your browser — free, no upload, locked aspect ratio by default. Outputs JPG, PNG, or WebP.",
 		path: "/image/resize",
 		keywords:
 			"resize image, image resizer online, resize image pixels, resize image percentage, scale image, reduce image dimensions, free image resizer, private image resizer",

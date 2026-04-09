@@ -16,10 +16,9 @@ const HashGeneratorTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Hash Generator Online — MD5, SHA-256, SHA-512 | Free & Private | NoUploads",
+		title: "Hash Generator Online — Free, Instant | NoUploads",
 		description:
-			"Generate MD5, SHA-1, SHA-256, SHA-384, SHA-512 hashes from text or files. Free, private, runs in your browser.",
+			"Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes from text or files in your browser — free, using the Web Crypto API. No data sent to any server.",
 		path: "/developer/hash-generator",
 		keywords:
 			"hash generator, md5 hash, sha256 hash, sha512 hash, sha1 hash, file hash checker, checksum generator, online hash tool",

@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert XCF Online — Free, Private, No Upload | NoUploads",
+		title: "Convert XCF Online — Free, Instant | NoUploads",
 		description:
-			"Convert GIMP XCF files to JPG, PNG, or WebP in your browser. Flattens layers, handles RLE and indexed color.",
+			"Convert GIMP XCF project files to JPG, PNG, or WebP in your browser. Flattens layers with RLE decoding and indexed color support. No upload, no signup.",
 		path: "/image/xcf-converter",
 		keywords:
 			"xcf to jpg, xcf to png, xcf converter, open xcf file, gimp to jpg, convert xcf online, xcf viewer, gimp file converter",

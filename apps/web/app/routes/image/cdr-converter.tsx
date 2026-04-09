@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert CDR Online — Free, Private, No Upload | NoUploads",
+		title: "Convert CDR Online — Free, Instant | NoUploads",
 		description:
-			"Convert CorelDRAW CDR files to JPG, PNG, or WebP in your browser. Extracts embedded preview images privately.",
+			"Convert CorelDRAW CDR files to JPG, PNG, or WebP in your browser. Extracts the embedded preview from both classic and ZIP-based archives. No upload, no signup.",
 		path: "/image/cdr-converter",
 		keywords:
 			"cdr to jpg, cdr to png, cdr converter online, open cdr file, coreldraw converter, cdr viewer online, convert cdr free",

@@ -17,9 +17,9 @@ const FaviconGeneratorTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Favicon Generator Online — Free, Private, No Upload | NoUploads",
+		title: "Favicon Generator Online — Free, No Limits | NoUploads",
 		description:
-			"Generate multi-size ICO favicons from any image for free. Pack 16x16, 32x32, and 48x48 icons into one .ico file. Files never leave your device.",
+			"Generate multi-size ICO favicons with 16, 32, and 48px icons packed into one file in your browser — free, no upload. Grab individual PNGs for each size too.",
 		path: "/image/favicon-generator",
 		keywords:
 			"favicon generator, ico generator, favicon maker, create favicon, image to ico, favicon online free, private favicon tool",

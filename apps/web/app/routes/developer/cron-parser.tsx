@@ -16,10 +16,9 @@ const CronParserTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"CRON Expression Parser Online — Free, Private, No Upload | NoUploads",
+		title: "Cron Parser Online — Free, Instant | NoUploads",
 		description:
-			"Parse cron expressions into human-readable schedules with next run times. Free, private, runs in your browser.",
+			"Parse cron expressions into plain-English schedules in your browser — free, with upcoming run times in your timezone. No data sent to any server. Five fields.",
 		path: "/developer/cron-parser",
 		keywords:
 			"cron parser, cron expression, crontab, cron schedule, cron syntax, cron next run, parse cron online, cron to human readable",

@@ -16,9 +16,9 @@ const JsonFormatterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "JSON Formatter Online — Free, Private, No Upload | NoUploads",
+		title: "JSON Formatter Online — Free, Instant | NoUploads",
 		description:
-			"Validate, format, and minify JSON data instantly in your browser. Free, private, no server processing.",
+			"Validate, format, and minify JSON in your browser — free, with syntax highlighting and error reporting. No data sent to any server. Handles files up to 10 MB.",
 		path: "/developer/json-formatter",
 		keywords:
 			"json formatter, json validator, json beautifier, json minifier, format json online, pretty print json, json lint, validate json",

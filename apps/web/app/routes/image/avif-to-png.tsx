@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert AVIF to PNG Online — Free, Private, No Upload | NoUploads",
+		title: "AVIF to PNG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert AVIF images to lossless PNG format. Preserves transparency and detail. Free and private.",
+			"Convert AVIF images to lossless PNG with no quality loss in your browser. Preserves alpha transparency and full color depth from AV1. No upload, no signup.",
 		path: "/image/avif-to-png",
 		keywords:
 			"avif to png, convert avif to png, avif to png transparent, avif to png lossless, avif converter",

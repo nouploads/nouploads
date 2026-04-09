@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert ICNS Online — Free, Private, No Upload | NoUploads",
+		title: "Convert ICNS Online — Free, Instant | NoUploads",
 		description:
-			"Convert Apple ICNS icon files to JPG, PNG, or WebP in your browser. Extracts the highest resolution icon image.",
+			"Convert Apple ICNS icon files to JPG, PNG, or WebP in your browser. Extracts the highest-resolution icon from macOS app bundles. No upload, no signup.",
 		path: "/image/icns-converter",
 		keywords:
 			"icns to png, icns converter, apple icon converter, open icns file, mac icon to png",

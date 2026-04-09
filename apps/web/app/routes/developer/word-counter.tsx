@@ -16,9 +16,9 @@ const WordCounterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Word Counter Online — Free, Private, No Upload | NoUploads",
+		title: "Word Counter Online — Free, Instant | NoUploads",
 		description:
-			"Count characters, words, sentences, and paragraphs with reading time estimate. Free, private, runs in your browser.",
+			"Count characters, words, sentences, and paragraphs in your browser — free, with reading time at 238 wpm. No data sent to any server. Results update as you type.",
 		path: "/developer/word-counter",
 		keywords:
 			"word counter, character counter, text analysis, word count online, reading time, sentence counter, paragraph counter",

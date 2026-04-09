@@ -16,10 +16,9 @@ const JsonCsvTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"JSON to CSV Converter Online — Free, Private, No Upload | NoUploads",
+		title: "JSON to CSV Converter — Free, Instant | NoUploads",
 		description:
-			"Convert between JSON arrays and CSV with nested object flattening. RFC 4180 compliant. Free, private, runs in your browser.",
+			"Convert JSON arrays to CSV and back in your browser — free, RFC 4180 compliant with dot-notation flattening. No data sent to any server. Handles quoted fields.",
 		path: "/developer/json-csv",
 		keywords:
 			"json to csv, csv to json, json csv converter, convert json array to csv, flatten nested json, rfc 4180, csv export, data format converter",

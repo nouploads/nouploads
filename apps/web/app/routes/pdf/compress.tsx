@@ -16,9 +16,9 @@ const PdfCompressTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Compress PDF Online — Free, Private, No Upload | NoUploads",
+		title: "Compress PDF Online — Free, No Limits | NoUploads",
 		description:
-			"Reduce PDF file size by re-rendering pages at lower quality. Free, private, no upload required.",
+			"Reduce PDF file size by re-rendering pages at adjustable quality in your browser — free, no upload, no file size cap. Pick from three compression levels.",
 		path: "/pdf/compress",
 		keywords:
 			"compress pdf, reduce pdf size, pdf compressor online, shrink pdf, free pdf compressor, private pdf compression",

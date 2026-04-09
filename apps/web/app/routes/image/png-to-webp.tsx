@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert PNG to WebP Online — Free, Private, No Upload | NoUploads",
+		title: "PNG to WebP — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert PNG images to WebP with transparency preserved. Smaller files, same quality. Free and private.",
+			"Convert PNG images to WebP in your browser. Preserves alpha transparency while producing significantly smaller files ideal for the web. No upload, no signup.",
 		path: "/image/png-to-webp",
 		keywords:
 			"png to webp, convert png to webp, png to webp transparent, webp converter, optimize png for web",

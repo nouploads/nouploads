@@ -16,10 +16,9 @@ const LoremIpsumTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Lorem Ipsum Generator Online — Free, Private, No Upload | NoUploads",
+		title: "Lorem Ipsum Generator — Free, Instant | NoUploads",
 		description:
-			"Generate placeholder text instantly — paragraphs, sentences, or exact word counts. Free, private, no server.",
+			"Generate lorem ipsum placeholder text in your browser — free, pick paragraphs, sentences, or exact word count. No data sent to any server. Classic start option.",
 		path: "/developer/lorem-ipsum",
 		keywords:
 			"lorem ipsum generator, placeholder text, dummy text, lipsum, filler text, sample text",

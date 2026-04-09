@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert XPS Online — Free, Private, No Upload | NoUploads",
+		title: "Convert XPS Online — Free, Instant | NoUploads",
 		description:
-			"Extract images from XPS and OXPS documents and convert to JPG, PNG, or WebP in your browser. No upload, no server.",
+			"Convert XPS and OXPS document files to JPG, PNG, or WebP in your browser. Extracts embedded images from Microsoft XML Paper documents. No upload, no signup.",
 		path: "/image/xps-converter",
 		keywords:
 			"xps to jpg, xps to png, xps converter online, open xps file, oxps converter, microsoft xps viewer",

@@ -17,10 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Convert Publisher PUB Online — Free, Private, No Upload | NoUploads",
+		title: "Convert PUB Online — Free, Instant | NoUploads",
 		description:
-			"Extract images from Microsoft Publisher PUB files and convert to JPG, PNG, or WebP in your browser. No upload needed.",
+			"Convert Microsoft Publisher PUB files to JPG, PNG, or WebP in your browser. Extracts embedded photos from the proprietary OLE2 structure. No upload, no signup.",
 		path: "/image/pub-converter",
 		keywords:
 			"pub to jpg, pub to png, publisher converter online, open pub file, pub converter, microsoft publisher to image, convert pub free",

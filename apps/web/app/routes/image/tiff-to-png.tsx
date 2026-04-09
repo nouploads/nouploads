@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert TIFF to PNG Online — Free, Private, No Upload | NoUploads",
+		title: "TIFF to PNG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert TIFF images to lossless PNG format in your browser. Preserves transparency and full detail.",
+			"Convert TIFF images to lossless PNG with no quality loss in your browser. Handles CMYK-to-RGB conversion and preserves alpha transparency. No upload, no signup.",
 		path: "/image/tiff-to-png",
 		keywords:
 			"tiff to png, tif to png, convert tiff to png online, tiff to png converter, tiff transparent png",

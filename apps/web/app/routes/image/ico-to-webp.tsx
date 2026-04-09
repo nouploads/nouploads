@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert ICO to WebP Online — Free, Private, No Upload | NoUploads",
+		title: "ICO to WebP — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert ICO favicon files to WebP with transparency preserved. Smaller files than PNG with modern compression.",
+			"Convert ICO favicon files to WebP with transparency preserved in your browser. Produces smaller output than PNG with full alpha support. No upload, no signup.",
 		path: "/image/ico-to-webp",
 		keywords:
 			"ico to webp, convert ico to webp, favicon to webp, icon converter webp, ico to webp online",

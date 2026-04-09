@@ -16,10 +16,9 @@ const TextDiffTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title:
-			"Text Diff Online — Compare Text Side by Side | Free, Private | NoUploads",
+		title: "Text Diff Online — Free, Instant | NoUploads",
 		description:
-			"Compare two blocks of text and see every changed, added, or removed line highlighted. Runs in your browser — nothing uploaded.",
+			"Compare two text blocks and see additions, deletions, and changes highlighted in your browser — free, unified or side-by-side view. No data sent to any server.",
 		path: "/developer/text-diff",
 		keywords:
 			"text diff, compare text, diff checker, text comparison, online diff tool, side by side diff, unified diff, line diff",

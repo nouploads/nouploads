@@ -17,9 +17,9 @@ const ImageConverterTool = lazy(
 
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "Convert GIF to PNG Online — Free, Private, No Upload | NoUploads",
+		title: "GIF to PNG — Free, Instant, No Upload | NoUploads",
 		description:
-			"Convert GIF to lossless PNG with transparency preserved. Pick any frame from animated GIFs. Free and private.",
+			"Convert GIF to lossless PNG with transparency preserved in your browser. Browse animated GIF frames and select the exact one to export. No upload, no signup.",
 		path: "/image/gif-to-png",
 		keywords:
 			"gif to png, convert gif to png, gif transparency, gif frame to png, gif converter lossless",
