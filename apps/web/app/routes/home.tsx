@@ -1,4 +1,10 @@
-import { CircleCheck, Lock, Power } from "lucide-react";
+import {
+	CircleCheck,
+	Infinity as InfinityIcon,
+	Lock,
+	Power,
+	Star,
+} from "lucide-react";
 import { Link } from "react-router";
 import { SiteFooter } from "~/components/layout/site-footer";
 import { SiteHeader } from "~/components/layout/site-header";
@@ -8,11 +14,44 @@ import { buildMeta, GITHUB_URL, SITE_URL } from "~/lib/seo/meta";
 import { gridTools } from "~/lib/tools";
 import type { Route } from "./+types/home";
 
+const popularTools = [
+	{
+		title: "HEIC to JPG",
+		description: "Convert iPhone photos to JPG",
+		href: "/image/heic-to-jpg",
+	},
+	{
+		title: "Image Compress",
+		description: "Reduce image file size",
+		href: "/image/compress",
+	},
+	{
+		title: "Merge PDF",
+		description: "Combine multiple PDFs",
+		href: "/pdf/merge",
+	},
+	{
+		title: "PDF to JPG",
+		description: "Convert PDF pages to images",
+		href: "/pdf/pdf-to-jpg",
+	},
+	{
+		title: "Image Resize",
+		description: "Resize by pixels or percentage",
+		href: "/image/resize",
+	},
+	{
+		title: "PNG to JPG",
+		description: "Convert PNG to compact JPG",
+		href: "/image/png-to-jpg",
+	},
+];
+
 export function meta(_args: Route.MetaArgs) {
 	return buildMeta({
-		title: "NoUploads — Free Online File Tools | Private & No Upload Required",
+		title: "Free Online File Tools — No Upload, No Limits | NoUploads",
 		description:
-			"Free online file tools that run 100% in your browser. Convert, compress, and resize images with no upload, no signup, no servers. Open source and works offline.",
+			"Free browser-based file tools — convert images, compress PDFs, and more with no upload, no signup, no file size limits. Open source and works offline.",
 		path: "/",
 		keywords:
 			"online file tools, free image converter, compress image online, privacy file tools, no upload file converter, client-side file tools, browser-based file tools, open source file tools, offline file tools, NoUploads",
@@ -42,6 +81,26 @@ export function meta(_args: Route.MetaArgs) {
 				url: SITE_URL,
 				logo: `${SITE_URL}/favicon.svg`,
 				sameAs: [GITHUB_URL],
+			},
+			{
+				"@context": "https://schema.org",
+				"@type": "SoftwareApplication",
+				name: "NoUploads",
+				url: SITE_URL,
+				applicationCategory: "UtilitiesApplication",
+				operatingSystem: "Any",
+				offers: {
+					"@type": "Offer",
+					price: "0",
+					priceCurrency: "USD",
+				},
+				author: {
+					"@type": "Organization",
+					name: "NoUploads",
+					url: SITE_URL,
+				},
+				license: "https://www.gnu.org/licenses/agpl-3.0.html",
+				codeRepository: GITHUB_URL,
 			},
 		],
 	});
@@ -102,23 +161,26 @@ export default function HomePage() {
 				{/* Hero */}
 				<section className="py-16 md:py-24 text-center">
 					<h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-						Privacy-first file tools.
+						Free Online File Tools
 						<br />
-						<span className="text-primary">
-							Everything runs in your browser.
-						</span>
+						<span className="text-primary">No Upload Required</span>
 					</h1>
 					<p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-						Other tools upload your files to someone else&rsquo;s server &mdash;
+						Convert, compress, and edit files entirely in your browser.
 						<br className="hidden sm:inline" />
-						your personal photos, work documents, private files.
+						No upload, no signup, no file size limits.
 						<br />
-						We don&rsquo;t. Your files never leave your device.
+						Open source and works offline.
 					</p>
-					<div className="flex items-center justify-center gap-3 text-sm text-muted-foreground">
+					<div className="flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
 						<span className="flex items-center gap-1.5">
 							<Lock className="h-4 w-4 text-primary" />
 							No uploads
+						</span>
+						<span className="text-border">|</span>
+						<span className="flex items-center gap-1.5">
+							<InfinityIcon className="h-4 w-4 text-primary" />
+							No limits*
 						</span>
 						<span className="text-border">|</span>
 						<span className="flex items-center gap-1.5">
@@ -130,6 +192,30 @@ export default function HomePage() {
 							<Power className="h-4 w-4 text-primary" />
 							Works offline
 						</span>
+					</div>
+					<p className="text-xs text-muted-foreground/60 mt-2">
+						*Limited only by your device&rsquo;s memory
+					</p>
+				</section>
+
+				{/* Popular Tools */}
+				<section className="pb-16">
+					<h2 className="text-2xl font-bold mb-6">Popular Tools</h2>
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+						{popularTools.map((tool) => (
+							<Link
+								key={tool.href}
+								to={tool.href}
+								className="group block rounded-lg border bg-card p-5 transition-all hover:border-primary/40 hover:shadow-md"
+							>
+								<h3 className="font-semibold text-card-foreground group-hover:text-primary transition-colors">
+									{tool.title}
+								</h3>
+								<p className="text-sm text-muted-foreground mt-1">
+									{tool.description}
+								</p>
+							</Link>
+						))}
 					</div>
 				</section>
 
@@ -202,6 +288,35 @@ export default function HomePage() {
 							className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
 						>
 							Learn more &rarr;
+						</Link>
+					</div>
+				</section>
+
+				{/* Open Source */}
+				<section className="pb-16 max-w-2xl mx-auto text-center">
+					<h2 className="text-xl font-bold mb-3">
+						Open Source &amp; Self-Hostable
+					</h2>
+					<p className="text-sm text-muted-foreground max-w-lg mx-auto mb-6">
+						NoUploads is open source under AGPL-3.0. Inspect every line of code
+						on GitHub, self-host with Docker, or build from source for
+						air-gapped networks and compliance requirements.
+					</p>
+					<div className="flex items-center justify-center gap-4">
+						<a
+							href={GITHUB_URL}
+							target="_blank"
+							rel="noopener"
+							className="inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium hover:border-primary/40 hover:text-foreground transition-colors text-muted-foreground"
+						>
+							<Star className="h-4 w-4" />
+							Star on GitHub
+						</a>
+						<Link
+							to="/self-hosting"
+							className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+						>
+							Self-hosting guide &rarr;
 						</Link>
 					</div>
 				</section>
