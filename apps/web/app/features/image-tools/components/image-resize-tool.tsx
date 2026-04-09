@@ -252,7 +252,17 @@ export default function ImageResizeTool() {
 
 							<button
 								type="button"
-								onClick={() => setLockAspect((prev) => !prev)}
+								onClick={() => {
+									setLockAspect((prev) => {
+										const next = !prev;
+										if (next && aspectRatio) {
+											setTargetHeight(
+												Math.max(1, Math.round(targetWidth / aspectRatio)),
+											);
+										}
+										return next;
+									});
+								}}
 								className="flex items-center justify-center h-9 w-9 rounded-md border bg-card transition-colors hover:bg-accent"
 								title={lockAspect ? "Unlock aspect ratio" : "Lock aspect ratio"}
 							>
@@ -434,8 +444,12 @@ export default function ImageResizeTool() {
 
 					{/* Actions */}
 					<div className="flex items-center gap-3 h-9">
-						{resultBlob && !resizing && (
-							<DownloadButton blob={resultBlob} filename={outputFilename} />
+						{resultBlob && (
+							<DownloadButton
+								blob={resultBlob}
+								filename={outputFilename}
+								disabled={resizing}
+							/>
 						)}
 						<Button variant="outline" onClick={reset}>
 							Resize another
