@@ -11,7 +11,9 @@ test.describe("PDF Page Numbers — happy path", () => {
 	}) => {
 		await page.goto("/pdf/page-numbers");
 		// Wait for lazy component to hydrate (controls prove React is ready)
-		await expect(page.getByText("Font Size")).toBeVisible();
+		await expect(page.getByText("Position", { exact: true })).toBeVisible({
+			timeout: 10000,
+		});
 		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		await uploadViaDropzone(page, join(fixtures, "sample.pdf"));
@@ -19,10 +21,15 @@ test.describe("PDF Page Numbers — happy path", () => {
 		const downloadBtn = page.getByRole("button", { name: /download/i });
 		await expect(downloadBtn).toBeVisible({ timeout: 30000 });
 
+		// Verify page preview image appears
+		await expect(page.getByAltText("Page 1 preview")).toBeVisible({
+			timeout: 15000,
+		});
+
 		// Verify result info is shown
-		await expect(page.getByText("Original")).toBeVisible();
+		await expect(page.getByText("Original", { exact: true })).toBeVisible();
 		await expect(page.getByText("With Numbers")).toBeVisible();
-		await expect(page.getByText(/pages? numbered/i)).toBeVisible();
+		await expect(page.getByText(/pages? numbered/i).first()).toBeVisible();
 
 		await expect(
 			page.getByRole("button", { name: /number another/i }),
@@ -33,7 +40,9 @@ test.describe("PDF Page Numbers — happy path", () => {
 		page,
 	}) => {
 		await page.goto("/pdf/page-numbers");
-		await expect(page.getByText("Font Size")).toBeVisible();
+		await expect(page.getByText("Position", { exact: true })).toBeVisible({
+			timeout: 10000,
+		});
 		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		await uploadViaDropzone(page, join(fixtures, "sample.pdf"));
@@ -43,6 +52,8 @@ test.describe("PDF Page Numbers — happy path", () => {
 		});
 
 		await page.getByRole("button", { name: /number another/i }).click();
-		await expect(page.getByText(/drop a file here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible({
+			timeout: 10000,
+		});
 	});
 });

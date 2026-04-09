@@ -17,6 +17,7 @@ import {
 	type PageNumbersPdfResult,
 	pageNumbersPdf,
 } from "~/features/pdf-tools/processors/page-numbers-pdf";
+import { renderPdfPagePreview } from "~/features/pdf-tools/processors/pdf-to-image";
 import { ACCEPT_PDF } from "~/lib/accept";
 import { formatFileSize } from "~/lib/utils";
 
@@ -69,12 +70,17 @@ export default function PdfPageNumbersTool() {
 	const [processing, setProcessing] = useState(false);
 	const [result, setResult] = useState<PageNumbersPdfResult | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
 	const handleFiles = useCallback((incoming: File[]) => {
 		if (incoming.length > 0) {
 			setFile(incoming[0]);
 			setResult(null);
 			setError(null);
+			setPreviewUrl((prev) => {
+				if (prev) URL.revokeObjectURL(prev);
+				return null;
+			});
 		}
 	}, []);
 
@@ -83,6 +89,10 @@ export default function PdfPageNumbersTool() {
 		setResult(null);
 		setError(null);
 		setProcessing(false);
+		setPreviewUrl((prev) => {
+			if (prev) URL.revokeObjectURL(prev);
+			return null;
+		});
 	}, []);
 
 	// Auto-process when file or settings change
@@ -107,6 +117,25 @@ export default function PdfPageNumbersTool() {
 				if (controller.signal.aborted) return;
 				setResult(res);
 				setProcessing(false);
+
+				// Render first page preview from the numbered PDF
+				try {
+					const url = await renderPdfPagePreview(
+						res.blob,
+						1,
+						controller.signal,
+					);
+					if (controller.signal.aborted) {
+						URL.revokeObjectURL(url);
+						return;
+					}
+					setPreviewUrl((prev) => {
+						if (prev) URL.revokeObjectURL(prev);
+						return url;
+					});
+				} catch {
+					// Preview is optional
+				}
 			} catch (err) {
 				if (controller.signal.aborted) return;
 				setError(
@@ -118,6 +147,16 @@ export default function PdfPageNumbersTool() {
 
 		return () => controller.abort();
 	}, [file, position, format, fontSize, startNumber, margin, skipFirst]);
+
+	// Cleanup preview URL on unmount
+	useEffect(() => {
+		return () => {
+			setPreviewUrl((prev) => {
+				if (prev) URL.revokeObjectURL(prev);
+				return null;
+			});
+		};
+	}, []);
 
 	return (
 		<div className="space-y-6">
@@ -254,11 +293,10 @@ export default function PdfPageNumbersTool() {
 							</div>
 						</div>
 
-						{/* Result label -- always visible once file is selected */}
+						{/* Result label */}
 						<div className="flex items-center justify-between">
 							<h3 className="text-sm font-medium">Result</h3>
 							<div className="relative">
-								{/* Processing status -- cross-fade */}
 								<span
 									className="text-xs text-muted-foreground transition-opacity duration-300 flex items-center gap-1.5"
 									style={{ opacity: processing ? 1 : 0 }}
@@ -266,7 +304,6 @@ export default function PdfPageNumbersTool() {
 									<Spinner className="size-3" />
 									Adding page numbers...
 								</span>
-								{/* Result status -- cross-fade */}
 								{result && (
 									<span
 										className="absolute right-0 top-0 whitespace-nowrap text-xs text-muted-foreground transition-opacity duration-300"
@@ -279,7 +316,7 @@ export default function PdfPageNumbersTool() {
 							</div>
 						</div>
 
-						{/* Processing state */}
+						{/* Processing state (first load) */}
 						{processing && !result && (
 							<div className="rounded-lg border bg-muted/30 overflow-hidden flex flex-col items-center justify-center h-[300px] gap-4 px-8">
 								<FileText className="h-10 w-10 text-muted-foreground" />
@@ -290,16 +327,6 @@ export default function PdfPageNumbersTool() {
 							</div>
 						)}
 
-						{/* Re-processing overlay: dim previous result */}
-						{processing && result && (
-							<div className="rounded-lg border bg-muted/30 overflow-hidden flex flex-col items-center justify-center h-[200px] gap-3 opacity-50 transition-opacity duration-300">
-								<Spinner className="size-8" />
-								<p className="text-sm text-muted-foreground">
-									Re-processing with new settings...
-								</p>
-							</div>
-						)}
-
 						{/* Error state */}
 						{!processing && error && (
 							<div className="rounded-lg border bg-muted/30 overflow-hidden flex flex-col items-center justify-center h-[200px] gap-3">
@@ -307,6 +334,29 @@ export default function PdfPageNumbersTool() {
 								<p className="text-sm text-destructive max-w-md text-center">
 									{error}
 								</p>
+							</div>
+						)}
+
+						{/* Page preview */}
+						{(previewUrl || (processing && result)) && (
+							<div className="relative rounded-lg border bg-muted/30 overflow-hidden">
+								{previewUrl && (
+									<div
+										className="transition-opacity duration-300"
+										style={{ opacity: processing ? 0.25 : 1 }}
+									>
+										<img
+											src={previewUrl}
+											alt="Page 1 preview"
+											className="w-full h-auto"
+										/>
+									</div>
+								)}
+								{processing && result && (
+									<div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300">
+										<Spinner className="size-10" />
+									</div>
+								)}
 							</div>
 						)}
 
@@ -328,9 +378,9 @@ export default function PdfPageNumbersTool() {
 									</div>
 								</div>
 								<p className="text-xs text-muted-foreground">
-									{result.pageCount} {result.pageCount === 1 ? "page" : "pages"}{" "}
-									numbered ({POSITION_LABELS[position]}, {FORMAT_LABELS[format]}
-									)
+									{result.pageCount}{" "}
+									{result.pageCount === 1 ? "page" : "pages"} numbered (
+									{POSITION_LABELS[position]}, {FORMAT_LABELS[format]})
 								</p>
 							</div>
 						)}

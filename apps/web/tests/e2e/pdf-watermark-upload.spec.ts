@@ -19,10 +19,15 @@ test.describe("Watermark PDF — happy path", () => {
 		const downloadBtn = page.getByRole("button", { name: /download/i });
 		await expect(downloadBtn).toBeVisible({ timeout: 30000 });
 
+		// Verify page preview image appears
+		await expect(page.getByAltText("Page 1 preview")).toBeVisible({
+			timeout: 15000,
+		});
+
 		// Verify size info is shown
-		await expect(page.getByText("Original")).toBeVisible();
-		await expect(page.getByText("Watermarked")).toBeVisible();
-		await expect(page.getByText(/pages? watermarked/i)).toBeVisible();
+		await expect(page.getByText("Original", { exact: true })).toBeVisible();
+		await expect(page.getByText("Watermarked", { exact: true })).toBeVisible();
+		await expect(page.getByText(/pages? watermarked/i).first()).toBeVisible();
 
 		await expect(
 			page.getByRole("button", { name: /watermark another/i }),

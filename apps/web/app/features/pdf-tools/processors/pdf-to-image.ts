@@ -131,3 +131,48 @@ export async function pdfToImages(
 
 	return results;
 }
+
+/**
+ * Render a single page of a PDF (from a Blob) as a low-res JPEG thumbnail.
+ * Used for quick previews — renders at 72 DPI to keep memory usage low.
+ */
+export async function renderPdfPagePreview(
+	pdfBlob: Blob,
+	pageNumber: number,
+	signal?: AbortSignal,
+): Promise<string> {
+	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+
+	const arrayBuffer = await pdfBlob.arrayBuffer();
+	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+
+	const pdfjsLib = await getPdfjs();
+	const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+
+	const page = await pdf.getPage(pageNumber);
+	const viewport = page.getViewport({ scale: 1 }); // 72 DPI
+
+	const canvas = document.createElement("canvas");
+	canvas.width = Math.floor(viewport.width);
+	canvas.height = Math.floor(viewport.height);
+
+	const ctx = canvas.getContext("2d");
+	if (!ctx) throw new Error("Failed to get canvas 2D context");
+
+	ctx.fillStyle = "#ffffff";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+	await page.render({ canvasContext: ctx, viewport, canvas } as never).promise;
+	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
+
+	const blob = await new Promise<Blob>((resolve, reject) => {
+		canvas.toBlob(
+			(b) => (b ? resolve(b) : reject(new Error("toBlob failed"))),
+			"image/jpeg",
+			0.7,
+		);
+	});
+
+	return URL.createObjectURL(blob);
+}

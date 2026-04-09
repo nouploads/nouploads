@@ -10,6 +10,7 @@ import {
 	type WatermarkPdfResult,
 	watermarkPdf,
 } from "~/features/pdf-tools/processors/watermark-pdf";
+import { renderPdfPagePreview } from "~/features/pdf-tools/processors/pdf-to-image";
 import { ACCEPT_PDF } from "~/lib/accept";
 import { formatFileSize } from "~/lib/utils";
 
@@ -33,12 +34,17 @@ export default function PdfWatermarkTool() {
 	const [processing, setProcessing] = useState(false);
 	const [result, setResult] = useState<WatermarkPdfResult | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
 	const handleFiles = useCallback((incoming: File[]) => {
 		if (incoming.length > 0) {
 			setFile(incoming[0]);
 			setResult(null);
 			setError(null);
+			setPreviewUrl((prev) => {
+				if (prev) URL.revokeObjectURL(prev);
+				return null;
+			});
 		}
 	}, []);
 
@@ -47,6 +53,10 @@ export default function PdfWatermarkTool() {
 		setResult(null);
 		setError(null);
 		setProcessing(false);
+		setPreviewUrl((prev) => {
+			if (prev) URL.revokeObjectURL(prev);
+			return null;
+		});
 	}, []);
 
 	// Auto-process when file or settings change
@@ -71,6 +81,25 @@ export default function PdfWatermarkTool() {
 				if (controller.signal.aborted) return;
 				setResult(res);
 				setProcessing(false);
+
+				// Render first page preview from the watermarked PDF
+				try {
+					const url = await renderPdfPagePreview(
+						res.blob,
+						1,
+						controller.signal,
+					);
+					if (controller.signal.aborted) {
+						URL.revokeObjectURL(url);
+						return;
+					}
+					setPreviewUrl((prev) => {
+						if (prev) URL.revokeObjectURL(prev);
+						return url;
+					});
+				} catch {
+					// Preview is optional — don't fail the whole operation
+				}
 			} catch (err) {
 				if (controller.signal.aborted) return;
 				setError(err instanceof Error ? err.message : "Watermarking failed");
@@ -80,6 +109,16 @@ export default function PdfWatermarkTool() {
 
 		return () => controller.abort();
 	}, [file, text, fontSize, opacity, rotation, color]);
+
+	// Cleanup preview URL on unmount
+	useEffect(() => {
+		return () => {
+			setPreviewUrl((prev) => {
+				if (prev) URL.revokeObjectURL(prev);
+				return null;
+			});
+		};
+	}, []);
 
 	return (
 		<div className="space-y-6">
@@ -202,7 +241,6 @@ export default function PdfWatermarkTool() {
 						<div className="flex items-center justify-between">
 							<h3 className="text-sm font-medium">Result</h3>
 							<div className="relative">
-								{/* Processing status — cross-fade */}
 								<span
 									className="text-xs text-muted-foreground transition-opacity duration-300 flex items-center gap-1.5"
 									style={{ opacity: processing ? 1 : 0 }}
@@ -210,7 +248,6 @@ export default function PdfWatermarkTool() {
 									<Spinner className="size-3" />
 									Adding watermark...
 								</span>
-								{/* Result status — cross-fade */}
 								{result && (
 									<span
 										className="absolute right-0 top-0 whitespace-nowrap text-xs text-muted-foreground transition-opacity duration-300"
@@ -224,7 +261,7 @@ export default function PdfWatermarkTool() {
 							</div>
 						</div>
 
-						{/* Processing state */}
+						{/* Processing state (first load) */}
 						{processing && !result && (
 							<div className="rounded-lg border bg-muted/30 overflow-hidden flex flex-col items-center justify-center h-[300px] gap-4 px-8">
 								<FileText className="h-10 w-10 text-muted-foreground" />
@@ -232,16 +269,6 @@ export default function PdfWatermarkTool() {
 									<Spinner className="size-4" />
 									Adding watermark to PDF...
 								</div>
-							</div>
-						)}
-
-						{/* Re-processing overlay: dim previous result */}
-						{processing && result && (
-							<div className="rounded-lg border bg-muted/30 overflow-hidden flex flex-col items-center justify-center h-[200px] gap-3 opacity-50 transition-opacity duration-300">
-								<Spinner className="size-8" />
-								<p className="text-sm text-muted-foreground">
-									Re-processing with new settings...
-								</p>
 							</div>
 						)}
 
@@ -255,7 +282,30 @@ export default function PdfWatermarkTool() {
 							</div>
 						)}
 
-						{/* Done state */}
+						{/* Page preview */}
+						{(previewUrl || (processing && result)) && (
+							<div className="relative rounded-lg border bg-muted/30 overflow-hidden">
+								{previewUrl && (
+									<div
+										className="transition-opacity duration-300"
+										style={{ opacity: processing ? 0.25 : 1 }}
+									>
+										<img
+											src={previewUrl}
+											alt="Page 1 preview"
+											className="w-full h-auto"
+										/>
+									</div>
+								)}
+								{processing && result && (
+									<div className="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300">
+										<Spinner className="size-10" />
+									</div>
+								)}
+							</div>
+						)}
+
+						{/* Done state: size info */}
 						{!processing && result && (
 							<div className="rounded-lg border bg-card p-4 space-y-3">
 								<div className="grid grid-cols-2 gap-4 text-sm">
@@ -273,8 +323,9 @@ export default function PdfWatermarkTool() {
 									</div>
 								</div>
 								<p className="text-xs text-muted-foreground">
-									{result.pageCount} {result.pageCount === 1 ? "page" : "pages"}{" "}
-									watermarked with "{text}"
+									{result.pageCount}{" "}
+									{result.pageCount === 1 ? "page" : "pages"} watermarked with
+									"{text}"
 								</p>
 							</div>
 						)}
