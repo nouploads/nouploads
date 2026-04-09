@@ -392,8 +392,11 @@ Before running `git push`, you MUST pass all of the following checks locally. Do
 2. **Lint:** `pnpm exec biome check .` (must exit 0 — warnings are OK, errors are not)
 3. **Build:** `pnpm build` (must exit 0)
 4. **Unit tests:** `pnpm test` (must exit 0)
+5. **E2E smoke:** `pnpm --filter @nouploads/web exec playwright test tests/e2e/homepage.spec.ts tests/e2e/navigation.spec.ts tests/e2e/404.spec.ts --project=chromium` (must exit 0)
 
 If any check fails, fix the issue before pushing. These are the same checks that the husky `pre-push` hook enforces at the git level. Running them yourself first avoids wasted round-trips.
+
+**Critical:** When changing homepage content, hero text, tool grid, badges, or navigation structure, you MUST update the corresponding E2E tests (`homepage.spec.ts`, `navigation.spec.ts`) in the same commit.
 
 ---
 

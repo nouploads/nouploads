@@ -26,6 +26,9 @@ pnpm build || exit 1
 echo "→ Unit tests"
 pnpm test || exit 1
 
+echo "→ E2E smoke"
+pnpm --filter @nouploads/web exec playwright test tests/e2e/homepage.spec.ts tests/e2e/navigation.spec.ts tests/e2e/404.spec.ts --project=chromium || exit 1
+
 echo "→ Lighthouse"
 node apps/web/scripts/lighthouse-ci.mjs || exit 1
 

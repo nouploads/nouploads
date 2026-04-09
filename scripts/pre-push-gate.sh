@@ -48,6 +48,12 @@ if ! pnpm test 2>&1; then
   exit 1
 fi
 
+echo "→ E2E smoke"
+if ! pnpm --filter @nouploads/web exec playwright test tests/e2e/homepage.spec.ts tests/e2e/navigation.spec.ts tests/e2e/404.spec.ts --project=chromium 2>&1; then
+  echo "BLOCKED: E2E smoke tests failed."
+  exit 1
+fi
+
 echo "→ Lighthouse"
 if ! node apps/web/scripts/lighthouse-ci.mjs 2>&1; then
   echo "BLOCKED: Lighthouse checks failed."

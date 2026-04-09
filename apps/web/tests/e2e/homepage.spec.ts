@@ -6,25 +6,39 @@ test.describe("Homepage", () => {
 	});
 
 	test("should display hero section", async ({ page }) => {
-		await expect(page.locator("h1")).toContainText("Privacy-first file tools");
-		await expect(page.locator("h1")).toContainText(
-			"Everything runs in your browser",
-		);
+		await expect(page.locator("h1")).toContainText("Free Online File Tools");
+		await expect(page.locator("h1")).toContainText("No Upload Required");
 	});
 
 	test("should display privacy badges", async ({ page }) => {
-		await expect(page.getByText("No uploads")).toBeVisible();
-		await expect(page.getByText("Free & open source")).toBeVisible();
-		await expect(page.getByText("Works offline")).toBeVisible();
+		await expect(page.getByText("No uploads", { exact: true })).toBeVisible();
+		await expect(
+			page.getByText("Free & open source", { exact: true }),
+		).toBeVisible();
+		await expect(
+			page.getByText("Works offline", { exact: true }),
+		).toBeVisible();
 	});
 
 	test("should display all tools in the grid", async ({ page }) => {
-		await expect(page.getByText("Image Convert")).toBeVisible();
-		await expect(page.getByText("Image Compress")).toBeVisible();
-		await expect(page.getByText("Image Resize")).toBeVisible();
-		await expect(page.getByText("EXIF Viewer")).toBeVisible();
-		await expect(page.getByText("Images to PDF")).toBeVisible();
-		await expect(page.getByText("Color Picker")).toBeVisible();
+		await expect(
+			page.getByRole("link", { name: "Image Convert" }).first(),
+		).toBeVisible();
+		await expect(
+			page.getByRole("link", { name: "Image Compress" }).first(),
+		).toBeVisible();
+		await expect(
+			page.getByRole("link", { name: "Image Resize" }).first(),
+		).toBeVisible();
+		await expect(
+			page.getByRole("link", { name: "EXIF Viewer" }).first(),
+		).toBeVisible();
+		await expect(
+			page.getByRole("link", { name: "Images to PDF" }).first(),
+		).toBeVisible();
+		await expect(
+			page.getByRole("link", { name: "Color Picker" }).first(),
+		).toBeVisible();
 	});
 
 	test('should display "How it works" section', async ({ page }) => {
