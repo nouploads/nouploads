@@ -82,8 +82,18 @@ Each page MUST have:
 3. If you can't write a unique "Why convert X to Y?" that differs from every other
    page's version, DO NOT create a separate page. Add it to /image/convert instead.
 
+### Strategic Pages (/privacy, /self-hosting, /about)
+
+These pages are not tool pages. They exist to capture keyword segments and build trust.
+
+- **Allowed:** Differentiator keywords (no upload, open source, self-host, offline, no limits) used freely — these are dedicated pages, not boilerplate on tool pages.
+- **Comparison tables:** Must have verified competitor data with verification date noted.
+- **No boilerplate:** Each page has unique, substantive content. `/privacy` covers data practices honestly. `/self-hosting` covers Docker, build-from-source, and why self-host. `/about` covers how it works, verification, and comparison.
+- **Meta requirements:** Same as tool pages — buildMeta() with title (<60 chars), description (150-160 chars), canonical, OG tags.
+
 ## What NOT to Do
 
 - Do NOT create pages where the only difference is one keyword swap.
 - Do NOT repeat site-wide features (privacy, offline, batch) as standalone FAQ items on tool pages.
 - Do NOT create niche X-to-Y pages (no /image/exr-to-avif).
+- Do NOT ask "Do all browsers support [format]?" on tool pages — that's a site-wide feature question.
