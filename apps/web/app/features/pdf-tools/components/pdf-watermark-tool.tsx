@@ -521,9 +521,8 @@ export default function PdfWatermarkTool() {
 									</div>
 								</div>
 								<p className="text-xs text-muted-foreground">
-									{result.pageCount}{" "}
-									{result.pageCount === 1 ? "page" : "pages"} watermarked with
-									"{text}"
+									{result.pageCount} {result.pageCount === 1 ? "page" : "pages"}{" "}
+									watermarked with "{text}"
 								</p>
 							</div>
 						)}

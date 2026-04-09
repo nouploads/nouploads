@@ -380,9 +380,9 @@ export default function PdfPageNumbersTool() {
 									</div>
 								</div>
 								<p className="text-xs text-muted-foreground">
-									{result.pageCount}{" "}
-									{result.pageCount === 1 ? "page" : "pages"} numbered (
-									{POSITION_LABELS[position]}, {FORMAT_LABELS[format]})
+									{result.pageCount} {result.pageCount === 1 ? "page" : "pages"}{" "}
+									numbered ({POSITION_LABELS[position]}, {FORMAT_LABELS[format]}
+									)
 								</p>
 							</div>
 						)}

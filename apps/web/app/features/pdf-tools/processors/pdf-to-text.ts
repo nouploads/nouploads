@@ -5,13 +5,11 @@
  * pdfjs-dist.
  */
 function polyfillReadableStreamAsyncIterator() {
-	const proto = typeof ReadableStream !== "undefined"
-		? (ReadableStream.prototype as unknown as Record<symbol, unknown>)
-		: undefined;
-	if (
-		proto &&
-		!proto[Symbol.asyncIterator]
-	) {
+	const proto =
+		typeof ReadableStream !== "undefined"
+			? (ReadableStream.prototype as unknown as Record<symbol, unknown>)
+			: undefined;
+	if (proto && !proto[Symbol.asyncIterator]) {
 		proto[Symbol.asyncIterator] = async function* (this: ReadableStream) {
 			const reader = this.getReader();
 			try {

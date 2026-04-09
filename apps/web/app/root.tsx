@@ -40,6 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 					}}
 				/>
 			</head>
+			{/* biome-ignore lint/a11y/noStaticElementInteractions: body-level drag prevention is intentional */}
 			<body
 				className="flex min-h-screen flex-col bg-background text-foreground antialiased"
 				onDragOver={(e) => e.preventDefault()}
