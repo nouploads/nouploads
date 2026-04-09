@@ -22,8 +22,12 @@ test.describe("HEIC to JPG Tool Page", () => {
 	});
 
 	test("should display FAQ section", async ({ page }) => {
-		await expect(page.getByText("What is a HEIC file?")).toBeVisible();
-		await expect(page.getByText("Is my data safe?")).toBeVisible();
+		await expect(
+			page.getByText("Where does the HEIF image standard come from?"),
+		).toBeVisible();
+		await expect(
+			page.getByText("What output quality should I use for HEIC to JPG?"),
+		).toBeVisible();
 	});
 
 	test("should have SEO meta description", async ({ page }) => {

@@ -13,17 +13,15 @@ test.describe("Image Watermark — page structure", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 	});
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText(
-				"What is the difference between centered and tiled watermarks?",
-			),
+			page.getByText("Can I control how visible the watermark is?"),
 		).toBeVisible();
 		await expect(
-			page.getByText("Why use NoUploads instead of other watermark tools?"),
+			page.getByText("Will the watermark reduce my image quality?"),
 		).toBeVisible();
 	});
 
@@ -46,6 +44,6 @@ test.describe("Image Watermark — page structure", () => {
 	});
 
 	test("should display library attribution", async ({ page }) => {
-		await expect(page.getByText(/Canvas API/)).toBeVisible();
+		await expect(page.getByText(/Canvas API/).first()).toBeVisible();
 	});
 });

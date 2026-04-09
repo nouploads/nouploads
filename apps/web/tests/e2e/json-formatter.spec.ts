@@ -31,11 +31,23 @@ test.describe("JSON Formatter Page", () => {
 	});
 
 	test("should display toolbar buttons", async ({ page }) => {
-		await expect(page.getByRole("button", { name: "Format" })).toBeVisible();
-		await expect(page.getByRole("button", { name: "Minify" })).toBeVisible();
-		await expect(page.getByRole("button", { name: "Copy" })).toBeVisible();
-		await expect(page.getByRole("button", { name: "Download" })).toBeVisible();
-		await expect(page.getByRole("button", { name: "Clear" })).toBeVisible();
+		// Wait for lazy-loaded component to render
+		await expect(page.getByLabel("JSON input")).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: "Format", exact: true }),
+		).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: "Minify", exact: true }),
+		).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: "Copy", exact: true }),
+		).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: "Download", exact: true }),
+		).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: "Clear", exact: true }),
+		).toBeVisible();
 	});
 
 	test("should validate and format JSON on input", async ({ page }) => {
@@ -52,16 +64,19 @@ test.describe("JSON Formatter Page", () => {
 
 	test("should show invalid badge for bad JSON", async ({ page }) => {
 		const textarea = page.getByLabel("JSON input");
+		await expect(textarea).toBeVisible();
 		await textarea.fill("{invalid json}");
 
-		await expect(page.getByText("Invalid JSON")).toBeVisible();
+		await expect(page.getByText("Invalid JSON", { exact: true })).toBeVisible();
 	});
 
 	test("should format JSON when Format button is clicked", async ({ page }) => {
 		const textarea = page.getByLabel("JSON input");
+		await expect(textarea).toBeVisible();
 		await textarea.fill('{"a":1,"b":2}');
 
-		await page.getByRole("button", { name: "Format" }).click();
+		await expect(page.getByText("Valid JSON")).toBeVisible();
+		await page.getByRole("button", { name: "Format", exact: true }).click();
 
 		const value = await textarea.inputValue();
 		expect(value).toContain("  ");
@@ -70,9 +85,11 @@ test.describe("JSON Formatter Page", () => {
 
 	test("should minify JSON when Minify button is clicked", async ({ page }) => {
 		const textarea = page.getByLabel("JSON input");
+		await expect(textarea).toBeVisible();
 		await textarea.fill('{\n  "a": 1,\n  "b": 2\n}');
 
-		await page.getByRole("button", { name: "Minify" }).click();
+		await expect(page.getByText("Valid JSON")).toBeVisible();
+		await page.getByRole("button", { name: "Minify", exact: true }).click();
 
 		const value = await textarea.inputValue();
 		expect(value).toBe('{"a":1,"b":2}');
@@ -90,15 +107,19 @@ test.describe("JSON Formatter Page", () => {
 	});
 
 	test("should display FAQ section", async ({ page }) => {
-		await expect(page.getByText("Frequently Asked Questions")).toBeVisible();
-		await expect(
-			page.getByText(/How does the JSON formatter work/),
-		).toBeVisible();
+		const faqHeading = page.getByRole("heading", {
+			name: "Frequently Asked Questions",
+		});
+		await faqHeading.scrollIntoViewIfNeeded();
+		await expect(faqHeading).toBeVisible();
+		await expect(page.getByText(/Who invented JSON/)).toBeVisible();
 	});
 
 	test("should display browser API attribution", async ({ page }) => {
-		await expect(page.getByText("JSON API")).toBeVisible();
-		await expect(page.getByText("no external libraries")).toBeVisible();
+		await expect(page.getByRole("link", { name: "JSON API" })).toBeVisible();
+		await expect(
+			page.locator("p.text-xs").getByText("no external libraries"),
+		).toBeVisible();
 	});
 
 	test("should display upload button", async ({ page }) => {

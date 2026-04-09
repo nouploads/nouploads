@@ -13,7 +13,7 @@ test.describe("Image Resize — page structure", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 	});
 
 	test("should display FAQ section", async ({ page }) => {
@@ -21,7 +21,7 @@ test.describe("Image Resize — page structure", () => {
 			page.getByText("How do I resize an image without stretching it?"),
 		).toBeVisible();
 		await expect(
-			page.getByText("Why use NoUploads instead of other image resizers?"),
+			page.getByText("What output formats are available for resized images?"),
 		).toBeVisible();
 	});
 

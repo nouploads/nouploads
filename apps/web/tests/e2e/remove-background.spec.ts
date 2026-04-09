@@ -17,10 +17,12 @@ test.describe("Remove Background Tool Page", () => {
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("How does the background removal work?"),
+			page.getByText(
+				"How did AI learn to separate foregrounds from backgrounds?",
+			),
 		).toBeVisible();
 		await expect(
-			page.getByText("Why use NoUploads instead of other background removers?"),
+			page.getByText("How long does processing take?"),
 		).toBeVisible();
 	});
 

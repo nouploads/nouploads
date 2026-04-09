@@ -10,18 +10,17 @@ test.describe("PDF Unlock Page", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop a file here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible({
+			timeout: 10000,
+		});
 	});
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("How does this PDF unlock tool work?"),
+			page.getByText("How did PDF encryption evolve?"),
 		).toBeVisible();
 		await expect(
 			page.getByText("Do I need to know the password to unlock the PDF?"),
-		).toBeVisible();
-		await expect(
-			page.getByText("Why use NoUploads instead of other PDF unlock tools?"),
 		).toBeVisible();
 	});
 

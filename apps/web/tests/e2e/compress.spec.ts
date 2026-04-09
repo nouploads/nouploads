@@ -25,7 +25,9 @@ test.describe("Compress JPG Page", () => {
 		await expect(
 			page.getByText("How does JPG compression work?"),
 		).toBeVisible();
-		await expect(page.getByText("Is my data safe?")).toBeVisible();
+		await expect(
+			page.getByText("What JPG quality level gives the best balance?"),
+		).toBeVisible();
 	});
 
 	test("should have SEO meta description", async ({ page }) => {
@@ -111,7 +113,7 @@ test.describe("Compress GIF Page", () => {
 			page.getByText("How does GIF compression work?"),
 		).toBeVisible();
 		await expect(
-			page.getByText("What does the Colors slider do?"),
+			page.getByText("What does the quality slider control?"),
 		).toBeVisible();
 	});
 

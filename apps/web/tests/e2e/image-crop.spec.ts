@@ -13,15 +13,15 @@ test.describe("Image Crop — page structure", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 	});
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("How do I select the crop area?"),
+			page.getByText("Can I crop to a specific aspect ratio?"),
 		).toBeVisible();
 		await expect(
-			page.getByText("Why use NoUploads instead of other image croppers?"),
+			page.getByText("Does cropping reduce image quality?"),
 		).toBeVisible();
 	});
 

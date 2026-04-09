@@ -9,7 +9,7 @@ test.describe("Image Crop — upload happy path", () => {
 	test("should crop a JPG and show download button", async ({ page }) => {
 		await page.goto("/image/crop");
 		// Wait for lazy component to hydrate (dropzone proves React is ready)
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		await uploadViaDropzone(page, join(fixtures, "sample.jpg"));
 
@@ -31,8 +31,8 @@ test.describe("Image Crop — upload happy path", () => {
 		await expect(downloadBtn).toBeVisible({ timeout: 15000 });
 
 		// Result info should be visible
-		await expect(page.getByText("Original")).toBeVisible();
-		await expect(page.getByText("Cropped")).toBeVisible();
+		await expect(page.getByText("Original", { exact: true })).toBeVisible();
+		await expect(page.getByText("Cropped", { exact: true })).toBeVisible();
 
 		// Crop more and Start over buttons
 		await expect(
@@ -45,7 +45,7 @@ test.describe("Image Crop — upload happy path", () => {
 
 	test("should crop a PNG with 1:1 aspect ratio", async ({ page }) => {
 		await page.goto("/image/crop");
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		await uploadViaDropzone(page, join(fixtures, "sample.png"));
 

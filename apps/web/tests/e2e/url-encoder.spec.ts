@@ -38,8 +38,12 @@ test.describe("URL Encoder Page", () => {
 	});
 
 	test("should display encode and decode mode buttons", async ({ page }) => {
-		await expect(page.getByRole("button", { name: "Encode" })).toBeVisible();
-		await expect(page.getByRole("button", { name: "Decode" })).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: "Encode", exact: true }),
+		).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: "Decode", exact: true }),
+		).toBeVisible();
 	});
 
 	test("should encode text with spaces", async ({ page }) => {

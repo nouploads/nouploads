@@ -10,15 +10,19 @@ test.describe("PDF to PNG Tool Page", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop a file here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible({
+			timeout: 10000,
+		});
 	});
 
 	test("should display DPI selector", async ({ page }) => {
-		await expect(page.getByText("Resolution")).toBeVisible();
+		await expect(page.getByText("Resolution", { exact: true })).toBeVisible({
+			timeout: 10000,
+		});
 	});
 
 	test("should not display quality slider for PNG", async ({ page }) => {
-		await expect(page.getByText(/JPG Quality:/i)).not.toBeVisible();
+		await expect(page.getByText(/JPG Quality/i)).not.toBeVisible();
 	});
 
 	test("should display FAQ section", async ({ page }) => {

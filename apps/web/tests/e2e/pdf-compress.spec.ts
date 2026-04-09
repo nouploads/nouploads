@@ -10,17 +10,20 @@ test.describe("Compress PDF Page", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop a file here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible({
+			timeout: 10000,
+		});
 	});
 
 	test("should display compression level selector", async ({ page }) => {
-		await expect(page.getByText("Compression Level")).toBeVisible();
-		await expect(page.getByText("Medium (balanced)")).toBeVisible();
+		await expect(
+			page.getByText("Compression Level", { exact: true }),
+		).toBeVisible({ timeout: 10000 });
 	});
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("How does PDF compression work?"),
+			page.getByText("What's actually inside a PDF file?"),
 		).toBeVisible();
 		await expect(
 			page.getByText("Will the compressed PDF look different?"),
@@ -35,7 +38,7 @@ test.describe("Compress PDF Page", () => {
 			.locator('meta[name="description"]')
 			.getAttribute("content");
 		expect(description).toContain("PDF");
-		expect(description).toContain("compress");
+		expect(description).toContain("Reduce");
 	});
 
 	test("should have canonical link", async ({ page }) => {

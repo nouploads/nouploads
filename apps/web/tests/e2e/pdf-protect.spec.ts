@@ -10,7 +10,9 @@ test.describe("PDF Protect Page", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop a file here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible({
+			timeout: 10000,
+		});
 	});
 
 	test("should display password input fields", async ({ page }) => {
@@ -30,16 +32,11 @@ test.describe("PDF Protect Page", () => {
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("How does the PDF password protection work?"),
+			page.getByText("How did PDF encryption evolve over the years?"),
 		).toBeVisible();
 		await expect(
 			page.getByText(
 				"What is the difference between user and owner passwords?",
-			),
-		).toBeVisible();
-		await expect(
-			page.getByText(
-				"Why use NoUploads instead of other PDF protection tools?",
 			),
 		).toBeVisible();
 	});

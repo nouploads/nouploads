@@ -15,13 +15,10 @@ test.describe("Image Filters Page", () => {
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("What filters can I apply to my images?"),
+			page.getByText("What's the math behind image filters?"),
 		).toBeVisible();
 		await expect(
 			page.getByText("Are there one-click presets available?"),
-		).toBeVisible();
-		await expect(
-			page.getByText("Why use NoUploads instead of other image filter tools?"),
 		).toBeVisible();
 	});
 

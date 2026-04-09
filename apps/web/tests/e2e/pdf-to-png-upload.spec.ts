@@ -8,7 +8,9 @@ const fixtures = join(dirname(fileURLToPath(import.meta.url)), "fixtures");
 test.describe("PDF to PNG — upload flow", () => {
 	test("should convert a PDF and show download button", async ({ page }) => {
 		await page.goto("/pdf/pdf-to-png");
-		await expect(page.getByText("Resolution")).toBeVisible();
+		await expect(page.getByText("Resolution", { exact: true })).toBeVisible({
+			timeout: 10000,
+		});
 		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		await uploadViaDropzone(page, join(fixtures, "sample.pdf"));
@@ -23,7 +25,9 @@ test.describe("PDF to PNG — upload flow", () => {
 test.describe("PDF to PNG — invalid input", () => {
 	test("should show error when given a non-PDF file", async ({ page }) => {
 		await page.goto("/pdf/pdf-to-png");
-		await expect(page.getByText("Resolution")).toBeVisible();
+		await expect(page.getByText("Resolution", { exact: true })).toBeVisible({
+			timeout: 10000,
+		});
 		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		// Force-upload a JPG (not a PDF) — pdf.js will fail to parse it

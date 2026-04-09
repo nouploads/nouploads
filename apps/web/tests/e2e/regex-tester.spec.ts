@@ -35,8 +35,8 @@ test.describe("Regex Tester Page", () => {
 	test("should display regex input and test string textarea", async ({
 		page,
 	}) => {
-		await expect(page.getByLabel("Regex pattern")).toBeVisible();
-		await expect(page.getByLabel("Test string")).toBeVisible();
+		await expect(page.locator("#regex-pattern")).toBeVisible();
+		await expect(page.locator("#test-string")).toBeVisible();
 	});
 
 	test("should display flag toggles", async ({ page }) => {
@@ -50,16 +50,16 @@ test.describe("Regex Tester Page", () => {
 	test("should show matches when pattern and test string are entered", async ({
 		page,
 	}) => {
-		await page.getByLabel("Regex pattern").fill("\\d+");
-		await page.getByLabel("Test string").fill("abc 123 def 456");
+		await page.locator("#regex-pattern").fill("\\d+");
+		await page.locator("#test-string").fill("abc 123 def 456");
 
 		// Wait for debounced evaluation
 		await expect(page.getByText(/2 matches/)).toBeVisible();
 	});
 
 	test("should show error for invalid regex", async ({ page }) => {
-		await page.getByLabel("Regex pattern").fill("[invalid");
-		await page.getByLabel("Test string").fill("test");
+		await page.locator("#regex-pattern").fill("[invalid");
+		await page.locator("#test-string").fill("test");
 
 		// Wait for debounced evaluation and error display
 		await expect(

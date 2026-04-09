@@ -21,7 +21,7 @@ test.describe("Convert Images — universal page", () => {
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("Which image formats can I convert between?"),
+			page.getByText("Will converting my image reduce its quality?"),
 		).toBeVisible();
 	});
 
@@ -65,7 +65,7 @@ test.describe("JPG to PNG — landing page", () => {
 	});
 
 	test("should display format-specific FAQ", async ({ page }) => {
-		await expect(page.getByText("Why convert JPG to PNG?")).toBeVisible();
+		await expect(page.getByText("Will the file size increase?")).toBeVisible();
 	});
 });
 

@@ -46,14 +46,18 @@ test.describe("Timestamp Converter Page", () => {
 	});
 
 	test("should convert timestamp 0 to 1970 date", async ({ page }) => {
-		await page.getByLabel("Unix timestamp").fill("0");
+		const tsInput = page.locator("#ts-input");
+		await expect(tsInput).toBeVisible();
+		await tsInput.fill("0");
 
-		// Should show January 1, 1970 somewhere in the results
-		await expect(page.getByText("1970")).toBeVisible();
+		// Should show the ISO 8601 result for epoch 0
+		await expect(page.getByText("1970-01-01T00:00:00.000Z")).toBeVisible();
 	});
 
 	test("should display Date to Timestamp panel", async ({ page }) => {
-		await expect(page.getByText("Date to Timestamp")).toBeVisible();
+		await expect(
+			page.getByRole("heading", { name: "Date to Timestamp", exact: true }),
+		).toBeVisible();
 	});
 
 	test("should display FAQ section", async ({ page }) => {

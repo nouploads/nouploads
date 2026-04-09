@@ -14,7 +14,9 @@ test.describe("PSB Converter Tool Page", () => {
 	});
 
 	test("should display FAQ section", async ({ page }) => {
-		await expect(page.getByText("What is a PSB file?")).toBeVisible();
+		await expect(
+			page.getByText("Why did Adobe need a format bigger than PSD?"),
+		).toBeVisible();
 		await expect(
 			page.getByText("How is PSB different from PSD?"),
 		).toBeVisible();

@@ -18,7 +18,7 @@ test.describe("SVG to JPG — upload and convert", () => {
 		const downloadBtn = page.getByRole("button", { name: /download/i });
 		await expect(downloadBtn).toBeVisible({ timeout: 15000 });
 
-		await expect(page.getByText("Original")).toBeVisible();
-		await expect(page.getByText("Result")).toBeVisible();
+		await expect(page.getByText("Original", { exact: true })).toBeVisible();
+		await expect(page.getByText("Result", { exact: true })).toBeVisible();
 	});
 });

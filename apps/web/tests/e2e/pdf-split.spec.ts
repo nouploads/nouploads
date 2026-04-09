@@ -10,15 +10,17 @@ test.describe("PDF Split Tool Page", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop a file here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible({
+			timeout: 10000,
+		});
 	});
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("How do I split a PDF into separate pages?"),
+			page.getByText("What makes PDF easy to split without losing quality?"),
 		).toBeVisible();
 		await expect(
-			page.getByText("Why use NoUploads instead of other PDF split tools?"),
+			page.getByText("Can I extract specific page ranges from a PDF?"),
 		).toBeVisible();
 	});
 

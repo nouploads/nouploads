@@ -41,10 +41,12 @@ test.describe("QR Code Generator Page", () => {
 	});
 
 	test("should display FAQ section", async ({ page }) => {
-		await expect(page.getByText("Frequently Asked Questions")).toBeVisible();
-		await expect(
-			page.getByText(/What data can I encode in a QR code/),
-		).toBeVisible();
+		const faqHeading = page.getByRole("heading", {
+			name: "Frequently Asked Questions",
+		});
+		await faqHeading.scrollIntoViewIfNeeded();
+		await expect(faqHeading).toBeVisible();
+		await expect(page.getByText(/story behind QR codes/)).toBeVisible();
 	});
 
 	test("should display library attribution", async ({ page }) => {

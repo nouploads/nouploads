@@ -12,8 +12,10 @@ test.describe("Base64 Image — encode flow", () => {
 		await page.goto("/developer/base64-image", { waitUntil: "networkidle" });
 
 		// Wait for the Encode tab to be active and dropzone to be ready
-		await expect(page.getByText("Encode Image to Base64")).toBeVisible();
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(
+			page.getByRole("tab", { name: /Encode Image to Base64/ }),
+		).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		await uploadViaDropzone(page, join(fixtures, "sample.png"));
 
@@ -37,7 +39,7 @@ test.describe("Base64 Image — decode flow", () => {
 		await page.goto("/developer/base64-image", { waitUntil: "networkidle" });
 
 		// Switch to the Decode tab
-		await page.getByText("Decode Base64 to Image").click();
+		await page.getByRole("tab", { name: /Decode Base64 to Image/ }).click();
 
 		// Paste a known 1x1 PNG base64 data URI
 		const dataUri =
@@ -50,7 +52,7 @@ test.describe("Base64 Image — decode flow", () => {
 		});
 
 		// Format should be detected
-		await expect(page.getByText("image/png")).toBeVisible();
+		await expect(page.getByText("Format: image/png")).toBeVisible();
 
 		// Download button should be visible
 		await expect(page.getByRole("button", { name: /download/i })).toBeVisible();

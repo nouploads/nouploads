@@ -18,13 +18,15 @@ test.describe("Images to PDF Tool Page", () => {
 	});
 
 	test("should display page size selector", async ({ page }) => {
-		await expect(page.getByText("Page Size")).toBeVisible();
+		await expect(
+			page.getByText("Page Size", { exact: true }).first(),
+		).toBeVisible();
 		await expect(page.getByText("Fit to Image")).toBeVisible();
 	});
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("What image formats can I combine into a PDF?"),
+			page.getByText("How does PDF actually store images internally?"),
 		).toBeVisible();
 		await expect(
 			page.getByText("Can I reorder images before creating the PDF?"),

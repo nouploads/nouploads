@@ -10,20 +10,26 @@ test.describe("PDF to JPG Tool Page", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop a file here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible({
+			timeout: 10000,
+		});
 	});
 
 	test("should display DPI selector", async ({ page }) => {
-		await expect(page.getByText("Resolution")).toBeVisible();
+		await expect(page.getByText("Resolution", { exact: true })).toBeVisible({
+			timeout: 10000,
+		});
 	});
 
 	test("should display quality slider for JPG", async ({ page }) => {
-		await expect(page.getByText(/JPG Quality:/i)).toBeVisible();
+		await expect(page.getByText(/JPG Quality/i).first()).toBeVisible({
+			timeout: 10000,
+		});
 	});
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("How does PDF to JPG conversion work?"),
+			page.getByText("Why was PDF invented in the first place?"),
 		).toBeVisible();
 		await expect(
 			page.getByText("What DPI setting should I choose?"),

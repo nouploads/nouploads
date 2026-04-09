@@ -9,7 +9,7 @@ test.describe("Image Watermark — upload happy path", () => {
 	test("should watermark a JPG and show download button", async ({ page }) => {
 		await page.goto("/image/watermark");
 		// Wait for lazy component to hydrate (dropzone proves React is ready)
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		await uploadViaDropzone(page, join(fixtures, "sample.jpg"));
 
@@ -24,8 +24,8 @@ test.describe("Image Watermark — upload happy path", () => {
 		await expect(downloadBtn).toBeVisible({ timeout: 15000 });
 
 		// Result info should be visible
-		await expect(page.getByText("Original")).toBeVisible();
-		await expect(page.getByText("Result")).toBeVisible();
+		await expect(page.getByText("Original", { exact: true })).toBeVisible();
+		await expect(page.getByText("Result", { exact: true })).toBeVisible();
 
 		// Reset button should be available
 		await expect(
@@ -35,7 +35,7 @@ test.describe("Image Watermark — upload happy path", () => {
 
 	test("should watermark a PNG with tiled mode", async ({ page }) => {
 		await page.goto("/image/watermark");
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		await uploadViaDropzone(page, join(fixtures, "sample.png"));
 

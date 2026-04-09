@@ -40,12 +40,14 @@ test.describe("UUID Generator Page", () => {
 	});
 
 	test("should display Generate button", async ({ page }) => {
-		await expect(page.getByRole("button", { name: "Generate" })).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: "Generate", exact: true }),
+		).toBeVisible();
 	});
 
 	test("should generate a UUID when Generate is clicked", async ({ page }) => {
 		// A UUID is pre-generated on mount; click Generate to get a new one
-		await page.getByRole("button", { name: "Generate" }).click();
+		await page.getByRole("button", { name: "Generate", exact: true }).click();
 
 		// UUID format: 8-4-4-4-12 hex chars = 36 chars total
 		const uuidLocator = page.locator(".select-all").first();
@@ -59,11 +61,19 @@ test.describe("UUID Generator Page", () => {
 	});
 
 	test("should display FAQ section", async ({ page }) => {
-		await expect(page.getByText("Frequently Asked Questions")).toBeVisible();
+		const faqHeading = page.getByRole("heading", {
+			name: "Frequently Asked Questions",
+		});
+		await faqHeading.scrollIntoViewIfNeeded();
+		await expect(faqHeading).toBeVisible();
 	});
 
 	test("should display attribution", async ({ page }) => {
-		await expect(page.getByText("Web Crypto API")).toBeVisible();
-		await expect(page.getByText("no external libraries")).toBeVisible();
+		await expect(
+			page.getByRole("link", { name: "Web Crypto API" }),
+		).toBeVisible();
+		await expect(
+			page.locator("p.text-xs").getByText("no external libraries"),
+		).toBeVisible();
 	});
 });

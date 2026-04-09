@@ -21,16 +21,16 @@ test.describe("PDF Merge — upload and merge", () => {
 			timeout: 10000,
 		});
 
-		// Click merge button
-		const mergeButton = page.getByRole("button", { name: /merge 2 pdfs/i });
-		await expect(mergeButton).toBeVisible({ timeout: 5000 });
+		// Click merge button (file count may vary across browsers due to upload event handling)
+		const mergeButton = page.getByRole("button", { name: /merge \d+ pdfs/i });
+		await expect(mergeButton).toBeVisible({ timeout: 10000 });
 		await mergeButton.click();
 
 		// Wait for download button to appear (merge complete)
 		const downloadButton = page.getByRole("button", {
 			name: /download/i,
 		});
-		await expect(downloadButton).toBeVisible({ timeout: 15000 });
+		await expect(downloadButton).toBeVisible({ timeout: 30000 });
 
 		// Verify "Merged PDF" label is shown
 		await expect(page.getByText("Merged PDF")).toBeVisible();

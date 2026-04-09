@@ -34,14 +34,18 @@ test.describe("JWT Decoder Page", () => {
 		const token =
 			"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
-		await page.locator("#jwt-input").fill(token);
+		const textarea = page.locator("#jwt-input");
+		await expect(textarea).toBeVisible();
+		await textarea.fill(token);
 
 		// Header section should show HS256
 		await expect(page.getByText('"alg": "HS256"')).toBeVisible();
 		// Payload section should show John Doe
 		await expect(page.getByText('"name": "John Doe"')).toBeVisible();
 		// Signature section should be visible
-		await expect(page.getByText("Signature")).toBeVisible();
+		await expect(
+			page.getByRole("heading", { name: "Signature", exact: true }),
+		).toBeVisible();
 		// No expiry badge since this token has no exp claim
 		await expect(page.getByText("No Expiry")).toBeVisible();
 	});
@@ -53,11 +57,19 @@ test.describe("JWT Decoder Page", () => {
 	});
 
 	test("should display FAQ section", async ({ page }) => {
-		await expect(page.getByText("Frequently Asked Questions")).toBeVisible();
-		await expect(page.getByText(/What is a JWT token/)).toBeVisible();
+		const faqHeading = page.getByRole("heading", {
+			name: "Frequently Asked Questions",
+		});
+		await faqHeading.scrollIntoViewIfNeeded();
+		await expect(faqHeading).toBeVisible();
+		await expect(
+			page.getByText(/How did JWTs become the standard/),
+		).toBeVisible();
 	});
 
 	test("should display browser API attribution", async ({ page }) => {
-		await expect(page.getByText("Base64 decoding API")).toBeVisible();
+		await expect(
+			page.getByRole("link", { name: "Base64 decoding API" }),
+		).toBeVisible();
 	});
 });

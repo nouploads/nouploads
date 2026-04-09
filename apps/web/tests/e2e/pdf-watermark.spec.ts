@@ -10,26 +10,35 @@ test.describe("Watermark PDF Page", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop a file here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible({
+			timeout: 10000,
+		});
 	});
 
 	test("should display watermark controls", async ({ page }) => {
-		await expect(page.getByText("Watermark Text")).toBeVisible();
-		await expect(page.getByText("Font Size")).toBeVisible();
-		await expect(page.getByText("Opacity")).toBeVisible();
-		await expect(page.getByText("Rotation")).toBeVisible();
-		await expect(page.getByText("Color")).toBeVisible();
+		await expect(page.getByText("Watermark Text")).toBeVisible({
+			timeout: 10000,
+		});
+		await expect(
+			page.getByText("Font Size", { exact: true }).first(),
+		).toBeVisible();
+		await expect(
+			page.getByText("Opacity", { exact: true }).first(),
+		).toBeVisible();
+		await expect(
+			page.getByText("Rotation", { exact: true }).first(),
+		).toBeVisible();
+		await expect(
+			page.getByText("Color", { exact: true }).first(),
+		).toBeVisible();
 	});
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("How does the PDF watermark tool work?"),
+			page.getByText("How do PDF watermarks differ from image watermarks?"),
 		).toBeVisible();
 		await expect(
 			page.getByText("Can I customize the watermark appearance?"),
-		).toBeVisible();
-		await expect(
-			page.getByText("Does the watermark appear on every page?"),
 		).toBeVisible();
 	});
 

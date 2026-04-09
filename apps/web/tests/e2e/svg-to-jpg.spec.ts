@@ -15,7 +15,7 @@ test.describe("SVG to JPG Tool Page", () => {
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("Why convert SVG to JPG instead of PNG?"),
+			page.getByText("Where does the SVG format come from?"),
 		).toBeVisible();
 	});
 

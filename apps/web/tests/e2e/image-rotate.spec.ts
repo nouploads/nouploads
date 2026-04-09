@@ -11,17 +11,15 @@ test.describe("Image Rotate — page structure", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 	});
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("How do I rotate an image 90 degrees?"),
+			page.getByText("What is the difference between rotating and flipping?"),
 		).toBeVisible();
 		await expect(
-			page.getByText(
-				"Why use NoUploads instead of other image rotation tools?",
-			),
+			page.getByText("Can I apply multiple transforms in a row?"),
 		).toBeVisible();
 	});
 

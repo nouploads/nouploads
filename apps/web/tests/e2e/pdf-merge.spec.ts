@@ -12,15 +12,19 @@ test.describe("PDF Merge Tool Page", () => {
 	test("should display file dropzone that accepts multiple files", async ({
 		page,
 	}) => {
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
-		const input = page.locator('input[type="file"]');
+		await expect(page.getByText(/drop files here/i)).toBeVisible({
+			timeout: 10000,
+		});
+		const input = page.locator('input[type="file"]').first();
 		await expect(input).toHaveAttribute("multiple", "");
 	});
 
 	test("should display FAQ section", async ({ page }) => {
-		await expect(page.getByText("How do I merge PDF files?")).toBeVisible();
 		await expect(
-			page.getByText("Why use NoUploads instead of other PDF merge tools?"),
+			page.getByText("Where did the PDF format come from?"),
+		).toBeVisible();
+		await expect(
+			page.getByText("Can I reorder pages before merging?"),
 		).toBeVisible();
 	});
 

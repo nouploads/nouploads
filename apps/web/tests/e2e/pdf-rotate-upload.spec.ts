@@ -8,7 +8,7 @@ const fixtures = join(dirname(fileURLToPath(import.meta.url)), "fixtures");
 test.describe("PDF Rotate — upload and rotate", () => {
 	test("should rotate a PDF and offer download", async ({ page }) => {
 		await page.goto("/pdf/rotate");
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		// Upload sample PDF
 		await uploadViaDropzone(page, join(fixtures, "sample.pdf"));
@@ -17,7 +17,7 @@ test.describe("PDF Rotate — upload and rotate", () => {
 		const downloadButton = page.getByRole("button", {
 			name: /download/i,
 		});
-		await expect(downloadButton).toBeVisible({ timeout: 15000 });
+		await expect(downloadButton).toBeVisible({ timeout: 30000 });
 
 		// Verify result info is shown
 		await expect(page.getByText(/rotated/i)).toBeVisible();

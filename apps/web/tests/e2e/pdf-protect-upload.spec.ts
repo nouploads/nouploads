@@ -16,20 +16,27 @@ test.describe("PDF Protect — happy path", () => {
 		).toBeVisible();
 		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
-		// Enter a user password before uploading — auto-processing requires at least one password
-		await page
-			.getByPlaceholder("Enter password to open the PDF")
-			.fill("test123");
-
+		// Upload the file first
 		await uploadViaDropzone(page, join(fixtures, "sample.pdf"));
+
+		// Verify the hint appears (no password yet)
+		await expect(
+			page.getByText("Enter at least one password to protect the PDF"),
+		).toBeVisible({ timeout: 10000 });
+
+		// Now type a password — auto-processing starts when both file and password are present
+		const passwordInput = page.getByPlaceholder(
+			"Enter password to open the PDF",
+		);
+		await passwordInput.fill("test123");
 
 		const downloadBtn = page.getByRole("button", { name: /download/i });
 		await expect(downloadBtn).toBeVisible({ timeout: 30000 });
 
 		// Verify result info is shown
-		await expect(page.getByText("Original")).toBeVisible();
-		await expect(page.getByText("Protected")).toBeVisible();
-		await expect(page.getByText(/pages? protected/i)).toBeVisible();
+		await expect(page.getByText("Original", { exact: true })).toBeVisible();
+		await expect(page.getByText("Protected", { exact: true })).toBeVisible();
+		await expect(page.getByText(/pages? protected/i).first()).toBeVisible();
 
 		await expect(
 			page.getByRole("button", { name: /protect another/i }),

@@ -28,8 +28,8 @@ test.describe("PDF Unlock — happy path", () => {
 		await expect(downloadBtn).toBeVisible({ timeout: 30000 });
 
 		// Verify result info is shown
-		await expect(page.getByText("Original")).toBeVisible();
-		await expect(page.getByText("Unlocked")).toBeVisible();
+		await expect(page.getByText("Original", { exact: true })).toBeVisible();
+		await expect(page.getByText("Unlocked", { exact: true })).toBeVisible();
 
 		await expect(
 			page.getByRole("button", { name: /unlock another/i }),
@@ -55,5 +55,35 @@ test.describe("PDF Unlock — happy path", () => {
 
 		await page.getByRole("button", { name: /unlock another/i }).click();
 		await expect(page.getByText(/drop a file here/i)).toBeVisible();
+	});
+
+	test("should strip encryption from a locked PDF", async ({ page }) => {
+		await page.goto("/pdf/unlock");
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
+
+		await uploadViaDropzone(page, join(fixtures, "sample-locked.pdf"));
+
+		await expect(
+			page.getByRole("button", { name: "Unlock PDF" }),
+		).toBeVisible();
+		await page.getByRole("button", { name: "Unlock PDF" }).click();
+
+		const downloadBtn = page.getByRole("button", { name: /download/i });
+		await expect(downloadBtn).toBeVisible({ timeout: 30000 });
+
+		// Download the result and verify /Encrypt is gone
+		const downloadPromise = page.waitForEvent("download");
+		await downloadBtn.click();
+		const download = await downloadPromise;
+		const path = await download.path();
+		expect(path).toBeTruthy();
+
+		const fs = await import("node:fs");
+		const bytes = fs.readFileSync(path!);
+		const content = bytes.toString("latin1");
+		expect(content).not.toContain("/Encrypt");
+		// Valid PDF magic bytes
+		expect(bytes[0]).toBe(0x25);
+		expect(bytes[1]).toBe(0x50);
 	});
 });

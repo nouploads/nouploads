@@ -14,12 +14,11 @@ test.describe("EXIF Viewer Tool Page", () => {
 	});
 
 	test("should display FAQ section", async ({ page }) => {
-		await expect(page.getByText("What is EXIF data?")).toBeVisible();
 		await expect(
-			page.getByText("What types of metadata can this tool read?"),
+			page.getByText("Where did the EXIF standard come from?"),
 		).toBeVisible();
 		await expect(
-			page.getByText("Why use NoUploads instead of other EXIF viewers?"),
+			page.getByText("What types of metadata can this tool read?"),
 		).toBeVisible();
 	});
 

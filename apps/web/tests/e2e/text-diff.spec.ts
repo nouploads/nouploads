@@ -33,14 +33,16 @@ test.describe("Text Diff Page", () => {
 	});
 
 	test("should display Original and Modified text areas", async ({ page }) => {
-		await expect(page.getByLabel("Original")).toBeVisible();
-		await expect(page.getByLabel("Modified")).toBeVisible();
+		await expect(page.locator("#diff-left")).toBeVisible();
+		await expect(page.locator("#diff-right")).toBeVisible();
 	});
 
 	test("should display view mode buttons", async ({ page }) => {
-		await expect(page.getByRole("button", { name: "Unified" })).toBeVisible();
 		await expect(
-			page.getByRole("button", { name: "Side by Side" }),
+			page.getByRole("button", { name: "Unified", exact: true }),
+		).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: "Side by Side", exact: true }),
 		).toBeVisible();
 	});
 

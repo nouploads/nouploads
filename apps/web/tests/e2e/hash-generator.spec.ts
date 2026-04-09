@@ -43,13 +43,17 @@ test.describe("Hash Generator Page", () => {
 	});
 
 	test("should display FAQ section", async ({ page }) => {
-		await expect(page.getByText("Frequently Asked Questions")).toBeVisible();
-		await expect(
-			page.getByText(/What is a hash and why would I need one/),
-		).toBeVisible();
+		const faqHeading = page.getByRole("heading", {
+			name: "Frequently Asked Questions",
+		});
+		await faqHeading.scrollIntoViewIfNeeded();
+		await expect(faqHeading).toBeVisible();
+		await expect(page.getByText(/story behind the SHA-2 family/)).toBeVisible();
 	});
 
 	test("should display attribution", async ({ page }) => {
-		await expect(page.getByText("Web Crypto API")).toBeVisible();
+		await expect(
+			page.getByRole("link", { name: "Web Crypto API" }),
+		).toBeVisible();
 	});
 });

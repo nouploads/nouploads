@@ -15,7 +15,7 @@ test.describe("SVG to WebP Tool Page", () => {
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("What is WebP and why use it for SVG conversion?"),
+			page.getByText("Does WebP preserve transparency from my SVG?"),
 		).toBeVisible();
 	});
 

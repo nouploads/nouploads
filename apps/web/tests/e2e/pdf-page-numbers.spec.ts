@@ -10,29 +10,29 @@ test.describe("PDF Page Numbers Page", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop a file here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible({
+			timeout: 10000,
+		});
 	});
 
 	test("should display page number controls", async ({ page }) => {
-		await expect(page.getByText("Position")).toBeVisible();
-		await expect(page.getByText("Format")).toBeVisible();
-		await expect(page.getByText("Font Size")).toBeVisible();
-		await expect(page.getByText("Margin")).toBeVisible();
+		// Wait for lazy component to hydrate
+		await expect(page.getByText("Position", { exact: true })).toBeVisible({
+			timeout: 10000,
+		});
+		await expect(page.getByText("Format", { exact: true })).toBeVisible();
+		await expect(page.getByText("Font Size").first()).toBeVisible();
+		await expect(page.getByText("Margin").first()).toBeVisible();
 		await expect(page.getByText("Start Number")).toBeVisible();
 		await expect(page.getByText("Skip first page (title page)")).toBeVisible();
 	});
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("How does the page numbering tool work?"),
+			page.getByText("What's the story behind page numbering in books?"),
 		).toBeVisible();
 		await expect(
 			page.getByText("What page number formats are available?"),
-		).toBeVisible();
-		await expect(
-			page.getByText(
-				"Why use NoUploads instead of other PDF page numbering tools?",
-			),
 		).toBeVisible();
 	});
 

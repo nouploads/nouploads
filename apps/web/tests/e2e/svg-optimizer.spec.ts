@@ -15,13 +15,10 @@ test.describe("SVG Optimizer Tool Page", () => {
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("What does SVG optimization do?"),
+			page.getByText("Why do SVG files from design tools need optimization?"),
 		).toBeVisible();
 		await expect(
 			page.getByText("Does optimization change how my SVG looks?"),
-		).toBeVisible();
-		await expect(
-			page.getByText("Why use NoUploads instead of other SVG optimizer tools?"),
 		).toBeVisible();
 	});
 

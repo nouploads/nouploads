@@ -11,12 +11,12 @@ test.describe("QR Code Generator - Generation Flow", () => {
 		const qrImage = page.locator('img[alt="QR Code"]');
 		await expect(qrImage).toBeVisible({ timeout: 10000 });
 
-		// Check download buttons are visible
+		// Check download buttons are visible (labels include file size like "Download PNG (4 KB)")
 		await expect(
-			page.getByRole("button", { name: /Download PNG/i }),
+			page.getByRole("button", { name: /Download PNG \(/ }),
 		).toBeVisible();
 		await expect(
-			page.getByRole("button", { name: /Download SVG/i }),
+			page.getByRole("button", { name: /Download SVG \(/ }),
 		).toBeVisible();
 	});
 

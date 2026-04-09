@@ -10,12 +10,14 @@ test.describe("PDF to Text Tool Page", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop a file here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible({
+			timeout: 10000,
+		});
 	});
 
 	test("should display FAQ section", async ({ page }) => {
 		await expect(
-			page.getByText("How does PDF text extraction work?"),
+			page.getByText("How does PDF actually store text internally?"),
 		).toBeVisible();
 		await expect(
 			page.getByText("What if my PDF contains only scanned images?"),

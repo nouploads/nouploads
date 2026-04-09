@@ -35,16 +35,28 @@ test.describe("Base64 Image Encoder/Decoder Page", () => {
 	});
 
 	test("should display Encode and Decode tabs", async ({ page }) => {
-		await expect(page.getByText("Encode Image to Base64")).toBeVisible();
-		await expect(page.getByText("Decode Base64 to Image")).toBeVisible();
+		await expect(
+			page.getByRole("tab", { name: /Encode Image to Base64/ }),
+		).toBeVisible();
+		await expect(
+			page.getByRole("tab", { name: /Decode Base64 to Image/ }),
+		).toBeVisible();
 	});
 
 	test("should display FAQ section", async ({ page }) => {
-		await expect(page.getByText("Frequently Asked Questions")).toBeVisible();
-		await expect(page.getByText("What is base64 encoding?")).toBeVisible();
+		const faqHeading = page.getByRole("heading", {
+			name: "Frequently Asked Questions",
+		});
+		await faqHeading.scrollIntoViewIfNeeded();
+		await expect(faqHeading).toBeVisible();
+		await expect(
+			page.getByText(/Where does Base64 encoding come from/),
+		).toBeVisible();
 	});
 
 	test("should display attribution", async ({ page }) => {
-		await expect(page.getByText("FileReader API")).toBeVisible();
+		await expect(
+			page.getByRole("link", { name: "FileReader API" }),
+		).toBeVisible();
 	});
 });

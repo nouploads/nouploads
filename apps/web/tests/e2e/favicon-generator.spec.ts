@@ -13,7 +13,7 @@ test.describe("Favicon Generator — page structure", () => {
 	});
 
 	test("should display file dropzone", async ({ page }) => {
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 	});
 
 	test("should display FAQ section", async ({ page }) => {
@@ -21,7 +21,7 @@ test.describe("Favicon Generator — page structure", () => {
 			page.getByText("What sizes are included in the generated favicon?"),
 		).toBeVisible();
 		await expect(
-			page.getByText("Why use NoUploads instead of other favicon generators?"),
+			page.getByText("How do I add the favicon to my website?"),
 		).toBeVisible();
 	});
 

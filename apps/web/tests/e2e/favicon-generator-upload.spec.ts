@@ -11,7 +11,7 @@ test.describe("Favicon Generator — upload happy path", () => {
 	}) => {
 		await page.goto("/image/favicon-generator");
 		// Wait for lazy component to hydrate (dropzone proves React is ready)
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		await uploadViaDropzone(page, join(fixtures, "sample.png"));
 
@@ -21,15 +21,15 @@ test.describe("Favicon Generator — upload happy path", () => {
 
 		// Source image info should be visible
 		await expect(page.getByText("Source Image")).toBeVisible();
-		await expect(page.getByText("Result")).toBeVisible();
+		await expect(page.getByText("Result", { exact: true })).toBeVisible();
 
 		// Size previews should be shown
-		await expect(page.getByText("16x16")).toBeVisible();
-		await expect(page.getByText("32x32")).toBeVisible();
-		await expect(page.getByText("48x48")).toBeVisible();
+		await expect(page.getByText("16x16", { exact: true })).toBeVisible();
+		await expect(page.getByText("32x32", { exact: true })).toBeVisible();
+		await expect(page.getByText("48x48", { exact: true })).toBeVisible();
 
 		// Individual PNG download buttons should be available
-		const pngButtons = page.getByRole("button", { name: /png/i });
+		const pngButtons = page.getByRole("button", { name: /^PNG$/i });
 		await expect(pngButtons).toHaveCount(3);
 
 		// Reset button should be available
@@ -40,7 +40,7 @@ test.describe("Favicon Generator — upload happy path", () => {
 
 	test("should generate a favicon from a JPG", async ({ page }) => {
 		await page.goto("/image/favicon-generator");
-		await expect(page.getByText(/drop files here/i)).toBeVisible();
+		await expect(page.getByText(/drop a file here/i)).toBeVisible();
 
 		await uploadViaDropzone(page, join(fixtures, "sample.jpg"));
 
@@ -49,8 +49,8 @@ test.describe("Favicon Generator — upload happy path", () => {
 		await expect(downloadBtn).toBeVisible({ timeout: 15000 });
 
 		// Size previews should be shown
-		await expect(page.getByText("16x16")).toBeVisible();
-		await expect(page.getByText("32x32")).toBeVisible();
-		await expect(page.getByText("48x48")).toBeVisible();
+		await expect(page.getByText("16x16", { exact: true })).toBeVisible();
+		await expect(page.getByText("32x32", { exact: true })).toBeVisible();
+		await expect(page.getByText("48x48", { exact: true })).toBeVisible();
 	});
 });
