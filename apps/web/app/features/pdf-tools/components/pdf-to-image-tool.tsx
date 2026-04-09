@@ -265,6 +265,13 @@ export default function PdfToImageTool({
 		setStatus("error");
 	}, []);
 
+	const reprocessIfDone = useCallback(() => {
+		if (status === "done" && file) {
+			setStatus("processing");
+			setPages([]);
+		}
+	}, [status, file]);
+
 	const reset = useCallback(() => {
 		setFile(null);
 		setStatus("idle");
@@ -279,7 +286,10 @@ export default function PdfToImageTool({
 					<span className="text-sm font-medium">Resolution</span>
 					<Select
 						value={String(dpi)}
-						onValueChange={(v) => setDpi(Number(v) as Dpi)}
+						onValueChange={(v) => {
+							setDpi(Number(v) as Dpi);
+							reprocessIfDone();
+						}}
 					>
 						<SelectTrigger className="w-[200px]">
 							<SelectValue />
@@ -299,7 +309,10 @@ export default function PdfToImageTool({
 						<span className="text-sm font-medium">JPG Quality: {quality}%</span>
 						<Slider
 							value={[quality]}
-							onValueChange={(v) => setQuality(v[0])}
+							onValueChange={(v) => {
+								setQuality(v[0]);
+								reprocessIfDone();
+							}}
 							min={10}
 							max={100}
 							step={1}

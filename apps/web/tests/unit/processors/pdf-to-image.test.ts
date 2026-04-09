@@ -209,6 +209,59 @@ describe("pdfToImages processor", () => {
 		).rejects.toThrow("password-protected");
 	});
 
+	it("should pass quality parameter to canvas.toBlob for JPEG", async () => {
+		const { pdfToImages } = await import(
+			"~/features/pdf-tools/processors/pdf-to-image"
+		);
+
+		const page = createMockPage(100, 100);
+		mockGetDocument.mockResolvedValue({
+			numPages: 1,
+			getPage: vi.fn().mockResolvedValue(page),
+		});
+
+		const file = new File(["fake-pdf-data"], "test.pdf", {
+			type: "application/pdf",
+		});
+
+		await pdfToImages(file, {
+			outputFormat: "image/jpeg",
+			quality: 0.5,
+		});
+
+		expect(canvas.toBlob).toHaveBeenCalledWith(
+			expect.any(Function),
+			"image/jpeg",
+			0.5,
+		);
+	});
+
+	it("should not pass quality parameter for PNG output", async () => {
+		const { pdfToImages } = await import(
+			"~/features/pdf-tools/processors/pdf-to-image"
+		);
+
+		const page = createMockPage(100, 100);
+		mockGetDocument.mockResolvedValue({
+			numPages: 1,
+			getPage: vi.fn().mockResolvedValue(page),
+		});
+
+		const file = new File(["fake-pdf-data"], "test.pdf", {
+			type: "application/pdf",
+		});
+
+		await pdfToImages(file, {
+			outputFormat: "image/png",
+		});
+
+		expect(canvas.toBlob).toHaveBeenCalledWith(
+			expect.any(Function),
+			"image/png",
+			undefined,
+		);
+	});
+
 	it("should use default DPI of 150 when not specified", async () => {
 		const { pdfToImages } = await import(
 			"~/features/pdf-tools/processors/pdf-to-image"
