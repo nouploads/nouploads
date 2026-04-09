@@ -159,10 +159,9 @@ export default function PdfCompressTool() {
 										className="absolute right-0 top-0 whitespace-nowrap text-xs text-muted-foreground transition-opacity duration-300"
 										style={{ opacity: processing ? 0 : 1 }}
 									>
-										{formatFileSize(result.compressedSize)} —{" "}
 										{result.compressedSize < result.originalSize
-											? `${Math.round((1 - result.compressedSize / result.originalSize) * 100)}% smaller`
-											: "no reduction"}
+											? `${formatFileSize(result.compressedSize)} — ${Math.round((1 - result.compressedSize / result.originalSize) * 100)}% smaller`
+											: "Could not reduce"}
 									</span>
 								)}
 							</div>
@@ -204,7 +203,7 @@ export default function PdfCompressTool() {
 						)}
 
 						{/* Done state: show size comparison */}
-						{!processing && result && (
+						{!processing && result && !resultIsLarger && (
 							<div className="rounded-lg border bg-card p-4 space-y-3">
 								<div className="grid grid-cols-2 gap-4 text-sm">
 									<div>
@@ -224,20 +223,22 @@ export default function PdfCompressTool() {
 									{result.pageCount} {result.pageCount === 1 ? "page" : "pages"}{" "}
 									processed
 								</p>
+							</div>
+						)}
 
-								{resultIsLarger && (
-									<p className="text-xs text-amber-600 dark:text-amber-400">
-										The compressed file is not smaller than the original.
-										Text-heavy or already-optimized PDFs may not compress
-										further with this image-based method.
-									</p>
-								)}
+						{!processing && resultIsLarger && (
+							<div className="rounded-lg border border-amber-600/30 bg-amber-600/5 p-4">
+								<p className="text-sm text-amber-600 dark:text-amber-400">
+									This PDF couldn't be compressed further. Text-heavy or
+									already-optimized PDFs may not benefit from image-based
+									compression.
+								</p>
 							</div>
 						)}
 
 						{/* Actions */}
 						<div className="flex items-center gap-3">
-							{!processing && result && (
+							{!processing && result && !resultIsLarger && (
 								<DownloadButton
 									blob={result.blob}
 									filename={compressionFilename(file.name)}
