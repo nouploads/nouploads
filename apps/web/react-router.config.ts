@@ -9,6 +9,8 @@ export default {
 	prerender: [
 		"/",
 		"/about",
+		"/privacy",
+		"/self-hosting",
 		"/image",
 		"/image/heic-to-jpg",
 		"/image/heic-to-png",

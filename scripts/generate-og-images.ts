@@ -40,6 +40,16 @@ const PAGES: PageInfo[] = [
 		title: "About NoUploads",
 		description: "Privacy-first file tools — no uploads, no servers",
 	},
+	{
+		path: "/privacy",
+		title: "Privacy",
+		description: "No data collection, no cookies, no third-party scripts",
+	},
+	{
+		path: "/self-hosting",
+		title: "Self-Host NoUploads",
+		description: "Run your own instance with Docker or any web server",
+	},
 	// Image tools
 	{
 		path: "/image",

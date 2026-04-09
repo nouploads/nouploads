@@ -3,6 +3,8 @@ import { index, type RouteConfig, route } from "@react-router/dev/routes";
 export default [
 	index("routes/home.tsx"),
 	route("about", "routes/about.tsx"),
+	route("privacy", "routes/privacy.tsx"),
+	route("self-hosting", "routes/self-hosting.tsx"),
 	route("image", "routes/image/index.tsx"),
 	route("image/heic-to-jpg", "routes/image/heic-to-jpg.tsx"),
 	route("image/heic-to-png", "routes/image/heic-to-png.tsx"),
