@@ -29,9 +29,9 @@ const PERM_HIGH_BITS = 0xfffff000;
  * Padding string defined in PDF spec §7.6.3.3 (Algorithm 2).
  */
 const PASSWORD_PADDING = new Uint8Array([
-	0x28, 0xbf, 0x4e, 0x5e, 0x4e, 0x75, 0x8a, 0x41, 0x64, 0x00, 0x4b, 0x49, 0x53,
-	0x30, 0x30, 0x30, 0x44, 0x6a, 0x04, 0x04, 0x6d, 0xb6, 0xd0, 0x68, 0x3e, 0x80,
-	0x2f, 0x0c, 0xa9, 0xfe, 0x64, 0x53, 0x69, 0x7a,
+	0x28, 0xbf, 0x4e, 0x5e, 0x4e, 0x75, 0x8a, 0x41, 0x64, 0x00, 0x4e, 0x56, 0xff,
+	0xfa, 0x01, 0x08, 0x2e, 0x2e, 0x00, 0xb6, 0xd0, 0x68, 0x3e, 0x80, 0x2f, 0x0c,
+	0xa9, 0xfe, 0x64, 0x53, 0x69, 0x7a,
 ]);
 
 function padPassword(password: string): Uint8Array {
@@ -264,6 +264,102 @@ function toHex(bytes: Uint8Array): string {
 		.join("");
 }
 
+/** Compute per-object encryption key per PDF spec §7.6.2. */
+function computeObjectKey(
+	encryptionKey: Uint8Array,
+	objectNumber: number,
+	generationNumber: number,
+): Uint8Array {
+	const input = new Uint8Array(encryptionKey.length + 5);
+	input.set(encryptionKey);
+	const n = encryptionKey.length;
+	input[n] = objectNumber & 0xff;
+	input[n + 1] = (objectNumber >> 8) & 0xff;
+	input[n + 2] = (objectNumber >> 16) & 0xff;
+	input[n + 3] = generationNumber & 0xff;
+	input[n + 4] = (generationNumber >> 8) & 0xff;
+	const hash = md5(input);
+	return hash.subarray(0, Math.min(encryptionKey.length + 5, 16));
+}
+
+type PdfLib = typeof import("pdf-lib");
+
+/** Recursively encrypt PDFString/PDFHexString values inside a PDFDict. */
+function encryptDictStrings(
+	dict: import("pdf-lib").PDFDict,
+	objKey: Uint8Array,
+	lib: PdfLib,
+): void {
+	for (const [key, value] of dict.entries()) {
+		if (value instanceof lib.PDFString || value instanceof lib.PDFHexString) {
+			const encrypted = rc4(objKey, value.asBytes());
+			dict.set(key, lib.PDFHexString.of(toHex(encrypted)));
+		} else if (value instanceof lib.PDFDict) {
+			encryptDictStrings(value, objKey, lib);
+		} else if (value instanceof lib.PDFArray) {
+			encryptArrayStrings(value, objKey, lib);
+		}
+	}
+}
+
+/** Recursively encrypt PDFString/PDFHexString values inside a PDFArray. */
+function encryptArrayStrings(
+	arr: import("pdf-lib").PDFArray,
+	objKey: Uint8Array,
+	lib: PdfLib,
+): void {
+	for (let i = 0; i < arr.size(); i++) {
+		const value = arr.get(i);
+		if (value instanceof lib.PDFString || value instanceof lib.PDFHexString) {
+			const encrypted = rc4(objKey, value.asBytes());
+			arr.set(i, lib.PDFHexString.of(toHex(encrypted)));
+		} else if (value instanceof lib.PDFDict) {
+			encryptDictStrings(value, objKey, lib);
+		} else if (value instanceof lib.PDFArray) {
+			encryptArrayStrings(value, objKey, lib);
+		}
+	}
+}
+
+/**
+ * Encrypt all string and stream objects in the PDF per the Standard
+ * encryption handler (V=2, R=3, RC4-128).
+ */
+function encryptObjects(
+	ctx: import("pdf-lib").PDFContext,
+	encryptionKey: Uint8Array,
+	encryptRef: import("pdf-lib").PDFRef,
+	lib: PdfLib,
+): void {
+	for (const [ref, obj] of ctx.enumerateIndirectObjects()) {
+		if (
+			ref.objectNumber === encryptRef.objectNumber &&
+			ref.generationNumber === encryptRef.generationNumber
+		) {
+			continue;
+		}
+
+		const objKey = computeObjectKey(
+			encryptionKey,
+			ref.objectNumber,
+			ref.generationNumber,
+		);
+
+		if (obj instanceof lib.PDFRawStream) {
+			// contents is writable at runtime; pdf-lib types mark it readonly
+			(obj as unknown as { contents: Uint8Array }).contents = rc4(
+				objKey,
+				obj.contents,
+			);
+			encryptDictStrings(obj.dict, objKey, lib);
+		} else if (obj instanceof lib.PDFDict) {
+			encryptDictStrings(obj, objKey, lib);
+		} else if (obj instanceof lib.PDFArray) {
+			encryptArrayStrings(obj, objKey, lib);
+		}
+	}
+}
+
 export async function protectPdf(
 	file: File,
 	options?: ProtectPdfOptions,
@@ -283,9 +379,8 @@ export async function protectPdf(
 		throw new Error("At least one password (user or owner) is required");
 	}
 
-	const { PDFDocument, PDFHexString, PDFName, PDFArray } = await import(
-		"pdf-lib"
-	);
+	const pdfLib = await import("pdf-lib");
+	const { PDFDocument, PDFHexString, PDFName, PDFArray } = pdfLib;
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
@@ -353,11 +448,14 @@ export async function protectPdf(
 	idArray.push(PDFHexString.of(idHex));
 	ctx.trailerInfo.ID = idArray;
 
+	// Encrypt all string and stream objects with per-object RC4 keys
+	encryptObjects(ctx, encryptionKey, encryptRef, pdfLib);
+
 	onProgress?.(80);
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
-	const pdfBytes = await doc.save();
+	const pdfBytes = await doc.save({ useObjectStreams: false });
 
 	onProgress?.(100);
 

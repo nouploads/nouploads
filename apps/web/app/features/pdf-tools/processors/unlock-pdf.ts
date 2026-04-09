@@ -44,6 +44,13 @@ export async function unlockPdf(
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
+	// Strip the /Encrypt dictionary so the saved PDF has no encryption.
+	// pdf-lib's ignoreEncryption only skips validation during load — it
+	// preserves the encryption metadata in the document context, so
+	// doc.save() would re-serialize it and produce a still-locked PDF.
+	const ctx = doc.context;
+	delete ctx.trailerInfo.Encrypt;
+
 	const pdfBytes = await doc.save();
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
