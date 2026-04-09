@@ -52,6 +52,16 @@ describe("optimizeSvg", () => {
 			optimizeSvg(blob, { signal: controller.signal }),
 		).rejects.toThrow("Aborted");
 	});
+
+	it("should optimize SVGs with complex arc paths", async () => {
+		const arcSvg =
+			'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M10 10 A 40 40 0 0 1 50 50 A 40 40 0 0 1 90 90 A 40 40 0 1 0 130 130"/></svg>';
+		const blob = new Blob([arcSvg], { type: "image/svg+xml" });
+		const result = await optimizeSvg(blob);
+
+		expect(result.svg).toContain("<svg");
+		expect(result.optimizedSize).toBeGreaterThan(0);
+	});
 });
 
 describe("svgToSvgz", () => {
