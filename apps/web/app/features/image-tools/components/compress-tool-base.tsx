@@ -360,8 +360,12 @@ function SingleFileView({
 			)}
 
 			<div className="flex items-center gap-3 h-9">
-				{resultBlob && !showProcessing && (
-					<DownloadButton blob={resultBlob} filename={outputFilename} />
+				{resultBlob && (
+					<DownloadButton
+						blob={resultBlob}
+						filename={outputFilename}
+						disabled={!!showProcessing}
+					/>
 				)}
 				<Button variant="outline" onClick={onReset}>
 					Compress more

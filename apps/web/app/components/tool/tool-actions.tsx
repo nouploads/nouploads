@@ -7,9 +7,15 @@ interface DownloadButtonProps {
 	blob: Blob;
 	filename: string;
 	label?: string;
+	disabled?: boolean;
 }
 
-export function DownloadButton({ blob, filename, label }: DownloadButtonProps) {
+export function DownloadButton({
+	blob,
+	filename,
+	label,
+	disabled,
+}: DownloadButtonProps) {
 	const download = useCallback(() => {
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement("a");
@@ -22,7 +28,7 @@ export function DownloadButton({ blob, filename, label }: DownloadButtonProps) {
 	}, [blob, filename]);
 
 	return (
-		<Button onClick={download} className="gap-2">
+		<Button onClick={download} disabled={disabled} className="gap-2">
 			<Download className="h-4 w-4" />
 			{label || `Download (${formatFileSize(blob.size)})`}
 		</Button>

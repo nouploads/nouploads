@@ -192,8 +192,12 @@ function SingleFileView({
 			)}
 
 			<div className="flex items-center gap-3 h-9">
-				{resultBlob && !processing && (
-					<DownloadButton blob={resultBlob} filename={outputFilename} />
+				{resultBlob && (
+					<DownloadButton
+						blob={resultBlob}
+						filename={outputFilename}
+						disabled={processing}
+					/>
 				)}
 				<Button variant="outline" onClick={onReset}>
 					Remove from another

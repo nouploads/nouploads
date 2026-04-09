@@ -235,11 +235,12 @@ export default function FaviconGeneratorTool() {
 
 					{/* Actions */}
 					<div className="flex items-center gap-3 h-9">
-						{result && !processing && (
+						{result && (
 							<DownloadButton
 								blob={result.icoBlob}
 								filename={outputFilename}
 								label="Download .ico"
+								disabled={processing}
 							/>
 						)}
 						<Button variant="outline" onClick={reset}>

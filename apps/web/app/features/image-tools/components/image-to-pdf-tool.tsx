@@ -287,8 +287,12 @@ export default function ImageToPdfTool() {
 								</Button>
 							)}
 
-							{resultBlob && !processing && (
-								<DownloadButton blob={resultBlob} filename={outputFilename} />
+							{resultBlob && (
+								<DownloadButton
+									blob={resultBlob}
+									filename={outputFilename}
+									disabled={processing}
+								/>
 							)}
 
 							<Button variant="outline" onClick={reset}>

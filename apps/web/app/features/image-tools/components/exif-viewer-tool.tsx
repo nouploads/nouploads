@@ -316,10 +316,11 @@ export default function ExifViewerTool() {
 										</Button>
 									)}
 
-									{strippedBlob && !stripping && (
+									{strippedBlob && (
 										<DownloadButton
 											blob={strippedBlob}
 											filename={generateOutputFilename(file.name)}
+											disabled={stripping}
 										/>
 									)}
 								</div>

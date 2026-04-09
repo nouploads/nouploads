@@ -235,8 +235,12 @@ function SingleFileView({
 			) : null}
 
 			<div className="flex items-center gap-3 h-9">
-				{resultBlob && !converting && (
-					<DownloadButton blob={resultBlob} filename={outputFilename} />
+				{resultBlob && (
+					<DownloadButton
+						blob={resultBlob}
+						filename={outputFilename}
+						disabled={converting}
+					/>
 				)}
 				<Button variant="outline" onClick={onReset}>
 					Convert another
