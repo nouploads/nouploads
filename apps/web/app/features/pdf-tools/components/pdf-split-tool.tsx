@@ -131,7 +131,11 @@ export default function PdfSplitTool() {
 								<Button
 									variant={splitMode === "individual" ? "default" : "outline"}
 									size="sm"
-									onClick={() => setSplitMode("individual")}
+									onClick={() => {
+										setSplitMode("individual");
+										setResults([]);
+										setError(null);
+									}}
 									disabled={splitting}
 								>
 									Individual pages
@@ -139,7 +143,11 @@ export default function PdfSplitTool() {
 								<Button
 									variant={splitMode === "custom" ? "default" : "outline"}
 									size="sm"
-									onClick={() => setSplitMode("custom")}
+									onClick={() => {
+										setSplitMode("custom");
+										setResults([]);
+										setError(null);
+									}}
 									disabled={splitting}
 								>
 									Custom ranges

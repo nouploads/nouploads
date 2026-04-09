@@ -20,8 +20,10 @@ test.describe("PDF Split — upload and split", () => {
 			timeout: 10000,
 		});
 
-		// Wait for page count to load (should show "X pages")
-		await expect(page.getByText(/\d+ pages?/)).toBeVisible({
+		// Wait for page count to load (should show "X pages" in the file info)
+		await expect(
+			page.locator(".text-xs.text-muted-foreground").getByText(/\d+ pages?/),
+		).toBeVisible({
 			timeout: 10000,
 		});
 
@@ -41,5 +43,33 @@ test.describe("PDF Split — upload and split", () => {
 
 		// Verify "files ready" label is shown
 		await expect(page.getByText(/\d+ files? ready/)).toBeVisible();
+	});
+
+	test("should clear results when switching split modes", async ({ page }) => {
+		await page.goto("/pdf/split");
+		await uploadViaDropzone(page, join(fixtures, "sample.pdf"));
+
+		// Wait for page count to load
+		await expect(
+			page.locator(".text-xs.text-muted-foreground").getByText(/\d+ pages?/),
+		).toBeVisible({ timeout: 10000 });
+
+		// Split in individual mode
+		const splitButton = page.getByRole("button", {
+			name: /split into \d+ pages?/i,
+		});
+		await splitButton.click();
+		await expect(page.getByText(/\d+ files? ready/)).toBeVisible({
+			timeout: 15000,
+		});
+
+		// Switch to custom mode — old results should disappear
+		await page.getByRole("button", { name: /custom ranges/i }).click();
+		await expect(page.getByText(/\d+ files? ready/)).not.toBeVisible();
+
+		// Split button area should be visible again (not hidden by stale results)
+		await expect(
+			page.getByRole("button", { name: /split pdf/i }),
+		).toBeVisible();
 	});
 });
