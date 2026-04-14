@@ -242,3 +242,43 @@ describe("convertCase dispatcher", () => {
 		expect(convertCase("", "dot")).toBe("");
 	});
 });
+
+describe("splitWords edge cases", () => {
+	it("should strip leading and trailing separators", () => {
+		expect(splitWords("  hello world  ")).toEqual(["hello", "world"]);
+		expect(splitWords("__hello__world__")).toEqual(["hello", "world"]);
+		expect(splitWords("--hello--world--")).toEqual(["hello", "world"]);
+	});
+
+	it("should collapse runs of mixed separators", () => {
+		expect(splitWords("hello___world")).toEqual(["hello", "world"]);
+		expect(splitWords("hello - - world")).toEqual(["hello", "world"]);
+	});
+
+	it("should not split across non-ASCII letters (current behavior)", () => {
+		// The splitWords regex uses ASCII [a-z][A-Z] — non-ASCII letters
+		// are not recognized as word characters, so they stay glued together.
+		expect(splitWords("héllo wörld")).toEqual(["héllo", "wörld"]);
+	});
+
+	it("should treat digits as part of the preceding word", () => {
+		expect(splitWords("version2update")).toEqual(["version2update"]);
+		expect(splitWords("item42_foo")).toEqual(["item42", "foo"]);
+	});
+});
+
+describe("convertCase round-trips", () => {
+	it("should roundtrip camelCase → snake_case → camelCase", () => {
+		const original = "helloWorldExample";
+		const snake = toSnakeCase(original);
+		expect(snake).toBe("hello_world_example");
+		expect(toCamelCase(snake)).toBe(original);
+	});
+
+	it("should roundtrip PascalCase → kebab-case → PascalCase", () => {
+		const original = "HelloWorldExample";
+		const kebab = toKebabCase(original);
+		expect(kebab).toBe("hello-world-example");
+		expect(toPascalCase(kebab)).toBe(original);
+	});
+});

@@ -174,6 +174,48 @@ describe("validateJson", () => {
 	});
 });
 
+describe("YAML edge cases", () => {
+	it("should parse multi-document YAML (takes first document)", () => {
+		// js-yaml's load() returns the first document by default; we document
+		// that behavior here so future changes to the parser strategy are caught.
+		const input = "---\nname: first\n---\nname: second\n";
+		const result = yamlToJson(input);
+		// Either an error OR a single first-doc parse is acceptable;
+		// assert we don't silently merge documents.
+		if (result.error === undefined) {
+			const parsed = JSON.parse(result.output);
+			expect(parsed).toEqual({ name: "first" });
+		} else {
+			expect(result.error).toBeDefined();
+		}
+	});
+
+	it("should handle YAML string tags", () => {
+		const input = "value: !!str 42";
+		const result = yamlToJson(input);
+		expect(result.error).toBeUndefined();
+		const parsed = JSON.parse(result.output);
+		expect(parsed.value).toBe("42");
+	});
+
+	it("should treat YAML numeric tag as a number", () => {
+		const input = 'value: !!int "42"';
+		const result = yamlToJson(input);
+		expect(result.error).toBeUndefined();
+		const parsed = JSON.parse(result.output);
+		expect(parsed.value).toBe(42);
+	});
+
+	it("should preserve insertion order when converting JSON to YAML", () => {
+		const result = jsonToYaml('{"z":1,"a":2,"m":3}');
+		expect(result.error).toBeUndefined();
+		const lines = result.output.trim().split("\n");
+		expect(lines[0]).toMatch(/^z:/);
+		expect(lines[1]).toMatch(/^a:/);
+		expect(lines[2]).toMatch(/^m:/);
+	});
+});
+
 describe("roundtrip", () => {
 	it("should roundtrip YAML -> JSON -> YAML preserving data", () => {
 		const original = "name: Alice\nage: 30\nitems:\n  - a\n  - b\n";

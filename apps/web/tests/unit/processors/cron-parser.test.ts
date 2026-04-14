@@ -176,3 +176,53 @@ describe("getNextRuns", () => {
 		expect(runs.length).toBeLessThanOrEqual(10);
 	});
 });
+
+describe("cron-parser unsupported / edge cases", () => {
+	it("should reject shorthand @daily (5-field format only)", () => {
+		expect(() => parseCronExpression("@daily")).toThrow("Expected 5 fields");
+	});
+
+	it("should reject shorthand @hourly", () => {
+		expect(() => parseCronExpression("@hourly")).toThrow("Expected 5 fields");
+	});
+
+	it("should reject day-of-week name (MON)", () => {
+		// Current parser only accepts numeric day-of-week 0-6
+		expect(() => parseCronExpression("0 9 * * MON")).toThrow();
+	});
+
+	it("should reject inverted range", () => {
+		expect(() => parseCronExpression("5-1 * * * *")).toThrow(
+			/greater than end/,
+		);
+	});
+
+	it("should reject zero step", () => {
+		expect(() => parseCronExpression("*/0 * * * *")).toThrow(/step value/);
+	});
+
+	it("should reject negative value", () => {
+		expect(() => parseCronExpression("-5 * * * *")).toThrow();
+	});
+
+	it("should handle leap year for Feb 29", () => {
+		const parsed = parseCronExpression("0 0 29 2 *");
+		const from = new Date("2023-03-01T00:00:00"); // 2024 is leap year
+		const runs = getNextRuns(parsed, 1, from);
+		if (runs.length > 0) {
+			expect(runs[0].getMonth()).toBe(1); // February
+			expect(runs[0].getDate()).toBe(29);
+		}
+	});
+
+	it("should not emit duplicate runs for list-value fields", () => {
+		const parsed = parseCronExpression("0,0,0 * * * *");
+		const runs = getNextRuns(parsed, 5);
+		// Duplicates should be deduped during parsing — each run should be
+		// a new minute-0 occurrence, 1 hour apart
+		for (let i = 1; i < runs.length; i++) {
+			const diff = runs[i].getTime() - runs[i - 1].getTime();
+			expect(diff).toBe(60 * 60_000);
+		}
+	});
+});

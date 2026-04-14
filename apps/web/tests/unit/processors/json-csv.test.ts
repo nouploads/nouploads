@@ -270,6 +270,36 @@ describe("csvToJson", () => {
 	});
 });
 
+describe("CSV edge cases", () => {
+	it("should parse CRLF line endings", () => {
+		const input = "a,b\r\n1,2\r\n3,4";
+		const result = csvToJson(input);
+		const parsed = JSON.parse(result);
+		expect(parsed).toEqual([
+			{ a: "1", b: "2" },
+			{ a: "3", b: "4" },
+		]);
+	});
+
+	it("should parse quoted fields containing newlines spanning multiple physical lines", () => {
+		const input = 'note,tag\n"line1\nline2",ok';
+		const result = csvToJson(input);
+		const parsed = JSON.parse(result);
+		expect(parsed).toEqual([{ note: "line1\nline2", tag: "ok" }]);
+	});
+
+	it("should throw on empty header row", () => {
+		expect(() => csvToJson(",,\n1,2,3")).toThrow(/header row/);
+	});
+
+	it("should handle trailing newline after last data row", () => {
+		const input = "a,b\n1,2\n";
+		const result = csvToJson(input);
+		const parsed = JSON.parse(result);
+		expect(parsed).toEqual([{ a: "1", b: "2" }]);
+	});
+});
+
 describe("roundtrip", () => {
 	it("should roundtrip JSON→CSV→JSON preserving string values", () => {
 		const original = [

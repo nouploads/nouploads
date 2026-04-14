@@ -141,6 +141,35 @@ describe("estimateReadingTime", () => {
 	});
 });
 
+describe("Unicode and edge cases", () => {
+	it("should count CJK text as one word when no spaces separate glyphs", () => {
+		// Chinese "Hello world" with no inter-word spaces — current behavior
+		// splits on whitespace only, so the entire string is 1 "word".
+		expect(countWords("你好世界")).toBe(1);
+	});
+
+	it("should count space-separated CJK as multiple words", () => {
+		expect(countWords("你好 世界")).toBe(2);
+	});
+
+	it("should count emoji as a word when separated by whitespace", () => {
+		expect(countWords("hello 👋 world")).toBe(3);
+	});
+
+	it("should include emoji in character count", () => {
+		// JS string length counts surrogate pairs as 2 code units
+		expect(countCharacters("👋")).toBe(2);
+	});
+
+	it("should handle RTL text (Arabic)", () => {
+		expect(countWords("مرحبا بالعالم")).toBe(2);
+	});
+
+	it("should handle mixed scripts", () => {
+		expect(countWords("hello مرحبا 你好")).toBe(3);
+	});
+});
+
 describe("analyzeText", () => {
 	it("should return all stats for sample text", () => {
 		const stats = analyzeText("Hello world. How are you?");

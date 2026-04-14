@@ -98,6 +98,65 @@ describe("beautifyCss", () => {
 	});
 });
 
+describe("CSS edge cases", () => {
+	it("should minify @keyframes blocks", () => {
+		const input = `@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}`;
+		const result = minifyCss(input);
+		expect(result).toContain("@keyframes fadeIn");
+		expect(result).toContain("from{opacity:0}");
+		expect(result).toContain("to{opacity:1}");
+		expect(result).not.toContain("\n");
+	});
+
+	it("should preserve CSS custom properties (variables)", () => {
+		const input = `:root {
+  --primary-color: #007bff;
+  --spacing: 16px;
+}`;
+		const result = minifyCss(input);
+		expect(result).toContain("--primary-color:#007bff");
+		expect(result).toContain("--spacing:16px");
+	});
+
+	it("should preserve calc() expressions", () => {
+		const input = `.box { width: calc(100% - 32px); }`;
+		const result = minifyCss(input);
+		expect(result).toContain("calc(100% - 32px)");
+	});
+
+	it("should preserve var() references", () => {
+		const input = `.box { color: var(--primary-color); }`;
+		const result = minifyCss(input);
+		expect(result).toContain("var(--primary-color)");
+	});
+
+	it("should preserve @supports blocks", () => {
+		const input = `@supports (display: grid) {
+  .grid { display: grid; }
+}`;
+		const result = minifyCss(input);
+		expect(result).toContain("@supports");
+		expect(result).toContain("display:grid");
+	});
+
+	it("should beautify @keyframes blocks without crashing", () => {
+		const input = "@keyframes fadeIn{from{opacity:0}to{opacity:1}}";
+		expect(() => beautifyCss(input)).not.toThrow();
+		const result = beautifyCss(input);
+		expect(result).toContain("@keyframes fadeIn");
+	});
+
+	it("should handle comments inside selectors", () => {
+		const input = "/* header */ h1 { color: red; }";
+		const result = minifyCss(input);
+		expect(result).not.toContain("/*");
+		expect(result).toContain("h1{color:red}");
+	});
+});
+
 describe("calculateSavings", () => {
 	it("should calculate correct savings for minification", () => {
 		const original = "body {\n  color: red;\n  margin: 0;\n}";
