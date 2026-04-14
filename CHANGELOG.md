@@ -1,5 +1,45 @@
 # Changelog
 
+## [0.3.0] - 2026-04-14
+
+### Added
+
+- 10 new developer and utility tools: YAML ↔ JSON converter, EXIF metadata stripper, PDF reorder, JSON ↔ CSV converter, cron parser, color palette extractor, case converter, CSS formatter/minifier, word counter, lorem ipsum generator
+- New `/privacy` and `/self-hosting` pages
+- Redesigned homepage with new hero, popular tools grid, and open source section
+- Enhanced about page with feature comparison table and org section
+- First-page previews for PDF watermark, page numbers, rotate, and split tools
+- SEO overhaul: visual breadcrumbs, related tools section, redesigned 4-column footer, BreadcrumbList JSON-LD, enriched titles and descriptions across all 108 pages
+
+### Fixed
+
+- Lorem ipsum count input now allows clearing the field and surfaces inline validation errors for out-of-range values
+- SVG optimizer falls back to regex when SVGO's parser crashes on malformed input
+- PDF-to-image reprocesses when DPI changes after completion
+- PDF password padding and per-object stream encryption now match the PDF spec
+- Safari PDF text extraction works via a ReadableStream asyncIterator polyfill
+- Image filters fall back to manual pixel manipulation on Safari (CSS filter gaps)
+- Clearer macOS Safari HEIC conversion error message
+- Stale results cleared when switching PDF split modes
+- Download hidden when PDF compression would increase file size
+- Hydration warning suppressed and file drops outside dropzones blocked
+- Resize tool snaps height to aspect ratio when re-locking
+- Download button stays visible but disabled during re-processing
+- Category index pages now use correct heading order
+- Slider thumbs and SelectTrigger buttons have aria-labels
+- PDF reorder drag handlers use the correct DragEvent type
+- Lighthouse assertions now use Lighthouse 13 directly instead of `@lhci/cli`
+
+### Maintenance
+
+- Expanded unit and E2E coverage for the 10 new tools, including abort handling, invalid input, and edge cases (CJK/RTL/emoji, Unicode, CRLF, multi-document YAML, etc.)
+- Husky pre-push hook and CI-matching validation script (typecheck, lint, build, unit, E2E smoke)
+- Docker image optimized with alpine and minimal runtime deps
+- Shared CI build artifacts and cached Playwright browsers
+- Build-only dependencies moved to devDependencies
+- Documentation refresh across CLAUDE.md and SEO_RULES.md for the monorepo structure
+- `/release` skill shared with all collaborators
+
 ## [0.2.0] - 2026-03-31
 
 ### Added
