@@ -45,4 +45,34 @@ test.describe("Strip Metadata Tool Page", () => {
 			.getAttribute("href");
 		expect(canonical).toContain("/image/strip-metadata");
 	});
+
+	test("should surface an error when a corrupt image is uploaded", async ({
+		page,
+	}) => {
+		await expect(page.getByText(/drop files here/i)).toBeVisible();
+
+		// Create a file that *claims* to be a JPG (extension + mime) but whose
+		// contents are random bytes — createImageBitmap will reject it.
+		const input = page.locator(
+			'input[type="file"][data-listener-ready="true"]',
+		);
+		await input.waitFor({ state: "attached", timeout: 10000 });
+		await input.setInputFiles({
+			name: "corrupt.jpg",
+			mimeType: "image/jpeg",
+			buffer: Buffer.from("not actually a jpeg"),
+		});
+		await page.evaluate(() => {
+			const el = document.querySelector(
+				'input[type="file"]',
+			) as HTMLInputElement;
+			if (el) el.dispatchEvent(new Event("change", { bubbles: true }));
+		});
+
+		await expect(page.getByText("corrupt.jpg").first()).toBeVisible();
+		// FileCard renders per-file errors with the text-destructive class
+		await expect(page.locator(".text-destructive").first()).toBeVisible({
+			timeout: 10000,
+		});
+	});
 });

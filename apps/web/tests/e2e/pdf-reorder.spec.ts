@@ -1,4 +1,9 @@
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
+import { uploadViaDropzone } from "./helpers/upload-file";
+
+const fixtures = join(dirname(fileURLToPath(import.meta.url)), "fixtures");
 
 test.describe("PDF Reorder Tool Page", () => {
 	test.beforeEach(async ({ page }) => {
@@ -34,5 +39,21 @@ test.describe("PDF Reorder Tool Page", () => {
 			.locator('link[rel="canonical"]')
 			.getAttribute("href");
 		expect(canonical).toContain("/pdf/reorder");
+	});
+
+	test("should surface an error when a non-PDF file is uploaded", async ({
+		page,
+	}) => {
+		await expect(page.getByText(/drop a file here/i)).toBeVisible({
+			timeout: 10000,
+		});
+		// JPG is not a PDF — pdf-lib.load() should reject it
+		await uploadViaDropzone(page, join(fixtures, "sample.jpg"));
+
+		// An error message should appear — exact copy varies by browser/pdf-lib
+		// version, but the destructive styling is consistent.
+		await expect(page.locator(".text-destructive").first()).toBeVisible({
+			timeout: 15000,
+		});
 	});
 });

@@ -14,16 +14,18 @@ test.describe("Strip Metadata — upload and strip", () => {
 
 		await uploadViaDropzone(page, join(fixtures, "sample.jpg"));
 
-		// File name should appear
-		await expect(page.getByText("sample.jpg")).toBeVisible();
+		// File name should appear (may render twice — file card + list)
+		await expect(page.getByText("sample.jpg").first()).toBeVisible();
 
 		// Wait for processing to complete — "Clean" badge should appear
-		await expect(page.getByText("Clean", { exact: true })).toBeVisible({
+		await expect(page.getByText("Clean", { exact: true }).first()).toBeVisible({
 			timeout: 15000,
 		});
 
 		// Download button should be visible
-		const downloadButton = page.getByRole("button", { name: /download/i });
+		const downloadButton = page
+			.getByRole("button", { name: /download/i })
+			.first();
 		await expect(downloadButton).toBeVisible({ timeout: 5000 });
 	});
 });

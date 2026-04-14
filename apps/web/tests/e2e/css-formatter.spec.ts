@@ -14,7 +14,7 @@ test.describe("CSS Formatter Page", () => {
 
 	test("should have correct meta title", async ({ page }) => {
 		const title = await page.title();
-		expect(title).toContain("CSS Minifier");
+		expect(title).toContain("CSS Formatter");
 		expect(title).toContain("NoUploads");
 	});
 
@@ -99,5 +99,17 @@ test.describe("CSS Formatter Page", () => {
 		await expect(
 			page.getByRole("button", { name: /Upload .css/i }),
 		).toBeVisible();
+	});
+
+	test("should not crash on malformed CSS with unbalanced braces", async ({
+		page,
+	}) => {
+		const input = page.getByLabel("CSS input");
+		await input.fill("a { color: red; b { color: blue");
+		// Should not throw / should still render something in the output area
+		const output = page.getByLabel("CSS output");
+		await expect(output).toBeVisible();
+		// Output should be non-empty (graceful handling, not a crash)
+		await expect(output).not.toHaveValue("");
 	});
 });

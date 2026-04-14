@@ -16,7 +16,8 @@ test.describe("CRON Expression Parser Page", () => {
 
 	test("should have correct meta title", async ({ page }) => {
 		const title = await page.title();
-		expect(title).toContain("CRON");
+		// Meta title uses "Cron" while on-page h1 uses "CRON"
+		expect(title.toLowerCase()).toContain("cron");
 		expect(title).toContain("NoUploads");
 	});
 
