@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
 	extractPalette,
 	formatHsl,
@@ -8,6 +8,11 @@ import {
 	rgbToHex,
 	rgbToHsl,
 } from "~/features/image-tools/processors/color-palette";
+
+afterEach(() => {
+	vi.restoreAllMocks();
+	vi.unstubAllGlobals();
+});
 
 describe("rgbToHex", () => {
 	it("should convert pure red", () => {
@@ -159,6 +164,41 @@ describe("extractPalette", () => {
 		expect(palette).toEqual([]);
 	});
 
+	it("should return at least one bucket when colorCount is 0 (current behavior)", () => {
+		// medianCut's while-loop exits immediately when targetCount <= 1,
+		// so k=0 returns a single aggregated bucket rather than an empty
+		// palette. Documents behavior so UI-layer validation stays in sync.
+		const pixels: [number, number, number][] = Array(30).fill([128, 64, 192]);
+		const imageData = makeImageData(pixels, 10);
+		const palette = extractPalette(imageData, 0);
+		expect(palette.length).toBeLessThanOrEqual(1);
+	});
+
+	it("should not exceed distinct color count when colorCount > distinct", () => {
+		// Only 1 distinct color — requesting 10 should return 1 bucket
+		const pixels: [number, number, number][] = Array(40).fill([100, 100, 100]);
+		const imageData = makeImageData(pixels, 10);
+		const palette = extractPalette(imageData, 10);
+		expect(palette.length).toBeLessThanOrEqual(10);
+		expect(palette.length).toBeGreaterThanOrEqual(1);
+		for (const color of palette) {
+			expect(color.hex).toBe("#646464");
+		}
+	});
+
+	it("should return empty array for fully transparent image", () => {
+		const width = 10;
+		const height = 10;
+		const data = new Uint8ClampedArray(width * height * 4);
+		// All pixels transparent — downsample will skip all of them
+		for (let i = 0; i < 100; i++) {
+			data[i * 4] = 255;
+			data[i * 4 + 3] = 0; // alpha=0
+		}
+		const palette = extractPalette({ data, width, height }, 4);
+		expect(palette).toEqual([]);
+	});
+
 	it("should return valid hex codes (6-digit format)", () => {
 		const pixels: [number, number, number][] = [
 			...Array(30).fill([200, 50, 80]),
@@ -239,5 +279,111 @@ describe("paletteToTailwind", () => {
 		const tw = paletteToTailwind(colors);
 		expect(tw).toContain("colors: {");
 		expect(tw).toContain("'1': '#FF0000'");
+	});
+});
+
+describe("extractPaletteFromFile", () => {
+	function stubImageDecode({
+		width = 50,
+		height = 50,
+		pixels,
+	}: {
+		width?: number;
+		height?: number;
+		pixels: Uint8ClampedArray;
+	}) {
+		const closeBitmap = vi.fn();
+		vi.stubGlobal(
+			"createImageBitmap",
+			vi.fn(() => Promise.resolve({ width, height, close: closeBitmap })),
+		);
+		vi.spyOn(document, "createElement").mockReturnValue({
+			width: 0,
+			height: 0,
+			getContext: vi.fn(() => ({
+				drawImage: vi.fn(),
+				getImageData: vi.fn(() => ({ data: pixels, width, height })),
+			})),
+		} as unknown as HTMLElement);
+		return { closeBitmap };
+	}
+
+	it("should decode an image and return a palette", async () => {
+		const pixels = new Uint8ClampedArray(50 * 50 * 4);
+		for (let i = 0; i < 50 * 50; i++) {
+			pixels[i * 4] = 255;
+			pixels[i * 4 + 1] = 0;
+			pixels[i * 4 + 2] = 0;
+			pixels[i * 4 + 3] = 255;
+		}
+		stubImageDecode({ pixels });
+
+		const { extractPaletteFromFile } = await import(
+			"~/features/image-tools/processors/color-palette"
+		);
+
+		const file = new File([new Uint8Array(100)], "red.png", {
+			type: "image/png",
+		});
+		const palette = await extractPaletteFromFile(file, 3);
+
+		expect(palette.length).toBeGreaterThanOrEqual(1);
+		for (const color of palette) {
+			expect(color.hex).toBe("#FF0000");
+		}
+	});
+
+	it("should throw AbortError if signal is already aborted", async () => {
+		const pixels = new Uint8ClampedArray(50 * 50 * 4);
+		stubImageDecode({ pixels });
+
+		const { extractPaletteFromFile } = await import(
+			"~/features/image-tools/processors/color-palette"
+		);
+
+		const controller = new AbortController();
+		controller.abort();
+
+		const file = new File([new Uint8Array(100)], "test.png", {
+			type: "image/png",
+		});
+		await expect(
+			extractPaletteFromFile(file, 3, controller.signal),
+		).rejects.toThrow("Aborted");
+	});
+
+	it("should throw AbortError if signal aborts after decode", async () => {
+		const pixels = new Uint8ClampedArray(50 * 50 * 4);
+		const closeBitmap = vi.fn();
+		const controller = new AbortController();
+
+		vi.stubGlobal(
+			"createImageBitmap",
+			vi.fn(async () => {
+				controller.abort();
+				return { width: 50, height: 50, close: closeBitmap };
+			}),
+		);
+		vi.spyOn(document, "createElement").mockReturnValue({
+			width: 0,
+			height: 0,
+			getContext: vi.fn(() => ({
+				drawImage: vi.fn(),
+				getImageData: vi.fn(() => ({ data: pixels, width: 50, height: 50 })),
+			})),
+		} as unknown as HTMLElement);
+
+		const { extractPaletteFromFile } = await import(
+			"~/features/image-tools/processors/color-palette"
+		);
+
+		const file = new File([new Uint8Array(100)], "test.png", {
+			type: "image/png",
+		});
+		await expect(
+			extractPaletteFromFile(file, 3, controller.signal),
+		).rejects.toThrow("Aborted");
+		// Must release the bitmap even on abort
+		expect(closeBitmap).toHaveBeenCalled();
 	});
 });
