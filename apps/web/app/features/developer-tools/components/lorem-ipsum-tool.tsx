@@ -12,9 +12,16 @@ import {
 
 type Mode = "paragraphs" | "sentences" | "words";
 
+const MIN_COUNT = 1;
+const MAX_COUNT = 100;
+
 export default function LoremIpsumTool() {
 	const [mode, setMode] = useState<Mode>("paragraphs");
 	const [count, setCount] = useState(5);
+	// Raw input string is tracked separately so the user can clear the field
+	// and retype without React snapping the controlled input back to `count`.
+	const [countInput, setCountInput] = useState("5");
+	const [countError, setCountError] = useState<string | null>(null);
 	const [classicStart, setClassicStart] = useState(true);
 	const [output, setOutput] = useState("");
 	const [copied, setCopied] = useState(false);
@@ -22,7 +29,7 @@ export default function LoremIpsumTool() {
 
 	// Generate text whenever mode/count/classicStart changes
 	useEffect(() => {
-		const clamped = Math.min(100, Math.max(1, count));
+		const clamped = Math.min(MAX_COUNT, Math.max(MIN_COUNT, count));
 		let text: string;
 		switch (mode) {
 			case "sentences":
@@ -61,12 +68,39 @@ export default function LoremIpsumTool() {
 
 	const handleCountChange = useCallback(
 		(e: React.ChangeEvent<HTMLInputElement>) => {
-			const val = Number.parseInt(e.target.value, 10);
-			if (Number.isNaN(val)) return;
-			setCount(Math.min(100, Math.max(1, val)));
+			const raw = e.target.value;
+			setCountInput(raw);
+			if (raw === "") {
+				setCountError(null);
+				return;
+			}
+			const val = Number.parseInt(raw, 10);
+			if (Number.isNaN(val)) {
+				setCountError("Enter a whole number");
+				return;
+			}
+			if (val > MAX_COUNT) {
+				setCountError(`Max is ${MAX_COUNT}`);
+				setCount(MAX_COUNT);
+				return;
+			}
+			if (val < MIN_COUNT) {
+				setCountError(`Min is ${MIN_COUNT}`);
+				setCount(MIN_COUNT);
+				return;
+			}
+			setCountError(null);
+			setCount(val);
 		},
 		[],
 	);
+
+	const handleCountBlur = useCallback(() => {
+		// Snap the input back to the current valid count on blur so the field
+		// never stays empty or out-of-range after the user leaves it.
+		setCountInput(String(count));
+		setCountError(null);
+	}, [count]);
 
 	const words = countWords(output);
 	const chars = countChars(output);
@@ -104,12 +138,24 @@ export default function LoremIpsumTool() {
 					<Input
 						id="lorem-count"
 						type="number"
-						min={1}
-						max={100}
-						value={count}
+						min={MIN_COUNT}
+						max={MAX_COUNT}
+						value={countInput}
 						onChange={handleCountChange}
-						className="w-20"
+						onBlur={handleCountBlur}
+						aria-invalid={countError !== null}
+						aria-describedby={countError ? "lorem-count-error" : undefined}
+						className={`w-20 ${countError ? "border-destructive" : ""}`}
 					/>
+					{countError && (
+						<span
+							id="lorem-count-error"
+							role="alert"
+							className="text-xs text-destructive"
+						>
+							{countError}
+						</span>
+					)}
 				</div>
 
 				{/* Classic start checkbox */}
