@@ -89,6 +89,7 @@ import "./tools/cron-parser.js";
 import "./tools/lorem-ipsum.js";
 import "./tools/sql-formatter.js";
 import "./tools/html-formatter.js";
+import "./tools/js-formatter.js";
 
 // HIGH-LEVEL CONVENIENCE FUNCTION
 import { findToolByFormats } from "./registry.js";

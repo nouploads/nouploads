@@ -112,6 +112,7 @@ export default {
 		"/developer/lorem-ipsum",
 		"/developer/sql-formatter",
 		"/developer/html-formatter",
+		"/developer/js-formatter",
 		"/pdf/page-numbers",
 		"/pdf/protect",
 		"/pdf/unlock",

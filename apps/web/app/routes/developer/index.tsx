@@ -52,6 +52,7 @@ const quickLinks = [
 	{ href: "/developer/lorem-ipsum", label: "Lorem Ipsum" },
 	{ href: "/developer/sql-formatter", label: "SQL Formatter" },
 	{ href: "/developer/html-formatter", label: "HTML Formatter" },
+	{ href: "/developer/js-formatter", label: "JavaScript Formatter" },
 ];
 
 function PillLinks({ links }: { links: { href: string; label: string }[] }) {

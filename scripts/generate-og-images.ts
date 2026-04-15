@@ -580,6 +580,11 @@ const PAGES: PageInfo[] = [
 		description: "Beautify messy HTML markup with configurable indent",
 	},
 	{
+		path: "/developer/js-formatter",
+		title: "JavaScript Formatter",
+		description: "Unminify and beautify compressed JavaScript bundles",
+	},
+	{
 		path: "/image/color-palette",
 		title: "Color Palette Extractor",
 		description: "Extract dominant colors from any image as hex, RGB, and HSL",

@@ -109,6 +109,7 @@ export default [
 	route("developer/lorem-ipsum", "routes/developer/lorem-ipsum.tsx"),
 	route("developer/sql-formatter", "routes/developer/sql-formatter.tsx"),
 	route("developer/html-formatter", "routes/developer/html-formatter.tsx"),
+	route("developer/js-formatter", "routes/developer/js-formatter.tsx"),
 	route("pdf/page-numbers", "routes/pdf/page-numbers.tsx"),
 	route("pdf/protect", "routes/pdf/protect.tsx"),
 	route("pdf/unlock", "routes/pdf/unlock.tsx"),

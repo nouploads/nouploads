@@ -526,8 +526,13 @@ export const relatedToolsMap: Record<
 	],
 	"/developer/html-formatter": [
 		{ title: "CSS Formatter", href: "/developer/css-formatter" },
+		{ title: "JavaScript Formatter", href: "/developer/js-formatter" },
 		{ title: "JSON Formatter", href: "/developer/json-formatter" },
-		{ title: "Markdown Preview", href: "/developer/markdown-preview" },
+	],
+	"/developer/js-formatter": [
+		{ title: "HTML Formatter", href: "/developer/html-formatter" },
+		{ title: "CSS Formatter", href: "/developer/css-formatter" },
+		{ title: "JSON Formatter", href: "/developer/json-formatter" },
 	],
 
 	// ── Vector tools ──
