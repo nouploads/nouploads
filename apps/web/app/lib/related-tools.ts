@@ -524,6 +524,11 @@ export const relatedToolsMap: Record<
 		{ title: "CSS Formatter", href: "/developer/css-formatter" },
 		{ title: "JSON ↔ CSV", href: "/developer/json-csv" },
 	],
+	"/developer/html-formatter": [
+		{ title: "CSS Formatter", href: "/developer/css-formatter" },
+		{ title: "JSON Formatter", href: "/developer/json-formatter" },
+		{ title: "Markdown Preview", href: "/developer/markdown-preview" },
+	],
 
 	// ── Vector tools ──
 	"/vector/svg-optimizer": [

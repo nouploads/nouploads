@@ -575,6 +575,11 @@ const PAGES: PageInfo[] = [
 		description: "Beautify and minify SQL queries across 10 dialects",
 	},
 	{
+		path: "/developer/html-formatter",
+		title: "HTML Formatter",
+		description: "Beautify messy HTML markup with configurable indent",
+	},
+	{
 		path: "/image/color-palette",
 		title: "Color Palette Extractor",
 		description: "Extract dominant colors from any image as hex, RGB, and HSL",

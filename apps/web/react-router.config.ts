@@ -111,6 +111,7 @@ export default {
 		"/developer/json-csv",
 		"/developer/lorem-ipsum",
 		"/developer/sql-formatter",
+		"/developer/html-formatter",
 		"/pdf/page-numbers",
 		"/pdf/protect",
 		"/pdf/unlock",
