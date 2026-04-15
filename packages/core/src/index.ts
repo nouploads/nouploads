@@ -87,6 +87,7 @@ import "./tools/case-converter.js";
 import "./tools/yaml-json.js";
 import "./tools/cron-parser.js";
 import "./tools/lorem-ipsum.js";
+import "./tools/sql-formatter.js";
 
 // HIGH-LEVEL CONVENIENCE FUNCTION
 import { findToolByFormats } from "./registry.js";

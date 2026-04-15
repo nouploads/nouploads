@@ -570,6 +570,11 @@ const PAGES: PageInfo[] = [
 		description: "Generate placeholder text with configurable length",
 	},
 	{
+		path: "/developer/sql-formatter",
+		title: "SQL Formatter",
+		description: "Beautify and minify SQL queries across 10 dialects",
+	},
+	{
 		path: "/image/color-palette",
 		title: "Color Palette Extractor",
 		description: "Extract dominant colors from any image as hex, RGB, and HSL",

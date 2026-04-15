@@ -50,6 +50,7 @@ const quickLinks = [
 	{ href: "/developer/json-csv", label: "JSON ↔ CSV" },
 	{ href: "/developer/yaml-json", label: "YAML ↔ JSON" },
 	{ href: "/developer/lorem-ipsum", label: "Lorem Ipsum" },
+	{ href: "/developer/sql-formatter", label: "SQL Formatter" },
 ];
 
 function PillLinks({ links }: { links: { href: string; label: string }[] }) {

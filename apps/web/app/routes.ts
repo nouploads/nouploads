@@ -107,6 +107,7 @@ export default [
 	route("developer/yaml-json", "routes/developer/yaml-json.tsx"),
 	route("developer/json-csv", "routes/developer/json-csv.tsx"),
 	route("developer/lorem-ipsum", "routes/developer/lorem-ipsum.tsx"),
+	route("developer/sql-formatter", "routes/developer/sql-formatter.tsx"),
 	route("pdf/page-numbers", "routes/pdf/page-numbers.tsx"),
 	route("pdf/protect", "routes/pdf/protect.tsx"),
 	route("pdf/unlock", "routes/pdf/unlock.tsx"),

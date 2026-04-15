@@ -519,6 +519,11 @@ export const relatedToolsMap: Record<
 		{ title: "Text Diff", href: "/developer/text-diff" },
 		{ title: "Markdown Preview", href: "/developer/markdown-preview" },
 	],
+	"/developer/sql-formatter": [
+		{ title: "JSON Formatter", href: "/developer/json-formatter" },
+		{ title: "CSS Formatter", href: "/developer/css-formatter" },
+		{ title: "JSON ↔ CSV", href: "/developer/json-csv" },
+	],
 
 	// ── Vector tools ──
 	"/vector/svg-optimizer": [
