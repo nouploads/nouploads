@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.0] - 2026-04-17
+
+### Added
+
+- SQL formatter tool
+- HTML formatter tool
+- JavaScript formatter tool
+- XML ↔ JSON converter tool
+
+### Maintenance
+
+- Sitemap lastmod date updates
+
 ## [0.3.0] - 2026-04-14
 
 ### Added
