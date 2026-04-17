@@ -90,6 +90,7 @@ import "./tools/lorem-ipsum.js";
 import "./tools/sql-formatter.js";
 import "./tools/html-formatter.js";
 import "./tools/js-formatter.js";
+import "./tools/xml-json.js";
 
 // HIGH-LEVEL CONVENIENCE FUNCTION
 import { findToolByFormats } from "./registry.js";

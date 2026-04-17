@@ -585,6 +585,11 @@ const PAGES: PageInfo[] = [
 		description: "Unminify and beautify compressed JavaScript bundles",
 	},
 	{
+		path: "/developer/xml-json",
+		title: "XML \u2194 JSON Converter",
+		description: "Convert between XML and JSON with attribute preservation",
+	},
+	{
 		path: "/image/color-palette",
 		title: "Color Palette Extractor",
 		description: "Extract dominant colors from any image as hex, RGB, and HSL",

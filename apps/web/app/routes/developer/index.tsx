@@ -53,6 +53,7 @@ const quickLinks = [
 	{ href: "/developer/sql-formatter", label: "SQL Formatter" },
 	{ href: "/developer/html-formatter", label: "HTML Formatter" },
 	{ href: "/developer/js-formatter", label: "JavaScript Formatter" },
+	{ href: "/developer/xml-json", label: "XML ↔ JSON" },
 ];
 
 function PillLinks({ links }: { links: { href: string; label: string }[] }) {

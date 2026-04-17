@@ -113,6 +113,7 @@ export default {
 		"/developer/sql-formatter",
 		"/developer/html-formatter",
 		"/developer/js-formatter",
+		"/developer/xml-json",
 		"/pdf/page-numbers",
 		"/pdf/protect",
 		"/pdf/unlock",
