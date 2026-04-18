@@ -33,8 +33,8 @@ Living document tracking the migration from forked web processors to single-sour
 | `pdf-tools/processors/reorder-pdf.ts` | ❌ | `reorder-pdf` | ✅ | 2 | Direct migration |
 | `pdf-tools/processors/split-pdf.ts` | ❌ | `split-pdf` | ✅ | 2 | Needs Phase 1 `ToolResultMulti` (returns N PDFs) |
 | `pdf-tools/processors/unlock-pdf.ts` | ❌ | `unlock-pdf` | ✅ | 2 | Direct migration |
-| `pdf-tools/processors/pdf-to-text.ts` | ❌ | `pdf-to-text` | ✅ | 2 | Direct migration |
-| `pdf-tools/processors/compress-pdf.ts` | ❌ | (stub only) | ✅ | 2 | **Need new core tool** — promote from browser-only stub |
+| `pdf-tools/processors/pdf-to-text.ts` | ❌ | (stub only) | 🌐 | 5 | Reclassified Phase 2 → 5: web impl uses pdfjs-dist (DOM-only). Stays browser-only. |
+| `pdf-tools/processors/compress-pdf.ts` | ❌ | (stub only) | 🌐 | 5 | Reclassified Phase 2 → 5: web impl uses pdfjs-dist + canvas to rasterize pages, both DOM-only. Stays browser-only. |
 | `pdf-tools/processors/pdf-to-image.ts` | ❌ | (stub only) | 🌐 | 5 | pdfjs-dist needs DOMMatrix; stays browser-only with worker-backed ImageBackend |
 | **vector-tools (2)** | | | | | |
 | `vector-tools/processors/optimize-svg.ts` | ✅ | `optimize-svg` | ✅ | n/a | |
@@ -107,11 +107,11 @@ These are not migrated 1:1; they become implementation details of the worker-bac
 |---|---|---|---|---|
 | Phase 0 — Foundation | 7 tasks | 7 | 0 | ✅ done (2026-04-17) |
 | Phase 1 — Core contract extension | 3 tasks (signal, ToolResultMulti, heic re-classify) | 3 | 0 | ✅ done (2026-04-17) |
-| Phase 2 — PDF migrations | 7 (5 migrate + 1 new core tool + 1 stay browser) | 0 | 7 | pending |
+| Phase 2 — PDF migrations | 4 (unlock, reorder, split, protect) | 0 | 4 | in progress |
 | Phase 3 — Developer migrations | 22 | 0 | 22 | pending |
 | Phase 4.0 — Image spike | 1 (rotate-image) | 0 | 1 | pending |
 | Phase 4.1 — Image rollout | 14 | 0 | 14 | pending |
-| Phase 5 — Browser-only cleanup | 6 (compress-gif, parse-gif-frames, remove-background, compress-png, convert-vector, pdf-to-image) | 0 | 6 | pending |
+| Phase 5 — Browser-only cleanup | 8 (compress-gif, compress-pdf, compress-png, convert-vector, parse-gif-frames, pdf-to-image, pdf-to-text, remove-background) | 0 | 8 | pending |
 | Phase 6 — First npm publish | 1 | 0 | 1 | blocked on Phases 2–5 |
 | Phase 7 — Drift prevention test | 1 | 1 | 0 | ✅ done (2026-04-17) |
 
