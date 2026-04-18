@@ -1,3 +1,8 @@
+/**
+ * Classic lorem ipsum generator. Single source of truth for web and CLI.
+ * Zero dependencies. Sync.
+ */
+
 import { registerTool } from "../registry.js";
 import type { ToolDefinition } from "../tool.js";
 
@@ -62,45 +67,44 @@ function pickRandom<T>(arr: T[]): T {
 
 function buildParagraph(sentenceCount: number): string {
 	const result: string[] = [];
-	for (let i = 0; i < sentenceCount; i++) {
-		result.push(pickRandom(SENTENCES));
-	}
+	for (let i = 0; i < sentenceCount; i++) result.push(pickRandom(SENTENCES));
 	return result.join(" ");
 }
 
-function generateParagraphs(count: number, classicStart: boolean): string {
+export function generateParagraphs(
+	count: number,
+	classicStart: boolean,
+): string {
+	if (count <= 0) return "";
 	const paragraphs: string[] = [];
 	for (let i = 0; i < count; i++) {
-		const sentenceCount = 4 + Math.floor(Math.random() * 5); // 4-8
+		const sentenceCount = 4 + Math.floor(Math.random() * 5);
 		let para = buildParagraph(sentenceCount);
 		if (classicStart && i === 0) {
-			// Ensure the first paragraph starts with the classic opening
 			const classic = SENTENCES[0];
-			if (!para.startsWith(classic)) {
-				para = `${classic} ${para}`;
-			}
+			if (!para.startsWith(classic)) para = `${classic} ${para}`;
 		}
 		paragraphs.push(para);
 	}
 	return paragraphs.join("\n\n");
 }
 
-function generateSentences(count: number, classicStart: boolean): string {
+export function generateSentences(
+	count: number,
+	classicStart: boolean,
+): string {
+	if (count <= 0) return "";
 	const result: string[] = [];
 	for (let i = 0; i < count; i++) {
-		if (classicStart && i === 0) {
-			result.push(SENTENCES[0]);
-		} else {
-			result.push(pickRandom(SENTENCES));
-		}
+		if (classicStart && i === 0) result.push(SENTENCES[0]);
+		else result.push(pickRandom(SENTENCES));
 	}
 	return result.join(" ");
 }
 
-function generateWords(count: number, classicStart: boolean): string {
+export function generateWords(count: number, classicStart: boolean): string {
 	if (count <= 0) return "";
 	const pool: string[] = [];
-	// Build a pool of words from sentences
 	for (const s of SENTENCES) {
 		for (const w of s.replace(/[.,]/g, "").split(/\s+/)) {
 			pool.push(w.toLowerCase());
@@ -117,17 +121,22 @@ function generateWords(count: number, classicStart: boolean): string {
 			words.push(classicWords[i]);
 		}
 	}
+	while (words.length < count) words.push(pickRandom(pool));
 
-	while (words.length < count) {
-		words.push(pickRandom(pool));
-	}
-
-	// Capitalize first word
 	if (words.length > 0) {
 		words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
 	}
 
 	return words.slice(0, count).join(" ");
+}
+
+export function countWords(text: string): number {
+	if (!text.trim()) return 0;
+	return text.trim().split(/\s+/).length;
+}
+
+export function countChars(text: string): number {
+	return text.length;
 }
 
 const tool: ToolDefinition = {
@@ -161,28 +170,16 @@ const tool: ToolDefinition = {
 			default: true,
 		},
 	],
-	capabilities: ["browser"],
 	execute: async (_input, options, _context) => {
 		const mode = (options.mode as string) || "paragraphs";
 		const count = Math.min(Math.max(1, (options.count as number) || 5), 100);
 		const classicStart = options.classicStart !== false;
-
 		let text: string;
-		switch (mode) {
-			case "sentences":
-				text = generateSentences(count, classicStart);
-				break;
-			case "words":
-				text = generateWords(count, classicStart);
-				break;
-			default:
-				text = generateParagraphs(count, classicStart);
-		}
-
-		const output = new TextEncoder().encode(text);
-
+		if (mode === "sentences") text = generateSentences(count, classicStart);
+		else if (mode === "words") text = generateWords(count, classicStart);
+		else text = generateParagraphs(count, classicStart);
 		return {
-			output,
+			output: new TextEncoder().encode(text),
 			extension: ".txt",
 			mimeType: "text/plain",
 			metadata: { mode, count, classicStart },
