@@ -20,7 +20,7 @@ Living document tracking the migration from forked web processors to single-sour
 
 ## Snapshot (2026-04-17)
 
-55 primary web processors. **6 delegating, 49 forked.** 12 worker files (handled separately in Phase 4 backend design, not migrated 1:1).
+55 primary web processors. **10 delegating, 45 forked** (was 6/49 before Phase 2 completed 2026-04-17). 12 worker files (handled separately in Phase 4 backend design, not migrated 1:1).
 
 | Web processor | Current | Core tool ID | Target | Phase | Notes |
 |---|---|---|---|---|---|
@@ -29,10 +29,10 @@ Living document tracking the migration from forked web processors to single-sour
 | `pdf-tools/processors/page-numbers-pdf.ts` | ✅ | `page-numbers-pdf` | ✅ | n/a | |
 | `pdf-tools/processors/rotate-pdf.ts` | ✅ | `rotate-pdf` | ✅ | n/a | |
 | `pdf-tools/processors/watermark-pdf.ts` | ✅ | `watermark-pdf` | ✅ | n/a | |
-| `pdf-tools/processors/protect-pdf.ts` | ❌ | `protect-pdf` | ✅ | 2 | Direct migration |
-| `pdf-tools/processors/reorder-pdf.ts` | ❌ | `reorder-pdf` | ✅ | 2 | Direct migration |
-| `pdf-tools/processors/split-pdf.ts` | ❌ | `split-pdf` | ✅ | 2 | Needs Phase 1 `ToolResultMulti` (returns N PDFs) |
-| `pdf-tools/processors/unlock-pdf.ts` | ❌ | `unlock-pdf` | ✅ | 2 | Direct migration |
+| `pdf-tools/processors/protect-pdf.ts` | ✅ | `protect-pdf` | ✅ | n/a | Migrated 2026-04-17 (Phase 2.4); also fixed core PASSWORD_PADDING + missing encryptObjects bugs |
+| `pdf-tools/processors/reorder-pdf.ts` | ✅ | `reorder-pdf` | ✅ | n/a | Migrated 2026-04-17 (Phase 2.2) |
+| `pdf-tools/processors/split-pdf.ts` | ✅ | `split-pdf` | ✅ | n/a | Migrated 2026-04-17 (Phase 2.3); first ToolResultMulti consumer; also fixed core's silently-broken multi-range path |
+| `pdf-tools/processors/unlock-pdf.ts` | ✅ | `unlock-pdf` | ✅ | n/a | Migrated 2026-04-17 (Phase 2.1); also fixed core's missing `delete trailerInfo.Encrypt` bug |
 | `pdf-tools/processors/pdf-to-text.ts` | ❌ | (stub only) | 🌐 | 5 | Reclassified Phase 2 → 5: web impl uses pdfjs-dist (DOM-only). Stays browser-only. |
 | `pdf-tools/processors/compress-pdf.ts` | ❌ | (stub only) | 🌐 | 5 | Reclassified Phase 2 → 5: web impl uses pdfjs-dist + canvas to rasterize pages, both DOM-only. Stays browser-only. |
 | `pdf-tools/processors/pdf-to-image.ts` | ❌ | (stub only) | 🌐 | 5 | pdfjs-dist needs DOMMatrix; stays browser-only with worker-backed ImageBackend |
@@ -107,7 +107,7 @@ These are not migrated 1:1; they become implementation details of the worker-bac
 |---|---|---|---|---|
 | Phase 0 — Foundation | 7 tasks | 7 | 0 | ✅ done (2026-04-17) |
 | Phase 1 — Core contract extension | 3 tasks (signal, ToolResultMulti, heic re-classify) | 3 | 0 | ✅ done (2026-04-17) |
-| Phase 2 — PDF migrations | 4 (unlock, reorder, split, protect) | 0 | 4 | in progress |
+| Phase 2 — PDF migrations | 4 (unlock, reorder, split, protect) | 4 | 0 | ✅ done (2026-04-17) |
 | Phase 3 — Developer migrations | 22 | 0 | 22 | pending |
 | Phase 4.0 — Image spike | 1 (rotate-image) | 0 | 1 | pending |
 | Phase 4.1 — Image rollout | 14 | 0 | 14 | pending |

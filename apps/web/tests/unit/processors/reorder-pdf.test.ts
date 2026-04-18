@@ -128,4 +128,3 @@ describe("reorderPdf processor", () => {
 		expect(doc.getPageCount()).toBe(4);
 	});
 });
-
