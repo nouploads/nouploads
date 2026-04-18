@@ -1,6 +1,8 @@
-import { js as beautifyJs } from "js-beautify";
+import jsBeautify from "js-beautify";
 import { registerTool } from "../registry.js";
 import type { ToolDefinition } from "../tool.js";
+
+const beautifyJs = jsBeautify.js;
 
 const tool: ToolDefinition = {
 	id: "js-formatter",
