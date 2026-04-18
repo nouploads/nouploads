@@ -22,7 +22,6 @@ export {
 	getToolsByCategory,
 	registerTool,
 } from "./registry.js";
-export { isToolResultMulti } from "./tool.js";
 export type {
 	ToolContext,
 	ToolDefinition,
@@ -33,6 +32,7 @@ export type {
 	ToolResultMulti,
 	ToolResultOutput,
 } from "./tool.js";
+export { isToolResultMulti } from "./tool.js";
 export { createExoticDecoderTool } from "./tools/exotic-factory.js";
 // Factory
 export { createImageConversionTool } from "./tools/factory.js";

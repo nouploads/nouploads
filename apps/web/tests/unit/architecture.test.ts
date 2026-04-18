@@ -123,6 +123,9 @@ describe("Architecture: web processors must delegate to @nouploads/core", () => 
 				}
 			}
 		}
-		expect(stale, "Remove these stale entries from CORE_DELEGATION_EXEMPT:").toEqual([]);
+		expect(
+			stale,
+			"Remove these stale entries from CORE_DELEGATION_EXEMPT:",
+		).toEqual([]);
 	});
 });

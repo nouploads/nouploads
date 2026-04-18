@@ -1,4 +1,4 @@
-import { getTool } from "@nouploads/core";
+import { getTool, isToolResultMulti } from "@nouploads/core";
 
 export interface PageNumbersPdfOptions {
 	position?: string;
@@ -69,6 +69,10 @@ export async function pageNumbersPdf(
 		]);
 	} else {
 		result = await executePromise;
+	}
+
+	if (isToolResultMulti(result)) {
+		throw new Error("page-numbers-pdf unexpectedly returned multiple outputs");
 	}
 
 	const blob = new Blob([result.output as BlobPart], {

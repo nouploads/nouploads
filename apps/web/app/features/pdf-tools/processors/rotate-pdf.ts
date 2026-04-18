@@ -1,4 +1,4 @@
-import { getTool } from "@nouploads/core";
+import { getTool, isToolResultMulti } from "@nouploads/core";
 
 export type RotationAngle = 90 | 180 | 270;
 
@@ -53,6 +53,10 @@ export async function rotatePdf(
 		]);
 	} else {
 		result = await corePromise;
+	}
+
+	if (isToolResultMulti(result)) {
+		throw new Error("rotate-pdf unexpectedly returned multiple outputs");
 	}
 
 	const blob = new Blob([result.output as BlobPart], {

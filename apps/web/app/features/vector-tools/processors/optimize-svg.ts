@@ -1,4 +1,4 @@
-import { getTool } from "@nouploads/core";
+import { getTool, isToolResultMulti } from "@nouploads/core";
 
 export interface OptimizeSvgOptions {
 	removeComments?: boolean;
@@ -29,6 +29,9 @@ export async function optimizeSvg(
 	if (!tool) throw new Error("optimize-svg tool not found in core registry");
 
 	const result = await tool.execute(bytes, { multipass: true }, { signal });
+	if (isToolResultMulti(result)) {
+		throw new Error("optimize-svg unexpectedly returned multiple outputs");
+	}
 
 	const svg = new TextDecoder().decode(result.output);
 	return {

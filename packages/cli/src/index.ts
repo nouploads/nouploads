@@ -5,14 +5,6 @@
  */
 
 export { createSharpBackend } from "@nouploads/backend-sharp";
-export {
-	convert,
-	findToolByFormats,
-	getAllTools,
-	getTool,
-	getToolsByCategory,
-	isToolResultMulti,
-} from "@nouploads/core";
 export type {
 	ImageBackend,
 	ToolContext,
@@ -21,6 +13,14 @@ export type {
 	ToolResult,
 	ToolResultMulti,
 	ToolResultOutput,
+} from "@nouploads/core";
+export {
+	convert,
+	findToolByFormats,
+	getAllTools,
+	getTool,
+	getToolsByCategory,
+	isToolResultMulti,
 } from "@nouploads/core";
 
 import { createSharpBackend } from "@nouploads/backend-sharp";

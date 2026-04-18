@@ -1,4 +1,4 @@
-import { getTool } from "@nouploads/core";
+import { getTool, isToolResultMulti } from "@nouploads/core";
 
 export interface MergePdfOptions {
 	signal?: AbortSignal;
@@ -70,6 +70,9 @@ export async function mergePdfs(
 		result = await mergePromise;
 	}
 
+	if (isToolResultMulti(result)) {
+		throw new Error("merge-pdf unexpectedly returned multiple outputs");
+	}
 	return new Blob([result.output as BlobPart], { type: "application/pdf" });
 }
 

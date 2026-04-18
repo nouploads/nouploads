@@ -1,4 +1,4 @@
-import { getTool } from "@nouploads/core";
+import { getTool, isToolResultMulti } from "@nouploads/core";
 
 export interface WatermarkPdfOptions {
 	text?: string;
@@ -66,6 +66,10 @@ export async function watermarkPdf(
 		]);
 	} else {
 		result = await executePromise;
+	}
+
+	if (isToolResultMulti(result)) {
+		throw new Error("watermark-pdf unexpectedly returned multiple outputs");
 	}
 
 	const blob = new Blob([result.output as BlobPart], {
