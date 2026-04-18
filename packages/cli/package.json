@@ -17,7 +17,27 @@
 	"scripts": {
 		"build": "tsup && api-extractor run --local --verbose",
 		"test": "vitest run",
-		"clean": "rm -rf dist"
+		"clean": "rm -rf dist",
+		"prepublishOnly": "pnpm -w run build && pnpm test"
+	},
+	"files": [
+		"dist",
+		"bin",
+		"README.md",
+		"LICENSE",
+		"THIRD_PARTY_NOTICES.md"
+	],
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/nouploads/nouploads.git",
+		"directory": "packages/cli"
+	},
+	"bugs": {
+		"url": "https://github.com/nouploads/nouploads/issues"
 	},
 	"dependencies": {
 		"@clack/prompts": "1.1.0",
