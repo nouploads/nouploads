@@ -79,11 +79,6 @@ describe("tool registry", () => {
 	});
 
 	// Verify browser-only tools have the capability marker
-	it("should mark hash-generator as browser-only", () => {
-		const tool = getTool("hash-generator");
-		expect(tool?.capabilities).toContain("browser");
-	});
-
 	it("should mark pdf-to-text as browser-only", () => {
 		const tool = getTool("pdf-to-text");
 		expect(tool?.capabilities).toContain("browser");

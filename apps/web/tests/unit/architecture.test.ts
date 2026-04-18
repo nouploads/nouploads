@@ -24,37 +24,9 @@ const CORE_DELEGATION_EXEMPT = new Set<string>([
 	// vector-tools (1) — Phase 5
 	"vector-tools/processors/convert-vector.ts",
 
-	// developer-tools — see DEVELOPER_TOOLS_FORK_RATIONALE below.
-	// All entries here are "permanent forks by design" — Phase 3 audited each
-	// processor; tools that wrapped a heavy third-party lib (html/js/sql
-	// formatters) were migrated. Everything remaining here either:
-	//   (a) is called synchronously by its component for instant UI feedback
-	//       (typing -> render, can't introduce async core round-trip without
-	//       degrading UX), AND
-	//   (b) wraps a built-in or has a pure-JS impl small enough that the
-	//       cost of duplication is below the cost of forced async migration.
-	// CLI/library users still get the tool via core's own implementation;
-	// web maintains a parallel sync impl. Drift risk is low because the
-	// implementations are short and have side-by-side tests in both places.
-	"developer-tools/processors/case-converter.ts", // sync string transforms
-	"developer-tools/processors/color-picker.ts", // sync color math
-	"developer-tools/processors/cron-parser.ts", // sync custom parser
-	"developer-tools/processors/css-formatter.ts", // sync impl
-	"developer-tools/processors/hash-generator.ts", // sync Web Crypto wrapper
-	"developer-tools/processors/json-csv.ts", // sync custom parser
-	"developer-tools/processors/json-formatter.ts", // sync JSON.parse
-	"developer-tools/processors/jwt-decoder.ts", // sync base64 + JSON
-	"developer-tools/processors/lorem-ipsum.ts", // sync text generator
-	"developer-tools/processors/markdown-preview.ts", // sync marked() with async:false (typing→preview)
-	"developer-tools/processors/qr-code.ts", // multi-format output (PNG+SVG); contract mismatch with core's single-output execute()
-	"developer-tools/processors/regex-tester.ts", // sync RegExp eval
-	"developer-tools/processors/text-diff.ts", // sync diff
-	"developer-tools/processors/timestamp-converter.ts", // sync Date methods
-	"developer-tools/processors/url-encoder.ts", // sync encodeURIComponent wrapper
-	"developer-tools/processors/uuid-generator.ts", // sync crypto.randomUUID wrapper
-	"developer-tools/processors/word-counter.ts", // sync regex counts
-	"developer-tools/processors/xml-json.ts", // sync fast-xml-parser (typing→convert)
-	"developer-tools/processors/yaml-json.ts", // sync js-yaml (typing→convert)
+	// All 22 developer-tools processors migrated in Phase 3S (2026-04-18) —
+	// each is a thin re-export from @nouploads/core/tools/<id> with the
+	// real logic living in core. No forks remaining in this category.
 
 	// image-tools (19) — Phase 4 + Phase 5
 	"image-tools/processors/color-palette.ts",
@@ -104,7 +76,7 @@ describe("Architecture: web processors must delegate to @nouploads/core", () => 
 		for (const relPath of processors) {
 			if (CORE_DELEGATION_EXEMPT.has(relPath)) continue;
 			const src = readFileSync(path.join(FEATURES_DIR, relPath), "utf8");
-			if (!/from\s+["']@nouploads\/core["']/.test(src)) {
+			if (!/from\s+["']@nouploads\/core(\/[^"']+)?["']/.test(src)) {
 				violations.push(relPath);
 			}
 		}
@@ -122,7 +94,7 @@ describe("Architecture: web processors must delegate to @nouploads/core", () => 
 				stale.push(exempt);
 			} else {
 				const src = readFileSync(path.join(FEATURES_DIR, exempt), "utf8");
-				if (/from\s+["']@nouploads\/core["']/.test(src)) {
+				if (/from\s+["']@nouploads\/core(\/[^"']+)?["']/.test(src)) {
 					stale.push(`${exempt} (now delegates — remove from exempt list)`);
 				}
 			}

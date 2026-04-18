@@ -1,4 +1,13 @@
-import QRCode from "qrcode";
+/**
+ * QR code generator — web adapter. Combines @nouploads/core's
+ * generateQrPng and generateQrSvg into the {pngDataUrl, svgString,
+ * pngBlob, svgBlob} shape the web component consumes.
+ */
+import {
+	generateQrPng,
+	generateQrSvg,
+	MAX_QR_LENGTH as CORE_MAX_QR_LENGTH,
+} from "@nouploads/core/tools/qr-code";
 
 export type ErrorCorrectionLevel = "L" | "M" | "Q" | "H";
 
@@ -18,52 +27,30 @@ export interface QrCodeResult {
 	svgBlob: Blob;
 }
 
+export const MAX_QR_LENGTH = CORE_MAX_QR_LENGTH;
+
 export async function generateQrCode(
 	options: QrCodeOptions,
 ): Promise<QrCodeResult> {
-	const {
-		text,
-		size = 300,
-		errorCorrection = "M",
-		foreground = "#000000",
-		background = "#ffffff",
-		margin = 4,
-	} = options;
-
+	const { text, ...rest } = options;
 	if (!text.trim()) throw new Error("Text is required");
 
-	const pngDataUrl = await QRCode.toDataURL(text, {
-		width: size,
-		margin,
-		errorCorrectionLevel: errorCorrection,
-		color: {
-			dark: foreground,
-			light: background,
-		},
-	});
+	const [pngBytes, svgString] = await Promise.all([
+		generateQrPng(text, rest),
+		generateQrSvg(text, rest),
+	]);
 
-	const svgString = await QRCode.toString(text, {
-		type: "svg",
-		margin,
-		errorCorrectionLevel: errorCorrection,
-		color: {
-			dark: foreground,
-			light: background,
-		},
-	});
-
-	const pngBase64 = pngDataUrl.split(",")[1];
-	const pngBinary = atob(pngBase64);
-	const pngBytes = new Uint8Array(pngBinary.length);
-	for (let i = 0; i < pngBinary.length; i++) {
-		pngBytes[i] = pngBinary.charCodeAt(i);
-	}
-	const pngBlob = new Blob([pngBytes], { type: "image/png" });
-
+	const pngBlob = new Blob([pngBytes as BlobPart], { type: "image/png" });
 	const svgBlob = new Blob([svgString], { type: "image/svg+xml" });
+
+	// Build data URL without FileReader (works in both browser + Node)
+	const b64 =
+		typeof Buffer !== "undefined"
+			? Buffer.from(pngBytes).toString("base64")
+			: btoa(
+					Array.from(pngBytes, (b) => String.fromCharCode(b)).join(""),
+				);
+	const pngDataUrl = `data:image/png;base64,${b64}`;
 
 	return { pngDataUrl, svgString, pngBlob, svgBlob };
 }
-
-/** Max content length for QR codes (alphanumeric mode) */
-export const MAX_QR_LENGTH = 4296;

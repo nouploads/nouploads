@@ -1,8 +1,11 @@
-// Register this tool's ToolDefinition with the core registry. Required
-// because core's main entry no longer eagerly loads every tool —
-// @nouploads/core/tools/sql-formatter self-registers on import.
-import "@nouploads/core/tools/sql-formatter";
+/**
+ * SQL formatter — web adapter. Primary `formatSql` delegates to
+ * @nouploads/core/tools/sql-formatter (uses sql-formatter lib).
+ * Sync helpers (minifySql, validateSql, computeSqlStats, UI constants)
+ * remain web-local until core exposes them.
+ */
 import { getTool, isToolResultMulti } from "@nouploads/core";
+import "@nouploads/core/tools/sql-formatter";
 
 export type SqlDialect =
 	| "sql"
@@ -38,26 +41,18 @@ export interface FormatSqlOptions {
 }
 
 export interface SqlStats {
-	/** Total lines of output */
 	lines: number;
-	/** Byte size of the output */
 	sizeBytes: number;
 }
 
-/** Max input size: 10 MB of raw SQL text */
 export const MAX_SQL_SIZE = 10 * 1024 * 1024;
 
-/**
- * Format SQL via @nouploads/core's sql-formatter tool (uses the
- * sql-formatter library under the hood).
- */
 export async function formatSql(
 	input: string,
 	options: FormatSqlOptions = {},
 ): Promise<string> {
 	const tool = getTool("sql-formatter");
 	if (!tool) throw new Error("sql-formatter tool not found in core registry");
-
 	const result = await tool.execute(
 		new TextEncoder().encode(input),
 		{
@@ -68,39 +63,25 @@ export async function formatSql(
 		},
 		{},
 	);
-
 	if (isToolResultMulti(result)) {
 		throw new Error("sql-formatter unexpectedly returned multiple outputs");
 	}
-
 	return new TextDecoder().decode(result.output);
 }
 
-/**
- * Minify SQL by collapsing whitespace and stripping comments. Pure JS —
- * does not require the sql-formatter library. Preserves content inside
- * single-quoted strings and double-quoted identifiers.
- *
- * Kept local because the web component calls it synchronously for instant
- * UI updates while the user toggles between Format and Minify.
- */
 export function minifySql(input: string): string {
 	let out = "";
 	let i = 0;
 	const n = input.length;
 	let pendingSpace = false;
-
 	while (i < n) {
 		const ch = input[i];
 		const next = input[i + 1];
-
-		// Line comment
 		if (ch === "-" && next === "-") {
 			while (i < n && input[i] !== "\n") i++;
 			pendingSpace = true;
 			continue;
 		}
-		// Block comment
 		if (ch === "/" && next === "*") {
 			i += 2;
 			while (i < n && !(input[i] === "*" && input[i + 1] === "/")) i++;
@@ -108,7 +89,6 @@ export function minifySql(input: string): string {
 			pendingSpace = true;
 			continue;
 		}
-		// Single-quoted string literal
 		if (ch === "'") {
 			if (pendingSpace && out.length > 0) out += " ";
 			pendingSpace = false;
@@ -129,7 +109,6 @@ export function minifySql(input: string): string {
 			}
 			continue;
 		}
-		// Double-quoted identifier
 		if (ch === '"') {
 			if (pendingSpace && out.length > 0) out += " ";
 			pendingSpace = false;
@@ -145,7 +124,6 @@ export function minifySql(input: string): string {
 			}
 			continue;
 		}
-		// Whitespace run
 		if (/\s/.test(ch)) {
 			pendingSpace = true;
 			while (i < n && /\s/.test(input[i])) i++;
@@ -156,22 +134,14 @@ export function minifySql(input: string): string {
 		out += ch;
 		i++;
 	}
-
 	return out;
 }
 
-/**
- * Validate that input looks like SQL — basic check for unbalanced parens
- * or quotes. Real parse errors surface from formatSql itself.
- */
 export function validateSql(input: string): {
 	valid: boolean;
 	error?: string;
 } {
-	if (!input.trim()) {
-		return { valid: false, error: "Empty input" };
-	}
-
+	if (!input.trim()) return { valid: false, error: "Empty input" };
 	let parenDepth = 0;
 	let inSingle = false;
 	let inDouble = false;
@@ -186,16 +156,12 @@ export function validateSql(input: string): {
 				return { valid: false, error: "Unbalanced closing parenthesis" };
 			}
 		} else if (inSingle) {
-			if (ch === "'" && input[i + 1] === "'") {
-				i++;
-			} else if (ch === "'") {
-				inSingle = false;
-			}
+			if (ch === "'" && input[i + 1] === "'") i++;
+			else if (ch === "'") inSingle = false;
 		} else if (inDouble && ch === '"') {
 			inDouble = false;
 		}
 	}
-
 	if (parenDepth > 0) {
 		return { valid: false, error: "Unbalanced opening parenthesis" };
 	}

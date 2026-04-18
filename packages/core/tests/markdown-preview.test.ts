@@ -19,7 +19,6 @@ describe("markdown-preview tool", () => {
 		expect(tool?.inputExtensions).toContain(".md");
 		expect(tool?.inputExtensions).toContain(".txt");
 		expect(tool?.inputExtensions).toContain(".markdown");
-		expect(tool?.capabilities).toContain("browser");
 	});
 
 	it("should have gfm option", () => {
@@ -30,12 +29,18 @@ describe("markdown-preview tool", () => {
 		expect(gfmOption?.default).toBe(true);
 	});
 
-	it("should throw on execute (browser-only)", async () => {
+	it("should render markdown to HTML", async () => {
 		const tool = getTool("markdown-preview");
 		if (!tool) throw new Error("tool not registered");
-		await expect(tool.execute(new Uint8Array([]), {}, {})).rejects.toThrow(
-			"requires a browser environment",
+		const input = new TextEncoder().encode(
+			"# Hello\n\nThis is **bold** text.",
 		);
+		const result = await tool.execute(input, {}, {});
+		if ("outputs" in result) throw new Error("unexpected multi result");
+		const html = new TextDecoder().decode(result.output);
+		expect(html).toContain("<h1>");
+		expect(html).toContain("Hello");
+		expect(html).toContain("<strong>");
 	});
 
 	it("should appear in all tools list", () => {

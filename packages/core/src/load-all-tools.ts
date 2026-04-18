@@ -69,6 +69,7 @@ export async function loadAllTools(): Promise<void> {
 		import("./tools/word-counter.js"),
 		import("./tools/css-formatter.js"),
 		import("./tools/color-palette.js"),
+		import("./tools/color-picker.js"),
 		import("./tools/json-csv.js"),
 		import("./tools/case-converter.js"),
 		import("./tools/yaml-json.js"),
