@@ -3,8 +3,8 @@
  * @nouploads/core/tools/case-converter.
  */
 export {
-	type CaseStyle,
 	CASE_STYLES,
+	type CaseStyle,
 	convertCase,
 	splitWords,
 	toCamelCase,

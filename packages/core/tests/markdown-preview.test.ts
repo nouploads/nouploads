@@ -32,9 +32,7 @@ describe("markdown-preview tool", () => {
 	it("should render markdown to HTML", async () => {
 		const tool = getTool("markdown-preview");
 		if (!tool) throw new Error("tool not registered");
-		const input = new TextEncoder().encode(
-			"# Hello\n\nThis is **bold** text.",
-		);
+		const input = new TextEncoder().encode("# Hello\n\nThis is **bold** text.");
 		const result = await tool.execute(input, {}, {});
 		if ("outputs" in result) throw new Error("unexpected multi result");
 		const html = new TextDecoder().decode(result.output);

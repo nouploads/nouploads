@@ -122,7 +122,7 @@ Used to detect bundle regression after Phase 3S.1 core tree-shake refactor.
 | Phase 0 — Foundation | 7 tasks | 7 | 0 | ✅ done (2026-04-17) |
 | Phase 1 — Core contract extension | 3 tasks (signal, ToolResultMulti, heic re-classify) | 3 | 0 | ✅ done (2026-04-17) |
 | Phase 2 — PDF migrations | 4 (unlock, reorder, split, protect) | 4 | 0 | ✅ done (2026-04-17) |
-| Phase 3 — Developer migrations | 3 (html, js, sql formatters) + 19 permanent forks | 3 | 0 | ✅ done (2026-04-17) — see DEVELOPER_TOOLS_FORK_RATIONALE comment in apps/web/tests/unit/architecture.test.ts |
+| Phase 3 — Developer migrations | 22 dev tools (strict SSOT, no forks) | 22 | 0 | ✅ done (2026-04-18, Phase 3S). All 22 web processors are thin re-exports from @nouploads/core/tools/<id>; also created color-picker in core, replaced markdown-preview + hash-generator stubs with real impls, added marked + culori deps |
 | Phase 4.0 — Image spike | 1 (rotate-image) | 0 | 1 | pending |
 | Phase 4.1 — Image rollout | 14 | 0 | 14 | pending |
 | Phase 5 — Browser-only cleanup | 8 (compress-gif, compress-pdf, compress-png, convert-vector, parse-gif-frames, pdf-to-image, pdf-to-text, remove-background) | 0 | 8 | pending |

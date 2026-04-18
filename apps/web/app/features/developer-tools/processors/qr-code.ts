@@ -4,9 +4,9 @@
  * pngBlob, svgBlob} shape the web component consumes.
  */
 import {
+	MAX_QR_LENGTH as CORE_MAX_QR_LENGTH,
 	generateQrPng,
 	generateQrSvg,
-	MAX_QR_LENGTH as CORE_MAX_QR_LENGTH,
 } from "@nouploads/core/tools/qr-code";
 
 export type ErrorCorrectionLevel = "L" | "M" | "Q" | "H";
@@ -47,9 +47,7 @@ export async function generateQrCode(
 	const b64 =
 		typeof Buffer !== "undefined"
 			? Buffer.from(pngBytes).toString("base64")
-			: btoa(
-					Array.from(pngBytes, (b) => String.fromCharCode(b)).join(""),
-				);
+			: btoa(Array.from(pngBytes, (b) => String.fromCharCode(b)).join(""));
 	const pngDataUrl = `data:image/png;base64,${b64}`;
 
 	return { pngDataUrl, svgString, pngBlob, svgBlob };

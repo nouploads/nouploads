@@ -4,8 +4,8 @@
  */
 export {
 	beautifyCss,
-	calculateSavings,
 	type CssSavings,
+	calculateSavings,
 	MAX_CSS_SIZE,
 	minifyCss,
 } from "@nouploads/core/tools/css-formatter";

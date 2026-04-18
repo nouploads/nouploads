@@ -186,7 +186,8 @@ export function validateCronExpression(expr: string): CronValidationResult {
 function describeMinute(field: CronField): string {
 	if (field.type === "any") return "every minute";
 	if (field.type === "step") {
-		const step = field.values.length > 1 ? field.values[1] - field.values[0] : 1;
+		const step =
+			field.values.length > 1 ? field.values[1] - field.values[0] : 1;
 		return `every ${step} minutes`;
 	}
 	if (field.type === "value") return `minute ${field.values[0]}`;
@@ -204,7 +205,8 @@ function formatHour(h: number): string {
 function describeHour(field: CronField): string {
 	if (field.type === "any") return "";
 	if (field.type === "step") {
-		const step = field.values.length > 1 ? field.values[1] - field.values[0] : 1;
+		const step =
+			field.values.length > 1 ? field.values[1] - field.values[0] : 1;
 		return `of every ${step} hours`;
 	}
 	if (field.type === "value") return `at ${formatHour(field.values[0])}`;
