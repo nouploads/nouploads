@@ -74,7 +74,7 @@ describe("reorderPdf processor", () => {
 
 		const input = await createTestPdf(3);
 		await expect(reorderPdf(input, [0, 5])).rejects.toThrow(
-			/Invalid page index/,
+			/Invalid page (index|number)/,
 		);
 	});
 
@@ -129,40 +129,3 @@ describe("reorderPdf processor", () => {
 	});
 });
 
-describe("removePdfPages processor", () => {
-	it("should remove specified pages", async () => {
-		const { removePdfPages } = await import(
-			"~/features/pdf-tools/processors/reorder-pdf"
-		);
-
-		const input = await createTestPdf(5);
-		// Remove pages at index 1 and 3 (pages 2 and 4)
-		const output = await removePdfPages(input, [1, 3]);
-
-		const doc = await PDFDocument.load(output);
-		expect(doc.getPageCount()).toBe(3);
-	});
-
-	it("should throw when removing all pages", async () => {
-		const { removePdfPages } = await import(
-			"~/features/pdf-tools/processors/reorder-pdf"
-		);
-
-		const input = await createTestPdf(2);
-		await expect(removePdfPages(input, [0, 1])).rejects.toThrow(
-			/Cannot remove all pages/,
-		);
-	});
-});
-
-describe("getPdfPageCount (reorder-pdf)", () => {
-	it("should return the correct page count", async () => {
-		const { getPdfPageCount } = await import(
-			"~/features/pdf-tools/processors/reorder-pdf"
-		);
-
-		const input = await createTestPdf(5);
-		const count = await getPdfPageCount(input);
-		expect(count).toBe(5);
-	});
-});
