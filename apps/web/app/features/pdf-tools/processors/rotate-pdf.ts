@@ -29,11 +29,13 @@ export async function rotatePdf(
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
-	// Race the core call against the abort signal
+	// Pass signal to core for cooperative cancellation, AND race against the
+	// abort signal for immediate-response UI even when the core tool doesn't
+	// poll signal.aborted at every checkpoint.
 	const corePromise = tool.execute(
 		bytes,
 		{ rotation },
-		{ onProgress: () => {} },
+		{ onProgress: () => {}, signal },
 	);
 
 	let result: Awaited<typeof corePromise>;

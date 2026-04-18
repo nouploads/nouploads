@@ -27,7 +27,9 @@ export async function mergePdfs(
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
-	// Wrap abort check around the core call via a racing promise
+	// Pass signal to core for cooperative cancellation, AND wrap a Promise.race
+	// to give the web UI an immediate-response abort even when the core tool
+	// hasn't yet been adapted to honor signal.aborted at every checkpoint.
 	const mergePromise = tool
 		.executeMulti(
 			inputs,
@@ -37,6 +39,7 @@ export async function mergePdfs(
 					const completed = Math.round((pct / 100) * files.length);
 					onProgress?.(completed, files.length);
 				},
+				signal,
 			},
 		)
 		.catch((err: Error) => {

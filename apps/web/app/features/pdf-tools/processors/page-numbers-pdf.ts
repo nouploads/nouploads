@@ -50,6 +50,7 @@ export async function pageNumbersPdf(
 			onProgress: (pct) => {
 				onProgress?.(Math.round(pct / 10), 10);
 			},
+			signal,
 		},
 	);
 

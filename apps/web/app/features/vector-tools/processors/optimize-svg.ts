@@ -28,7 +28,7 @@ export async function optimizeSvg(
 	const tool = getTool("optimize-svg");
 	if (!tool) throw new Error("optimize-svg tool not found in core registry");
 
-	const result = await tool.execute(bytes, { multipass: true }, {});
+	const result = await tool.execute(bytes, { multipass: true }, { signal });
 
 	const svg = new TextDecoder().decode(result.output);
 	return {

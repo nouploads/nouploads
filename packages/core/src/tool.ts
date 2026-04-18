@@ -48,6 +48,15 @@ export interface ToolContext {
 	imageBackend?: ImageBackend;
 	/** Report progress 0-100 */
 	onProgress?: (percent: number) => void;
+	/**
+	 * Cooperative cancellation. Tools should poll `signal?.aborted` at coarse
+	 * checkpoints (between iterations, before heavy ops) and throw when
+	 * aborted. Long-running async work should pass the signal to inner
+	 * primitives where supported. The CLI propagates SIGINT to abort; the
+	 * web app uses it to terminate workers when a new operation supersedes
+	 * an in-flight one.
+	 */
+	signal?: AbortSignal;
 }
 
 export type ToolExecuteFn = (
