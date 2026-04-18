@@ -2,30 +2,34 @@ import { registerTool } from "../registry.js";
 import type { ToolDefinition } from "../tool.js";
 
 /**
+ * PDF Standard Security Handler (V=2, R=3, RC4-128) per PDF spec §7.6.3.
+ *
+ * Implements password-based encryption from scratch using only Web Crypto +
+ * pure JS (MD5 + RC4). pdf-lib doesn't ship encryption, so we inject the
+ * /Encrypt dictionary via pdf-lib's low-level context API and encrypt every
+ * string and stream object with per-object RC4 keys.
+ */
+
+/**
  * PDF permission flags per PDF spec Table 22 (§7.6.3.2).
  * Bits are numbered from 1 (LSB). Bits 1-2 must be 0, bits 7-8 must be 1.
- * We use a 32-bit signed integer where negative values have bit 32 set.
  */
 const PERM_PRINT = 1 << 2; // bit 3
 const PERM_MODIFY = 1 << 3; // bit 4
 const PERM_COPY = 1 << 4; // bit 5
 const PERM_ANNOT = 1 << 5; // bit 6
-// Bits 7-8 must be 1 per spec
 const PERM_REQUIRED = (1 << 6) | (1 << 7);
-// Bits 13-32 must be 1 for rev 3+ (we set them all)
 const PERM_HIGH_BITS = 0xfffff000;
 
 /**
- * Padding string defined in PDF spec §7.6.3.3 (Algorithm 2).
- * Used to pad passwords to exactly 32 bytes.
+ * Padding string defined in PDF spec §7.6.3.3 (Algorithm 2). Exactly 32 bytes.
  */
 const PASSWORD_PADDING = new Uint8Array([
-	0x28, 0xbf, 0x4e, 0x5e, 0x4e, 0x75, 0x8a, 0x41, 0x64, 0x00, 0x4b, 0x49, 0x53,
-	0x30, 0x30, 0x30, 0x44, 0x6a, 0x04, 0x04, 0x6d, 0xb6, 0xd0, 0x68, 0x3e, 0x80,
-	0x2f, 0x0c, 0xa9, 0xfe, 0x64, 0x53, 0x69, 0x7a,
+	0x28, 0xbf, 0x4e, 0x5e, 0x4e, 0x75, 0x8a, 0x41, 0x64, 0x00, 0x4e, 0x56, 0xff,
+	0xfa, 0x01, 0x08, 0x2e, 0x2e, 0x00, 0xb6, 0xd0, 0x68, 0x3e, 0x80, 0x2f, 0x0c,
+	0xa9, 0xfe, 0x64, 0x53, 0x69, 0x7a,
 ]);
 
-/** Pad or truncate a password to 32 bytes per PDF spec Algorithm 2. */
 function padPassword(password: string): Uint8Array {
 	const encoded = new TextEncoder().encode(password);
 	const result = new Uint8Array(32);
@@ -37,10 +41,7 @@ function padPassword(password: string): Uint8Array {
 	return result;
 }
 
-/**
- * Simple MD5 implementation (RFC 1321).
- * PDF encryption requires MD5 for key derivation.
- */
+/** MD5 (RFC 1321). PDF encryption uses MD5 for key derivation. */
 function md5(data: Uint8Array): Uint8Array {
 	const K = [
 		0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee, 0xf57c0faf, 0x4787c62a,
@@ -62,14 +63,12 @@ function md5(data: Uint8Array): Uint8Array {
 		15, 21,
 	];
 
-	// Pre-processing: add padding
 	const bitLen = data.length * 8;
 	const padLen =
 		data.length % 64 < 56 ? 56 - (data.length % 64) : 120 - (data.length % 64);
 	const padded = new Uint8Array(data.length + padLen + 8);
 	padded.set(data);
 	padded[data.length] = 0x80;
-	// Append original length in bits as 64-bit LE
 	const view = new DataView(padded.buffer);
 	view.setUint32(padded.length - 8, bitLen >>> 0, true);
 	view.setUint32(padded.length - 4, 0, true);
@@ -130,9 +129,7 @@ function md5(data: Uint8Array): Uint8Array {
 	return result;
 }
 
-/**
- * RC4 cipher (symmetric — same function for encrypt and decrypt).
- */
+/** RC4 cipher (symmetric). */
 function rc4(key: Uint8Array, data: Uint8Array): Uint8Array {
 	const s = new Uint8Array(256);
 	for (let i = 0; i < 256; i++) s[i] = i;
@@ -155,7 +152,6 @@ function rc4(key: Uint8Array, data: Uint8Array): Uint8Array {
 	return out;
 }
 
-/** Concat multiple Uint8Arrays. */
 function concat(...arrays: Uint8Array[]): Uint8Array {
 	let total = 0;
 	for (const a of arrays) total += a.length;
@@ -168,10 +164,7 @@ function concat(...arrays: Uint8Array[]): Uint8Array {
 	return result;
 }
 
-/**
- * Compute encryption key per PDF spec Algorithm 2 (§7.6.3.3).
- * For Standard Security Handler revision 3 with RC4-128.
- */
+/** Compute encryption key per PDF spec Algorithm 2. */
 function computeEncryptionKey(
 	password: string,
 	ownerHash: Uint8Array,
@@ -184,19 +177,13 @@ function computeEncryptionKey(
 	new DataView(permBytes.buffer).setInt32(0, permissions, true);
 
 	let hash = md5(concat(padded, ownerHash, permBytes, fileId));
-
-	// Rev 3: repeat MD5 50 times
 	for (let i = 0; i < 50; i++) {
 		hash = md5(hash.subarray(0, keyLength));
 	}
-
 	return hash.subarray(0, keyLength);
 }
 
-/**
- * Compute O value per PDF spec Algorithm 3 (§7.6.3.4).
- * For Standard Security Handler revision 3 with RC4-128.
- */
+/** Compute O value per PDF spec Algorithm 3. */
 function computeOwnerHash(
 	ownerPassword: string,
 	userPassword: string,
@@ -204,17 +191,12 @@ function computeOwnerHash(
 ): Uint8Array {
 	const ownerPadded = padPassword(ownerPassword);
 	let hash = md5(ownerPadded);
-
-	// Rev 3: repeat MD5 50 times
 	for (let i = 0; i < 50; i++) {
 		hash = md5(hash.subarray(0, keyLength));
 	}
-
 	const ownerKey = hash.subarray(0, keyLength);
 	const userPadded = padPassword(userPassword);
 	let encrypted = rc4(ownerKey, userPadded);
-
-	// Rev 3: iterate RC4 with modified keys
 	for (let i = 1; i <= 19; i++) {
 		const tmpKey = new Uint8Array(ownerKey.length);
 		for (let j = 0; j < ownerKey.length; j++) {
@@ -222,22 +204,16 @@ function computeOwnerHash(
 		}
 		encrypted = rc4(tmpKey, encrypted);
 	}
-
 	return encrypted;
 }
 
-/**
- * Compute U value per PDF spec Algorithm 5 (§7.6.3.4).
- * For Standard Security Handler revision 3 with RC4-128.
- */
+/** Compute U value per PDF spec Algorithm 5. */
 function computeUserHash(
 	encryptionKey: Uint8Array,
 	fileId: Uint8Array,
 ): Uint8Array {
 	const hash = md5(concat(PASSWORD_PADDING, fileId));
 	let encrypted = rc4(encryptionKey, hash);
-
-	// Rev 3: iterate RC4 with modified keys
 	for (let i = 1; i <= 19; i++) {
 		const tmpKey = new Uint8Array(encryptionKey.length);
 		for (let j = 0; j < encryptionKey.length; j++) {
@@ -245,14 +221,11 @@ function computeUserHash(
 		}
 		encrypted = rc4(tmpKey, encrypted);
 	}
-
-	// Pad to 32 bytes
 	const result = new Uint8Array(32);
 	result.set(encrypted);
 	return result;
 }
 
-/** Build the permissions integer from option booleans. */
 function buildPermissions(opts: {
 	allowPrinting: boolean;
 	allowCopying: boolean;
@@ -262,13 +235,10 @@ function buildPermissions(opts: {
 	if (opts.allowPrinting) p |= PERM_PRINT;
 	if (opts.allowEditing) p |= PERM_MODIFY;
 	if (opts.allowCopying) p |= PERM_COPY;
-	// Always allow annotations for now
 	p |= PERM_ANNOT;
-	// Return as signed 32-bit
 	return p | 0;
 }
 
-/** Generate a random file ID (16 bytes). */
 function generateFileId(): Uint8Array {
 	const id = new Uint8Array(16);
 	if (
@@ -284,18 +254,113 @@ function generateFileId(): Uint8Array {
 	return id;
 }
 
-/** Convert Uint8Array to hex string. */
 function toHex(bytes: Uint8Array): string {
 	return Array.from(bytes)
 		.map((b) => b.toString(16).padStart(2, "0"))
 		.join("");
 }
 
+/** Compute per-object encryption key per PDF spec §7.6.2. */
+function computeObjectKey(
+	encryptionKey: Uint8Array,
+	objectNumber: number,
+	generationNumber: number,
+): Uint8Array {
+	const input = new Uint8Array(encryptionKey.length + 5);
+	input.set(encryptionKey);
+	const n = encryptionKey.length;
+	input[n] = objectNumber & 0xff;
+	input[n + 1] = (objectNumber >> 8) & 0xff;
+	input[n + 2] = (objectNumber >> 16) & 0xff;
+	input[n + 3] = generationNumber & 0xff;
+	input[n + 4] = (generationNumber >> 8) & 0xff;
+	const hash = md5(input);
+	return hash.subarray(0, Math.min(encryptionKey.length + 5, 16));
+}
+
+type PdfLib = typeof import("pdf-lib");
+
+/** Recursively encrypt PDFString/PDFHexString values inside a PDFDict. */
+function encryptDictStrings(
+	dict: import("pdf-lib").PDFDict,
+	objKey: Uint8Array,
+	lib: PdfLib,
+): void {
+	for (const [key, value] of dict.entries()) {
+		if (value instanceof lib.PDFString || value instanceof lib.PDFHexString) {
+			const encrypted = rc4(objKey, value.asBytes());
+			dict.set(key, lib.PDFHexString.of(toHex(encrypted)));
+		} else if (value instanceof lib.PDFDict) {
+			encryptDictStrings(value, objKey, lib);
+		} else if (value instanceof lib.PDFArray) {
+			encryptArrayStrings(value, objKey, lib);
+		}
+	}
+}
+
+/** Recursively encrypt PDFString/PDFHexString values inside a PDFArray. */
+function encryptArrayStrings(
+	arr: import("pdf-lib").PDFArray,
+	objKey: Uint8Array,
+	lib: PdfLib,
+): void {
+	for (let i = 0; i < arr.size(); i++) {
+		const value = arr.get(i);
+		if (value instanceof lib.PDFString || value instanceof lib.PDFHexString) {
+			const encrypted = rc4(objKey, value.asBytes());
+			arr.set(i, lib.PDFHexString.of(toHex(encrypted)));
+		} else if (value instanceof lib.PDFDict) {
+			encryptDictStrings(value, objKey, lib);
+		} else if (value instanceof lib.PDFArray) {
+			encryptArrayStrings(value, objKey, lib);
+		}
+	}
+}
+
+/**
+ * Encrypt all string and stream objects in the PDF per the Standard
+ * encryption handler (V=2, R=3, RC4-128).
+ */
+function encryptObjects(
+	ctx: import("pdf-lib").PDFContext,
+	encryptionKey: Uint8Array,
+	encryptRef: import("pdf-lib").PDFRef,
+	lib: PdfLib,
+): void {
+	for (const [ref, obj] of ctx.enumerateIndirectObjects()) {
+		if (
+			ref.objectNumber === encryptRef.objectNumber &&
+			ref.generationNumber === encryptRef.generationNumber
+		) {
+			continue;
+		}
+
+		const objKey = computeObjectKey(
+			encryptionKey,
+			ref.objectNumber,
+			ref.generationNumber,
+		);
+
+		if (obj instanceof lib.PDFRawStream) {
+			(obj as unknown as { contents: Uint8Array }).contents = rc4(
+				objKey,
+				obj.contents,
+			);
+			encryptDictStrings(obj.dict, objKey, lib);
+		} else if (obj instanceof lib.PDFDict) {
+			encryptDictStrings(obj, objKey, lib);
+		} else if (obj instanceof lib.PDFArray) {
+			encryptArrayStrings(obj, objKey, lib);
+		}
+	}
+}
+
 const tool: ToolDefinition = {
 	id: "protect-pdf",
 	name: "Protect PDF",
 	category: "pdf",
-	description: "Add password protection and permission restrictions to a PDF.",
+	description:
+		"Add password protection (RC4-128) and permission restrictions to a PDF.",
 	inputMimeTypes: ["application/pdf"],
 	inputExtensions: [".pdf"],
 	options: [
@@ -309,32 +374,33 @@ const tool: ToolDefinition = {
 			name: "ownerPassword",
 			type: "string",
 			description:
-				"Password required to change permissions (defaults to user password)",
+				"Owner password (defaults to userPassword if empty). Owner can change permissions.",
 			default: "",
 		},
 		{
 			name: "allowPrinting",
 			type: "boolean",
-			description: "Allow printing the document",
+			description: "Allow printing",
 			default: true,
 		},
 		{
 			name: "allowCopying",
 			type: "boolean",
-			description: "Allow copying text and images",
+			description: "Allow copying text and graphics",
 			default: true,
 		},
 		{
 			name: "allowEditing",
 			type: "boolean",
-			description: "Allow editing the document",
+			description: "Allow modifying the document",
 			default: true,
 		},
 	],
 	execute: async (input, options, context) => {
-		const { PDFDocument } = await import("pdf-lib");
+		const pdfLib = await import("pdf-lib");
+		const { PDFDocument, PDFHexString, PDFName, PDFArray } = pdfLib;
 
-		const userPassword = (options.userPassword as string) || "";
+		const userPassword = (options.userPassword as string) ?? "";
 		const ownerPassword = (options.ownerPassword as string) || userPassword;
 		const allowPrinting = (options.allowPrinting as boolean) ?? true;
 		const allowCopying = (options.allowCopying as boolean) ?? true;
@@ -344,11 +410,13 @@ const tool: ToolDefinition = {
 			throw new Error("At least one password (user or owner) is required");
 		}
 
+		if (context.signal?.aborted) {
+			throw new DOMException("Aborted", "AbortError");
+		}
+
 		let doc: import("pdf-lib").PDFDocument;
 		try {
-			doc = await PDFDocument.load(input, {
-				ignoreEncryption: true,
-			});
+			doc = await PDFDocument.load(input, { ignoreEncryption: true });
 		} catch (err) {
 			throw new Error(
 				`Failed to load PDF: ${err instanceof Error ? err.message : "Invalid PDF"}`,
@@ -356,26 +424,24 @@ const tool: ToolDefinition = {
 		}
 
 		const pages = doc.getPages();
-
 		context.onProgress?.(20);
 
-		// Generate file ID for encryption
-		const fileId = generateFileId();
-		const keyLength = 16; // 128-bit
+		if (context.signal?.aborted) {
+			throw new DOMException("Aborted", "AbortError");
+		}
 
-		// Compute permission flags
+		const fileId = generateFileId();
+		const keyLength = 16;
+
 		const permissions = buildPermissions({
 			allowPrinting,
 			allowCopying,
 			allowEditing,
 		});
 
-		// Compute O (owner hash) per Algorithm 3
 		const ownerHash = computeOwnerHash(ownerPassword, userPassword, keyLength);
-
 		context.onProgress?.(40);
 
-		// Compute encryption key per Algorithm 2
 		const encryptionKey = computeEncryptionKey(
 			userPassword,
 			ownerHash,
@@ -383,44 +449,48 @@ const tool: ToolDefinition = {
 			fileId,
 			keyLength,
 		);
-
-		// Compute U (user hash) per Algorithm 5
 		const userHash = computeUserHash(encryptionKey, fileId);
-
 		context.onProgress?.(60);
 
-		// Access pdf-lib's low-level context to inject encryption dict
-		const ctx = doc.context;
+		if (context.signal?.aborted) {
+			throw new DOMException("Aborted", "AbortError");
+		}
 
-		// Build /Encrypt dictionary
+		const ctx = doc.context;
 		const encryptDict = ctx.obj({
 			Filter: "Standard",
-			V: 2, // RC4-based, key length > 40
-			R: 3, // Revision 3
+			V: 2,
+			R: 3,
 			Length: 128,
 			P: permissions,
 		});
 
-		// Set O and U values as hex strings
-		const { PDFHexString, PDFName } = await import("pdf-lib");
 		encryptDict.set(PDFName.of("O"), PDFHexString.of(toHex(ownerHash)));
 		encryptDict.set(PDFName.of("U"), PDFHexString.of(toHex(userHash)));
 
-		// Register the encrypt dict and set it on the trailer
 		const encryptRef = ctx.register(encryptDict);
 		ctx.trailerInfo.Encrypt = encryptRef;
 
-		// Set the file ID in the trailer (required for encryption)
-		const { PDFArray } = await import("pdf-lib");
 		const idHex = toHex(fileId);
 		const idArray = PDFArray.withContext(ctx);
 		idArray.push(PDFHexString.of(idHex));
 		idArray.push(PDFHexString.of(idHex));
 		ctx.trailerInfo.ID = idArray;
 
+		// Encrypt all string and stream objects with per-object RC4 keys.
+		// pdf-lib doesn't ship encryption support, so we walk every indirect
+		// object and apply RC4 manually per the PDF spec.
+		encryptObjects(ctx, encryptionKey, encryptRef, pdfLib);
+
 		context.onProgress?.(80);
 
-		const pdfBytes = await doc.save();
+		if (context.signal?.aborted) {
+			throw new DOMException("Aborted", "AbortError");
+		}
+
+		// useObjectStreams: false avoids the complication of encrypting
+		// nested objects inside a compressed object stream.
+		const pdfBytes = await doc.save({ useObjectStreams: false });
 
 		context.onProgress?.(100);
 
