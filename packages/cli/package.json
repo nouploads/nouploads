@@ -44,6 +44,6 @@
 	"license": "MIT",
 	"homepage": "https://nouploads.com",
 	"engines": {
-		"node": ">=24.14.0"
+		"node": ">=22.0.0"
 	}
 }
