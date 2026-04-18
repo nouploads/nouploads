@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { getTool } from "../src/registry.js";
 
 // Import to trigger registration
-import "../src/tools/browser-only-stubs.js";
+import "../src/tools/heic-to-png.js";
 
 describe("heic-to-png tool", () => {
 	it("should be registered in the registry", () => {

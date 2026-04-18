@@ -43,6 +43,8 @@ export { decodeBase64, encodeBase64 } from "./util/base64.js";
 // --- Register all tools (import for side effects) ---
 // IMAGE CONVERSION
 import "./tools/heic-to-jpg.js";
+import "./tools/heic-to-png.js";
+import "./tools/heic-to-webp.js";
 import "./tools/standard-conversions.js";
 // EXOTIC FORMAT CONVERSIONS
 import "./tools/exotic-conversions.js";

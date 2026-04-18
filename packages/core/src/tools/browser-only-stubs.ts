@@ -1,7 +1,13 @@
 /**
- * Stub tool definitions for browser-only features.
+ * Stub tool definitions for genuinely browser-only features.
  * These register in the tool registry for metadata/discovery purposes,
  * but their execute functions throw a clear error in non-browser environments.
+ *
+ * Tools listed here truly cannot run in Node — they need DOM APIs (Canvas,
+ * pdfjs-dist via DOMMatrix), browser-only WASM libraries (gifsicle), or
+ * browser-only ML models. Tools that delegate to imageBackend (e.g. all the
+ * HEIC variants) live in their own files and work in any environment that
+ * supplies a backend.
  */
 
 import { registerTool } from "../registry.js";
@@ -119,98 +125,10 @@ const compressPdf: ToolDefinition = {
 	execute: browserOnlyExecute("Compress PDF"),
 };
 
-const heicToPng: ToolDefinition = {
-	id: "heic-to-png",
-	name: "HEIC to PNG Converter",
-	category: "image",
-	description: "Convert HEIC/HEIF images to PNG format.",
-	from: "heic",
-	to: "png",
-	inputMimeTypes: ["image/heic", "image/heif"],
-	inputExtensions: [".heic", ".heif"],
-	options: [],
-	execute: async (input, _options, context) => {
-		if (!context.imageBackend) {
-			throw new Error("Image backend required for HEIC to PNG conversion");
-		}
-		if (context.imageBackend.transcode) {
-			const result = await context.imageBackend.transcode(
-				input,
-				"heic",
-				"png",
-				{
-					format: "png",
-				},
-			);
-			return { output: result, extension: ".png", mimeType: "image/png" };
-		}
-		const decoded = await context.imageBackend.decode(input, "heic");
-		const encoded = await context.imageBackend.encode(decoded, {
-			format: "png",
-		});
-		return { output: encoded, extension: ".png", mimeType: "image/png" };
-	},
-};
-
-const heicToWebp: ToolDefinition = {
-	id: "heic-to-webp",
-	name: "HEIC to WebP Converter",
-	category: "image",
-	description: "Convert HEIC/HEIF images to WebP format.",
-	from: "heic",
-	to: "webp",
-	inputMimeTypes: ["image/heic", "image/heif"],
-	inputExtensions: [".heic", ".heif"],
-	options: [
-		{
-			name: "quality",
-			type: "number",
-			description: "WebP quality (1-100)",
-			default: 80,
-			min: 1,
-			max: 100,
-		},
-	],
-	execute: async (input, options, context) => {
-		if (!context.imageBackend) {
-			throw new Error("Image backend required for HEIC to WebP conversion");
-		}
-		const quality = (options.quality as number) ?? 80;
-		if (context.imageBackend.transcode) {
-			const result = await context.imageBackend.transcode(
-				input,
-				"heic",
-				"webp",
-				{
-					format: "webp",
-					quality,
-				},
-			);
-			return { output: result, extension: ".webp", mimeType: "image/webp" };
-		}
-		const decoded = await context.imageBackend.decode(input, "heic");
-		const encoded = await context.imageBackend.encode(decoded, {
-			format: "webp",
-			quality,
-		});
-		return { output: encoded, extension: ".webp", mimeType: "image/webp" };
-	},
-};
-
 registerTool(removeBackground);
 registerTool(gifFrames);
 registerTool(pdfToJpg);
 registerTool(pdfToPng);
 registerTool(compressPdf);
-registerTool(heicToPng);
-registerTool(heicToWebp);
 
-export {
-	compressPdf,
-	gifFrames,
-	heicToPng,
-	heicToWebp,
-	pdfToJpg,
-	pdfToPng,
-	removeBackground,
-};
+export { compressPdf, gifFrames, pdfToJpg, pdfToPng, removeBackground };
