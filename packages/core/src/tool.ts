@@ -63,13 +63,13 @@ export type ToolExecuteFn = (
 	input: Uint8Array,
 	options: Record<string, unknown>,
 	context: ToolContext,
-) => Promise<ToolResult>;
+) => Promise<ToolResult | ToolResultMulti>;
 
 export type ToolExecuteMultiFn = (
 	inputs: Uint8Array[],
 	options: Record<string, unknown>,
 	context: ToolContext,
-) => Promise<ToolResult>;
+) => Promise<ToolResult | ToolResultMulti>;
 
 export interface ToolResult {
 	/** Output file bytes */
@@ -80,4 +80,38 @@ export interface ToolResult {
 	mimeType: string;
 	/** Optional metadata about the conversion */
 	metadata?: Record<string, unknown>;
+}
+
+/**
+ * Per-file payload inside a ToolResultMulti.
+ */
+export interface ToolResultOutput {
+	/** Output file bytes */
+	bytes: Uint8Array;
+	/** Suggested filename including extension (e.g. "page-1.pdf", "frame-0.png") */
+	filename: string;
+	/** Suggested MIME type */
+	mimeType: string;
+}
+
+/**
+ * Result for tools that produce N output files from one input (e.g.
+ * split-pdf produces one PDF per page; parse-gif-frames produces one
+ * image per frame). The CLI writes each output to disk; the web app
+ * surfaces them as a list of downloadable blobs.
+ */
+export interface ToolResultMulti {
+	/** Multiple output files */
+	outputs: ToolResultOutput[];
+	/** Optional metadata about the conversion */
+	metadata?: Record<string, unknown>;
+}
+
+/**
+ * Type guard: narrow a tool result to ToolResultMulti when present.
+ */
+export function isToolResultMulti(
+	result: ToolResult | ToolResultMulti,
+): result is ToolResultMulti {
+	return "outputs" in result;
 }

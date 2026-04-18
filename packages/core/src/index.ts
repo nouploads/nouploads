@@ -22,6 +22,7 @@ export {
 	getToolsByCategory,
 	registerTool,
 } from "./registry.js";
+export { isToolResultMulti } from "./tool.js";
 export type {
 	ToolContext,
 	ToolDefinition,
@@ -29,6 +30,8 @@ export type {
 	ToolExecuteMultiFn,
 	ToolOption,
 	ToolResult,
+	ToolResultMulti,
+	ToolResultOutput,
 } from "./tool.js";
 export { createExoticDecoderTool } from "./tools/exotic-factory.js";
 // Factory

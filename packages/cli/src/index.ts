@@ -5,30 +5,42 @@
  */
 
 export { createSharpBackend } from "@nouploads/backend-sharp";
-export type {
-	ImageBackend,
-	ToolContext,
-	ToolDefinition,
-	ToolOption,
-	ToolResult,
-} from "@nouploads/core";
 export {
 	convert,
 	findToolByFormats,
 	getAllTools,
 	getTool,
 	getToolsByCategory,
+	isToolResultMulti,
+} from "@nouploads/core";
+export type {
+	ImageBackend,
+	ToolContext,
+	ToolDefinition,
+	ToolOption,
+	ToolResult,
+	ToolResultMulti,
+	ToolResultOutput,
 } from "@nouploads/core";
 
 import { createSharpBackend } from "@nouploads/backend-sharp";
-import type { ToolContext } from "@nouploads/core";
 // Convenience: pre-configured convert that uses sharp backend
-import { convert as coreConvert } from "@nouploads/core";
+import {
+	convert as coreConvert,
+	isToolResultMulti as coreIsToolResultMulti,
+	type ToolContext,
+	type ToolResult,
+} from "@nouploads/core";
 
 const defaultBackend = createSharpBackend();
 
 /**
  * Convert a file using the sharp (libvips) backend.
+ *
+ * Format conversion is always single-output, so the result is narrowed to
+ * `ToolResult`. For tools that produce multiple outputs (split-pdf,
+ * parse-gif-frames, ...) use `getTool(id).execute(...)` directly and
+ * narrow with `isToolResultMulti`.
  *
  * Usage:
  *   import { convertFile } from "nouploads";
@@ -38,9 +50,15 @@ export async function convertFile(
 	input: Uint8Array,
 	options: { from: string; to: string; [key: string]: unknown },
 	context?: Partial<ToolContext>,
-) {
-	return coreConvert(input, options, {
+): Promise<ToolResult> {
+	const result = await coreConvert(input, options, {
 		imageBackend: defaultBackend,
 		...context,
 	});
+	if (coreIsToolResultMulti(result)) {
+		throw new Error(
+			`convertFile expected a single-output tool but ${options.from} → ${options.to} returned multiple outputs. Use getTool(...).execute(...) and isToolResultMulti() to handle multi-output tools.`,
+		);
+	}
+	return result;
 }

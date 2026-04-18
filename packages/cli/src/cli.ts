@@ -18,7 +18,12 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, extname, join } from "node:path";
 import { createSharpBackend } from "@nouploads/backend-sharp";
-import { findToolByFormats, getAllTools, getTool } from "@nouploads/core";
+import {
+	findToolByFormats,
+	getAllTools,
+	getTool,
+	isToolResultMulti,
+} from "@nouploads/core";
 import { program } from "commander";
 
 const VERSION = "0.4.0";
@@ -135,10 +140,21 @@ program
 						process.stdout.write(`\r  Processing: ${pct}%`);
 					},
 				});
-				const outputPath = opts.output ?? `output${result.extension}`;
-				await mkdir(dirname(outputPath), { recursive: true });
-				await writeFile(outputPath, result.output);
-				console.log(`\r  ${inputFiles.length} files → ${outputPath}`);
+				if (isToolResultMulti(result)) {
+					const baseDir = opts.output ?? ".";
+					await mkdir(baseDir, { recursive: true });
+					for (const out of result.outputs) {
+						await writeFile(join(baseDir, out.filename), out.bytes);
+					}
+					console.log(
+						`\r  ${inputFiles.length} files → ${result.outputs.length} outputs in ${baseDir}/`,
+					);
+				} else {
+					const outputPath = opts.output ?? `output${result.extension}`;
+					await mkdir(dirname(outputPath), { recursive: true });
+					await writeFile(outputPath, result.output);
+					console.log(`\r  ${inputFiles.length} files → ${outputPath}`);
+				}
 			} catch (err) {
 				console.error(`\r  Error: ${(err as Error).message}`);
 			}
@@ -157,20 +173,36 @@ program
 					},
 				});
 
-				// Determine output path
 				const inputBase = basename(filePath, extname(filePath));
-				const outputName = `${inputBase}${result.extension}`;
-				const outputPath = opts.output
-					? opts.output.endsWith("/")
-						? join(opts.output, outputName)
-						: inputFiles.length > 1
-							? join(opts.output, outputName)
-							: opts.output
-					: join(dirname(filePath), outputName);
 
-				await mkdir(dirname(outputPath), { recursive: true });
-				await writeFile(outputPath, result.output);
-				console.log(`\r  ${basename(filePath)} → ${outputPath}`);
+				if (isToolResultMulti(result)) {
+					// Multi-output: one input -> N files. Write each output into a
+					// directory using inputBase as a prefix, e.g. "input-page-1.pdf".
+					const baseDir = opts.output ?? dirname(filePath);
+					await mkdir(baseDir, { recursive: true });
+					for (const out of result.outputs) {
+						await writeFile(
+							join(baseDir, `${inputBase}-${out.filename}`),
+							out.bytes,
+						);
+					}
+					console.log(
+						`\r  ${basename(filePath)} → ${result.outputs.length} files in ${baseDir}/`,
+					);
+				} else {
+					const outputName = `${inputBase}${result.extension}`;
+					const outputPath = opts.output
+						? opts.output.endsWith("/")
+							? join(opts.output, outputName)
+							: inputFiles.length > 1
+								? join(opts.output, outputName)
+								: opts.output
+						: join(dirname(filePath), outputName);
+
+					await mkdir(dirname(outputPath), { recursive: true });
+					await writeFile(outputPath, result.output);
+					console.log(`\r  ${basename(filePath)} → ${outputPath}`);
+				}
 			} catch (err) {
 				console.error(
 					`\r  Error processing ${filePath}: ${(err as Error).message}`,
@@ -423,9 +455,20 @@ async function interactiveMode() {
 			const result = await tool.executeMulti(inputs, toolOptions, {
 				imageBackend: backend,
 			});
-			const out = (outputPath as string) || `output${result.extension}`;
-			await writeFileAsync(out, result.output);
-			s.stop(`Done! ${filePaths.length} files → ${out}`);
+			if (isToolResultMulti(result)) {
+				const baseDir = (outputPath as string) || ".";
+				await mkdir(baseDir, { recursive: true });
+				for (const out of result.outputs) {
+					await writeFileAsync(join(baseDir, out.filename), out.bytes);
+				}
+				s.stop(
+					`Done! ${filePaths.length} files → ${result.outputs.length} outputs in ${baseDir}/`,
+				);
+			} else {
+				const out = (outputPath as string) || `output${result.extension}`;
+				await writeFileAsync(out, result.output);
+				s.stop(`Done! ${filePaths.length} files → ${out}`);
+			}
 		} else {
 			const fp = filePaths[0];
 			s.start(`Processing ${basename(fp)}...`);
@@ -434,11 +477,25 @@ async function interactiveMode() {
 				imageBackend: backend,
 			});
 			const inputBase = basename(fp, extname(fp));
-			const out =
-				(outputPath as string) ||
-				join(dirname(fp), `${inputBase}${result.extension}`);
-			await writeFileAsync(out, result.output);
-			s.stop(`Done! ${basename(fp)} → ${out}`);
+			if (isToolResultMulti(result)) {
+				const baseDir = (outputPath as string) || dirname(fp);
+				await mkdir(baseDir, { recursive: true });
+				for (const out of result.outputs) {
+					await writeFileAsync(
+						join(baseDir, `${inputBase}-${out.filename}`),
+						out.bytes,
+					);
+				}
+				s.stop(
+					`Done! ${basename(fp)} → ${result.outputs.length} files in ${baseDir}/`,
+				);
+			} else {
+				const out =
+					(outputPath as string) ||
+					join(dirname(fp), `${inputBase}${result.extension}`);
+				await writeFileAsync(out, result.output);
+				s.stop(`Done! ${basename(fp)} → ${out}`);
+			}
 		}
 	} catch (err) {
 		s.stop(`Error: ${(err as Error).message}`);
