@@ -1,8 +1,4 @@
-/**
- * JavaScript beautification using js-beautify (~90 KB, lazy-loaded on
- * first call). The library is shared with the HTML Formatter tool so each
- * user only pays the download cost once across both tools.
- */
+import { getTool, isToolResultMulti } from "@nouploads/core";
 
 export type IndentChar = "space" | "tab";
 export type BraceStyle = "collapse" | "expand" | "end-expand";
@@ -37,35 +33,33 @@ export const BRACE_STYLE_OPTIONS: { value: BraceStyle; label: string }[] = [
 ];
 
 /**
- * Beautify JavaScript source using js-beautify.
- * The library is dynamically imported so it only ships when the user
- * actually clicks Format.
+ * Beautify JavaScript source. Delegates to @nouploads/core's js-formatter
+ * tool (which uses js-beautify under the hood — same library as the
+ * previous forked impl, just consolidated).
  */
 export async function formatJs(
 	input: string,
 	options: FormatJsOptions = {},
 ): Promise<string> {
-	const {
-		indentSize = 2,
-		indentChar = "space",
-		braceStyle = "collapse",
-		preserveNewlines = true,
-	} = options;
+	const tool = getTool("js-formatter");
+	if (!tool) throw new Error("js-formatter tool not found in core registry");
 
-	const mod = await import("js-beautify");
-	const beautify = mod.js ?? mod.default?.js;
-	if (!beautify) {
-		throw new Error("Failed to load js-beautify library");
+	const result = await tool.execute(
+		new TextEncoder().encode(input),
+		{
+			indentSize: options.indentSize ?? 2,
+			indentChar: options.indentChar ?? "space",
+			braceStyle: options.braceStyle ?? "collapse",
+			preserveNewlines: options.preserveNewlines !== false,
+		},
+		{},
+	);
+
+	if (isToolResultMulti(result)) {
+		throw new Error("js-formatter unexpectedly returned multiple outputs");
 	}
 
-	return beautify(input, {
-		indent_size: indentSize,
-		indent_char: indentChar === "tab" ? "\t" : " ",
-		brace_style: braceStyle,
-		preserve_newlines: preserveNewlines,
-		max_preserve_newlines: 2,
-		end_with_newline: true,
-	});
+	return new TextDecoder().decode(result.output);
 }
 
 /**
@@ -73,6 +67,7 @@ export async function formatJs(
  * tracking string and comment context so braces inside strings or comments
  * don't distort the count. This is not a parser — js-beautify itself is
  * forgiving and rarely throws — but it catches the common "missing }" typo.
+ * Kept local for sync UI feedback.
  */
 export function validateJs(input: string): {
 	valid: boolean;

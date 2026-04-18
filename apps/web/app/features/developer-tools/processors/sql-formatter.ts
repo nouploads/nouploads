@@ -1,8 +1,4 @@
-/**
- * SQL formatting and minification.
- * The sql-formatter library (~85 KB) is dynamically imported so it only
- * ships when the user actually formats a query.
- */
+import { getTool, isToolResultMulti } from "@nouploads/core";
 
 export type SqlDialect =
 	| "sql"
@@ -48,25 +44,41 @@ export interface SqlStats {
 export const MAX_SQL_SIZE = 10 * 1024 * 1024;
 
 /**
- * Format SQL using sql-formatter (lazy-loaded on first call).
+ * Format SQL via @nouploads/core's sql-formatter tool (uses the
+ * sql-formatter library under the hood).
  */
 export async function formatSql(
 	input: string,
 	options: FormatSqlOptions = {},
 ): Promise<string> {
-	const { dialect = "sql", keywordCase = "upper", tabWidth = 2 } = options;
-	const { format } = await import("sql-formatter");
-	return format(input, {
-		language: dialect,
-		keywordCase,
-		tabWidth,
-	});
+	const tool = getTool("sql-formatter");
+	if (!tool) throw new Error("sql-formatter tool not found in core registry");
+
+	const result = await tool.execute(
+		new TextEncoder().encode(input),
+		{
+			mode: "format",
+			dialect: options.dialect ?? "sql",
+			keywordCase: options.keywordCase ?? "upper",
+			tabWidth: options.tabWidth ?? 2,
+		},
+		{},
+	);
+
+	if (isToolResultMulti(result)) {
+		throw new Error("sql-formatter unexpectedly returned multiple outputs");
+	}
+
+	return new TextDecoder().decode(result.output);
 }
 
 /**
- * Minify SQL by collapsing whitespace and stripping comments.
- * Pure JS — does not require the sql-formatter library.
- * Preserves content inside single-quoted strings and double-quoted identifiers.
+ * Minify SQL by collapsing whitespace and stripping comments. Pure JS —
+ * does not require the sql-formatter library. Preserves content inside
+ * single-quoted strings and double-quoted identifiers.
+ *
+ * Kept local because the web component calls it synchronously for instant
+ * UI updates while the user toggles between Format and Minify.
  */
 export function minifySql(input: string): string {
 	let out = "";

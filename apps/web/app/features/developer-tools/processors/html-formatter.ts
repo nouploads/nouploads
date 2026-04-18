@@ -1,8 +1,4 @@
-/**
- * HTML beautification using js-beautify (~90 KB, lazy-loaded on first call).
- * The library is shared with the JS Formatter tool so each user only pays
- * the download cost once across both tools.
- */
+import { getTool, isToolResultMulti } from "@nouploads/core";
 
 export type IndentChar = "space" | "tab";
 
@@ -37,41 +33,39 @@ export const WRAP_OPTIONS = [
 ] as const;
 
 /**
- * Beautify HTML markup using js-beautify.
- * The library is dynamically imported so it only ships when the user
- * actually clicks Format.
+ * Beautify HTML markup. Delegates to @nouploads/core's html-formatter tool
+ * (which uses js-beautify under the hood — same library as the previous
+ * forked impl, just consolidated).
  */
 export async function formatHtml(
 	input: string,
 	options: FormatHtmlOptions = {},
 ): Promise<string> {
-	const {
-		indentSize = 2,
-		indentChar = "space",
-		wrapLineLength = 80,
-		preserveNewlines = true,
-	} = options;
+	const tool = getTool("html-formatter");
+	if (!tool) throw new Error("html-formatter tool not found in core registry");
 
-	const mod = await import("js-beautify");
-	const beautify = mod.html ?? mod.default?.html;
-	if (!beautify) {
-		throw new Error("Failed to load js-beautify library");
+	const result = await tool.execute(
+		new TextEncoder().encode(input),
+		{
+			indentSize: options.indentSize ?? 2,
+			indentChar: options.indentChar ?? "space",
+			wrapLineLength: options.wrapLineLength ?? 80,
+			preserveNewlines: options.preserveNewlines !== false,
+		},
+		{},
+	);
+
+	if (isToolResultMulti(result)) {
+		throw new Error("html-formatter unexpectedly returned multiple outputs");
 	}
 
-	return beautify(input, {
-		indent_size: indentSize,
-		indent_char: indentChar === "tab" ? "\t" : " ",
-		wrap_line_length: wrapLineLength,
-		preserve_newlines: preserveNewlines,
-		max_preserve_newlines: 2,
-		end_with_newline: true,
-	});
+	return new TextDecoder().decode(result.output);
 }
 
 /**
  * Lightweight validation — check for obviously unbalanced angle brackets.
- * Real parse errors surface from js-beautify itself, which is forgiving by
- * design (it never throws — it just returns whatever it can).
+ * Real parse errors surface from js-beautify itself (which is forgiving by
+ * design — it never throws). Kept local for sync UI feedback.
  */
 export function validateHtml(input: string): {
 	valid: boolean;
