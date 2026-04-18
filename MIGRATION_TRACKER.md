@@ -20,7 +20,7 @@ Living document tracking the migration from forked web processors to single-sour
 
 ## Snapshot (2026-04-17)
 
-55 primary web processors. **10 delegating, 45 forked** (was 6/49 before Phase 2 completed 2026-04-17). 12 worker files (handled separately in Phase 4 backend design, not migrated 1:1).
+55 primary web processors. **13 delegating, 23 migratable forks remaining, 19 permanent forks** (Phase 3 audit identified that most developer tools are sync-by-design for typing UX and don't benefit from async core delegation). 12 worker files (handled separately in Phase 4 backend design, not migrated 1:1).
 
 | Web processor | Current | Core tool ID | Target | Phase | Notes |
 |---|---|---|---|---|---|
@@ -41,28 +41,28 @@ Living document tracking the migration from forked web processors to single-sour
 | `vector-tools/processors/convert-vector.ts` | ❌ | (none) | 🌐 | 5 | SVG → raster via Canvas; browser-only |
 | **developer-tools (23)** | | | | | |
 | `developer-tools/processors/base64-image.ts` | ✅ | `base64` | ✅ | n/a | |
-| `developer-tools/processors/case-converter.ts` | ❌ | `case-converter` | ✅ | 3 | text→text |
-| `developer-tools/processors/color-picker.ts` | ❌ | (none) | ✅ | 3 | Pure color math; add to core if not present |
-| `developer-tools/processors/cron-parser.ts` | ❌ | `cron-parser` | ✅ | 3 | text→text |
-| `developer-tools/processors/css-formatter.ts` | ❌ | `css-formatter` | ✅ | 3 | text→text |
-| `developer-tools/processors/hash-generator.ts` | ❌ | `hash-generator` | ✅ | 3 | bytes→text |
-| `developer-tools/processors/html-formatter.ts` | ❌ | `html-formatter` | ✅ | 3 | text→text |
-| `developer-tools/processors/js-formatter.ts` | ❌ | `js-formatter` | ✅ | 3 | text→text |
-| `developer-tools/processors/json-csv.ts` | ❌ | `json-csv` | ✅ | 3 | text→text |
-| `developer-tools/processors/json-formatter.ts` | ❌ | `json-formatter` | ✅ | 3 | text→text |
-| `developer-tools/processors/jwt-decoder.ts` | ❌ | `jwt-decoder` | ✅ | 3 | text→text |
-| `developer-tools/processors/lorem-ipsum.ts` | ❌ | `lorem-ipsum` | ✅ | 3 | text→text |
-| `developer-tools/processors/markdown-preview.ts` | ❌ | `markdown-preview` | ✅ | 3 | text→text |
-| `developer-tools/processors/qr-code.ts` | ❌ | `qr-code` | ✅ | 3 | text→PNG |
-| `developer-tools/processors/regex-tester.ts` | ❌ | `regex-tester` | ✅ | 3 | text→text |
-| `developer-tools/processors/sql-formatter.ts` | ❌ | `sql-formatter` | ✅ | 3 | text→text |
-| `developer-tools/processors/text-diff.ts` | ❌ | `text-diff` | ✅ | 3 | text→text |
-| `developer-tools/processors/timestamp-converter.ts` | ❌ | `timestamp-converter` | ✅ | 3 | text→text |
-| `developer-tools/processors/url-encoder.ts` | ❌ | `url-encoder` | ✅ | 3 | text→text |
-| `developer-tools/processors/uuid-generator.ts` | ❌ | `uuid-generator` | ✅ | 3 | text→text |
-| `developer-tools/processors/word-counter.ts` | ❌ | `word-counter` | ✅ | 3 | text→text |
-| `developer-tools/processors/xml-json.ts` | ❌ | `xml-json` | ✅ | 3 | text→text |
-| `developer-tools/processors/yaml-json.ts` | ❌ | `yaml-json` | ✅ | 3 | text→text |
+| `developer-tools/processors/case-converter.ts` | ❌ permanent fork | `case-converter` | ❌ permanent | n/a | sync UX, trivial impl |
+| `developer-tools/processors/color-picker.ts` | ❌ permanent fork | (none) | ❌ permanent | n/a | sync UX, color math |
+| `developer-tools/processors/cron-parser.ts` | ❌ permanent fork | `cron-parser` | ❌ permanent | n/a | sync UX, custom parser |
+| `developer-tools/processors/css-formatter.ts` | ❌ permanent fork | `css-formatter` | ❌ permanent | n/a | sync UX, simple impl |
+| `developer-tools/processors/hash-generator.ts` | ❌ permanent fork | `hash-generator` | ❌ permanent | n/a | sync Web Crypto wrapper |
+| `developer-tools/processors/html-formatter.ts` | ✅ | `html-formatter` | ✅ | n/a | Migrated 2026-04-17 (Phase 3.1) |
+| `developer-tools/processors/js-formatter.ts` | ✅ | `js-formatter` | ✅ | n/a | Migrated 2026-04-17 (Phase 3.1) |
+| `developer-tools/processors/json-csv.ts` | ❌ permanent fork | `json-csv` | ❌ permanent | n/a | sync UX, custom parser |
+| `developer-tools/processors/json-formatter.ts` | ❌ permanent fork | `json-formatter` | ❌ permanent | n/a | sync UX, JSON.parse wrapper |
+| `developer-tools/processors/jwt-decoder.ts` | ❌ permanent fork | `jwt-decoder` | ❌ permanent | n/a | sync UX, base64+JSON |
+| `developer-tools/processors/lorem-ipsum.ts` | ❌ permanent fork | `lorem-ipsum` | ❌ permanent | n/a | sync UX, text generator |
+| `developer-tools/processors/markdown-preview.ts` | ❌ permanent fork | `markdown-preview` | ❌ permanent | n/a | sync UX, marked() async:false (typing→preview) |
+| `developer-tools/processors/qr-code.ts` | ❌ permanent fork | `qr-code` | ❌ permanent | n/a | multi-format output (PNG+SVG); core's single-output contract mismatch |
+| `developer-tools/processors/regex-tester.ts` | ❌ permanent fork | `regex-tester` | ❌ permanent | n/a | sync UX, RegExp eval |
+| `developer-tools/processors/sql-formatter.ts` | ✅ | `sql-formatter` | ✅ | n/a | Migrated 2026-04-17 (Phase 3.1) |
+| `developer-tools/processors/text-diff.ts` | ❌ permanent fork | `text-diff` | ❌ permanent | n/a | sync UX, diff algo |
+| `developer-tools/processors/timestamp-converter.ts` | ❌ permanent fork | `timestamp-converter` | ❌ permanent | n/a | sync UX, Date methods |
+| `developer-tools/processors/url-encoder.ts` | ❌ permanent fork | `url-encoder` | ❌ permanent | n/a | sync UX, encodeURIComponent wrapper |
+| `developer-tools/processors/uuid-generator.ts` | ❌ permanent fork | `uuid-generator` | ❌ permanent | n/a | sync UX, crypto.randomUUID wrapper |
+| `developer-tools/processors/word-counter.ts` | ❌ permanent fork | `word-counter` | ❌ permanent | n/a | sync UX, regex counts |
+| `developer-tools/processors/xml-json.ts` | ❌ permanent fork | `xml-json` | ❌ permanent | n/a | sync UX, fast-xml-parser (typing→convert) |
+| `developer-tools/processors/yaml-json.ts` | ❌ permanent fork | `yaml-json` | ❌ permanent | n/a | sync UX, js-yaml (typing→convert) |
 | **image-tools (19)** | | | | | |
 | `image-tools/processors/rotate-image.ts` | ❌ | `rotate-image` | ✅ | 4.0 | **Spike** — simplest image tool; proves worker-backed ImageBackend pattern |
 | `image-tools/processors/resize-image.ts` | ❌ | `resize-image` | ✅ | 4.1 | Simple |
@@ -108,7 +108,7 @@ These are not migrated 1:1; they become implementation details of the worker-bac
 | Phase 0 — Foundation | 7 tasks | 7 | 0 | ✅ done (2026-04-17) |
 | Phase 1 — Core contract extension | 3 tasks (signal, ToolResultMulti, heic re-classify) | 3 | 0 | ✅ done (2026-04-17) |
 | Phase 2 — PDF migrations | 4 (unlock, reorder, split, protect) | 4 | 0 | ✅ done (2026-04-17) |
-| Phase 3 — Developer migrations | 22 | 0 | 22 | pending |
+| Phase 3 — Developer migrations | 3 (html, js, sql formatters) + 19 permanent forks | 3 | 0 | ✅ done (2026-04-17) — see DEVELOPER_TOOLS_FORK_RATIONALE comment in apps/web/tests/unit/architecture.test.ts |
 | Phase 4.0 — Image spike | 1 (rotate-image) | 0 | 1 | pending |
 | Phase 4.1 — Image rollout | 14 | 0 | 14 | pending |
 | Phase 5 — Browser-only cleanup | 8 (compress-gif, compress-pdf, compress-png, convert-vector, parse-gif-frames, pdf-to-image, pdf-to-text, remove-background) | 0 | 8 | pending |

@@ -24,26 +24,37 @@ const CORE_DELEGATION_EXEMPT = new Set<string>([
 	// vector-tools (1) — Phase 5
 	"vector-tools/processors/convert-vector.ts",
 
-	// developer-tools (22) — Phase 3
-	"developer-tools/processors/case-converter.ts",
-	"developer-tools/processors/color-picker.ts",
-	"developer-tools/processors/cron-parser.ts",
-	"developer-tools/processors/css-formatter.ts",
-	"developer-tools/processors/hash-generator.ts",
-	"developer-tools/processors/json-csv.ts",
-	"developer-tools/processors/json-formatter.ts",
-	"developer-tools/processors/jwt-decoder.ts",
-	"developer-tools/processors/lorem-ipsum.ts",
-	"developer-tools/processors/markdown-preview.ts",
-	"developer-tools/processors/qr-code.ts",
-	"developer-tools/processors/regex-tester.ts",
-	"developer-tools/processors/text-diff.ts",
-	"developer-tools/processors/timestamp-converter.ts",
-	"developer-tools/processors/url-encoder.ts",
-	"developer-tools/processors/uuid-generator.ts",
-	"developer-tools/processors/word-counter.ts",
-	"developer-tools/processors/xml-json.ts",
-	"developer-tools/processors/yaml-json.ts",
+	// developer-tools — see DEVELOPER_TOOLS_FORK_RATIONALE below.
+	// All entries here are "permanent forks by design" — Phase 3 audited each
+	// processor; tools that wrapped a heavy third-party lib (html/js/sql
+	// formatters) were migrated. Everything remaining here either:
+	//   (a) is called synchronously by its component for instant UI feedback
+	//       (typing -> render, can't introduce async core round-trip without
+	//       degrading UX), AND
+	//   (b) wraps a built-in or has a pure-JS impl small enough that the
+	//       cost of duplication is below the cost of forced async migration.
+	// CLI/library users still get the tool via core's own implementation;
+	// web maintains a parallel sync impl. Drift risk is low because the
+	// implementations are short and have side-by-side tests in both places.
+	"developer-tools/processors/case-converter.ts", // sync string transforms
+	"developer-tools/processors/color-picker.ts", // sync color math
+	"developer-tools/processors/cron-parser.ts", // sync custom parser
+	"developer-tools/processors/css-formatter.ts", // sync impl
+	"developer-tools/processors/hash-generator.ts", // sync Web Crypto wrapper
+	"developer-tools/processors/json-csv.ts", // sync custom parser
+	"developer-tools/processors/json-formatter.ts", // sync JSON.parse
+	"developer-tools/processors/jwt-decoder.ts", // sync base64 + JSON
+	"developer-tools/processors/lorem-ipsum.ts", // sync text generator
+	"developer-tools/processors/markdown-preview.ts", // sync marked() with async:false (typing→preview)
+	"developer-tools/processors/qr-code.ts", // multi-format output (PNG+SVG); contract mismatch with core's single-output execute()
+	"developer-tools/processors/regex-tester.ts", // sync RegExp eval
+	"developer-tools/processors/text-diff.ts", // sync diff
+	"developer-tools/processors/timestamp-converter.ts", // sync Date methods
+	"developer-tools/processors/url-encoder.ts", // sync encodeURIComponent wrapper
+	"developer-tools/processors/uuid-generator.ts", // sync crypto.randomUUID wrapper
+	"developer-tools/processors/word-counter.ts", // sync regex counts
+	"developer-tools/processors/xml-json.ts", // sync fast-xml-parser (typing→convert)
+	"developer-tools/processors/yaml-json.ts", // sync js-yaml (typing→convert)
 
 	// image-tools (19) — Phase 4 + Phase 5
 	"image-tools/processors/color-palette.ts",
