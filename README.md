@@ -1,7 +1,7 @@
 # NoUploads
 
 [![GitHub stars](https://img.shields.io/github/stars/nouploads/nouploads?style=social)](https://github.com/nouploads/nouploads)
-[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Privacy-first file tools that run entirely on your device.** No uploads. No servers. No compromises.
 
@@ -153,6 +153,9 @@ All contributors must sign our [Contributor License Agreement](CLA.md) before th
 
 ## License
 
-NoUploads is licensed under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0).
+NoUploads uses a split license model:
 
-A commercial license is available for organizations that need to use the code without AGPL obligations. Contact us for details.
+- **The `nouploads` npm package, `packages/core`, `packages/backend-sharp`, `packages/backend-canvas`, scripts, fixtures, and tooling** are licensed under the [MIT License](LICENSE). Free for any use, including commercial SaaS — no copyleft obligations.
+- **`apps/web/`** (the source code of the nouploads.com web application) is licensed under the [GNU Affero General Public License v3.0](apps/web/LICENSE) (AGPL-3.0-only). Anyone running a modified version of the web app over a network must publish their source under the same license. This is a clone deterrent for the deployed nouploads.com product; it does not affect users of the npm library or CLI.
+
+Contributing? See [CLA.md](CLA.md) — contributors grant the project the right to relicense, which keeps this split model coherent.

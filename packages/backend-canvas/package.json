@@ -4,7 +4,7 @@
 	"private": true,
 	"type": "module",
 	"description": "Canvas-based image processing backend for NoUploads CLI",
-	"license": "AGPL-3.0",
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/nouploads/nouploads.git",

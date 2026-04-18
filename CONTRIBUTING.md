@@ -4,7 +4,7 @@ Thank you for your interest in contributing to NoUploads! This guide will help y
 
 ## Contributor License Agreement (CLA)
 
-**All contributors must agree to the [CLA](CLA.md) before their first PR can be merged.** The CLA grants the project owner the right to relicense contributions, which is necessary for dual licensing (AGPL + commercial). You retain copyright of your contributions.
+**All contributors must agree to the [CLA](CLA.md) before their first PR can be merged.** The CLA grants the project owner the right to relicense contributions, which is necessary for our split-license model: the `nouploads` npm package and all `packages/*` are MIT-licensed (free for any use), while `apps/web/` is AGPL-3.0-only (clone deterrent for the deployed nouploads.com web app). You retain copyright of your contributions.
 
 By opening a PR, you confirm that you have read and agree to the CLA.
 
