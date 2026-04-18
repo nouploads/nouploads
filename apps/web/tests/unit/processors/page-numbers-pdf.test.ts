@@ -1,19 +1,8 @@
-import { registerTool } from "@nouploads/core";
 import { PDFDocument } from "pdf-lib";
-import { beforeAll, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
-// The tool is not yet registered in @nouploads/core's index.ts, so we
-// import the definition from source and register it in the same registry
-// that the web processor's getTool() reads from.
-import pageNumbersTool from "../../../../../packages/core/src/tools/page-numbers-pdf";
-
-beforeAll(() => {
-	try {
-		registerTool(pageNumbersTool);
-	} catch {
-		// Already registered (e.g. if vitest re-runs the module)
-	}
-});
+// Importing the web processor registers page-numbers-pdf as a side effect
+// (it does `import "@nouploads/core/tools/page-numbers-pdf"`).
 
 /** Create a minimal valid PDF file as a File object. */
 async function createTestPdf(name: string, pageCount = 1): Promise<File> {

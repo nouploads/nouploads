@@ -5,12 +5,15 @@
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { createSharpBackend } from "../../backend-sharp/src/index.js";
+import { loadAllTools } from "../src/load-all-tools.js";
 import { findToolByFormats, getTool } from "../src/registry.js";
 
-// Trigger all registrations
-import "../src/index.js";
+// Register every tool before any test runs.
+beforeAll(async () => {
+	await loadAllTools();
+});
 
 const FIXTURES = join(import.meta.dirname, "fixtures");
 const backend = createSharpBackend();

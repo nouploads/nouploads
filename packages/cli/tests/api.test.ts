@@ -1,4 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { loadAllTools } from "@nouploads/core/load-all-tools";
+import { beforeAll, describe, expect, it } from "vitest";
+
+beforeAll(async () => {
+	await loadAllTools();
+});
 
 describe("programmatic API", () => {
 	it("should export convertFile function", async () => {

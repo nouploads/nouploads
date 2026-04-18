@@ -1,3 +1,7 @@
+// Register this tool's ToolDefinition with the core registry. Required
+// because core's main entry no longer eagerly loads every tool —
+// @nouploads/core/tools/reorder-pdf self-registers on import.
+import "@nouploads/core/tools/reorder-pdf";
 import { getTool, isToolResultMulti } from "@nouploads/core";
 
 /**

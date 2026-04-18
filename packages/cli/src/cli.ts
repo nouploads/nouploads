@@ -24,7 +24,13 @@ import {
 	getTool,
 	isToolResultMulti,
 } from "@nouploads/core";
+// Eagerly register every tool into the registry — CLI exposes the full
+// catalog via --list / --info / format-pair lookup, so we pull them all.
+// Web imports per-tool subpaths instead so it can tree-shake.
+import { loadAllTools } from "@nouploads/core/load-all-tools";
 import { program } from "commander";
+
+await loadAllTools();
 
 const VERSION = "0.4.0";
 

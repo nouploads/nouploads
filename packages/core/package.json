@@ -16,10 +16,22 @@
 	},
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
+	"sideEffects": [
+		"./dist/tools/*.js",
+		"./dist/load-all-tools.js"
+	],
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
 			"import": "./dist/index.js"
+		},
+		"./load-all-tools": {
+			"types": "./dist/load-all-tools.d.ts",
+			"import": "./dist/load-all-tools.js"
+		},
+		"./tools/*": {
+			"types": "./dist/tools/*.d.ts",
+			"import": "./dist/tools/*.js"
 		}
 	},
 	"scripts": {

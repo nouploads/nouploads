@@ -6,5 +6,8 @@ export default defineConfig({
 	dts: { resolve: true },
 	clean: true,
 	sourcemap: false,
-	noExternal: ["@nouploads/core", "@nouploads/backend-sharp"],
+	// Inline workspace deps including any subpath imports like
+	// `@nouploads/core/load-all-tools` or `@nouploads/core/tools/<id>`.
+	// A regex is required — bare-string matches only the exact specifier.
+	noExternal: [/^@nouploads\//],
 });

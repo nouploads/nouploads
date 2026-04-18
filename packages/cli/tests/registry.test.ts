@@ -1,5 +1,10 @@
 import { findToolByFormats, getAllTools, getTool } from "@nouploads/core";
-import { describe, expect, it } from "vitest";
+import { loadAllTools } from "@nouploads/core/load-all-tools";
+import { beforeAll, describe, expect, it } from "vitest";
+
+beforeAll(async () => {
+	await loadAllTools();
+});
 
 describe("tool registry", () => {
 	it("should have 80+ registered tools", () => {

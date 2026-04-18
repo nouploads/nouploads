@@ -1,3 +1,7 @@
+// Register this tool's ToolDefinition with the core registry. Required
+// because core's main entry no longer eagerly loads every tool —
+// @nouploads/core/tools/sql-formatter self-registers on import.
+import "@nouploads/core/tools/sql-formatter";
 import { getTool, isToolResultMulti } from "@nouploads/core";
 
 export type SqlDialect =
