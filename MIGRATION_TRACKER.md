@@ -101,6 +101,20 @@ These are not migrated 1:1; they become implementation details of the worker-bac
 - `rotate-image.worker.ts`
 - `watermark-image.worker.ts`
 
+## Phase 3S baseline bundle (recorded 2026-04-18)
+
+Total `apps/web/build/client/`: **52 MB** (includes prerendered HTML, images, fonts).
+
+Largest JS chunks:
+- `heic2any` — 1.3 MB (unrelated to dev tools)
+- `main` — 1.2 MB
+- `svgo-node` — 564 KB
+- `openjpegjs_decode` — 484 KB
+- `index-*` — 472 KB (root shell)
+- `pdf` (pdf-lib) — 400 KB
+
+Used to detect bundle regression after Phase 3S.1 core tree-shake refactor.
+
 ## Migration progress
 
 | Phase | Total | Migrated | Remaining | Status |
