@@ -3,10 +3,7 @@
 
 	"mainEntryPointFilePath": "<projectFolder>/dist/index.d.ts",
 
-	"bundledPackages": [
-		"@nouploads/core",
-		"@nouploads/backend-sharp"
-	],
+	"bundledPackages": ["@nouploads/core", "@nouploads/backend-sharp"],
 
 	"compiler": {
 		"tsconfigFilePath": "<projectFolder>/tsconfig.json"
