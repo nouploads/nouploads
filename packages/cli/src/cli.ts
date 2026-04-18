@@ -21,7 +21,7 @@ import { createSharpBackend } from "@nouploads/backend-sharp";
 import { findToolByFormats, getAllTools, getTool } from "@nouploads/core";
 import { program } from "commander";
 
-const VERSION = "0.1.0";
+const VERSION = "0.4.0";
 
 program
 	.name("nouploads")

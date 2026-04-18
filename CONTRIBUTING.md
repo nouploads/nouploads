@@ -226,6 +226,24 @@ Use conventional commits:
 - `docs: update self-hosting instructions`
 - `refactor: extract shared processing logic`
 
+## Versioning & Releases
+
+The repo uses [Changesets](https://github.com/changesets/changesets) with a fixed grouping: `nouploads`, `@nouploads/core`, `@nouploads/backend-sharp`, `@nouploads/backend-canvas`, and `@nouploads/web` always share the same version. The published `nouploads` npm package version is the canonical "release" version of the project.
+
+When your PR introduces a user-visible change:
+
+```bash
+pnpm changeset             # interactively pick bump type + write summary
+git add .changeset/*.md
+git commit -m "..."
+```
+
+For internal-only changes (refactors, tests, docs), no changeset is needed.
+
+When merging to `main` for a release, the maintainer runs `pnpm changeset version` (bumps all packages in the fixed group + updates CHANGELOG.md), commits, tags `vX.Y.Z`, and pushes. The release workflow publishes `nouploads` to npm with provenance and triggers the web deploy.
+
+The `nouploads` npm package's `prepublishOnly` hook reruns the full monorepo build and CLI tests as a final guard against publishing stale artifacts.
+
 ## Questions?
 
 Open an issue on GitHub if you need help or have questions.
