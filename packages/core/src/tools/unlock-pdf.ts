@@ -31,6 +31,14 @@ const tool: ToolDefinition = {
 
 		context.onProgress?.(50);
 
+		// Strip the /Encrypt dictionary so the saved PDF has no encryption.
+		// pdf-lib's ignoreEncryption only skips validation during load — it
+		// preserves the encryption metadata in the document context, so a
+		// subsequent doc.save() would re-serialize it and produce a still-
+		// locked PDF. Deleting the trailer Encrypt entry forces unencrypted
+		// output.
+		delete doc.context.trailerInfo.Encrypt;
+
 		const pdfBytes = await doc.save();
 
 		context.onProgress?.(100);

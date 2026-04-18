@@ -1,4 +1,4 @@
-import { PDFDocument } from "pdf-lib";
+import { getTool, isToolResultMulti } from "@nouploads/core";
 
 export interface UnlockPdfOptions {
 	password?: string;
@@ -13,13 +13,12 @@ export interface UnlockPdfResult {
 }
 
 /**
- * Remove password protection from a PDF by loading it with
- * `ignoreEncryption: true` and re-saving without encryption.
+ * Remove password protection from a PDF by re-saving it without the
+ * /Encrypt trailer dictionary. Delegates to @nouploads/core's unlock-pdf.
  *
- * Works for owner-password-protected PDFs (print/copy restrictions)
- * without needing the password. For user-password-protected PDFs,
- * the password field is accepted but pdf-lib's ignoreEncryption
- * handles the loading step.
+ * Works for owner-password-protected PDFs (print/copy restrictions) without
+ * needing the password. For user-password-protected PDFs, the password
+ * field is accepted but pdf-lib's ignoreEncryption handles loading.
  */
 export async function unlockPdf(
 	file: File,
@@ -29,34 +28,25 @@ export async function unlockPdf(
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
+	const tool = getTool("unlock-pdf");
+	if (!tool) throw new Error("unlock-pdf tool not found in core registry");
+
 	const bytes = new Uint8Array(await file.arrayBuffer());
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
-	let doc: PDFDocument;
-	try {
-		doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
-	} catch (err) {
-		throw new Error(
-			`Failed to load PDF: ${err instanceof Error ? err.message : "Invalid PDF"}`,
-		);
+	const result = await tool.execute(
+		bytes,
+		{ password: options?.password ?? "" },
+		{ signal },
+	);
+
+	if (isToolResultMulti(result)) {
+		throw new Error("unlock-pdf unexpectedly returned multiple outputs");
 	}
 
-	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
-
-	// Strip the /Encrypt dictionary so the saved PDF has no encryption.
-	// pdf-lib's ignoreEncryption only skips validation during load — it
-	// preserves the encryption metadata in the document context, so
-	// doc.save() would re-serialize it and produce a still-locked PDF.
-	const ctx = doc.context;
-	delete ctx.trailerInfo.Encrypt;
-
-	const pdfBytes = await doc.save();
-
-	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
-
-	const pageCount = doc.getPageCount();
-	const blob = new Blob([pdfBytes as BlobPart], {
+	const pageCount = (result.metadata?.pageCount as number) ?? 0;
+	const blob = new Blob([result.output as BlobPart], {
 		type: "application/pdf",
 	});
 

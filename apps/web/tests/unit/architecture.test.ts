@@ -23,7 +23,6 @@ const CORE_DELEGATION_EXEMPT = new Set<string>([
 	"pdf-tools/processors/protect-pdf.ts",
 	"pdf-tools/processors/reorder-pdf.ts",
 	"pdf-tools/processors/split-pdf.ts",
-	"pdf-tools/processors/unlock-pdf.ts",
 
 	// vector-tools (1) — Phase 5
 	"vector-tools/processors/convert-vector.ts",
