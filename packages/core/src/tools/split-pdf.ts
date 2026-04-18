@@ -41,7 +41,7 @@ const tool: ToolDefinition = {
 
 		if (ranges.length === 0) throw new Error("No valid page ranges specified");
 
-		// If there's a single range, return just that one PDF
+		// Single range: return one ToolResult.
 		if (ranges.length === 1) {
 			const newDoc = await PDFDocument.create();
 			const pages = await newDoc.copyPages(sourceDoc, ranges[0]);
@@ -54,29 +54,43 @@ const tool: ToolDefinition = {
 				output: new Uint8Array(bytes),
 				extension: ".pdf",
 				mimeType: "application/pdf",
-				metadata: { pageCount: pages.length, rangeCount: 1 },
+				metadata: { pageCount: pages.length, rangeCount: 1, totalPages },
 			};
 		}
 
-		// Multiple ranges: return the first range as the main output
-		// (web processor handles multi-range output separately)
-		const newDoc = await PDFDocument.create();
-		const pages = await newDoc.copyPages(sourceDoc, ranges[0]);
-		for (const page of pages) {
-			newDoc.addPage(page);
+		// Multiple ranges: return one PDF per range as ToolResultMulti.
+		const outputs: { bytes: Uint8Array; filename: string; mimeType: string }[] =
+			[];
+		for (let i = 0; i < ranges.length; i++) {
+			if (context.signal?.aborted) {
+				throw new DOMException("Aborted", "AbortError");
+			}
+
+			const range = ranges[i];
+			const newDoc = await PDFDocument.create();
+			const pages = await newDoc.copyPages(sourceDoc, range);
+			for (const page of pages) {
+				newDoc.addPage(page);
+			}
+			const bytes = await newDoc.save();
+
+			const label =
+				range.length === 1
+					? `page-${range[0] + 1}`
+					: `pages-${range[0] + 1}-${range[range.length - 1] + 1}`;
+
+			outputs.push({
+				bytes: new Uint8Array(bytes),
+				filename: `${label}.pdf`,
+				mimeType: "application/pdf",
+			});
+
+			context.onProgress?.(Math.round(((i + 1) / ranges.length) * 100));
 		}
-		const bytes = await newDoc.save();
-		context.onProgress?.(Math.round((1 / ranges.length) * 100));
 
 		return {
-			output: new Uint8Array(bytes),
-			extension: ".pdf",
-			mimeType: "application/pdf",
-			metadata: {
-				pageCount: pages.length,
-				rangeCount: ranges.length,
-				totalPages,
-			},
+			outputs,
+			metadata: { rangeCount: ranges.length, totalPages },
 		};
 	},
 };

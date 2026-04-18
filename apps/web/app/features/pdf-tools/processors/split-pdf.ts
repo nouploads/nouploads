@@ -1,3 +1,4 @@
+import { getTool, isToolResultMulti } from "@nouploads/core";
 import { PDFDocument } from "pdf-lib";
 
 export interface SplitPdfOptions {
@@ -20,6 +21,10 @@ export interface SplitResult {
 /**
  * Parse a range string like "1-3, 5, 7-10" into arrays of 0-based page indices.
  * Each comma-separated element becomes a separate range.
+ *
+ * Kept in the web layer for input validation + immediate UI feedback before
+ * the split runs. Core has its own internal parser for execution; the
+ * results match.
  */
 export function parsePageRanges(
 	rangesStr: string,
@@ -78,8 +83,10 @@ export function parsePageRanges(
 /**
  * Split a PDF file into parts based on page ranges.
  *
- * If no ranges are specified, splits into individual pages.
- * Uses pdf-lib's copyPages to extract page subsets without re-rendering.
+ * Delegates to @nouploads/core's split-pdf tool. The core tool returns
+ * either ToolResult (single range) or ToolResultMulti (N ranges); this
+ * adapter normalizes both into SplitResult[] that the web component
+ * consumes.
  */
 export async function splitPdf(
 	file: File,
@@ -91,68 +98,76 @@ export async function splitPdf(
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
-	const arrayBuffer = await file.arrayBuffer();
+	const tool = getTool("split-pdf");
+	if (!tool) throw new Error("split-pdf tool not found in core registry");
+
+	const bytes = new Uint8Array(await file.arrayBuffer());
 
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
-	let sourceDoc: PDFDocument;
+	const baseName = file.name.replace(/\.pdf$/i, "");
+
+	// Read total pages once so we can build the parsed-ranges list (with
+	// labels) up-front, matching the same expansion core does internally.
+	// This keeps progress reporting accurate and lets us label outputs
+	// without parsing core's filenames back.
+	let srcDoc: PDFDocument;
 	try {
-		sourceDoc = await PDFDocument.load(arrayBuffer, {
-			ignoreEncryption: true,
-		});
+		srcDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
 	} catch {
 		throw new Error(
 			"Failed to load PDF: the file may be corrupted or password-protected",
 		);
 	}
+	const totalPages = srcDoc.getPageCount();
 
-	const totalPages = sourceDoc.getPageCount();
-	if (totalPages === 0) throw new Error("PDF has no pages");
-
-	// Build range list
-	const ranges = rangesStr
+	const parsedRanges = rangesStr
 		? parsePageRanges(rangesStr, totalPages)
 		: Array.from({ length: totalPages }, (_, i) => ({
 				indices: [i],
 				label: `Page ${i + 1}`,
 			}));
 
-	if (ranges.length === 0) throw new Error("No valid page ranges specified");
-
-	const baseName = file.name.replace(/\.pdf$/i, "");
-	const results: SplitResult[] = [];
-
-	for (let i = 0; i < ranges.length; i++) {
-		if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
-
-		const range = ranges[i];
-		const newDoc = await PDFDocument.create();
-		const pages = await newDoc.copyPages(sourceDoc, range.indices);
-		for (const page of pages) {
-			newDoc.addPage(page);
-		}
-
-		const bytes = await newDoc.save();
-		const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
-
-		// Build filename
-		const suffix =
-			ranges.length === 1
-				? ""
-				: `-${range.label.toLowerCase().replace(/\s+/g, "-")}`;
-		const filename = `${baseName}${suffix}.pdf`;
-
-		results.push({
-			blob,
-			label: range.label,
-			filename,
-			pageCount: range.indices.length,
-		});
-
-		onProgress?.(i + 1, ranges.length);
+	if (parsedRanges.length === 0) {
+		throw new Error("No valid page ranges specified");
 	}
 
-	return results;
+	const result = await tool.execute(
+		bytes,
+		{ ranges: rangesStr },
+		{
+			signal,
+			onProgress: (pct) => {
+				const completed = Math.round((pct / 100) * parsedRanges.length);
+				onProgress?.(completed, parsedRanges.length);
+			},
+		},
+	);
+
+	if (isToolResultMulti(result)) {
+		return result.outputs.map((out, i) => {
+			const range = parsedRanges[i];
+			return {
+				blob: new Blob([out.bytes as BlobPart], { type: out.mimeType }),
+				label: range.label,
+				filename: `${baseName}-${out.filename}`,
+				pageCount: range.indices.length,
+			};
+		});
+	}
+
+	// Single range: core returned ToolResult. Match the original web semantics
+	// (single range → no suffix in filename, regardless of whether the range
+	// was specified explicitly or implied by an empty rangesStr).
+	const range = parsedRanges[0];
+	return [
+		{
+			blob: new Blob([result.output as BlobPart], { type: result.mimeType }),
+			label: range.label,
+			filename: `${baseName}.pdf`,
+			pageCount: range.indices.length,
+		},
+	];
 }
 
 /**
