@@ -106,14 +106,14 @@ These are not migrated 1:1; they become implementation details of the worker-bac
 | Phase | Total | Migrated | Remaining | Status |
 |---|---|---|---|---|
 | Phase 0 — Foundation | 7 tasks | 7 | 0 | ✅ done (2026-04-17) |
-| Phase 1 — Core contract extension | 1 task | 0 | 1 | pending |
+| Phase 1 — Core contract extension | 3 tasks (signal, ToolResultMulti, heic re-classify) | 3 | 0 | ✅ done (2026-04-17) |
 | Phase 2 — PDF migrations | 7 (5 migrate + 1 new core tool + 1 stay browser) | 0 | 7 | pending |
 | Phase 3 — Developer migrations | 22 | 0 | 22 | pending |
 | Phase 4.0 — Image spike | 1 (rotate-image) | 0 | 1 | pending |
 | Phase 4.1 — Image rollout | 14 | 0 | 14 | pending |
 | Phase 5 — Browser-only cleanup | 6 (compress-gif, parse-gif-frames, remove-background, compress-png, convert-vector, pdf-to-image) | 0 | 6 | pending |
 | Phase 6 — First npm publish | 1 | 0 | 1 | blocked on Phases 2–5 |
-| Phase 7 — Drift prevention test | 1 | 0 | 1 | deploy after Phase 0 (next) |
+| Phase 7 — Drift prevention test | 1 | 1 | 0 | ✅ done (2026-04-17) |
 
 ## Per-tool migration checklist
 
