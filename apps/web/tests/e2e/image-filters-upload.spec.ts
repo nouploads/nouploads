@@ -55,7 +55,8 @@ test.describe("Image Filters — happy path", () => {
 			const c = document.createElement("canvas");
 			c.width = img.naturalWidth;
 			c.height = img.naturalHeight;
-			const ctx = c.getContext("2d")!;
+			const ctx = c.getContext("2d");
+			if (!ctx) return null;
 			ctx.drawImage(img, 0, 0);
 			// Sample 5 pixels at different positions
 			const positions = [
@@ -71,8 +72,8 @@ test.describe("Image Filters — happy path", () => {
 			});
 		});
 
-		expect(result).not.toBeNull();
-		for (const px of result!) {
+		if (!result) throw new Error("result should be populated");
+		for (const px of result) {
 			// In a grayscale image, R ≈ G ≈ B (allow small rounding differences)
 			expect(Math.abs(px.r - px.g)).toBeLessThanOrEqual(2);
 			expect(Math.abs(px.g - px.b)).toBeLessThanOrEqual(2);

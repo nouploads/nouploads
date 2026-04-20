@@ -78,8 +78,9 @@ test.describe("PDF Unlock — happy path", () => {
 		const path = await download.path();
 		expect(path).toBeTruthy();
 
+		if (!path) throw new Error("download path unavailable");
 		const fs = await import("node:fs");
-		const bytes = fs.readFileSync(path!);
+		const bytes = fs.readFileSync(path);
 		const content = bytes.toString("latin1");
 		expect(content).not.toContain("/Encrypt");
 		// Valid PDF magic bytes

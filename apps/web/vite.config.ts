@@ -6,8 +6,12 @@ import { defineConfig } from "vite";
 import sitemap from "vite-plugin-sitemap";
 import tsconfigPaths from "vite-tsconfig-paths";
 
+const configDir = import.meta.dirname;
+if (!configDir) {
+	throw new Error("vite.config.ts requires import.meta.dirname (Node 20.11+)");
+}
 const rootPkg = JSON.parse(
-	readFileSync(resolve(import.meta.dirname!, "../../package.json"), "utf8"),
+	readFileSync(resolve(configDir, "../../package.json"), "utf8"),
 );
 
 export default defineConfig({

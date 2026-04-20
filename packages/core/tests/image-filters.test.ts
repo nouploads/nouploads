@@ -115,7 +115,8 @@ describe("image-filters tool", () => {
 			{ grayscale: 100 },
 			{ imageBackend: backend },
 		);
-		const d = encodedImage!.data;
+		if (!encodedImage) throw new Error("encode was not called");
+		const d = encodedImage.data;
 		// After full grayscale, r ≈ g ≈ b per pixel
 		for (let i = 0; i < d.length; i += 4) {
 			expect(Math.abs(d[i] - d[i + 1])).toBeLessThanOrEqual(1);
@@ -147,7 +148,8 @@ describe("image-filters tool", () => {
 			{ invert: 100 },
 			{ imageBackend: backend },
 		);
-		const d = encodedImage!.data;
+		if (!encodedImage) throw new Error("encode was not called");
+		const d = encodedImage.data;
 		expect(d[0]).toBe(155); // 255 - 100
 		expect(d[1]).toBe(205); // 255 - 50
 		expect(d[2]).toBe(230); // 255 - 25

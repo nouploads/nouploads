@@ -38,7 +38,10 @@ self.onmessage = async (e: MessageEvent<ParseGifMessage>) => {
 
 		// Composite canvas — accumulates frame patches respecting disposal
 		const compositeCanvas = new OffscreenCanvas(gifWidth, gifHeight);
-		const compositeCtx = compositeCanvas.getContext("2d")!;
+		const compositeCtx = compositeCanvas.getContext("2d");
+		if (!compositeCtx) {
+			throw new Error("Could not get OffscreenCanvas 2D context for composite");
+		}
 
 		// Previous canvas state for disposalType 3 (restore to previous)
 		let previousImageData: ImageData | null = null;
@@ -47,7 +50,10 @@ self.onmessage = async (e: MessageEvent<ParseGifMessage>) => {
 		const thumbScale = THUMBNAIL_HEIGHT / gifHeight;
 		const thumbWidth = Math.round(gifWidth * thumbScale);
 		const thumbCanvas = new OffscreenCanvas(thumbWidth, THUMBNAIL_HEIGHT);
-		const thumbCtx = thumbCanvas.getContext("2d")!;
+		const thumbCtx = thumbCanvas.getContext("2d");
+		if (!thumbCtx) {
+			throw new Error("Could not get OffscreenCanvas 2D context for thumbnail");
+		}
 
 		const results: GifFrameResult[] = [];
 

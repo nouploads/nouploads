@@ -30,7 +30,7 @@ describe("tool registry", () => {
 		it(`should have tool: ${id}`, () => {
 			const tool = getTool(id);
 			expect(tool).toBeDefined();
-			expect(tool!.id).toBe(id);
+			expect(tool?.id).toBe(id);
 		});
 	}
 
@@ -38,7 +38,7 @@ describe("tool registry", () => {
 	it("should find heic-to-jpg by format pair", () => {
 		const tool = findToolByFormats("heic", "jpg");
 		expect(tool).toBeDefined();
-		expect(tool!.id).toBe("heic-to-jpg");
+		expect(tool?.id).toBe("heic-to-jpg");
 	});
 
 	it("should find png-to-jpg by format pair", () => {
@@ -65,7 +65,7 @@ describe("tool registry", () => {
 		for (const id of pdfToolIds) {
 			const tool = getTool(id);
 			expect(tool).toBeDefined();
-			expect(tool!.category).toBe("pdf");
+			expect(tool?.category).toBe("pdf");
 		}
 	});
 
@@ -74,7 +74,7 @@ describe("tool registry", () => {
 		for (const id of devToolIds) {
 			const tool = getTool(id);
 			expect(tool).toBeDefined();
-			expect(tool!.category).toBe("developer");
+			expect(tool?.category).toBe("developer");
 		}
 	});
 
