@@ -5,6 +5,12 @@ set -euo pipefail
 #   ./scripts/release.sh patch   — bug fix (0.1.0 → 0.1.1)
 #   ./scripts/release.sh minor   — new tools/features (0.1.0 → 0.2.0)
 #   ./scripts/release.sh major   — milestone (0.12.0 → 1.0.0)
+#
+# Bumps every workspace package.json + root in lockstep (via
+# scripts/bump-workspace-versions.mjs), rewrites CHANGELOG.md, commits,
+# tags, and pushes. The tag push triggers .github/workflows/release.yml
+# which publishes the public workspace packages to npm and creates the
+# GitHub Release.
 
 BUMP_TYPE="${1:-minor}"
 
@@ -98,13 +104,8 @@ if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" ]]; then
   exit 0
 fi
 
-# --- Update root package.json version (node, not npm — safer in pnpm monorepos) ---
-node -e "
-const fs = require('fs');
-const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-pkg.version = '${NEW_VERSION}';
-fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
-"
+# --- Bump every workspace package.json + root in lockstep ---
+node scripts/bump-workspace-versions.mjs "$NEW_VERSION"
 
 # --- Prepend to CHANGELOG.md ---
 if [ -f CHANGELOG.md ]; then
@@ -121,7 +122,7 @@ else
 fi
 
 # --- Commit, tag, push ---
-git add package.json CHANGELOG.md
+git add package.json apps/web/package.json packages/*/package.json CHANGELOG.md
 git commit -m "chore: release v$NEW_VERSION"
 git tag "v$NEW_VERSION"
 git push origin main
@@ -129,5 +130,6 @@ git push origin "v$NEW_VERSION"
 
 echo ""
 echo "Released v$NEW_VERSION"
-echo "   GitHub Actions will create the GitHub Release automatically."
+echo "   GitHub Actions will publish to npm + create the GitHub Release."
 echo "   https://github.com/nouploads/nouploads/releases/tag/v$NEW_VERSION"
+echo "   https://www.npmjs.com/package/nouploads/v/$NEW_VERSION (after workflow finishes)"

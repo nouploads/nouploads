@@ -40,9 +40,18 @@ jobs:
       - name: Build workspaces
         run: pnpm build
 
+      # Publishes every non-private workspace at the version currently
+      # in its package.json. Today that's just `nouploads` (the CLI);
+      # `@nouploads/core`, `@nouploads/backend-canvas`,
+      # `@nouploads/backend-sharp`, and `@nouploads/web` all have
+      # `"private": true` and are skipped automatically. Version
+      # lockstep across workspaces is enforced by
+      # scripts/bump-workspace-versions.mjs at release time.
+      # `--no-git-checks` allows publishing from the tagged commit even
+      # when that commit isn't the default branch HEAD by name.
       - name: Publish to npm
         if: ${{ env.NPM_TOKEN != '' }}
-        run: pnpm changeset publish
+        run: pnpm -r publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: 'true'
