@@ -1,4 +1,12 @@
+/**
+ * Strip image metadata — web adapter. Runs
+ * @nouploads/core/tools/strip-metadata in the image-pipeline worker.
+ * readMetadataSummary stays on the main thread (fast, no worker needed —
+ * exifr parses a small header range).
+ */
+import type {} from "@nouploads/core/tools/strip-metadata";
 import exifr from "exifr";
+import { runInPipeline } from "../lib/run-in-pipeline";
 
 export interface MetadataSummary {
 	camera?: string;
@@ -17,9 +25,6 @@ export interface StripResult {
 	metadataBefore: MetadataSummary;
 }
 
-/**
- * Read a summary of key metadata fields from an image file using exifr.
- */
 export async function readMetadataSummary(
 	file: File,
 ): Promise<MetadataSummary> {
@@ -42,7 +47,6 @@ export async function readMetadataSummary(
 	const fieldCount = Object.keys(metadata).length;
 	const hasGps = !!(metadata.latitude || metadata.longitude);
 
-	// Build camera string from Make + Model
 	const make = metadata.Make as string | undefined;
 	const model = metadata.Model as string | undefined;
 	let camera: string | undefined;
@@ -54,7 +58,6 @@ export async function readMetadataSummary(
 		camera = make;
 	}
 
-	// Extract GPS
 	let gps: { lat: number; lng: number } | undefined;
 	if (hasGps) {
 		gps = {
@@ -63,7 +66,6 @@ export async function readMetadataSummary(
 		};
 	}
 
-	// Extract date
 	const dateRaw =
 		metadata.DateTimeOriginal ?? metadata.DateTime ?? metadata.ModifyDate;
 	let date: string | undefined;
@@ -73,10 +75,7 @@ export async function readMetadataSummary(
 		date = dateRaw;
 	}
 
-	// Extract software
 	const software = metadata.Software as string | undefined;
-
-	// Extract dimensions from EXIF (fallback to 0)
 	const width = (metadata.ImageWidth as number) ?? 0;
 	const height = (metadata.ImageHeight as number) ?? 0;
 
@@ -91,10 +90,6 @@ export async function readMetadataSummary(
 	};
 }
 
-/**
- * Strip all metadata from an image by re-encoding through Canvas.
- * Canvas re-encode produces a clean file with no embedded metadata.
- */
 export async function stripMetadata(
 	file: File,
 	options?: { quality?: number; signal?: AbortSignal },
@@ -102,45 +97,27 @@ export async function stripMetadata(
 	const signal = options?.signal;
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
-	// Read metadata before stripping
 	const metadataBefore = await readMetadataSummary(file);
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
 
-	// Create image bitmap
-	const bitmap = await createImageBitmap(file);
-	const { width, height } = bitmap;
-
-	if (signal?.aborted) {
-		bitmap.close();
-		throw new DOMException("Aborted", "AbortError");
-	}
-
-	// Update dimensions from actual bitmap
-	metadataBefore.dimensions = { width, height };
-
-	// Draw onto OffscreenCanvas to strip all metadata
-	const canvas = new OffscreenCanvas(width, height);
-	const ctx = canvas.getContext("2d");
-	if (!ctx) {
-		bitmap.close();
-		throw new Error("Failed to create canvas context");
-	}
-	ctx.drawImage(bitmap, 0, 0);
-	bitmap.close();
-
-	// Determine output MIME type and quality
-	let outputType = file.type;
-	const quality = (options?.quality ?? 92) / 100;
-	if (!["image/jpeg", "image/png", "image/webp"].includes(outputType)) {
-		outputType = "image/png";
-	}
-
-	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
-
-	const blob = await canvas.convertToBlob({
-		type: outputType,
-		quality: outputType === "image/png" ? undefined : quality,
+	const bytes = new Uint8Array(await file.arrayBuffer());
+	const result = await runInPipeline({
+		toolId: "strip-metadata",
+		input: bytes,
+		options: { quality: options?.quality ?? 92 },
+		signal,
 	});
+
+	const blob = new Blob([result.output as BlobPart], {
+		type: result.mimeType,
+	});
+
+	// Prefer dimensions from core's metadata when available
+	const actualWidth = (result.metadata?.width as number) ?? 0;
+	const actualHeight = (result.metadata?.height as number) ?? 0;
+	if (actualWidth && actualHeight) {
+		metadataBefore.dimensions = { width: actualWidth, height: actualHeight };
+	}
 
 	return {
 		blob,

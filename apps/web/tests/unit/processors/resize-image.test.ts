@@ -3,7 +3,6 @@ import { createMockWorkerClass } from "../helpers/mock-worker";
 
 const { MockWorker, getLastInstance } = createMockWorkerClass();
 
-/** Wait for microtask queue to flush so async worker creation completes */
 const tick = () => new Promise((r) => setTimeout(r, 0));
 
 beforeEach(() => {
@@ -13,6 +12,15 @@ afterEach(() => {
 	vi.restoreAllMocks();
 	vi.unstubAllGlobals();
 });
+
+function mockImageResponse(width: number, height: number, mime = "image/png") {
+	return {
+		output: new Uint8Array([1, 2, 3, 4]),
+		extension: mime === "image/png" ? ".png" : ".jpg",
+		mimeType: mime,
+		metadata: { width, height },
+	};
+}
 
 describe("getImageDimensions", () => {
 	it("should return width and height from createImageBitmap", async () => {
@@ -49,46 +57,44 @@ describe("getImageDimensions", () => {
 });
 
 describe("resizeImage processor", () => {
-	it("should post blob and options to worker", async () => {
+	it("should post pipeline request with defaults", async () => {
 		const { resizeImage } = await import(
 			"~/features/image-tools/processors/resize-image"
 		);
 
-		const input = new File(["fake-jpg"], "photo.jpg", {
-			type: "image/jpeg",
-		});
-		const output = new Blob(["resized"], { type: "image/jpeg" });
-
+		const input = new File(["fake-jpg"], "photo.jpg", { type: "image/jpeg" });
 		const promise = resizeImage(input, { width: 400, height: 300 });
+		await tick();
 		await tick();
 
 		const worker = getLastInstance();
 		expect(worker).not.toBeNull();
-		expect(worker.postMessage).toHaveBeenCalledWith({
-			blob: input,
-			width: 400,
-			height: 300,
-			outputFormat: "image/png",
-			quality: 0.92,
-		});
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				toolId: "resize-image",
+				options: expect.objectContaining({
+					width: 400,
+					height: 300,
+					format: "png",
+					quality: 92,
+				}),
+			}),
+		);
 
-		worker.simulateMessage({ blob: output, width: 400, height: 300 });
-
+		worker.simulateMessage(mockImageResponse(400, 300));
 		const result = await promise;
-		expect(result.blob).toBe(output);
+		expect(result.blob).toBeInstanceOf(Blob);
 		expect(result.width).toBe(400);
 		expect(result.height).toBe(300);
 		expect(worker.terminate).toHaveBeenCalled();
 	});
 
-	it("should pass custom format and quality to worker", async () => {
+	it("should pass custom format and quality", async () => {
 		const { resizeImage } = await import(
 			"~/features/image-tools/processors/resize-image"
 		);
 
-		const input = new File(["fake-png"], "photo.png", {
-			type: "image/png",
-		});
+		const input = new File(["fake-png"], "photo.png", { type: "image/png" });
 		const promise = resizeImage(input, {
 			width: 200,
 			height: 150,
@@ -96,21 +102,19 @@ describe("resizeImage processor", () => {
 			quality: 0.75,
 		});
 		await tick();
+		await tick();
 
 		const worker = getLastInstance();
-		expect(worker.postMessage).toHaveBeenCalledWith({
-			blob: input,
-			width: 200,
-			height: 150,
-			outputFormat: "image/webp",
-			quality: 0.75,
-		});
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				options: expect.objectContaining({
+					format: "webp",
+					quality: 75,
+				}),
+			}),
+		);
 
-		worker.simulateMessage({
-			blob: new Blob(),
-			width: 200,
-			height: 150,
-		});
+		worker.simulateMessage(mockImageResponse(200, 150, "image/webp"));
 		await promise;
 	});
 
@@ -121,6 +125,7 @@ describe("resizeImage processor", () => {
 
 		const input = new File(["fake"], "bad.jpg", { type: "image/jpeg" });
 		const promise = resizeImage(input, { width: 100, height: 100 });
+		await tick();
 		await tick();
 
 		getLastInstance().simulateMessage({
@@ -143,6 +148,7 @@ describe("resizeImage processor", () => {
 			height: 100,
 			signal: controller.signal,
 		});
+		await tick();
 		await tick();
 
 		const worker = getLastInstance();

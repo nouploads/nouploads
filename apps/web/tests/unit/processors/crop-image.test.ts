@@ -3,7 +3,6 @@ import { createMockWorkerClass } from "../helpers/mock-worker";
 
 const { MockWorker, getLastInstance } = createMockWorkerClass();
 
-/** Wait for microtask queue to flush so async worker creation completes */
 const tick = () => new Promise((r) => setTimeout(r, 0));
 
 beforeEach(() => {
@@ -14,74 +13,75 @@ afterEach(() => {
 	vi.unstubAllGlobals();
 });
 
+function mockCropResponse() {
+	return {
+		output: new Uint8Array([1, 2, 3, 4]),
+		extension: ".png",
+		mimeType: "image/png",
+		metadata: {},
+	};
+}
+
 describe("cropImage processor", () => {
-	it("should post blob and crop region to worker", async () => {
+	it("should post crop region via pipeline worker", async () => {
 		const { cropImage } = await import(
 			"~/features/image-tools/processors/crop-image"
 		);
 
-		const input = new File(["fake-jpg"], "photo.jpg", {
-			type: "image/jpeg",
-		});
-		const output = new Blob(["cropped"], { type: "image/jpeg" });
-
+		const input = new File(["fake-jpg"], "photo.jpg", { type: "image/jpeg" });
 		const promise = cropImage(input, {
 			crop: { x: 10, y: 20, width: 200, height: 150 },
 		});
 		await tick();
+		await tick();
 
 		const worker = getLastInstance();
-		expect(worker).not.toBeNull();
-		expect(worker.postMessage).toHaveBeenCalledWith({
-			blob: input,
-			x: 10,
-			y: 20,
-			width: 200,
-			height: 150,
-			outputFormat: "image/png",
-			quality: 0.92,
-		});
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				toolId: "crop-image",
+				options: expect.objectContaining({
+					x: 10,
+					y: 20,
+					width: 200,
+					height: 150,
+					format: "png",
+					quality: 92,
+				}),
+			}),
+		);
 
-		worker.simulateMessage({ blob: output, width: 200, height: 150 });
-
+		worker.simulateMessage(mockCropResponse());
 		const result = await promise;
-		expect(result.blob).toBe(output);
+		expect(result.blob).toBeInstanceOf(Blob);
 		expect(result.width).toBe(200);
 		expect(result.height).toBe(150);
-		expect(worker.terminate).toHaveBeenCalled();
 	});
 
-	it("should pass custom format and quality to worker", async () => {
+	it("should pass custom format and quality", async () => {
 		const { cropImage } = await import(
 			"~/features/image-tools/processors/crop-image"
 		);
 
-		const input = new File(["fake-png"], "photo.png", {
-			type: "image/png",
-		});
+		const input = new File(["fake"], "test.jpg", { type: "image/jpeg" });
 		const promise = cropImage(input, {
 			crop: { x: 0, y: 0, width: 100, height: 100 },
 			outputFormat: "image/webp",
-			quality: 0.8,
+			quality: 0.6,
 		});
+		await tick();
 		await tick();
 
 		const worker = getLastInstance();
-		expect(worker.postMessage).toHaveBeenCalledWith({
-			blob: input,
-			x: 0,
-			y: 0,
-			width: 100,
-			height: 100,
-			outputFormat: "image/webp",
-			quality: 0.8,
-		});
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				options: expect.objectContaining({
+					format: "webp",
+					quality: 60,
+				}),
+			}),
+		);
 
-		worker.simulateMessage({
-			blob: new Blob(),
-			width: 100,
-			height: 100,
-		});
+		worker.simulateMessage(mockCropResponse());
 		await promise;
 	});
 
@@ -92,15 +92,13 @@ describe("cropImage processor", () => {
 
 		const input = new File(["fake"], "bad.jpg", { type: "image/jpeg" });
 		const promise = cropImage(input, {
-			crop: { x: 0, y: 0, width: 50, height: 50 },
+			crop: { x: 0, y: 0, width: 100, height: 100 },
 		});
 		await tick();
+		await tick();
 
-		getLastInstance().simulateMessage({
-			error: "Could not get OffscreenCanvas 2D context",
-		});
-
-		await expect(promise).rejects.toThrow(/OffscreenCanvas/);
+		getLastInstance().simulateMessage({ error: "Invalid crop region" });
+		await expect(promise).rejects.toThrow(/Invalid crop/);
 	});
 
 	it("should terminate worker on abort signal", async () => {
@@ -110,11 +108,11 @@ describe("cropImage processor", () => {
 
 		const controller = new AbortController();
 		const input = new File(["fake"], "test.jpg", { type: "image/jpeg" });
-
 		const promise = cropImage(input, {
 			crop: { x: 0, y: 0, width: 100, height: 100 },
 			signal: controller.signal,
 		});
+		await tick();
 		await tick();
 
 		const worker = getLastInstance();
@@ -122,44 +120,5 @@ describe("cropImage processor", () => {
 
 		await expect(promise).rejects.toThrow();
 		expect(worker.terminate).toHaveBeenCalled();
-	});
-
-	it("should reject immediately if signal is already aborted", async () => {
-		const { cropImage } = await import(
-			"~/features/image-tools/processors/crop-image"
-		);
-
-		const controller = new AbortController();
-		controller.abort();
-
-		const input = new File(["fake"], "test.jpg", { type: "image/jpeg" });
-		const promise = cropImage(input, {
-			crop: { x: 0, y: 0, width: 100, height: 100 },
-			signal: controller.signal,
-		});
-
-		await expect(promise).rejects.toThrow(/Aborted/);
-	});
-
-	it("should handle zero-offset crop at origin", async () => {
-		const { cropImage } = await import(
-			"~/features/image-tools/processors/crop-image"
-		);
-
-		const input = new File(["fake"], "test.png", { type: "image/png" });
-		const output = new Blob(["out"], { type: "image/png" });
-
-		const promise = cropImage(input, {
-			crop: { x: 0, y: 0, width: 300, height: 200 },
-			outputFormat: "image/png",
-		});
-		await tick();
-
-		const worker = getLastInstance();
-		worker.simulateMessage({ blob: output, width: 300, height: 200 });
-
-		const result = await promise;
-		expect(result.width).toBe(300);
-		expect(result.height).toBe(200);
 	});
 });

@@ -1,3 +1,10 @@
+/**
+ * Resize image — web adapter. Runs @nouploads/core/tools/resize-image in
+ * the image-pipeline worker with a canvas-backed ImageBackend.
+ */
+import type {} from "@nouploads/core/tools/resize-image";
+import { runInPipeline } from "../lib/run-in-pipeline";
+
 export interface ResizeImageOptions {
 	width: number;
 	height: number;
@@ -12,9 +19,13 @@ export interface ResizeImageResult {
 	height: number;
 }
 
-/**
- * Get the natural dimensions of an image file.
- */
+const MIME_TO_CORE_FORMAT: Record<string, string> = {
+	"image/jpeg": "jpg",
+	"image/png": "png",
+	"image/webp": "webp",
+};
+
+/** Get the natural dimensions of an image file (main-thread, fast). */
 export async function getImageDimensions(
 	file: File,
 ): Promise<{ width: number; height: number }> {
@@ -24,10 +35,6 @@ export async function getImageDimensions(
 	return { width, height };
 }
 
-/**
- * Resize an image to the specified dimensions using a Web Worker with OffscreenCanvas.
- * Supports AbortSignal to terminate the worker early.
- */
 export async function resizeImage(
 	input: File,
 	options: ResizeImageOptions,
@@ -40,42 +47,22 @@ export async function resizeImage(
 		signal,
 	} = options;
 
-	return new Promise((resolve, reject) => {
-		if (signal?.aborted) {
-			reject(new DOMException("Aborted", "AbortError"));
-			return;
-		}
-
-		const worker = new Worker(
-			new URL("./resize-image.worker.ts", import.meta.url),
-			{ type: "module" },
-		);
-
-		const onAbort = () => {
-			worker.terminate();
-			reject(new DOMException("Aborted", "AbortError"));
-		};
-		signal?.addEventListener("abort", onAbort, { once: true });
-
-		worker.onmessage = (e) => {
-			signal?.removeEventListener("abort", onAbort);
-			worker.terminate();
-			if (e.data.error) {
-				reject(new Error(e.data.error));
-			} else {
-				resolve({
-					blob: e.data.blob,
-					width: e.data.width,
-					height: e.data.height,
-				});
-			}
-		};
-		worker.onerror = (e) => {
-			signal?.removeEventListener("abort", onAbort);
-			worker.terminate();
-			reject(new Error(e.message || "Resize worker failed"));
-		};
-
-		worker.postMessage({ blob: input, width, height, outputFormat, quality });
+	const bytes = new Uint8Array(await input.arrayBuffer());
+	const result = await runInPipeline({
+		toolId: "resize-image",
+		input: bytes,
+		options: {
+			width,
+			height,
+			format: MIME_TO_CORE_FORMAT[outputFormat] ?? "png",
+			quality: Math.round(quality * 100),
+		},
+		signal,
 	});
+
+	return {
+		blob: new Blob([result.output as BlobPart], { type: result.mimeType }),
+		width: (result.metadata?.width as number) ?? width,
+		height: (result.metadata?.height as number) ?? height,
+	};
 }
