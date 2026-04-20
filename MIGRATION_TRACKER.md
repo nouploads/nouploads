@@ -18,9 +18,9 @@ Living document tracking the migration from forked web processors to single-sour
 - ❌ forked — web reimplements logic locally
 - 🌐 browser-only-stub — registered in core with `capabilities: ["browser"]`, real impl lives in web
 
-## Snapshot (2026-04-17, post Phase 4.1)
+## Snapshot (2026-04-19, post Phase 5)
 
-55 primary web processors. **48 import `@nouploads/core`, 7 remain exempt for Phase 5** (3 PDF browser-only + 1 SVG→raster + compress-gif + parse-gif-frames + remove-background). Of the 48: ~29 are true runtime delegators; ~19 are developer tools that thinly re-export from core but still execute in-process for sync UX (Phase 3 audit). Worker files collapsed into a single generic `image-pipeline.worker.ts` during Phase 4.1.
+55 primary web processors. **All 55 import `@nouploads/core`; architecture exempt list is empty.** Of the 55: ~29 are true runtime delegators via the image-pipeline worker or direct `getTool().execute()` calls; ~19 are developer tools that thinly re-export from core but still execute in-process for sync UX (Phase 3 audit); 7 are genuinely browser-only (pdfjs-dist DOM dependency, gifsicle-wasm-browser, @imgly/background-removal, canvas rasterization) and declare a type-only core dependency so the drift-prevention test keeps working.
 
 | Web processor | Current | Core tool ID | Target | Phase | Notes |
 |---|---|---|---|---|---|
@@ -33,12 +33,12 @@ Living document tracking the migration from forked web processors to single-sour
 | `pdf-tools/processors/reorder-pdf.ts` | ✅ | `reorder-pdf` | ✅ | n/a | Migrated 2026-04-17 (Phase 2.2) |
 | `pdf-tools/processors/split-pdf.ts` | ✅ | `split-pdf` | ✅ | n/a | Migrated 2026-04-17 (Phase 2.3); first ToolResultMulti consumer; also fixed core's silently-broken multi-range path |
 | `pdf-tools/processors/unlock-pdf.ts` | ✅ | `unlock-pdf` | ✅ | n/a | Migrated 2026-04-17 (Phase 2.1); also fixed core's missing `delete trailerInfo.Encrypt` bug |
-| `pdf-tools/processors/pdf-to-text.ts` | ❌ | (stub only) | 🌐 | 5 | Reclassified Phase 2 → 5: web impl uses pdfjs-dist (DOM-only). Stays browser-only. |
-| `pdf-tools/processors/compress-pdf.ts` | ❌ | (stub only) | 🌐 | 5 | Reclassified Phase 2 → 5: web impl uses pdfjs-dist + canvas to rasterize pages, both DOM-only. Stays browser-only. |
-| `pdf-tools/processors/pdf-to-image.ts` | ❌ | (stub only) | 🌐 | 5 | pdfjs-dist needs DOMMatrix; stays browser-only with worker-backed ImageBackend |
+| `pdf-tools/processors/pdf-to-text.ts` | ✅ (type-only) | `pdf-to-text` stub | 🌐 | n/a | Phase 5 done 2026-04-19: pdfjs-dist needs DOMMatrix (DOM-only). Type-only core import tracks dependency. |
+| `pdf-tools/processors/compress-pdf.ts` | ✅ (type-only) | `compress-pdf` stub | 🌐 | n/a | Phase 5 done 2026-04-19: pdfjs-dist + canvas both DOM-only. Type-only core import. |
+| `pdf-tools/processors/pdf-to-image.ts` | ✅ (type-only) | `pdf-to-jpg`/`pdf-to-png` stubs | 🌐 | n/a | Phase 5 done 2026-04-19: pdfjs-dist needs DOMMatrix. Type-only core import. |
 | **vector-tools (2)** | | | | | |
 | `vector-tools/processors/optimize-svg.ts` | ✅ | `optimize-svg` | ✅ | n/a | |
-| `vector-tools/processors/convert-vector.ts` | ❌ | (none) | 🌐 | 5 | SVG → raster via Canvas; browser-only |
+| `vector-tools/processors/convert-vector.ts` | ✅ (type-only) | `convert-vector` stub | 🌐 | n/a | Phase 5 done 2026-04-19: SVG → raster via `<img>` + canvas, DOM-only. Added stub + type-only import. |
 | **developer-tools (23)** | | | | | |
 | `developer-tools/processors/base64-image.ts` | ✅ | `base64` | ✅ | n/a | |
 | `developer-tools/processors/case-converter.ts` | ❌ permanent fork | `case-converter` | ❌ permanent | n/a | sync UX, trivial impl |
@@ -80,9 +80,9 @@ Living document tracking the migration from forked web processors to single-sour
 | `image-tools/processors/heic-to-png.ts` | ✅ | `heic-to-png` | ✅ | n/a | Same as heic-to-jpg |
 | `image-tools/processors/heic-to-webp.ts` | ✅ | `heic-to-webp` | ✅ | n/a | Same as heic-to-jpg |
 | `image-tools/processors/convert-image.ts` | ✅ | `{png,jpg,webp,avif,…}-to-*` (type-only) | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1); inherent web-only (50+ JS pixel decoders + HEIC + SVG + AVIF WASM); type-only core import documents dependency |
-| `image-tools/processors/compress-gif.ts` | ❌ | (none) | 🌐 | 5 | gifsicle-wasm-browser is browser-only |
-| `image-tools/processors/parse-gif-frames.ts` | ❌ | (none) | 🌐 | 5 | Multi-output (N frames); browser-only for now |
-| `image-tools/processors/remove-background.ts` | ❌ | `remove-background` | 🌐 | 5 | @imgly/background-removal is browser-only ML |
+| `image-tools/processors/compress-gif.ts` | ✅ (type-only) | `compress-gif` stub | 🌐 | n/a | Phase 5 done 2026-04-19: gifsicle-wasm-browser is browser-only. Added stub + type-only import. |
+| `image-tools/processors/parse-gif-frames.ts` | ✅ (type-only) | `parse-gif-frames` stub | 🌐 | n/a | Phase 5 done 2026-04-19: gifuct-js + canvas compositing. Type-only import (core stub renamed from `gif-frames`). |
+| `image-tools/processors/remove-background.ts` | ✅ (type-only) | `remove-background` stub | 🌐 | n/a | Phase 5 done 2026-04-19: @imgly/background-removal is browser-only ML. Type-only import. |
 
 ## Worker files — Phase 4 outcome
 
@@ -126,7 +126,7 @@ Used to detect bundle regression after Phase 3S.1 core tree-shake refactor.
 | Phase 3 — Developer migrations | 22 dev tools (strict SSOT, no forks) | 22 | 0 | ✅ done (2026-04-18, Phase 3S). All 22 web processors are thin re-exports from @nouploads/core/tools/<id>; also created color-picker in core, replaced markdown-preview + hash-generator stubs with real impls, added marked + culori deps |
 | Phase 4.0 — Image spike | 1 (rotate-image) | 1 | 0 | ✅ done (2026-04-17) |
 | Phase 4.1 — Image rollout | 15 | 15 | 0 | ✅ done (2026-04-17) — generic `image-pipeline.worker.ts` with multi-input + multi-output; added `quantize` to canvas backend; ported image-filters pixel math to core; core's `favicon-generator` returns `ToolResultMulti` (3 PNGs + ICO). convert-image + HEIC trio keep their DOM-only/exotic paths but declare a type-only core dependency. |
-| Phase 5 — Browser-only cleanup | 8 (compress-gif, compress-pdf, compress-png, convert-vector, parse-gif-frames, pdf-to-image, pdf-to-text, remove-background) | 0 | 8 | pending |
+| Phase 5 — Browser-only cleanup | 7 (compress-gif, compress-pdf, convert-vector, parse-gif-frames, pdf-to-image, pdf-to-text, remove-background; compress-png was lifted into Phase 4.1 via canvas-backend quantize) | 7 | 0 | ✅ done (2026-04-19) — all 7 declare type-only core imports; added `convert-vector`, `compress-gif`, `parse-gif-frames` stubs to `browser-only-stubs.ts`; architecture exempt list is empty |
 | Phase 6 — First npm publish | 1 | 0 | 1 | blocked on Phases 2–5 |
 | Phase 7 — Drift prevention test | 1 | 1 | 0 | ✅ done (2026-04-17) |
 
