@@ -1,4 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import type { ImageBackend } from "../src/backend.js";
+import { getTool } from "../src/registry.js";
+import { isToolResultMulti } from "../src/tool.js";
 import { packIco } from "../src/tools/favicon-generator.js";
 
 describe("packIco (core)", () => {
@@ -90,5 +93,66 @@ describe("packIco (core)", () => {
 		const ico = packIco([fakePng], [256]);
 		expect(ico[6]).toBe(0);
 		expect(ico[7]).toBe(0);
+	});
+});
+
+describe("favicon-generator tool", () => {
+	it("is registered under image category", () => {
+		const tool = getTool("favicon-generator");
+		expect(tool).toBeDefined();
+		expect(tool?.category).toBe("image");
+	});
+
+	it("emits ToolResultMulti with 3 PNGs and 1 ICO via the backend", async () => {
+		const tool = getTool("favicon-generator");
+		if (!tool) throw new Error("favicon-generator not registered");
+
+		const resize = vi.fn().mockResolvedValue({
+			width: 16,
+			height: 16,
+			data: new Uint8Array(16 * 16 * 4),
+		});
+		const encode = vi
+			.fn()
+			.mockResolvedValue(new Uint8Array([0x89, 0x50, 0x4e, 0x47]));
+		const backend: ImageBackend = {
+			decode: vi.fn().mockResolvedValue({
+				width: 64,
+				height: 64,
+				data: new Uint8Array(64 * 64 * 4),
+			}),
+			encode,
+			resize,
+		};
+
+		const result = await tool.execute(
+			new Uint8Array([1]),
+			{},
+			{ imageBackend: backend },
+		);
+		if (!isToolResultMulti(result)) {
+			throw new Error("favicon-generator should return ToolResultMulti");
+		}
+		expect(result.outputs).toHaveLength(4);
+		const byMime = result.outputs.reduce<Record<string, number>>((acc, o) => {
+			acc[o.mimeType] = (acc[o.mimeType] ?? 0) + 1;
+			return acc;
+		}, {});
+		expect(byMime["image/png"]).toBe(3);
+		expect(byMime["image/x-icon"]).toBe(1);
+		const ico = result.outputs.find((o) => o.mimeType === "image/x-icon");
+		expect(ico?.filename).toBe("favicon.ico");
+		// ICO magic header
+		expect(ico?.bytes[0]).toBe(0x00);
+		expect(ico?.bytes[1]).toBe(0x00);
+		expect(ico?.bytes[2]).toBe(0x01);
+		expect(ico?.bytes[3]).toBe(0x00);
+	});
+
+	it("throws without an imageBackend", async () => {
+		const tool = getTool("favicon-generator");
+		await expect(tool?.execute(new Uint8Array([1]), {}, {})).rejects.toThrow(
+			/Image backend/,
+		);
 	});
 });
