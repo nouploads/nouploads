@@ -3,7 +3,7 @@
 	"version": "0.4.0",
 	"private": true,
 	"type": "module",
-	"description": "Canvas-based image processing backend for NoUploads CLI",
+	"description": "Canvas-based ImageBackend for NoUploads — browser/worker environments",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
