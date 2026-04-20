@@ -1,3 +1,8 @@
+// Core tool is a browser-only stub — @imgly/background-removal ships
+// its own worker + WASM and is browser-only. Type-only import keeps
+// this file wired to the core registration.
+import type {} from "@nouploads/core/tools/browser-only-stubs";
+
 export interface RemoveBackgroundOptions {
 	signal?: AbortSignal;
 }

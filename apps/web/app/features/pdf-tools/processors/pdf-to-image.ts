@@ -1,3 +1,8 @@
+// Core tools pdf-to-jpg + pdf-to-png are browser-only stubs (pdfjs-dist
+// requires DOMMatrix, not available in Node). Type-only import ties
+// this universal PDF→image processor to the core registration.
+import type {} from "@nouploads/core/tools/browser-only-stubs";
+
 let pdfjsReady: typeof import("pdfjs-dist") | null = null;
 
 async function getPdfjs() {

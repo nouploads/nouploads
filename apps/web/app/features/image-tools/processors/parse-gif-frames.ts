@@ -1,3 +1,8 @@
+// Core tool is a browser-only stub — gifuct-js frame extraction needs
+// a canvas to composite onto. Type-only import wires this processor to
+// core for drift tracking.
+import type {} from "@nouploads/core/tools/browser-only-stubs";
+
 export interface GifFrame {
 	index: number;
 	delay: number;

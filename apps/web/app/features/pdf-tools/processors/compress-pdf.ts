@@ -1,3 +1,8 @@
+// Core tool is a browser-only stub (pdfjs-dist requires DOMMatrix + a
+// canvas, neither available in Node). Type-only import tracks the
+// dependency so the architecture drift test sees this tool as bound to
+// core even though the real work happens here in the browser.
+import type {} from "@nouploads/core/tools/browser-only-stubs";
 import { PDFDocument } from "pdf-lib";
 
 let pdfjsReady: typeof import("pdfjs-dist") | null = null;

@@ -1,3 +1,8 @@
+// Core tool is a browser-only stub — gifsicle-wasm-browser is
+// browser-only. Type-only import keeps the drift-prevention test
+// satisfied while the real work stays on the main thread here.
+import type {} from "@nouploads/core/tools/browser-only-stubs";
+
 export interface CompressGifOptions {
 	/** Lossy compression level (0–200). Higher = more compression + more artifacts. Default 80. */
 	lossy: number;

@@ -1,3 +1,8 @@
+// Core tool is a browser-only stub — pdfjs-dist needs DOMMatrix and
+// doesn't run in Node. Type-only import keeps the drift-prevention
+// architecture test satisfied.
+import type {} from "@nouploads/core/tools/pdf-to-text";
+
 /**
  * Safari/WebKit does not implement Symbol.asyncIterator on ReadableStream,
  * which pdfjs-dist v5 requires (it uses `for await...of` on streams

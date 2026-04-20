@@ -15,24 +15,13 @@ const FEATURES_DIR = path.resolve(__dirname, "../../app/features");
  *
  * The set should only ever shrink. See MIGRATION_TRACKER.md for context.
  */
-const CORE_DELEGATION_EXEMPT = new Set<string>([
-	// pdf-tools (7) — Phase 2 + Phase 5
-	"pdf-tools/processors/compress-pdf.ts",
-	"pdf-tools/processors/pdf-to-image.ts",
-	"pdf-tools/processors/pdf-to-text.ts",
-
-	// vector-tools (1) — Phase 5
-	"vector-tools/processors/convert-vector.ts",
-
-	// All 22 developer-tools processors migrated in Phase 3S (2026-04-18) —
-	// each is a thin re-export from @nouploads/core/tools/<id> with the
-	// real logic living in core. No forks remaining in this category.
-
-	// image-tools (19) — Phase 4 + Phase 5
-	"image-tools/processors/compress-gif.ts",
-	"image-tools/processors/parse-gif-frames.ts",
-	"image-tools/processors/remove-background.ts",
-]);
+/**
+ * Phase 5 finished 2026-04-19 — every web processor declares a core
+ * dependency (real delegation or type-only for browser-only tools).
+ * The exempt list is empty and must stay that way; any new entry is a
+ * regression in the single-source-of-truth contract.
+ */
+const CORE_DELEGATION_EXEMPT = new Set<string>([]);
 
 function findProcessorFiles(): string[] {
 	const result: string[] = [];

@@ -1,3 +1,8 @@
+// Core tool is a browser-only stub — SVG rasterization needs an <img>
+// element and a canvas, both DOM-only. Type-only import keeps the
+// architecture drift test satisfied.
+import type {} from "@nouploads/core/tools/browser-only-stubs";
+
 /** Output raster MIME types supported by the vector converter. */
 export type VectorOutputFormat =
 	| "svg"
