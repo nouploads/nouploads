@@ -16,9 +16,7 @@ export interface PipelineOptions {
 	signal?: AbortSignal;
 }
 
-export function runInPipeline(
-	args: PipelineOptions,
-): Promise<PipelineSuccess> {
+export function runInPipeline(args: PipelineOptions): Promise<PipelineSuccess> {
 	return new Promise((resolve, reject) => {
 		const { toolId, input, options, signal } = args;
 		if (signal?.aborted) {
@@ -27,10 +25,7 @@ export function runInPipeline(
 		}
 
 		const worker = new Worker(
-			new URL(
-				"../workers/image-pipeline.worker.ts",
-				import.meta.url,
-			),
+			new URL("../workers/image-pipeline.worker.ts", import.meta.url),
 			{ type: "module" },
 		);
 

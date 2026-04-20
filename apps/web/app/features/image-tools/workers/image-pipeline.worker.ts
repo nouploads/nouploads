@@ -3,17 +3,7 @@
  * creates a canvas-backed ImageBackend, and runs the tool's execute()
  * on the given input.
  *
- * One worker per request; terminated after a single response. This
- * keeps the main thread free while keeping core's ImageBackend
- * abstraction clean (decode/encode happen inside the worker via
- * OffscreenCanvas; no postMessage overhead per pixel op).
- *
- * Message in:
- *   { toolId: string; input: Uint8Array; options: Record<string, unknown> }
- * Message out (success):
- *   { output: Uint8Array; extension: string; mimeType: string; metadata? }
- * Message out (error):
- *   { error: string }
+ * One worker per request; terminated after a single response.
  */
 
 import { createCanvasBackend } from "@nouploads/backend-canvas";
@@ -39,10 +29,6 @@ export interface PipelineError {
 
 type PipelineResponse = PipelineSuccess | PipelineError;
 
-/**
- * Dynamic import of the tool by ID. We list the image-tool IDs we
- * support explicitly so the bundler can code-split each entry.
- */
 async function loadTool(toolId: string): Promise<ToolDefinition> {
 	switch (toolId) {
 		case "rotate-image":
@@ -51,22 +37,38 @@ async function loadTool(toolId: string): Promise<ToolDefinition> {
 			return (await import("@nouploads/core/tools/resize-image")).default;
 		case "crop-image":
 			return (await import("@nouploads/core/tools/crop-image")).default;
-		case "strip-metadata":
-			return (await import("@nouploads/core/tools/strip-metadata")).default;
+		case "strip-metadata": {
+			const mod = await import("@nouploads/core/tools/strip-metadata");
+			return mod.stripMetadata as unknown as ToolDefinition;
+		}
 		case "watermark-image":
 			return (await import("@nouploads/core/tools/watermark-image")).default;
-		case "compress-image":
-			return (await import("@nouploads/core/tools/compress-image")).default;
+		case "compress-jpg": {
+			const mod = await import("@nouploads/core/tools/compress-image");
+			return mod.compressJpg as unknown as ToolDefinition;
+		}
+		case "compress-webp": {
+			const mod = await import("@nouploads/core/tools/compress-image");
+			return mod.compressWebp as unknown as ToolDefinition;
+		}
+		case "compress-png": {
+			const mod = await import("@nouploads/core/tools/compress-image");
+			return mod.compressPng as unknown as ToolDefinition;
+		}
 		case "image-filters":
 			return (await import("@nouploads/core/tools/image-filters")).default;
 		case "favicon-generator":
 			return (await import("@nouploads/core/tools/favicon-generator")).default;
-		case "color-palette":
-			return (await import("@nouploads/core/tools/color-palette")).default;
+		case "color-palette": {
+			const mod = await import("@nouploads/core/tools/color-palette");
+			return mod.colorPalette as unknown as ToolDefinition;
+		}
 		case "images-to-pdf":
 			return (await import("@nouploads/core/tools/images-to-pdf")).default;
-		case "exif":
-			return (await import("@nouploads/core/tools/exif")).exifView;
+		case "exif": {
+			const mod = await import("@nouploads/core/tools/exif");
+			return mod.exifView as unknown as ToolDefinition;
+		}
 		case "heic-to-jpg":
 			return (await import("@nouploads/core/tools/heic-to-jpg")).default;
 		case "heic-to-png":

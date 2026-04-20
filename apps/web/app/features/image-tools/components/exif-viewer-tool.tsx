@@ -134,10 +134,10 @@ export default function ExifViewerTool() {
 
 		try {
 			const { stripMetadata } = await import(
-				"~/features/image-tools/processors/exif-metadata"
+				"~/features/image-tools/processors/strip-metadata"
 			);
-			const blob = await stripMetadata(file);
-			setStrippedBlob(blob);
+			const result = await stripMetadata(file);
+			setStrippedBlob(result.blob);
 			setStripping(false);
 		} catch (err) {
 			setStripError(

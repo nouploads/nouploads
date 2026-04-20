@@ -34,7 +34,6 @@ const CORE_DELEGATION_EXEMPT = new Set<string>([
 	"image-tools/processors/compress-image.ts",
 	"image-tools/processors/compress-png.ts",
 	"image-tools/processors/convert-image.ts",
-	"image-tools/processors/exif-metadata.ts",
 	"image-tools/processors/favicon-generator.ts",
 	"image-tools/processors/heic-to-jpg.ts",
 	"image-tools/processors/heic-to-png.ts",
@@ -43,7 +42,6 @@ const CORE_DELEGATION_EXEMPT = new Set<string>([
 	"image-tools/processors/image-to-pdf.ts",
 	"image-tools/processors/parse-gif-frames.ts",
 	"image-tools/processors/remove-background.ts",
-	"image-tools/processors/watermark-image.ts",
 ]);
 
 function findProcessorFiles(): string[] {

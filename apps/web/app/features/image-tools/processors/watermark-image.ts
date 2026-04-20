@@ -1,3 +1,10 @@
+/**
+ * Watermark image — web adapter. Runs
+ * @nouploads/core/tools/watermark-image in the image-pipeline worker.
+ */
+import type {} from "@nouploads/core/tools/watermark-image";
+import { runInPipeline } from "../lib/run-in-pipeline";
+
 export interface WatermarkImageOptions {
 	text: string;
 	fontSize: number;
@@ -16,10 +23,12 @@ export interface WatermarkImageResult {
 	height: number;
 }
 
-/**
- * Add a text watermark to an image using a Web Worker with OffscreenCanvas.
- * Supports AbortSignal to terminate the worker early.
- */
+const MIME_TO_CORE_FORMAT: Record<string, string> = {
+	"image/jpeg": "jpg",
+	"image/png": "png",
+	"image/webp": "webp",
+};
+
 export async function watermarkImage(
 	input: File,
 	options: WatermarkImageOptions,
@@ -36,52 +45,26 @@ export async function watermarkImage(
 		signal,
 	} = options;
 
-	return new Promise((resolve, reject) => {
-		if (signal?.aborted) {
-			reject(new DOMException("Aborted", "AbortError"));
-			return;
-		}
-
-		const worker = new Worker(
-			new URL("./watermark-image.worker.ts", import.meta.url),
-			{ type: "module" },
-		);
-
-		const onAbort = () => {
-			worker.terminate();
-			reject(new DOMException("Aborted", "AbortError"));
-		};
-		signal?.addEventListener("abort", onAbort, { once: true });
-
-		worker.onmessage = (e) => {
-			signal?.removeEventListener("abort", onAbort);
-			worker.terminate();
-			if (e.data.error) {
-				reject(new Error(e.data.error));
-			} else {
-				resolve({
-					blob: e.data.blob,
-					width: e.data.width,
-					height: e.data.height,
-				});
-			}
-		};
-		worker.onerror = (e) => {
-			signal?.removeEventListener("abort", onAbort);
-			worker.terminate();
-			reject(new Error(e.message || "Watermark worker failed"));
-		};
-
-		worker.postMessage({
-			blob: input,
+	const bytes = new Uint8Array(await input.arrayBuffer());
+	const result = await runInPipeline({
+		toolId: "watermark-image",
+		input: bytes,
+		options: {
 			text,
 			fontSize,
 			opacity,
 			rotation,
 			color,
 			mode,
-			outputFormat,
-			quality,
-		});
+			format: MIME_TO_CORE_FORMAT[outputFormat] ?? "png",
+			quality: Math.round(quality * 100),
+		},
+		signal,
 	});
+
+	return {
+		blob: new Blob([result.output as BlobPart], { type: result.mimeType }),
+		width: (result.metadata?.width as number) ?? 0,
+		height: (result.metadata?.height as number) ?? 0,
+	};
 }

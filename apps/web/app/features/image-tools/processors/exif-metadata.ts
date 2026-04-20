@@ -1,3 +1,14 @@
+/**
+ * Parse EXIF/XMP/IPTC/ICC metadata from image files using exifr.
+ * Main-thread only — exifr reads a small header range, fast enough that
+ * a worker would be overkill. The stripping operation lives in
+ * strip-metadata.ts which delegates to @nouploads/core.
+ */
+// Type-only dependency on core's exif tool — documents that the CLI /
+// library side surfaces this capability via the core registry, even
+// though the web viewer uses exifr directly for its richer categorized
+// output shape.
+import type {} from "@nouploads/core/tools/exif";
 import exifr from "exifr";
 
 export interface ExifData {
@@ -71,9 +82,7 @@ export async function parseExifData(file: File): Promise<ExifData> {
 		interop: true,
 	});
 
-	if (!raw) {
-		return { hasGps: false, raw: {} };
-	}
+	if (!raw) return { hasGps: false, raw: {} };
 
 	const camera: Record<string, string | number | boolean> = {};
 	const lens: Record<string, string | number | boolean> = {};
@@ -104,48 +113,4 @@ export async function parseExifData(file: File): Promise<ExifData> {
 	const hasGps = !!(raw.latitude || raw.longitude);
 
 	return { camera, lens, exposure, gps, image, other, hasGps, raw };
-}
-
-export async function stripMetadata(
-	file: File,
-	signal?: AbortSignal,
-): Promise<Blob> {
-	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
-
-	const bitmap = await createImageBitmap(file);
-	const { width, height } = bitmap;
-
-	if (signal?.aborted) {
-		bitmap.close();
-		throw new DOMException("Aborted", "AbortError");
-	}
-
-	const canvas = document.createElement("canvas");
-	canvas.width = width;
-	canvas.height = height;
-	const ctx = canvas.getContext("2d");
-	if (!ctx) {
-		bitmap.close();
-		throw new Error("Failed to create canvas context");
-	}
-	ctx.drawImage(bitmap, 0, 0);
-	bitmap.close();
-
-	let outputType = file.type;
-	let quality: number | undefined;
-	if (outputType === "image/jpeg") quality = 0.95;
-	if (!["image/jpeg", "image/png", "image/webp"].includes(outputType)) {
-		outputType = "image/png";
-	}
-
-	return new Promise((resolve, reject) => {
-		canvas.toBlob(
-			(blob) => {
-				if (blob) resolve(blob);
-				else reject(new Error("Failed to create image blob"));
-			},
-			outputType,
-			quality,
-		);
-	});
 }

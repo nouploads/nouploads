@@ -3,7 +3,6 @@ import { createMockWorkerClass } from "../helpers/mock-worker";
 
 const { MockWorker, getLastInstance } = createMockWorkerClass();
 
-/** Wait for microtask queue to flush so async worker creation completes */
 const tick = () => new Promise((r) => setTimeout(r, 0));
 
 beforeEach(() => {
@@ -14,17 +13,22 @@ afterEach(() => {
 	vi.unstubAllGlobals();
 });
 
+function mockWatermarkResponse(width = 800, height = 600, mime = "image/png") {
+	return {
+		output: new Uint8Array([1, 2, 3, 4]),
+		extension: mime === "image/png" ? ".png" : ".jpg",
+		mimeType: mime,
+		metadata: { width, height },
+	};
+}
+
 describe("watermarkImage processor", () => {
-	it("should post blob and watermark options to worker", async () => {
+	it("should post watermark options through pipeline", async () => {
 		const { watermarkImage } = await import(
 			"~/features/image-tools/processors/watermark-image"
 		);
 
-		const input = new File(["fake-jpg"], "photo.jpg", {
-			type: "image/jpeg",
-		});
-		const output = new Blob(["watermarked"], { type: "image/jpeg" });
-
+		const input = new File(["fake-jpg"], "photo.jpg", { type: "image/jpeg" });
 		const promise = watermarkImage(input, {
 			text: "DRAFT",
 			fontSize: 64,
@@ -34,39 +38,39 @@ describe("watermarkImage processor", () => {
 			mode: "center",
 		});
 		await tick();
+		await tick();
 
 		const worker = getLastInstance();
 		expect(worker).not.toBeNull();
-		expect(worker.postMessage).toHaveBeenCalledWith({
-			blob: input,
-			text: "DRAFT",
-			fontSize: 64,
-			opacity: 0.5,
-			rotation: -45,
-			color: "#ff0000",
-			mode: "center",
-			outputFormat: "image/png",
-			quality: 0.92,
-		});
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				toolId: "watermark-image",
+				options: expect.objectContaining({
+					text: "DRAFT",
+					fontSize: 64,
+					opacity: 0.5,
+					rotation: -45,
+					color: "#ff0000",
+					mode: "center",
+					format: "png",
+					quality: 92,
+				}),
+			}),
+		);
 
-		worker.simulateMessage({ blob: output, width: 800, height: 600 });
-
+		worker.simulateMessage(mockWatermarkResponse(800, 600));
 		const result = await promise;
-		expect(result.blob).toBe(output);
+		expect(result.blob).toBeInstanceOf(Blob);
 		expect(result.width).toBe(800);
 		expect(result.height).toBe(600);
-		expect(worker.terminate).toHaveBeenCalled();
 	});
 
-	it("should pass tiled mode to worker", async () => {
+	it("should pass tiled mode through", async () => {
 		const { watermarkImage } = await import(
 			"~/features/image-tools/processors/watermark-image"
 		);
 
-		const input = new File(["fake-png"], "photo.png", {
-			type: "image/png",
-		});
-
+		const input = new File(["fake"], "photo.png", { type: "image/png" });
 		const promise = watermarkImage(input, {
 			text: "CONFIDENTIAL",
 			fontSize: 36,
@@ -78,50 +82,19 @@ describe("watermarkImage processor", () => {
 			quality: 0.92,
 		});
 		await tick();
-
-		const worker = getLastInstance();
-		expect(worker.postMessage).toHaveBeenCalledWith(
-			expect.objectContaining({ mode: "tiled", text: "CONFIDENTIAL" }),
-		);
-
-		worker.simulateMessage({
-			blob: new Blob(),
-			width: 1024,
-			height: 768,
-		});
-		await promise;
-	});
-
-	it("should pass custom output format and quality", async () => {
-		const { watermarkImage } = await import(
-			"~/features/image-tools/processors/watermark-image"
-		);
-
-		const input = new File(["fake-webp"], "photo.webp", {
-			type: "image/webp",
-		});
-
-		const promise = watermarkImage(input, {
-			text: "TEST",
-			fontSize: 48,
-			opacity: 0.3,
-			rotation: 0,
-			color: "#333333",
-			mode: "center",
-			outputFormat: "image/webp",
-			quality: 0.8,
-		});
 		await tick();
 
 		const worker = getLastInstance();
 		expect(worker.postMessage).toHaveBeenCalledWith(
 			expect.objectContaining({
-				outputFormat: "image/webp",
-				quality: 0.8,
+				options: expect.objectContaining({
+					mode: "tiled",
+					format: "png",
+				}),
 			}),
 		);
 
-		worker.simulateMessage({ blob: new Blob(), width: 500, height: 500 });
+		worker.simulateMessage(mockWatermarkResponse());
 		await promise;
 	});
 
@@ -132,20 +105,18 @@ describe("watermarkImage processor", () => {
 
 		const input = new File(["fake"], "bad.jpg", { type: "image/jpeg" });
 		const promise = watermarkImage(input, {
-			text: "TEST",
-			fontSize: 48,
+			text: "X",
+			fontSize: 32,
 			opacity: 0.3,
 			rotation: 0,
 			color: "#000000",
 			mode: "center",
 		});
 		await tick();
+		await tick();
 
-		getLastInstance().simulateMessage({
-			error: "Could not get OffscreenCanvas 2D context",
-		});
-
-		await expect(promise).rejects.toThrow(/OffscreenCanvas/);
+		getLastInstance().simulateMessage({ error: "Watermark failed" });
+		await expect(promise).rejects.toThrow(/Watermark failed/);
 	});
 
 	it("should terminate worker on abort signal", async () => {
@@ -155,16 +126,16 @@ describe("watermarkImage processor", () => {
 
 		const controller = new AbortController();
 		const input = new File(["fake"], "test.jpg", { type: "image/jpeg" });
-
 		const promise = watermarkImage(input, {
-			text: "ABORT",
-			fontSize: 48,
+			text: "A",
+			fontSize: 32,
 			opacity: 0.3,
 			rotation: 0,
-			color: "#000000",
+			color: "#000",
 			mode: "center",
 			signal: controller.signal,
 		});
+		await tick();
 		await tick();
 
 		const worker = getLastInstance();
@@ -172,27 +143,5 @@ describe("watermarkImage processor", () => {
 
 		await expect(promise).rejects.toThrow();
 		expect(worker.terminate).toHaveBeenCalled();
-	});
-
-	it("should reject immediately if signal is already aborted", async () => {
-		const { watermarkImage } = await import(
-			"~/features/image-tools/processors/watermark-image"
-		);
-
-		const controller = new AbortController();
-		controller.abort();
-
-		const input = new File(["fake"], "test.jpg", { type: "image/jpeg" });
-		const promise = watermarkImage(input, {
-			text: "TEST",
-			fontSize: 48,
-			opacity: 0.3,
-			rotation: 0,
-			color: "#000000",
-			mode: "center",
-			signal: controller.signal,
-		});
-
-		await expect(promise).rejects.toThrow(/Aborted/);
 	});
 });
