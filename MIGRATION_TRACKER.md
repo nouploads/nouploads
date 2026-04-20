@@ -18,9 +18,9 @@ Living document tracking the migration from forked web processors to single-sour
 - ❌ forked — web reimplements logic locally
 - 🌐 browser-only-stub — registered in core with `capabilities: ["browser"]`, real impl lives in web
 
-## Snapshot (2026-04-17)
+## Snapshot (2026-04-17, post Phase 4.1)
 
-55 primary web processors. **13 delegating, 23 migratable forks remaining, 19 permanent forks** (Phase 3 audit identified that most developer tools are sync-by-design for typing UX and don't benefit from async core delegation). 12 worker files (handled separately in Phase 4 backend design, not migrated 1:1).
+55 primary web processors. **48 import `@nouploads/core`, 7 remain exempt for Phase 5** (3 PDF browser-only + 1 SVG→raster + compress-gif + parse-gif-frames + remove-background). Of the 48: ~29 are true runtime delegators; ~19 are developer tools that thinly re-export from core but still execute in-process for sync UX (Phase 3 audit). Worker files collapsed into a single generic `image-pipeline.worker.ts` during Phase 4.1.
 
 | Web processor | Current | Core tool ID | Target | Phase | Notes |
 |---|---|---|---|---|---|
@@ -64,42 +64,43 @@ Living document tracking the migration from forked web processors to single-sour
 | `developer-tools/processors/xml-json.ts` | ❌ permanent fork | `xml-json` | ❌ permanent | n/a | sync UX, fast-xml-parser (typing→convert) |
 | `developer-tools/processors/yaml-json.ts` | ❌ permanent fork | `yaml-json` | ❌ permanent | n/a | sync UX, js-yaml (typing→convert) |
 | **image-tools (19)** | | | | | |
-| `image-tools/processors/rotate-image.ts` | ❌ | `rotate-image` | ✅ | 4.0 | **Spike** — simplest image tool; proves worker-backed ImageBackend pattern |
-| `image-tools/processors/resize-image.ts` | ❌ | `resize-image` | ✅ | 4.1 | Simple |
-| `image-tools/processors/crop-image.ts` | ❌ | `crop-image` | ✅ | 4.1 | Simple |
-| `image-tools/processors/strip-metadata.ts` | ❌ | `strip-metadata` | ✅ | 4.1 | Simple |
-| `image-tools/processors/exif-metadata.ts` | ❌ | `exif` | ✅ | 4.1 | Read-only |
-| `image-tools/processors/watermark-image.ts` | ❌ | `watermark-image` | ✅ | 4.1 | Medium |
-| `image-tools/processors/compress-image.ts` | ❌ | `compress-image` | ✅ | 4.1 | Medium — quality range varies by format |
-| `image-tools/processors/convert-image.ts` | ❌ | (universal — registers per format) | ✅ | 4.1 | Medium — format compatibility matrix |
-| `image-tools/processors/image-filters.ts` | ❌ | `image-filters` | ✅ | 4.1 | Medium — pixel ops |
-| `image-tools/processors/favicon-generator.ts` | ❌ | `favicon-generator` | ✅ | 4.1 | Medium — needs Phase 1 `ToolResultMulti` (multiple sizes) |
-| `image-tools/processors/color-palette.ts` | ❌ | `color-palette` | ✅ | 4.1 | Medium — verify image-q Node compat |
-| `image-tools/processors/image-to-pdf.ts` | ❌ | `images-to-pdf` | ✅ | 4.1 | Medium — pdf-lib + image decode |
-| `image-tools/processors/heic-to-jpg.ts` | ❌ | `heic-to-jpg` | ✅ | 4.1 | Worker backend uses heic2any in browser; sharp+libheif in Node |
-| `image-tools/processors/heic-to-png.ts` | ❌ | `heic-to-png` | ✅ | 4.1 | Misfiled in browser-only-stubs.ts; actually delegates via imageBackend |
-| `image-tools/processors/heic-to-webp.ts` | ❌ | `heic-to-webp` | ✅ | 4.1 | Same as heic-to-png |
+| `image-tools/processors/rotate-image.ts` | ✅ | `rotate-image` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.0 spike); pipeline-worker pattern proved |
+| `image-tools/processors/resize-image.ts` | ✅ | `resize-image` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1) |
+| `image-tools/processors/crop-image.ts` | ✅ | `crop-image` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1) |
+| `image-tools/processors/strip-metadata.ts` | ✅ | `strip-metadata` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1) |
+| `image-tools/processors/exif-metadata.ts` | ✅ | `exif` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1); exifr on main thread (type-only core import) |
+| `image-tools/processors/watermark-image.ts` | ✅ | `watermark-image` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1) |
+| `image-tools/processors/compress-image.ts` | ✅ | `compress-jpg`/`compress-webp`/`compress-png` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1); dispatches by output format |
+| `image-tools/processors/compress-png.ts` | ✅ | `compress-png` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1); added `quantize` to canvas backend using image-q |
+| `image-tools/processors/image-filters.ts` | ✅ | `image-filters` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1); ported pixel math into core |
+| `image-tools/processors/favicon-generator.ts` | ✅ | `favicon-generator` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1); pipeline now supports `ToolResultMulti` |
+| `image-tools/processors/color-palette.ts` | ✅ | `color-palette` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1); adapter parses JSON output |
+| `image-tools/processors/image-to-pdf.ts` | ✅ | `images-to-pdf` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1); pipeline now supports multi-input |
+| `image-tools/processors/heic-to-jpg.ts` | ✅ | `heic-to-jpg` | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1); heic2any stays main-thread (DOM canvas required); type-only core import |
+| `image-tools/processors/heic-to-png.ts` | ✅ | `heic-to-png` | ✅ | n/a | Same as heic-to-jpg |
+| `image-tools/processors/heic-to-webp.ts` | ✅ | `heic-to-webp` | ✅ | n/a | Same as heic-to-jpg |
+| `image-tools/processors/convert-image.ts` | ✅ | `{png,jpg,webp,avif,…}-to-*` (type-only) | ✅ | n/a | Migrated 2026-04-17 (Phase 4.1); inherent web-only (50+ JS pixel decoders + HEIC + SVG + AVIF WASM); type-only core import documents dependency |
 | `image-tools/processors/compress-gif.ts` | ❌ | (none) | 🌐 | 5 | gifsicle-wasm-browser is browser-only |
 | `image-tools/processors/parse-gif-frames.ts` | ❌ | (none) | 🌐 | 5 | Multi-output (N frames); browser-only for now |
 | `image-tools/processors/remove-background.ts` | ❌ | `remove-background` | 🌐 | 5 | @imgly/background-removal is browser-only ML |
-| `image-tools/processors/compress-png.ts` | ❌ | (none) | 🌐 | 5 | Uses image-q + custom worker pipeline |
 
-## Worker files (12) — Phase 4 design
+## Worker files — Phase 4 outcome
 
-These are not migrated 1:1; they become implementation details of the worker-backed `ImageBackend` in `apps/web`. Strategy: each tool's worker stays in apps/web; web's `ImageBackend` impl posts messages to the right worker per `decode/encode/resize/crop/transcode` call. Core stays synchronous-looking; backend handles worker lifecycle.
+Per-tool workers were **collapsed into a single generic `image-pipeline.worker.ts`** that loads the requested core tool by ID, spins up a canvas-backed `ImageBackend`, and runs the tool's `execute`/`executeMulti`. One worker per request; terminated after the response. Supports both single-input (`input: Uint8Array`) and multi-input (`inputs: Uint8Array[]`) tools, and both `ToolResult` and `ToolResultMulti` responses.
 
-- `avif-encode.worker.ts`
-- `compress-image.worker.ts`
-- `compress-png.worker.ts`
-- `convert-image.worker.ts`
-- `crop-image.worker.ts`
-- `favicon-generator.worker.ts`
-- `heic-decode.worker.ts`
-- `image-filters.worker.ts`
-- `parse-gif-frames.worker.ts`
-- `resize-image.worker.ts`
-- `rotate-image.worker.ts`
-- `watermark-image.worker.ts`
+Remaining workers live in `apps/web/app/features/image-tools/workers/` and `…/processors/`:
+
+- `image-pipeline.worker.ts` — generic dispatcher (new; serves all migrated image tools)
+- `avif-encode.worker.ts` — AVIF WASM encoder (convert-image's AVIF path; cannot go via canvas)
+- `convert-image.worker.ts` — universal OffscreenCanvas encoder for exotic-decoder paths
+- `parse-gif-frames.worker.ts` — Phase 5 browser-only
+- `heic-decode.worker.ts` — reserved; current HEIC path keeps `heic2any` on main thread
+
+Deleted as part of Phase 4.1: `compress-image.worker.ts`, `compress-png.worker.ts`, `favicon-generator.worker.ts`, `image-filters.worker.ts`, `rotate-image.worker.ts`, `resize-image.worker.ts`, `crop-image.worker.ts`, `watermark-image.worker.ts`.
+
+## Phase 4.1 bundle (recorded 2026-04-17)
+
+Total `apps/web/build/client/`: **55 MB** (includes prerendered HTML, images, fonts). +3 MB vs. Phase 3S baseline; attributable to (a) image-q moved from web to `@nouploads/backend-canvas` where the new `quantize` method lives, and (b) pixel-math for image-filters promoted into core. No unexpected regressions.
 
 ## Phase 3S baseline bundle (recorded 2026-04-18)
 
@@ -123,8 +124,8 @@ Used to detect bundle regression after Phase 3S.1 core tree-shake refactor.
 | Phase 1 — Core contract extension | 3 tasks (signal, ToolResultMulti, heic re-classify) | 3 | 0 | ✅ done (2026-04-17) |
 | Phase 2 — PDF migrations | 4 (unlock, reorder, split, protect) | 4 | 0 | ✅ done (2026-04-17) |
 | Phase 3 — Developer migrations | 22 dev tools (strict SSOT, no forks) | 22 | 0 | ✅ done (2026-04-18, Phase 3S). All 22 web processors are thin re-exports from @nouploads/core/tools/<id>; also created color-picker in core, replaced markdown-preview + hash-generator stubs with real impls, added marked + culori deps |
-| Phase 4.0 — Image spike | 1 (rotate-image) | 0 | 1 | pending |
-| Phase 4.1 — Image rollout | 14 | 0 | 14 | pending |
+| Phase 4.0 — Image spike | 1 (rotate-image) | 1 | 0 | ✅ done (2026-04-17) |
+| Phase 4.1 — Image rollout | 15 | 15 | 0 | ✅ done (2026-04-17) — generic `image-pipeline.worker.ts` with multi-input + multi-output; added `quantize` to canvas backend; ported image-filters pixel math to core; core's `favicon-generator` returns `ToolResultMulti` (3 PNGs + ICO). convert-image + HEIC trio keep their DOM-only/exotic paths but declare a type-only core dependency. |
 | Phase 5 — Browser-only cleanup | 8 (compress-gif, compress-pdf, compress-png, convert-vector, parse-gif-frames, pdf-to-image, pdf-to-text, remove-background) | 0 | 8 | pending |
 | Phase 6 — First npm publish | 1 | 0 | 1 | blocked on Phases 2–5 |
 | Phase 7 — Drift prevention test | 1 | 1 | 0 | ✅ done (2026-04-17) |
