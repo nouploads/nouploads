@@ -1,6 +1,20 @@
-import type { RotateAction } from "./rotate-image.worker";
+/**
+ * Rotate/flip image — web adapter. Sends the work to the image-pipeline
+ * worker which runs @nouploads/core/tools/rotate-image with a
+ * canvas-backed ImageBackend inside the worker. The main thread stays
+ * free during large decodes/encodes.
+ */
+// Type-only import — keeps the bundle clean (no tool code on main thread)
+// but documents the runtime dependency on core's rotate-image tool.
+import type {} from "@nouploads/core/tools/rotate-image";
+import { runInPipeline } from "../lib/run-in-pipeline";
 
-export type { RotateAction };
+export type RotateAction =
+	| "rotate-cw"
+	| "rotate-ccw"
+	| "rotate-180"
+	| "flip-h"
+	| "flip-v";
 
 export interface RotateImageOptions {
 	action: RotateAction;
@@ -15,10 +29,12 @@ export interface RotateImageResult {
 	height: number;
 }
 
-/**
- * Rotate or flip an image using a Web Worker with OffscreenCanvas.
- * Supports AbortSignal to terminate the worker early.
- */
+const MIME_TO_CORE_FORMAT: Record<string, string> = {
+	"image/jpeg": "jpg",
+	"image/png": "png",
+	"image/webp": "webp",
+};
+
 export async function rotateImage(
 	input: File | Blob,
 	options: RotateImageOptions,
@@ -30,47 +46,27 @@ export async function rotateImage(
 		signal,
 	} = options;
 
-	return new Promise((resolve, reject) => {
-		if (signal?.aborted) {
-			reject(new DOMException("Aborted", "AbortError"));
-			return;
-		}
+	const bytes = new Uint8Array(await input.arrayBuffer());
+	const coreFormat = MIME_TO_CORE_FORMAT[outputFormat] ?? "png";
+	// Core quality is 1-100, web passes 0-1 for canvas toBlob
+	const coreQuality = Math.round(quality * 100);
 
-		const worker = new Worker(
-			new URL("./rotate-image.worker.ts", import.meta.url),
-			{ type: "module" },
-		);
-
-		const onAbort = () => {
-			worker.terminate();
-			reject(new DOMException("Aborted", "AbortError"));
-		};
-		signal?.addEventListener("abort", onAbort, { once: true });
-
-		worker.onmessage = (e) => {
-			signal?.removeEventListener("abort", onAbort);
-			worker.terminate();
-			if (e.data.error) {
-				reject(new Error(e.data.error));
-			} else {
-				resolve({
-					blob: e.data.blob,
-					width: e.data.width,
-					height: e.data.height,
-				});
-			}
-		};
-		worker.onerror = (e) => {
-			signal?.removeEventListener("abort", onAbort);
-			worker.terminate();
-			reject(new Error(e.message || "Rotate worker failed"));
-		};
-
-		worker.postMessage({
-			blob: input,
+	const result = await runInPipeline({
+		toolId: "rotate-image",
+		input: bytes,
+		options: {
 			action,
-			outputFormat,
-			quality,
-		});
+			format: coreFormat,
+			quality: coreQuality,
+		},
+		signal,
 	});
+
+	const blob = new Blob([result.output as BlobPart], {
+		type: result.mimeType,
+	});
+	const newWidth = (result.metadata?.newWidth as number) ?? 0;
+	const newHeight = (result.metadata?.newHeight as number) ?? 0;
+
+	return { blob, width: newWidth, height: newHeight };
 }

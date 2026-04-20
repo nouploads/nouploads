@@ -14,66 +14,80 @@ afterEach(() => {
 	vi.unstubAllGlobals();
 });
 
+/**
+ * Helper to build the pipeline-worker success response matching the
+ * shape emitted by workers/image-pipeline.worker.ts.
+ */
+function mockRotateResponse(width: number, height: number) {
+	return {
+		output: new Uint8Array([137, 80, 78, 71]), // PNG magic bytes
+		extension: ".png",
+		mimeType: "image/png",
+		metadata: { newWidth: width, newHeight: height },
+	};
+}
+
 describe("rotateImage processor", () => {
-	it("should post blob and action to worker with defaults", async () => {
+	it("should post pipeline request to worker with defaults", async () => {
 		const { rotateImage } = await import(
 			"~/features/image-tools/processors/rotate-image"
 		);
 
-		const input = new File(["fake-jpg"], "photo.jpg", {
-			type: "image/jpeg",
-		});
-		const output = new Blob(["rotated"], { type: "image/png" });
+		const input = new File(["fake-jpg"], "photo.jpg", { type: "image/jpeg" });
 
 		const promise = rotateImage(input, { action: "rotate-cw" });
 		await tick();
+		await tick(); // input.arrayBuffer() + worker spawn
 
 		const worker = getLastInstance();
 		expect(worker).not.toBeNull();
-		expect(worker.postMessage).toHaveBeenCalledWith({
-			blob: input,
-			action: "rotate-cw",
-			outputFormat: "image/png",
-			quality: 0.92,
-		});
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				toolId: "rotate-image",
+				options: expect.objectContaining({
+					action: "rotate-cw",
+					format: "png",
+					quality: 92,
+				}),
+			}),
+		);
 
-		worker.simulateMessage({ blob: output, width: 200, height: 300 });
+		worker.simulateMessage(mockRotateResponse(200, 300));
 
 		const result = await promise;
-		expect(result.blob).toBe(output);
+		expect(result.blob).toBeInstanceOf(Blob);
 		expect(result.width).toBe(200);
 		expect(result.height).toBe(300);
 		expect(worker.terminate).toHaveBeenCalled();
 	});
 
-	it("should pass custom format and quality to worker", async () => {
+	it("should pass custom format and quality", async () => {
 		const { rotateImage } = await import(
 			"~/features/image-tools/processors/rotate-image"
 		);
 
-		const input = new File(["fake-png"], "photo.png", {
-			type: "image/png",
-		});
+		const input = new File(["fake-png"], "photo.png", { type: "image/png" });
 		const promise = rotateImage(input, {
 			action: "flip-h",
 			outputFormat: "image/webp",
 			quality: 0.8,
 		});
 		await tick();
+		await tick();
 
 		const worker = getLastInstance();
-		expect(worker.postMessage).toHaveBeenCalledWith({
-			blob: input,
-			action: "flip-h",
-			outputFormat: "image/webp",
-			quality: 0.8,
-		});
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				toolId: "rotate-image",
+				options: expect.objectContaining({
+					action: "flip-h",
+					format: "webp",
+					quality: 80,
+				}),
+			}),
+		);
 
-		worker.simulateMessage({
-			blob: new Blob(),
-			width: 100,
-			height: 100,
-		});
+		worker.simulateMessage(mockRotateResponse(100, 100));
 		await promise;
 	});
 
@@ -94,17 +108,16 @@ describe("rotateImage processor", () => {
 			const input = new File(["fake"], "test.jpg", { type: "image/jpeg" });
 			const promise = rotateImage(input, { action });
 			await tick();
+			await tick();
 
 			const worker = getLastInstance();
 			expect(worker.postMessage).toHaveBeenCalledWith(
-				expect.objectContaining({ action }),
+				expect.objectContaining({
+					options: expect.objectContaining({ action }),
+				}),
 			);
 
-			worker.simulateMessage({
-				blob: new Blob(),
-				width: 100,
-				height: 100,
-			});
+			worker.simulateMessage(mockRotateResponse(100, 100));
 			await promise;
 		}
 	});
@@ -116,6 +129,7 @@ describe("rotateImage processor", () => {
 
 		const input = new File(["fake"], "bad.jpg", { type: "image/jpeg" });
 		const promise = rotateImage(input, { action: "rotate-cw" });
+		await tick();
 		await tick();
 
 		getLastInstance().simulateMessage({
@@ -137,6 +151,7 @@ describe("rotateImage processor", () => {
 			action: "flip-v",
 			signal: controller.signal,
 		});
+		await tick();
 		await tick();
 
 		const worker = getLastInstance();
@@ -170,6 +185,7 @@ describe("rotateImage processor", () => {
 
 		const input = new File(["fake"], "test.jpg", { type: "image/jpeg" });
 		const promise = rotateImage(input, { action: "rotate-cw" });
+		await tick();
 		await tick();
 
 		const worker = getLastInstance();

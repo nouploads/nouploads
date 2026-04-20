@@ -45,7 +45,6 @@ const CORE_DELEGATION_EXEMPT = new Set<string>([
 	"image-tools/processors/parse-gif-frames.ts",
 	"image-tools/processors/remove-background.ts",
 	"image-tools/processors/resize-image.ts",
-	"image-tools/processors/rotate-image.ts",
 	"image-tools/processors/strip-metadata.ts",
 	"image-tools/processors/watermark-image.ts",
 ]);
