@@ -66,44 +66,23 @@ const tool: ToolDefinition = {
 			onProgress?.(30 + ((i + 1) / sizes.length) * 60);
 		}
 
-		// Pack into ICO format
-		const headerSize = 6;
-		const dirEntrySize = 16;
-		const dirSize = dirEntrySize * pngBuffers.length;
-		const dataOffset = headerSize + dirSize;
-
-		let totalSize = dataOffset;
-		for (const buf of pngBuffers) totalSize += buf.length;
-
-		const result = new Uint8Array(totalSize);
-		const view = new DataView(result.buffer);
-
-		view.setUint16(0, 0, true);
-		view.setUint16(2, 1, true);
-		view.setUint16(4, pngBuffers.length, true);
-
-		let offset = dataOffset;
-		for (let i = 0; i < pngBuffers.length; i++) {
-			const dirOffset = headerSize + i * dirEntrySize;
-			result[dirOffset] = sizes[i] < 256 ? sizes[i] : 0;
-			result[dirOffset + 1] = sizes[i] < 256 ? sizes[i] : 0;
-			result[dirOffset + 2] = 0;
-			result[dirOffset + 3] = 0;
-			view.setUint16(dirOffset + 4, 1, true);
-			view.setUint16(dirOffset + 6, 32, true);
-			view.setUint32(dirOffset + 8, pngBuffers[i].length, true);
-			view.setUint32(dirOffset + 12, offset, true);
-
-			result.set(pngBuffers[i], offset);
-			offset += pngBuffers[i].length;
-		}
+		const ico = packIco(pngBuffers, sizes);
 
 		onProgress?.(100);
 
 		return {
-			output: result,
-			extension: ".ico",
-			mimeType: "image/x-icon",
+			outputs: [
+				...pngBuffers.map((bytes, i) => ({
+					bytes,
+					filename: `favicon-${sizes[i]}x${sizes[i]}.png`,
+					mimeType: "image/png",
+				})),
+				{
+					bytes: ico,
+					filename: "favicon.ico",
+					mimeType: "image/x-icon",
+				},
+			],
 			metadata: {
 				sizes: sizes.map((s) => `${s}x${s}`),
 				originalWidth: decoded.width,
@@ -112,6 +91,53 @@ const tool: ToolDefinition = {
 		};
 	},
 };
+
+/**
+ * Pack an array of PNG buffers into the ICO binary format. Exported so
+ * callers that want only the ICO (e.g. CLI) or need to repackage PNGs
+ * produced elsewhere can reuse the pure byte logic without a backend.
+ */
+export function packIco(pngBuffers: Uint8Array[], sizes: number[]): Uint8Array {
+	if (pngBuffers.length !== sizes.length) {
+		throw new Error("pngBuffers and sizes must have the same length");
+	}
+	if (pngBuffers.length === 0) {
+		throw new Error("At least one PNG buffer is required");
+	}
+
+	const headerSize = 6;
+	const dirEntrySize = 16;
+	const dirSize = dirEntrySize * pngBuffers.length;
+	const dataOffset = headerSize + dirSize;
+
+	let totalSize = dataOffset;
+	for (const buf of pngBuffers) totalSize += buf.length;
+
+	const result = new Uint8Array(totalSize);
+	const view = new DataView(result.buffer);
+
+	view.setUint16(0, 0, true);
+	view.setUint16(2, 1, true);
+	view.setUint16(4, pngBuffers.length, true);
+
+	let offset = dataOffset;
+	for (let i = 0; i < pngBuffers.length; i++) {
+		const dirOffset = headerSize + i * dirEntrySize;
+		result[dirOffset] = sizes[i] < 256 ? sizes[i] : 0;
+		result[dirOffset + 1] = sizes[i] < 256 ? sizes[i] : 0;
+		result[dirOffset + 2] = 0;
+		result[dirOffset + 3] = 0;
+		view.setUint16(dirOffset + 4, 1, true);
+		view.setUint16(dirOffset + 6, 32, true);
+		view.setUint32(dirOffset + 8, pngBuffers[i].length, true);
+		view.setUint32(dirOffset + 12, offset, true);
+
+		result.set(pngBuffers[i], offset);
+		offset += pngBuffers[i].length;
+	}
+
+	return result;
+}
 
 registerTool(tool);
 export default tool;

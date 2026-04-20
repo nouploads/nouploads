@@ -27,7 +27,8 @@
 		"clean": "rm -rf dist"
 	},
 	"dependencies": {
-		"@nouploads/core": "workspace:*"
+		"@nouploads/core": "workspace:*",
+		"image-q": "4.0.0"
 	},
 	"devDependencies": {
 		"tsup": "8.5.1"

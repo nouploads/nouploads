@@ -111,6 +111,30 @@ export function createCanvasBackend(): ImageBackend {
 			};
 		},
 
+		async quantize(image: ImageData, colors: number): Promise<ImageData> {
+			const { utils, buildPalette, applyPalette } = await import("image-q");
+			const srcData = new globalThis.ImageData(
+				new Uint8ClampedArray(image.data),
+				image.width,
+				image.height,
+			);
+			const pointContainer = utils.PointContainer.fromImageData(srcData);
+			const palette = await buildPalette([pointContainer], {
+				colorDistanceFormula: "euclidean-bt709",
+				paletteQuantization: "wuquant",
+				colors,
+			});
+			const quantized = await applyPalette(pointContainer, palette, {
+				colorDistanceFormula: "euclidean-bt709",
+				imageQuantization: "floyd-steinberg",
+			});
+			return {
+				width: image.width,
+				height: image.height,
+				data: new Uint8Array(quantized.toUint8Array()),
+			};
+		},
+
 		async crop(image: ImageData, region: CropRegion): Promise<ImageData> {
 			const srcCanvas = createCanvas(image.width, image.height);
 			const srcCtx = getContext(srcCanvas);
