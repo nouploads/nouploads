@@ -35,8 +35,8 @@ const removeBackground: ToolDefinition = {
 	execute: browserOnlyExecute("Remove Background"),
 };
 
-const gifFrames: ToolDefinition = {
-	id: "gif-frames",
+const parseGifFrames: ToolDefinition = {
+	id: "parse-gif-frames",
 	name: "GIF Frame Extractor",
 	category: "image",
 	description:
@@ -46,6 +46,79 @@ const gifFrames: ToolDefinition = {
 	options: [],
 	capabilities: ["browser"],
 	execute: browserOnlyExecute("GIF Frame Extractor"),
+};
+
+const compressGif: ToolDefinition = {
+	id: "compress-gif",
+	name: "Compress GIF",
+	category: "image",
+	description:
+		"Compress animated GIFs via gifsicle-wasm-browser. Requires browser environment.",
+	inputMimeTypes: ["image/gif"],
+	inputExtensions: [".gif"],
+	options: [
+		{
+			name: "lossy",
+			type: "number",
+			description: "Lossy compression level (0-200)",
+			default: 80,
+			min: 0,
+			max: 200,
+		},
+		{
+			name: "colors",
+			type: "number",
+			description: "Number of colors to keep (2-256)",
+			default: 256,
+			min: 2,
+			max: 256,
+		},
+		{
+			name: "optimizeTransparency",
+			type: "boolean",
+			description: "Optimize transparency for better compression",
+			default: true,
+		},
+	],
+	capabilities: ["browser", "wasm"],
+	execute: browserOnlyExecute("Compress GIF"),
+};
+
+const convertVector: ToolDefinition = {
+	id: "convert-vector",
+	name: "SVG Rasterizer",
+	category: "image",
+	description:
+		"Rasterize SVG vectors to PNG/JPG/WebP/AVIF via canvas. Requires browser environment.",
+	inputMimeTypes: ["image/svg+xml"],
+	inputExtensions: [".svg"],
+	options: [
+		{
+			name: "format",
+			type: "string",
+			description: "Output raster format",
+			default: "png",
+			choices: ["png", "jpg", "webp", "avif", "svg"],
+		},
+		{
+			name: "scale",
+			type: "number",
+			description: "Resolution multiplier (1 = native SVG size)",
+			default: 1,
+			min: 0.25,
+			max: 8,
+		},
+		{
+			name: "quality",
+			type: "number",
+			description: "Quality for lossy raster outputs (1-100)",
+			default: 92,
+			min: 1,
+			max: 100,
+		},
+	],
+	capabilities: ["browser"],
+	execute: browserOnlyExecute("Convert Vector"),
 };
 
 const pdfToJpg: ToolDefinition = {
@@ -126,9 +199,19 @@ const compressPdf: ToolDefinition = {
 };
 
 registerTool(removeBackground);
-registerTool(gifFrames);
+registerTool(parseGifFrames);
+registerTool(compressGif);
+registerTool(convertVector);
 registerTool(pdfToJpg);
 registerTool(pdfToPng);
 registerTool(compressPdf);
 
-export { compressPdf, gifFrames, pdfToJpg, pdfToPng, removeBackground };
+export {
+	compressGif,
+	compressPdf,
+	convertVector,
+	parseGifFrames,
+	pdfToJpg,
+	pdfToPng,
+	removeBackground,
+};
