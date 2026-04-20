@@ -7,12 +7,14 @@
  */
 
 import { createCanvasBackend } from "@nouploads/backend-canvas";
-import type { ToolDefinition } from "@nouploads/core";
+import type { ToolDefinition, ToolResultOutput } from "@nouploads/core";
 import { isToolResultMulti } from "@nouploads/core";
 
 export interface PipelineRequest {
 	toolId: string;
-	input: Uint8Array;
+	/** Single-input tools pass `input`; multi-input tools pass `inputs`. */
+	input?: Uint8Array;
+	inputs?: Uint8Array[];
 	options: Record<string, unknown>;
 }
 
@@ -23,11 +25,14 @@ export interface PipelineSuccess {
 	metadata?: Record<string, unknown>;
 }
 
+export interface PipelineMultiSuccess {
+	outputs: ToolResultOutput[];
+	metadata?: Record<string, unknown>;
+}
+
 export interface PipelineError {
 	error: string;
 }
-
-type PipelineResponse = PipelineSuccess | PipelineError;
 
 async function loadTool(toolId: string): Promise<ToolDefinition> {
 	switch (toolId) {
@@ -82,16 +87,28 @@ async function loadTool(toolId: string): Promise<ToolDefinition> {
 
 self.onmessage = async (e: MessageEvent<PipelineRequest>) => {
 	try {
-		const { toolId, input, options } = e.data;
+		const { toolId, input, inputs, options } = e.data;
 		const tool = await loadTool(toolId);
 		const backend = createCanvasBackend();
-		const result = await tool.execute(input, options, {
-			imageBackend: backend,
-		});
+		const ctx = { imageBackend: backend };
+		let result: Awaited<ReturnType<typeof tool.execute>>;
+		if (inputs) {
+			if (!tool.executeMulti) {
+				throw new Error(`Tool ${toolId} does not support multi-input`);
+			}
+			result = await tool.executeMulti(inputs, options, ctx);
+		} else if (input) {
+			result = await tool.execute(input, options, ctx);
+		} else {
+			throw new Error("Pipeline request missing both input and inputs");
+		}
 		if (isToolResultMulti(result)) {
-			throw new Error(
-				`Pipeline worker received ToolResultMulti from ${toolId}; use a different handler for multi-output tools.`,
-			);
+			const response: PipelineMultiSuccess = {
+				outputs: result.outputs,
+				metadata: result.metadata,
+			};
+			self.postMessage(response);
+			return;
 		}
 		const response: PipelineSuccess = {
 			output: result.output,
