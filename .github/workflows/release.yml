@@ -7,14 +7,45 @@ on:
 
 permissions:
   contents: write
+  id-token: write # required for npm provenance (SLSA attestation)
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      # Surface the token at job level so step-level `if:` conditions
+      # can read env.NPM_TOKEN. (A step's own `env:` block isn't in
+      # scope during its `if:` evaluation.)
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.14.0'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build workspaces
+        run: pnpm build
+
+      - name: Publish to npm
+        if: ${{ env.NPM_TOKEN != '' }}
+        run: pnpm changeset publish
+        env:
+          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: 'true'
 
       - name: Extract version from tag
         id: version
