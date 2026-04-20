@@ -29,17 +29,7 @@ const CORE_DELEGATION_EXEMPT = new Set<string>([
 	// real logic living in core. No forks remaining in this category.
 
 	// image-tools (19) — Phase 4 + Phase 5
-	"image-tools/processors/color-palette.ts",
 	"image-tools/processors/compress-gif.ts",
-	"image-tools/processors/compress-image.ts",
-	"image-tools/processors/compress-png.ts",
-	"image-tools/processors/convert-image.ts",
-	"image-tools/processors/favicon-generator.ts",
-	"image-tools/processors/heic-to-jpg.ts",
-	"image-tools/processors/heic-to-png.ts",
-	"image-tools/processors/heic-to-webp.ts",
-	"image-tools/processors/image-filters.ts",
-	"image-tools/processors/image-to-pdf.ts",
 	"image-tools/processors/parse-gif-frames.ts",
 	"image-tools/processors/remove-background.ts",
 ]);

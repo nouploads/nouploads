@@ -1,8 +1,13 @@
 /**
- * Color palette extraction processor.
- * Uses median-cut quantization on downsampled pixel data to find dominant colors.
- * Runs on the main thread — fast enough for ~100x100 downsampled images.
+ * Color palette extractor — web adapter. Runs @nouploads/core/tools/color-palette
+ * in the image-pipeline worker and decodes the tool's JSON output.
+ *
+ * Pure helpers (rgbToHex / rgbToHsl / formatters / CSS generators / the
+ * ImageData-shaped extractPalette) stay here so the component can format
+ * copy-to-clipboard output without a second round trip.
  */
+import type {} from "@nouploads/core/tools/color-palette";
+import { runInPipeline } from "../lib/run-in-pipeline";
 
 export interface PaletteColor {
 	r: number;
@@ -13,8 +18,8 @@ export interface PaletteColor {
 }
 
 /**
- * Extract a color palette from an image file.
- * Decodes the image via Canvas, downsamples, then runs median-cut.
+ * Extract a color palette from an image file. Dispatches the decode +
+ * median-cut work to the core tool via the pipeline worker.
  */
 export async function extractPaletteFromFile(
 	file: File,
@@ -22,40 +27,21 @@ export async function extractPaletteFromFile(
 	signal?: AbortSignal,
 ): Promise<PaletteColor[]> {
 	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
-
-	const bitmap = await createImageBitmap(file);
-	if (signal?.aborted) {
-		bitmap.close();
-		throw new DOMException("Aborted", "AbortError");
-	}
-
-	const { width, height } = bitmap;
-
-	// Downsample to ~100x100 max for performance
-	const maxDim = 100;
-	const scale = Math.min(1, maxDim / Math.max(width, height));
-	const sw = Math.max(1, Math.round(width * scale));
-	const sh = Math.max(1, Math.round(height * scale));
-
-	const canvas = document.createElement("canvas");
-	canvas.width = sw;
-	canvas.height = sh;
-	const ctx = canvas.getContext("2d");
-	if (!ctx) {
-		bitmap.close();
-		throw new Error("Failed to create canvas context");
-	}
-	ctx.drawImage(bitmap, 0, 0, sw, sh);
-	bitmap.close();
-
-	if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
-
-	const imageData = ctx.getImageData(0, 0, sw, sh);
-	return extractPalette(imageData, colorCount);
+	const bytes = new Uint8Array(await file.arrayBuffer());
+	const result = await runInPipeline({
+		toolId: "color-palette",
+		input: bytes,
+		options: { count: colorCount },
+		signal,
+	});
+	const text = new TextDecoder().decode(result.output);
+	return JSON.parse(text) as PaletteColor[];
 }
 
 /**
  * Extract dominant colors from raw ImageData using median-cut quantization.
+ * Pure function, kept in the web layer for synchronous use (tests, in-UI
+ * preview computations).
  */
 export function extractPalette(
 	imageData: { data: Uint8ClampedArray; width: number; height: number },
@@ -77,9 +63,6 @@ export function extractPalette(
 	});
 }
 
-/**
- * Collect pixel RGB values from ImageData, skipping transparent pixels.
- */
 function downsamplePixels(imageData: {
 	data: Uint8ClampedArray;
 	width: number;
@@ -99,10 +82,6 @@ function downsamplePixels(imageData: {
 	return pixels;
 }
 
-/**
- * Median-cut quantization: recursively split pixel buckets
- * along the channel with the greatest range.
- */
 function medianCut(
 	pixels: [number, number, number][],
 	targetCount: number,
@@ -197,30 +176,18 @@ export function rgbToHsl(
 	};
 }
 
-/**
- * Format HSL values as a CSS string.
- */
 export function formatHsl(hsl: { h: number; s: number; l: number }): string {
 	return `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
 }
 
-/**
- * Format RGB values as a CSS string.
- */
 export function formatRgb(r: number, g: number, b: number): string {
 	return `rgb(${r}, ${g}, ${b})`;
 }
 
-/**
- * Generate CSS variable declarations from a palette.
- */
 export function paletteToCssVariables(colors: PaletteColor[]): string {
 	return colors.map((c, i) => `  --color-${i + 1}: ${c.hex};`).join("\n");
 }
 
-/**
- * Generate Tailwind color config from a palette.
- */
 export function paletteToTailwind(colors: PaletteColor[]): string {
 	const entries = colors.map((c, i) => `  '${i + 1}': '${c.hex}',`).join("\n");
 	return `colors: {\n${entries}\n}`;

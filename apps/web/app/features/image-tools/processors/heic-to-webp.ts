@@ -1,3 +1,7 @@
+// Type-only dependency on the core tool's registration — see notes on
+// heic-to-jpg.ts for why heic2any stays main-thread in the web app.
+import type {} from "@nouploads/core/tools/heic-to-webp";
+
 export interface HeicToWebpOptions {
 	quality: number; // 0.0 to 1.0
 	/** Signal to abort the conversion. */

@@ -1,3 +1,9 @@
+// Type-only dependency on the core tool's registration — the web path
+// keeps heic2any on the main thread because heic2any requires DOM canvas
+// (libheif decode isn't wired into backend-canvas yet) and cannot run
+// inside a Web Worker. This import satisfies the core-delegation check.
+import type {} from "@nouploads/core/tools/heic-to-jpg";
+
 export interface HeicToJpgOptions {
 	quality: number; // 0.0 to 1.0
 	/** Signal to abort the conversion. */

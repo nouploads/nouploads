@@ -1,9 +1,16 @@
+/**
+ * Image compressor — web adapter. Dispatches to
+ * @nouploads/core/tools/compress-jpg | compress-webp | compress-png
+ * via the image-pipeline worker with a canvas-backed ImageBackend.
+ */
+import type {} from "@nouploads/core/tools/compress-image";
+import { runInPipeline } from "../lib/run-in-pipeline";
+
 export type OutputFormat = "image/jpeg" | "image/webp" | "image/png" | "same";
 
 export interface CompressImageOptions {
 	quality: number; // 0.0 to 1.0
 	outputFormat?: OutputFormat;
-	/** Signal to abort the compression (terminates worker immediately). */
 	signal?: AbortSignal;
 }
 
@@ -13,54 +20,19 @@ export interface CompressImageResult {
 	height: number;
 }
 
-function compressImageInWorker(
-	blob: Blob,
-	quality: number,
-	outputFormat: string,
-	signal?: AbortSignal,
-): Promise<CompressImageResult> {
-	return new Promise((resolve, reject) => {
-		if (signal?.aborted) {
-			reject(new DOMException("Aborted", "AbortError"));
-			return;
-		}
-
-		const worker = new Worker(
-			new URL("./compress-image.worker.ts", import.meta.url),
-			{ type: "module" },
-		);
-
-		const onAbort = () => {
-			worker.terminate();
-			reject(new DOMException("Aborted", "AbortError"));
-		};
-		signal?.addEventListener("abort", onAbort, { once: true });
-
-		worker.onmessage = (e) => {
-			signal?.removeEventListener("abort", onAbort);
-			worker.terminate();
-			if (e.data.error) {
-				reject(new Error(e.data.error));
-			} else {
-				resolve({
-					blob: e.data.blob,
-					width: e.data.width,
-					height: e.data.height,
-				});
-			}
-		};
-		worker.onerror = (e) => {
-			signal?.removeEventListener("abort", onAbort);
-			worker.terminate();
-			reject(new Error(e.message || "Image compression worker failed"));
-		};
-		worker.postMessage({
-			blob,
-			quality,
-			outputFormat,
-			inputMime: blob.type,
-		});
-	});
+function resolveOutputMime(
+	inputMime: string,
+	outputFormat: OutputFormat,
+): string {
+	if (outputFormat !== "same") return outputFormat;
+	if (
+		inputMime === "image/jpeg" ||
+		inputMime === "image/png" ||
+		inputMime === "image/webp"
+	) {
+		return inputMime;
+	}
+	return "image/webp";
 }
 
 export async function compressImage(
@@ -68,7 +40,37 @@ export async function compressImage(
 	options: CompressImageOptions = { quality: 0.8 },
 ): Promise<CompressImageResult> {
 	const { quality, outputFormat = "same", signal } = options;
-	return compressImageInWorker(input, quality, outputFormat, signal);
+	const mime = resolveOutputMime(input.type, outputFormat);
+
+	let toolId: string;
+	let pipelineOptions: Record<string, unknown>;
+
+	if (mime === "image/jpeg") {
+		toolId = "compress-jpg";
+		pipelineOptions = { quality: Math.round(quality * 100) };
+	} else if (mime === "image/webp") {
+		toolId = "compress-webp";
+		pipelineOptions = { quality: Math.round(quality * 100) };
+	} else {
+		toolId = "compress-png";
+		pipelineOptions = { colors: 256 };
+	}
+
+	const bytes = new Uint8Array(await input.arrayBuffer());
+	const result = await runInPipeline({
+		toolId,
+		input: bytes,
+		options: pipelineOptions,
+		signal,
+	});
+
+	// Core compress-jpg/webp/png doesn't surface dimensions in metadata
+	// yet; decode for natural sizes is unnecessary for compression UIs.
+	return {
+		blob: new Blob([result.output as BlobPart], { type: result.mimeType }),
+		width: (result.metadata?.width as number) ?? 0,
+		height: (result.metadata?.height as number) ?? 0,
+	};
 }
 
 /**

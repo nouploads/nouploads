@@ -1,6 +1,13 @@
+/**
+ * PNG compressor — web adapter. Runs @nouploads/core/tools/compress-png
+ * in the image-pipeline worker. The canvas-backed ImageBackend exposes
+ * image-q-based quantize, which is what delivers the actual size reduction.
+ */
+import type {} from "@nouploads/core/tools/compress-image";
+import { runInPipeline } from "../lib/run-in-pipeline";
+
 export interface CompressPngOptions {
 	colors: number; // 2–256
-	/** Signal to abort the compression (terminates worker immediately). */
 	signal?: AbortSignal;
 }
 
@@ -10,55 +17,23 @@ export interface CompressPngResult {
 	height: number;
 }
 
-function compressPngInWorker(
-	blob: Blob,
-	colors: number,
-	signal?: AbortSignal,
-): Promise<CompressPngResult> {
-	return new Promise((resolve, reject) => {
-		if (signal?.aborted) {
-			reject(new DOMException("Aborted", "AbortError"));
-			return;
-		}
-
-		const worker = new Worker(
-			new URL("./compress-png.worker.ts", import.meta.url),
-			{ type: "module" },
-		);
-
-		const onAbort = () => {
-			worker.terminate();
-			reject(new DOMException("Aborted", "AbortError"));
-		};
-		signal?.addEventListener("abort", onAbort, { once: true });
-
-		worker.onmessage = (e) => {
-			signal?.removeEventListener("abort", onAbort);
-			worker.terminate();
-			if (e.data.error) {
-				reject(new Error(e.data.error));
-			} else {
-				resolve({
-					blob: e.data.blob,
-					width: e.data.width,
-					height: e.data.height,
-				});
-			}
-		};
-		worker.onerror = (e) => {
-			signal?.removeEventListener("abort", onAbort);
-			worker.terminate();
-			reject(new Error(e.message || "PNG compression worker failed"));
-		};
-		worker.postMessage({ blob, colors });
-	});
-}
-
 export async function compressPng(
 	input: Blob,
 	options: CompressPngOptions = { colors: 256 },
 ): Promise<CompressPngResult> {
-	return compressPngInWorker(input, options.colors, options.signal);
+	const { colors, signal } = options;
+	const bytes = new Uint8Array(await input.arrayBuffer());
+	const result = await runInPipeline({
+		toolId: "compress-png",
+		input: bytes,
+		options: { colors },
+		signal,
+	});
+	return {
+		blob: new Blob([result.output as BlobPart], { type: result.mimeType }),
+		width: (result.metadata?.width as number) ?? 0,
+		height: (result.metadata?.height as number) ?? 0,
+	};
 }
 
 /**

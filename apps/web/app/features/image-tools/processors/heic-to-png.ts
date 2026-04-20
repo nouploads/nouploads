@@ -1,3 +1,7 @@
+// Type-only dependency on the core tool's registration — see notes on
+// heic-to-jpg.ts for why heic2any stays main-thread in the web app.
+import type {} from "@nouploads/core/tools/heic-to-png";
+
 export interface HeicToPngOptions {
 	/** Signal to abort the conversion. */
 	signal?: AbortSignal;

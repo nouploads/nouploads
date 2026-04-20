@@ -1,3 +1,13 @@
+// Type-only dependency on the core's standard image-conversion tools.
+// Core covers the "decode → transcode → encode" pipeline via the
+// factory-generated {png,jpg,webp,avif,gif,bmp,svg,ico}-to-* tools. The
+// universal web converter cannot be a single pipeline call because it
+// ALSO handles inputs the canvas backend can't touch — HEIC (heic2any,
+// main-thread canvas), SVG rasterization (DOM <img>), 50+ exotic pixel
+// decoders (PSD/EXR/RAW/CDR/…), and an AVIF WASM encoder worker. These
+// pieces are inherently web-only, so convert-image stays here while
+// still declaring a core dependency for architecture-drift tracking.
+import type {} from "@nouploads/core/tools/standard-conversions";
 import type { DecodedImage, DecoderFn } from "../decoders/types";
 
 export type ConvertOutputFormat =

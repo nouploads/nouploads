@@ -1,48 +1,28 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { createMockWorkerClass } from "../helpers/mock-worker";
 
-// Mock pdf-lib
-const mockCreate = vi.fn();
-const mockEmbedJpg = vi.fn();
-const mockEmbedPng = vi.fn();
-const mockAddPage = vi.fn();
-const mockDrawImage = vi.fn();
-const mockSave = vi.fn();
+const { MockWorker, getLastInstance } = createMockWorkerClass();
+const tick = () => new Promise((r) => setTimeout(r, 0));
 
-vi.mock("pdf-lib", () => ({
-	PDFDocument: {
-		create: mockCreate,
-	},
-}));
-
+beforeEach(() => {
+	vi.stubGlobal("Worker", MockWorker);
+});
 afterEach(() => {
 	vi.restoreAllMocks();
-	mockCreate.mockReset();
-	mockEmbedJpg.mockReset();
-	mockEmbedPng.mockReset();
-	mockAddPage.mockReset();
-	mockDrawImage.mockReset();
-	mockSave.mockReset();
+	vi.unstubAllGlobals();
 });
 
-function setupMockPdfDoc() {
-	const embeddedImage = { width: 800, height: 600 };
-	mockEmbedJpg.mockResolvedValue(embeddedImage);
-	mockEmbedPng.mockResolvedValue(embeddedImage);
-	mockDrawImage.mockReturnValue(undefined);
-	mockAddPage.mockReturnValue({ drawImage: mockDrawImage });
-	mockSave.mockResolvedValue(new Uint8Array([0x25, 0x50, 0x44, 0x46])); // %PDF
-
-	mockCreate.mockResolvedValue({
-		embedJpg: mockEmbedJpg,
-		embedPng: mockEmbedPng,
-		addPage: mockAddPage,
-		save: mockSave,
-	});
+function mockPdfResponse() {
+	return {
+		output: new Uint8Array([0x25, 0x50, 0x44, 0x46]), // %PDF
+		extension: ".pdf",
+		mimeType: "application/pdf",
+		metadata: { pageCount: 1, inputCount: 1 },
+	};
 }
 
 describe("imagesToPdf processor", () => {
-	it("should embed a JPG file directly", async () => {
-		setupMockPdfDoc();
+	it("should dispatch multi-input pipeline request with default fit size", async () => {
 		const { imagesToPdf } = await import(
 			"~/features/image-tools/processors/image-to-pdf"
 		);
@@ -50,67 +30,33 @@ describe("imagesToPdf processor", () => {
 		const jpgFile = new File(
 			[new Uint8Array([0xff, 0xd8, 0xff])],
 			"photo.jpg",
-			{ type: "image/jpeg" },
+			{
+				type: "image/jpeg",
+			},
 		);
 
-		const result = await imagesToPdf([jpgFile]);
+		const promise = imagesToPdf([jpgFile]);
+		await tick();
+		await tick();
 
-		expect(mockCreate).toHaveBeenCalled();
-		expect(mockEmbedJpg).toHaveBeenCalled();
-		expect(mockEmbedPng).not.toHaveBeenCalled();
-		expect(mockAddPage).toHaveBeenCalledWith([800, 600]);
-		expect(mockDrawImage).toHaveBeenCalled();
-		expect(mockSave).toHaveBeenCalled();
-		expect(result).toBeInstanceOf(Blob);
-		expect(result.type).toBe("application/pdf");
-	});
-
-	it("should embed a PNG file directly", async () => {
-		setupMockPdfDoc();
-		const { imagesToPdf } = await import(
-			"~/features/image-tools/processors/image-to-pdf"
-		);
-
-		const pngFile = new File(
-			[new Uint8Array([0x89, 0x50, 0x4e, 0x47])],
-			"image.png",
-			{ type: "image/png" },
-		);
-
-		const result = await imagesToPdf([pngFile]);
-
-		expect(mockEmbedPng).toHaveBeenCalled();
-		expect(mockEmbedJpg).not.toHaveBeenCalled();
-		expect(result).toBeInstanceOf(Blob);
-	});
-
-	it("should use fit page size by default", async () => {
-		setupMockPdfDoc();
-		const { imagesToPdf } = await import(
-			"~/features/image-tools/processors/image-to-pdf"
-		);
-
-		const jpgFile = new File([new Uint8Array(10)], "photo.jpg", {
-			type: "image/jpeg",
-		});
-
-		await imagesToPdf([jpgFile]);
-
-		// Page should match image dimensions (800x600 from mock)
-		expect(mockAddPage).toHaveBeenCalledWith([800, 600]);
-		expect(mockDrawImage).toHaveBeenCalledWith(
-			expect.anything(),
+		const worker = getLastInstance();
+		expect(worker).not.toBeNull();
+		expect(worker.postMessage).toHaveBeenCalledWith(
 			expect.objectContaining({
-				x: 0,
-				y: 0,
-				width: 800,
-				height: 600,
+				toolId: "images-to-pdf",
+				inputs: [expect.any(Uint8Array)],
+				options: { pageSize: "fit" },
 			}),
 		);
+
+		worker.simulateMessage(mockPdfResponse());
+		const result = await promise;
+		expect(result).toBeInstanceOf(Blob);
+		expect(result.type).toBe("application/pdf");
+		expect(worker.terminate).toHaveBeenCalled();
 	});
 
-	it("should use A4 page size when specified", async () => {
-		setupMockPdfDoc();
+	it("should pass a4 page size when specified", async () => {
 		const { imagesToPdf } = await import(
 			"~/features/image-tools/processors/image-to-pdf"
 		);
@@ -119,13 +65,22 @@ describe("imagesToPdf processor", () => {
 			type: "image/jpeg",
 		});
 
-		await imagesToPdf([jpgFile], { pageSize: "a4" });
+		const promise = imagesToPdf([jpgFile], { pageSize: "a4" });
+		await tick();
+		await tick();
 
-		expect(mockAddPage).toHaveBeenCalledWith([595.28, 841.89]);
+		const worker = getLastInstance();
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				options: { pageSize: "a4" },
+			}),
+		);
+
+		worker.simulateMessage(mockPdfResponse());
+		await promise;
 	});
 
-	it("should use Letter page size when specified", async () => {
-		setupMockPdfDoc();
+	it("should pass letter page size when specified", async () => {
 		const { imagesToPdf } = await import(
 			"~/features/image-tools/processors/image-to-pdf"
 		);
@@ -134,13 +89,22 @@ describe("imagesToPdf processor", () => {
 			type: "image/jpeg",
 		});
 
-		await imagesToPdf([jpgFile], { pageSize: "letter" });
+		const promise = imagesToPdf([jpgFile], { pageSize: "letter" });
+		await tick();
+		await tick();
 
-		expect(mockAddPage).toHaveBeenCalledWith([612, 792]);
+		const worker = getLastInstance();
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				options: { pageSize: "letter" },
+			}),
+		);
+
+		worker.simulateMessage(mockPdfResponse());
+		await promise;
 	});
 
-	it("should process multiple images and call onProgress", async () => {
-		setupMockPdfDoc();
+	it("should pass multiple images as multi-input array and report end progress", async () => {
 		const { imagesToPdf } = await import(
 			"~/features/image-tools/processors/image-to-pdf"
 		);
@@ -153,10 +117,20 @@ describe("imagesToPdf processor", () => {
 		});
 		const onProgress = vi.fn();
 
-		await imagesToPdf([file1, file2], undefined, onProgress);
+		const promise = imagesToPdf([file1, file2], undefined, onProgress);
+		await tick();
+		await tick();
 
-		expect(mockAddPage).toHaveBeenCalledTimes(2);
-		expect(onProgress).toHaveBeenCalledWith(1, 2);
+		const worker = getLastInstance();
+		const call = worker.postMessage.mock.calls[0][0] as {
+			inputs: Uint8Array[];
+		};
+		expect(call.inputs).toHaveLength(2);
+
+		worker.simulateMessage(mockPdfResponse());
+		await promise;
+
+		expect(onProgress).toHaveBeenCalledWith(0, 2);
 		expect(onProgress).toHaveBeenCalledWith(2, 2);
 	});
 
@@ -183,11 +157,9 @@ describe("imagesToPdf processor", () => {
 		await expect(
 			imagesToPdf([jpgFile], { signal: controller.signal }),
 		).rejects.toThrow();
-		expect(mockCreate).not.toHaveBeenCalled();
 	});
 
-	it("should return a blob with application/pdf type", async () => {
-		setupMockPdfDoc();
+	it("should propagate errors from worker", async () => {
 		const { imagesToPdf } = await import(
 			"~/features/image-tools/processors/image-to-pdf"
 		);
@@ -195,9 +167,11 @@ describe("imagesToPdf processor", () => {
 		const jpgFile = new File([new Uint8Array(10)], "photo.jpg", {
 			type: "image/jpeg",
 		});
+		const promise = imagesToPdf([jpgFile]);
+		await tick();
+		await tick();
 
-		const result = await imagesToPdf([jpgFile]);
-		expect(result.type).toBe("application/pdf");
-		expect(result.size).toBeGreaterThan(0);
+		getLastInstance().simulateMessage({ error: "pdf-lib failed" });
+		await expect(promise).rejects.toThrow(/pdf-lib failed/);
 	});
 });

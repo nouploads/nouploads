@@ -3,6 +3,8 @@ import { createMockWorkerClass } from "../helpers/mock-worker";
 
 const { MockWorker, getLastInstance } = createMockWorkerClass();
 
+const tick = () => new Promise((r) => setTimeout(r, 0));
+
 beforeEach(() => {
 	vi.stubGlobal("Worker", MockWorker);
 });
@@ -11,74 +13,106 @@ afterEach(() => {
 	vi.unstubAllGlobals();
 });
 
+function mockResponse(mime: string, extension: string) {
+	return {
+		output: new Uint8Array([1, 2, 3, 4]),
+		extension,
+		mimeType: mime,
+		metadata: { width: 800, height: 600 },
+	};
+}
+
 describe("compressImage processor", () => {
-	it("should post blob and options to worker and return result", async () => {
+	it("should dispatch to compress-jpg when outputFormat is image/jpeg", async () => {
 		const { compressImage } = await import(
 			"~/features/image-tools/processors/compress-image"
 		);
 
 		const input = new Blob(["fake-jpg"], { type: "image/jpeg" });
-		const output = new Blob(["smaller"], { type: "image/jpeg" });
-
 		const promise = compressImage(input, { quality: 0.8 });
+		await tick();
+		await tick();
 
 		const worker = getLastInstance();
-		expect(worker.postMessage).toHaveBeenCalledWith({
-			blob: input,
-			quality: 0.8,
-			outputFormat: "same",
-			inputMime: "image/jpeg",
-		});
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				toolId: "compress-jpg",
+				options: { quality: 80 },
+			}),
+		);
 
-		worker.simulateMessage({ blob: output, width: 800, height: 600 });
-
+		worker.simulateMessage(mockResponse("image/jpeg", ".jpg"));
 		const result = await promise;
-		expect(result.blob).toBe(output);
+		expect(result.blob).toBeInstanceOf(Blob);
+		expect(result.blob.type).toBe("image/jpeg");
 		expect(result.width).toBe(800);
 		expect(result.height).toBe(600);
 		expect(worker.terminate).toHaveBeenCalled();
 	});
 
-	it("should use default quality of 0.8", async () => {
+	it("should dispatch to compress-webp when input is webp and outputFormat=same", async () => {
 		const { compressImage } = await import(
 			"~/features/image-tools/processors/compress-image"
 		);
 
-		const input = new Blob(["fake-jpg"], { type: "image/jpeg" });
-		const promise = compressImage(input);
+		const input = new Blob(["fake"], { type: "image/webp" });
+		const promise = compressImage(input, { quality: 0.7 });
+		await tick();
+		await tick();
 
 		const worker = getLastInstance();
-		expect(worker.postMessage).toHaveBeenCalledWith({
-			blob: input,
-			quality: 0.8,
-			outputFormat: "same",
-			inputMime: "image/jpeg",
-		});
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				toolId: "compress-webp",
+				options: { quality: 70 },
+			}),
+		);
 
-		worker.simulateMessage({ blob: new Blob(), width: 100, height: 100 });
+		worker.simulateMessage(mockResponse("image/webp", ".webp"));
 		await promise;
 	});
 
-	it("should pass explicit output format to worker", async () => {
+	it("should dispatch to compress-png when input is png and outputFormat=same", async () => {
 		const { compressImage } = await import(
 			"~/features/image-tools/processors/compress-image"
 		);
 
-		const input = new Blob(["fake-png"], { type: "image/png" });
-		const promise = compressImage(input, {
-			quality: 0.7,
-			outputFormat: "image/jpeg",
-		});
+		const input = new Blob(["fake"], { type: "image/png" });
+		const promise = compressImage(input);
+		await tick();
+		await tick();
 
 		const worker = getLastInstance();
-		expect(worker.postMessage).toHaveBeenCalledWith({
-			blob: input,
-			quality: 0.7,
-			outputFormat: "image/jpeg",
-			inputMime: "image/png",
-		});
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				toolId: "compress-png",
+				options: { colors: 256 },
+			}),
+		);
 
-		worker.simulateMessage({ blob: new Blob(), width: 100, height: 100 });
+		worker.simulateMessage(mockResponse("image/png", ".png"));
+		await promise;
+	});
+
+	it("should fall back to webp for unknown input mime with outputFormat=same", async () => {
+		const { compressImage } = await import(
+			"~/features/image-tools/processors/compress-image"
+		);
+
+		const input = new Blob(["fake"], { type: "image/avif" });
+		const promise = compressImage(input, { quality: 0.9 });
+		await tick();
+		await tick();
+
+		const worker = getLastInstance();
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				toolId: "compress-webp",
+				options: { quality: 90 },
+			}),
+		);
+
+		worker.simulateMessage(mockResponse("image/webp", ".webp"));
 		await promise;
 	});
 
@@ -87,14 +121,16 @@ describe("compressImage processor", () => {
 			"~/features/image-tools/processors/compress-image"
 		);
 
-		const input = new Blob(["bad"]);
+		const input = new Blob(["bad"], { type: "image/jpeg" });
 		const promise = compressImage(input);
+		await tick();
+		await tick();
 
 		getLastInstance().simulateMessage({
-			error: "Image dimensions 20000×100 exceed the maximum of 16384px",
+			error: "Corrupt image",
 		});
 
-		await expect(promise).rejects.toThrow(/exceed.*maximum/i);
+		await expect(promise).rejects.toThrow(/Corrupt/);
 	});
 
 	it("should terminate worker on abort signal", async () => {
@@ -104,11 +140,12 @@ describe("compressImage processor", () => {
 
 		const controller = new AbortController();
 		const input = new Blob(["fake-jpg"], { type: "image/jpeg" });
-
 		const promise = compressImage(input, {
 			quality: 0.8,
 			signal: controller.signal,
 		});
+		await tick();
+		await tick();
 
 		const worker = getLastInstance();
 		controller.abort();
@@ -126,7 +163,7 @@ describe("compressImage processor", () => {
 		controller.abort();
 
 		await expect(
-			compressImage(new Blob(), {
+			compressImage(new Blob([], { type: "image/jpeg" }), {
 				quality: 0.8,
 				signal: controller.signal,
 			}),
@@ -141,28 +178,20 @@ describe("compressImageBatch processor", () => {
 		);
 
 		const input1 = new Blob(["img-1"], { type: "image/jpeg" });
-		const input2 = new Blob(["img-2"], { type: "image/png" });
-		const output1 = new Blob(["out-1"], { type: "image/jpeg" });
-		const output2 = new Blob(["out-2"], { type: "image/png" });
+		const input2 = new Blob(["img-2"], { type: "image/jpeg" });
 
 		const promise = compressImageBatch([input1, input2], { quality: 0.7 });
 
-		getLastInstance().simulateMessage({
-			blob: output1,
-			width: 100,
-			height: 100,
-		});
-		await new Promise((r) => setTimeout(r, 0));
-		getLastInstance().simulateMessage({
-			blob: output2,
-			width: 100,
-			height: 100,
-		});
+		for (let i = 0; i < 2; i++) {
+			await tick();
+			await tick();
+			getLastInstance().simulateMessage(mockResponse("image/jpeg", ".jpg"));
+		}
 
 		const results = await promise;
 		expect(results).toHaveLength(2);
-		expect((results[0] as { blob: Blob }).blob).toBe(output1);
-		expect((results[1] as { blob: Blob }).blob).toBe(output2);
+		expect((results[0] as { blob: Blob }).blob).toBeInstanceOf(Blob);
+		expect((results[1] as { blob: Blob }).blob).toBeInstanceOf(Blob);
 	});
 
 	it("should return Error for failed files without stopping batch", async () => {
@@ -170,27 +199,23 @@ describe("compressImageBatch processor", () => {
 			"~/features/image-tools/processors/compress-image"
 		);
 
-		const input1 = new Blob(["img-1"], { type: "image/jpeg" });
-		const input2 = new Blob(["bad"], { type: "image/jpeg" });
-		const input3 = new Blob(["img-3"], { type: "image/jpeg" });
+		const inputs = [
+			new Blob(["img-1"], { type: "image/jpeg" }),
+			new Blob(["bad"], { type: "image/jpeg" }),
+			new Blob(["img-3"], { type: "image/jpeg" }),
+		];
 
-		const promise = compressImageBatch([input1, input2, input3], {
-			quality: 0.8,
-		});
+		const promise = compressImageBatch(inputs, { quality: 0.8 });
 
-		getLastInstance().simulateMessage({
-			blob: new Blob(),
-			width: 100,
-			height: 100,
-		});
-		await new Promise((r) => setTimeout(r, 0));
+		await tick();
+		await tick();
+		getLastInstance().simulateMessage(mockResponse("image/jpeg", ".jpg"));
+		await tick();
+		await tick();
 		getLastInstance().simulateMessage({ error: "Corrupt image" });
-		await new Promise((r) => setTimeout(r, 0));
-		getLastInstance().simulateMessage({
-			blob: new Blob(),
-			width: 100,
-			height: 100,
-		});
+		await tick();
+		await tick();
+		getLastInstance().simulateMessage(mockResponse("image/jpeg", ".jpg"));
 
 		const results = await promise;
 		expect(results).toHaveLength(3);
@@ -205,27 +230,19 @@ describe("compressImageBatch processor", () => {
 			"~/features/image-tools/processors/compress-image"
 		);
 
-		const input1 = new Blob(["img-1"], { type: "image/jpeg" });
-		const input2 = new Blob(["img-2"], { type: "image/jpeg" });
+		const inputs = [
+			new Blob(["img-1"], { type: "image/jpeg" }),
+			new Blob(["img-2"], { type: "image/jpeg" }),
+		];
 		const onProgress = vi.fn();
 
-		const promise = compressImageBatch(
-			[input1, input2],
-			{ quality: 0.8 },
-			onProgress,
-		);
+		const promise = compressImageBatch(inputs, { quality: 0.8 }, onProgress);
 
-		getLastInstance().simulateMessage({
-			blob: new Blob(),
-			width: 100,
-			height: 100,
-		});
-		await new Promise((r) => setTimeout(r, 0));
-		getLastInstance().simulateMessage({
-			blob: new Blob(),
-			width: 100,
-			height: 100,
-		});
+		for (let i = 0; i < 2; i++) {
+			await tick();
+			await tick();
+			getLastInstance().simulateMessage(mockResponse("image/jpeg", ".jpg"));
+		}
 
 		await promise;
 		expect(onProgress).toHaveBeenCalledWith(0, 2);

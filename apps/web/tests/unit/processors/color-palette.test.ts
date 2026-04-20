@@ -1,13 +1,22 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
 	extractPalette,
 	formatHsl,
 	formatRgb,
+	type PaletteColor,
 	paletteToCssVariables,
 	paletteToTailwind,
 	rgbToHex,
 	rgbToHsl,
 } from "~/features/image-tools/processors/color-palette";
+import { createMockWorkerClass } from "../helpers/mock-worker";
+
+const { MockWorker, getLastInstance } = createMockWorkerClass();
+const tick = () => new Promise((r) => setTimeout(r, 0));
+
+beforeEach(() => {
+	vi.stubGlobal("Worker", MockWorker);
+});
 
 afterEach(() => {
 	vi.restoreAllMocks();
@@ -283,41 +292,17 @@ describe("paletteToTailwind", () => {
 });
 
 describe("extractPaletteFromFile", () => {
-	function stubImageDecode({
-		width = 50,
-		height = 50,
-		pixels,
-	}: {
-		width?: number;
-		height?: number;
-		pixels: Uint8ClampedArray;
-	}) {
-		const closeBitmap = vi.fn();
-		vi.stubGlobal(
-			"createImageBitmap",
-			vi.fn(() => Promise.resolve({ width, height, close: closeBitmap })),
-		);
-		vi.spyOn(document, "createElement").mockReturnValue({
-			width: 0,
-			height: 0,
-			getContext: vi.fn(() => ({
-				drawImage: vi.fn(),
-				getImageData: vi.fn(() => ({ data: pixels, width, height })),
-			})),
-		} as unknown as HTMLElement);
-		return { closeBitmap };
+	function paletteResponse(colors: PaletteColor[]) {
+		const text = JSON.stringify(colors);
+		return {
+			output: new TextEncoder().encode(text),
+			extension: ".json",
+			mimeType: "application/json",
+			metadata: { colorCount: colors.length },
+		};
 	}
 
-	it("should decode an image and return a palette", async () => {
-		const pixels = new Uint8ClampedArray(50 * 50 * 4);
-		for (let i = 0; i < 50 * 50; i++) {
-			pixels[i * 4] = 255;
-			pixels[i * 4 + 1] = 0;
-			pixels[i * 4 + 2] = 0;
-			pixels[i * 4 + 3] = 255;
-		}
-		stubImageDecode({ pixels });
-
+	it("should dispatch to the pipeline worker and decode the JSON palette", async () => {
 		const { extractPaletteFromFile } = await import(
 			"~/features/image-tools/processors/color-palette"
 		);
@@ -325,18 +310,38 @@ describe("extractPaletteFromFile", () => {
 		const file = new File([new Uint8Array(100)], "red.png", {
 			type: "image/png",
 		});
-		const palette = await extractPaletteFromFile(file, 3);
+		const promise = extractPaletteFromFile(file, 3);
+		await tick();
+		await tick();
 
-		expect(palette.length).toBeGreaterThanOrEqual(1);
-		for (const color of palette) {
-			expect(color.hex).toBe("#FF0000");
-		}
+		const worker = getLastInstance();
+		expect(worker).not.toBeNull();
+		expect(worker.postMessage).toHaveBeenCalledWith(
+			expect.objectContaining({
+				toolId: "color-palette",
+				options: { count: 3 },
+			}),
+		);
+
+		worker.simulateMessage(
+			paletteResponse([
+				{
+					r: 255,
+					g: 0,
+					b: 0,
+					hex: "#FF0000",
+					hsl: { h: 0, s: 100, l: 50 },
+				},
+			]),
+		);
+
+		const palette = await promise;
+		expect(palette).toHaveLength(1);
+		expect(palette[0].hex).toBe("#FF0000");
+		expect(worker.terminate).toHaveBeenCalled();
 	});
 
 	it("should throw AbortError if signal is already aborted", async () => {
-		const pixels = new Uint8ClampedArray(50 * 50 * 4);
-		stubImageDecode({ pixels });
-
 		const { extractPaletteFromFile } = await import(
 			"~/features/image-tools/processors/color-palette"
 		);
@@ -352,38 +357,38 @@ describe("extractPaletteFromFile", () => {
 		).rejects.toThrow("Aborted");
 	});
 
-	it("should throw AbortError if signal aborts after decode", async () => {
-		const pixels = new Uint8ClampedArray(50 * 50 * 4);
-		const closeBitmap = vi.fn();
-		const controller = new AbortController();
-
-		vi.stubGlobal(
-			"createImageBitmap",
-			vi.fn(async () => {
-				controller.abort();
-				return { width: 50, height: 50, close: closeBitmap };
-			}),
-		);
-		vi.spyOn(document, "createElement").mockReturnValue({
-			width: 0,
-			height: 0,
-			getContext: vi.fn(() => ({
-				drawImage: vi.fn(),
-				getImageData: vi.fn(() => ({ data: pixels, width: 50, height: 50 })),
-			})),
-		} as unknown as HTMLElement);
-
+	it("should propagate worker errors", async () => {
 		const { extractPaletteFromFile } = await import(
 			"~/features/image-tools/processors/color-palette"
 		);
 
+		const file = new File([new Uint8Array(100)], "bad.png", {
+			type: "image/png",
+		});
+		const promise = extractPaletteFromFile(file, 3);
+		await tick();
+		await tick();
+
+		getLastInstance().simulateMessage({ error: "Decoder failed" });
+		await expect(promise).rejects.toThrow(/Decoder failed/);
+	});
+
+	it("should terminate worker on abort signal", async () => {
+		const { extractPaletteFromFile } = await import(
+			"~/features/image-tools/processors/color-palette"
+		);
+
+		const controller = new AbortController();
 		const file = new File([new Uint8Array(100)], "test.png", {
 			type: "image/png",
 		});
-		await expect(
-			extractPaletteFromFile(file, 3, controller.signal),
-		).rejects.toThrow("Aborted");
-		// Must release the bitmap even on abort
-		expect(closeBitmap).toHaveBeenCalled();
+		const promise = extractPaletteFromFile(file, 3, controller.signal);
+		await tick();
+		await tick();
+
+		const worker = getLastInstance();
+		controller.abort();
+		await expect(promise).rejects.toThrow();
+		expect(worker.terminate).toHaveBeenCalled();
 	});
 });
