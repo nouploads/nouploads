@@ -33,7 +33,8 @@ test.describe("PDF Merge Tool Page", () => {
 			.locator('meta[name="description"]')
 			.getAttribute("content");
 		expect(description).toContain("PDF");
-		expect(description).toContain("merge");
+		// Accept either stem — the copy can say "merge" or "merging".
+		expect(description?.toLowerCase()).toMatch(/merg(e|ing)/);
 	});
 
 	test("should have canonical link", async ({ page }) => {

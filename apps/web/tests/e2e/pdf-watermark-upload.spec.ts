@@ -19,8 +19,9 @@ test.describe("Watermark PDF — happy path", () => {
 		const downloadBtn = page.getByRole("button", { name: /download/i });
 		await expect(downloadBtn).toBeVisible({ timeout: 30000 });
 
-		// Verify page preview image appears
-		await expect(page.getByAltText("Page 1 preview")).toBeVisible({
+		// Verify page preview image appears. Alt text is
+		// `Page N with watermark` (see pdf-watermark-tool.tsx line 451).
+		await expect(page.getByAltText(/Page \d+ with watermark/)).toBeVisible({
 			timeout: 15000,
 		});
 

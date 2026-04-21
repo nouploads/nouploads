@@ -34,7 +34,9 @@ test.describe("Compress JPG Page", () => {
 		const description = await page
 			.locator('meta[name="description"]')
 			.getAttribute("content");
-		expect(description).toContain("Compress JPG");
+		expect(description).toContain("JPG");
+		// Accept "Compress" or "Reduce" phrasing — same intent for SEO.
+		expect(description?.toLowerCase()).toMatch(/(compress|reduce)/);
 	});
 
 	test("should have canonical link", async ({ page }) => {

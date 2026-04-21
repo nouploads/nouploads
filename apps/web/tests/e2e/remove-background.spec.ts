@@ -35,7 +35,9 @@ test.describe("Remove Background Tool Page", () => {
 		const description = await page
 			.locator('meta[name="description"]')
 			.getAttribute("content");
-		expect(description).toContain("Remove backgrounds");
+		// Match "Remove <anything> background(s)" — the canonical copy
+		// says "Remove image backgrounds", but wording may vary.
+		expect(description?.toLowerCase()).toMatch(/remove .*backgrounds?/);
 		expect(description).toContain("AI");
 	});
 

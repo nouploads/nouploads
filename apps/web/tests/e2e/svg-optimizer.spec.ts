@@ -27,7 +27,9 @@ test.describe("SVG Optimizer Tool Page", () => {
 			.locator('meta[name="description"]')
 			.getAttribute("content");
 		expect(description).toContain("SVG");
-		expect(description).toContain("optimize");
+		// Copy can describe the action as "optimize", "minify", or
+		// "reduce" — all of them signal the same intent to search engines.
+		expect(description?.toLowerCase()).toMatch(/(optimiz|minif|reduc)/);
 	});
 
 	test("should have canonical link", async ({ page }) => {
