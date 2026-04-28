@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.1] - 2026-04-28
+
+### Added
+
+- `nouploads` CLI is now on npm. `npm install -g nouploads` exposes every tool from nouploads.com — image conversion (HEIC, AVIF, WebP, PNG, JPG, …), PDF manipulation (merge, split, rotate, watermark, page numbers, protect/unlock), text formatting (HTML, JS, SQL, JSON, XML, YAML, CSS), QR code generation, hashing, encoding, and more — running locally on Node 22+ via sharp/libvips. Programmatic library usage is also supported via `import { convertFile, getTool } from "nouploads"`.
+
+### Maintenance
+
+- The web app and the new CLI now share a single tool registry (`@nouploads/core`); every web processor delegates to it. A drift-prevention unit test catches any new image tool added without being wired into the shared pipeline.
+- npm releases are signed with SLSA provenance attestation via GitHub Actions.
+
 ## [0.4.0] - 2026-04-17
 
 ### Added
