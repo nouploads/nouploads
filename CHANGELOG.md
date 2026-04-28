@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.2] - 2026-04-28
+
+### Fixed
+
+- `nouploads --version` now reports the installed version. v0.4.1 hard-coded an old `0.4.0` string in the CLI source so the binary always printed `0.4.0`. The CLI now reads its version from the published `package.json` at startup, so every future release stays in sync automatically.
+
 ## [0.4.1] - 2026-04-28
 
 ### Added

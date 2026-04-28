@@ -1,6 +1,6 @@
 {
 	"name": "nouploads",
-	"version": "0.4.1",
+	"version": "0.4.2",
 	"description": "Convert and process files locally — no uploads, no servers. CLI tool and library.",
 	"type": "module",
 	"main": "./dist/index.js",

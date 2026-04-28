@@ -1,6 +1,6 @@
 {
 	"name": "nouploads-monorepo",
-	"version": "0.4.1",
+	"version": "0.4.2",
 	"private": true,
 	"description": "Privacy-first file tools that run entirely on your device — no uploads, no servers",
 	"license": "MIT",
