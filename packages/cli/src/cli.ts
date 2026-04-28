@@ -15,8 +15,10 @@
  *   nouploads --list
  */
 
+import { readFileSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, extname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { createSharpBackend } from "@nouploads/backend-sharp";
 import {
 	findToolByFormats,
@@ -32,7 +34,16 @@ import { program } from "commander";
 
 await loadAllTools();
 
-const VERSION = "0.4.0";
+// Read VERSION from the package's own package.json so a release bump
+// only has to update one file. Resolves to packages/cli/package.json in
+// dev (cli.ts → ../package.json) and to the installed nouploads/package.json
+// in production (dist/cli.js → ../package.json).
+const VERSION = JSON.parse(
+	readFileSync(
+		join(dirname(fileURLToPath(import.meta.url)), "../package.json"),
+		"utf8",
+	),
+).version as string;
 
 program
 	.name("nouploads")
