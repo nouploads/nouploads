@@ -12,8 +12,20 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"import": "./dist/index.js"
+		},
+		"./load-all-tools": {
+			"types": "./dist/load-all-tools.d.ts",
+			"import": "./dist/load-all-tools.js"
+		},
+		"./tools/*": {
+			"types": "./dist/tools/*.d.ts",
+			"import": "./dist/tools/*.js"
 		}
 	},
+	"sideEffects": [
+		"./dist/tools/*.js",
+		"./dist/load-all-tools.js"
+	],
 	"scripts": {
 		"build": "tsup && api-extractor run --local --verbose",
 		"test": "vitest run",

@@ -45,10 +45,58 @@ const VERSION = JSON.parse(
 	),
 ).version as string;
 
+/**
+ * Pull tool-specific flags (e.g. `--mode minify`, `--indent 4`) out of the
+ * raw argv so they reach the tool even though they aren't registered as
+ * Commander options. Without this, Commander would reject them as
+ * "unknown option" and the tool's own --info docs would lie.
+ *
+ * Returns both the parsed flag values and the set of argv indices that
+ * belonged to those flags — the caller uses the index set to filter
+ * Commander's positional list, since `.allowUnknownOption(true)` causes
+ * Commander to leak unknown flags through as positional file arguments.
+ */
+function extractToolOptions(argv: string[]): {
+	options: Record<string, unknown>;
+	consumedTokens: Set<string>;
+} {
+	const out: Record<string, unknown> = {};
+	const consumedTokens = new Set<string>();
+	for (let i = 0; i < argv.length; i++) {
+		const arg = argv[i];
+		if (!arg.startsWith("--")) continue;
+		if (arg === "--") break;
+		const eq = arg.indexOf("=");
+		const name = (eq === -1 ? arg : arg.slice(0, eq)).slice(2);
+		if (!name) continue;
+		consumedTokens.add(arg);
+		let value: string | boolean;
+		if (eq !== -1) {
+			value = arg.slice(eq + 1);
+		} else {
+			const next = argv[i + 1];
+			if (next === undefined || next.startsWith("-")) {
+				value = true;
+			} else {
+				value = next;
+				consumedTokens.add(next);
+				i++;
+			}
+		}
+		out[name] = value;
+		if (name.includes("-")) {
+			const camel = name.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+			out[camel] = value;
+		}
+	}
+	return { options: out, consumedTokens };
+}
+
 program
 	.name("nouploads")
 	.description("Convert and process files locally — no uploads, no servers.")
 	.version(VERSION)
+	.allowUnknownOption(true)
 	.option("-i, --interactive", "Launch interactive mode")
 	.option("-l, --list", "List all available conversion tools")
 	.option("--info <tool>", "Show detailed help for a specific tool")
@@ -110,7 +158,19 @@ program
 			// Tool found by ID — "to" and "files" are all file arguments
 			if (to) inputFiles = [to, ...inputFiles];
 		} else {
-			// Not a tool ID — treat as format pair (from/to)
+			// Not a tool ID. If the first arg looks like a tool ID rather
+			// than a format token (multi-segment kebab, ends with "-tool"),
+			// treat the unknown name as a typo and stop. Otherwise fall
+			// through to the format-pair lookup so `nouploads jpg png ...`
+			// still works.
+			const looksLikeToolId =
+				from.includes("-") && !/^[a-z0-9]{2,5}$/.test(from);
+			if (looksLikeToolId) {
+				console.error(
+					`Error: Unknown tool "${from}". Run \`nouploads --list\` for available tools.`,
+				);
+				process.exit(1);
+			}
 			if (!to) {
 				console.error(
 					`Error: Unknown tool "${from}". Run \`nouploads --list\` for available tools.`,
@@ -123,11 +183,6 @@ program
 				console.error("Run `nouploads --list` to see available conversions.");
 				process.exit(1);
 			}
-		}
-
-		if (inputFiles.length === 0) {
-			console.error("Error: No input files specified.");
-			process.exit(1);
 		}
 
 		const backend = createSharpBackend();
@@ -143,6 +198,32 @@ program
 		if (opts.y !== undefined) toolOptions.y = opts.y;
 		if (opts.fit !== undefined) toolOptions.fit = opts.fit;
 		if (opts.format !== undefined) toolOptions.format = opts.format;
+		// Pull any tool-specific flags (e.g. --mode for json-formatter)
+		// that aren't registered as global Commander options. Existing
+		// global options take precedence.
+		const { options: extraOpts, consumedTokens } = extractToolOptions(
+			process.argv.slice(2),
+		);
+		for (const [k, v] of Object.entries(extraOpts)) {
+			if (!(k in toolOptions)) toolOptions[k] = v;
+		}
+		// `.allowUnknownOption(true)` makes Commander pass unknown flags
+		// through as positional file arguments — drop them so the tool
+		// doesn't try to open `--mode` as a file path.
+		inputFiles = inputFiles.filter((f: string) => !consumedTokens.has(f));
+
+		// Some tools (qr-code-generate) accept input via flags instead of
+		// a file; allow invocation without a positional file in that case.
+		const flagSuppliesInput =
+			toolOptions.text !== undefined && tool.id === "qr-code-generate";
+		if (inputFiles.length === 0 && !flagSuppliesInput) {
+			console.error("Error: No input files specified.");
+			process.exit(1);
+		}
+		if (inputFiles.length === 0 && flagSuppliesInput) {
+			// Synthesize an empty input — qr-code-generate reads from --text
+			inputFiles = [""];
+		}
 
 		// Multi-input tools (e.g. merge-pdf): read all files, call executeMulti
 		if (tool.executeMulti && inputFiles.length > 1) {
@@ -174,28 +255,39 @@ program
 				}
 			} catch (err) {
 				console.error(`\r  Error: ${(err as Error).message}`);
+				process.exitCode = 1;
 			}
 			return;
 		}
 
 		// Single-input tools: process each file individually
+		let hadError = false;
 		for (const filePath of inputFiles) {
 			try {
-				const input = new Uint8Array(await readFile(filePath));
+				// Empty filePath = synthesized for tools that read input from
+				// flags (qr-code-generate --text). Pass an empty buffer.
+				const input =
+					filePath === ""
+						? new Uint8Array()
+						: new Uint8Array(await readFile(filePath));
 
 				const result = await tool.execute(input, toolOptions, {
 					imageBackend: backend,
 					onProgress: (pct) => {
-						process.stdout.write(`\r  ${basename(filePath)}: ${pct}%`);
+						process.stdout.write(
+							`\r  ${filePath ? basename(filePath) : tool.id}: ${pct}%`,
+						);
 					},
 				});
 
-				const inputBase = basename(filePath, extname(filePath));
+				const inputBase =
+					filePath === "" ? tool.id : basename(filePath, extname(filePath));
 
 				if (isToolResultMulti(result)) {
 					// Multi-output: one input -> N files. Write each output into a
 					// directory using inputBase as a prefix, e.g. "input-page-1.pdf".
-					const baseDir = opts.output ?? dirname(filePath);
+					const baseDir =
+						opts.output ?? (filePath === "" ? "." : dirname(filePath));
 					await mkdir(baseDir, { recursive: true });
 					for (const out of result.outputs) {
 						await writeFile(
@@ -204,7 +296,7 @@ program
 						);
 					}
 					console.log(
-						`\r  ${basename(filePath)} → ${result.outputs.length} files in ${baseDir}/`,
+						`\r  ${filePath ? basename(filePath) : tool.id} → ${result.outputs.length} files in ${baseDir}/`,
 					);
 				} else {
 					const outputName = `${inputBase}${result.extension}`;
@@ -214,18 +306,24 @@ program
 							: inputFiles.length > 1
 								? join(opts.output, outputName)
 								: opts.output
-						: join(dirname(filePath), outputName);
+						: filePath === ""
+							? outputName
+							: join(dirname(filePath), outputName);
 
 					await mkdir(dirname(outputPath), { recursive: true });
 					await writeFile(outputPath, result.output);
-					console.log(`\r  ${basename(filePath)} → ${outputPath}`);
+					console.log(
+						`\r  ${filePath ? basename(filePath) : tool.id} → ${outputPath}`,
+					);
 				}
 			} catch (err) {
 				console.error(
-					`\r  Error processing ${filePath}: ${(err as Error).message}`,
+					`\r  Error processing ${filePath || tool.id}: ${(err as Error).message}`,
 				);
+				hadError = true;
 			}
 		}
+		if (hadError) process.exitCode = 1;
 	});
 
 function listTools() {

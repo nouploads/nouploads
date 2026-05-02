@@ -1,11 +1,17 @@
 import { defineConfig } from "tsup";
 
 export default defineConfig({
-	entry: ["src/index.ts", "src/cli.ts"],
+	entry: [
+		"src/index.ts",
+		"src/cli.ts",
+		"src/load-all-tools.ts",
+		"src/tools/*.ts",
+	],
 	format: ["esm"],
 	dts: { resolve: true },
 	clean: true,
 	sourcemap: false,
+	splitting: true,
 	// Inline workspace deps including any subpath imports like
 	// `@nouploads/core/load-all-tools` or `@nouploads/core/tools/<id>`.
 	// A regex is required — bare-string matches only the exact specifier.
