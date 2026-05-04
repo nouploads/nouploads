@@ -1,6 +1,6 @@
 {
 	"name": "@nouploads/backend-canvas",
-	"version": "0.4.2",
+	"version": "0.4.3",
 	"private": true,
 	"type": "module",
 	"description": "Canvas-based ImageBackend for NoUploads — browser/worker environments",

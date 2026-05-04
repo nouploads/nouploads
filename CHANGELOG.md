@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.4.3] - 2026-05-04
+
+### Added
+
+- Per-tool subpath imports for the library half of the package. `import "nouploads/tools/<id>"` now registers a single tool (tree-shake friendly), and `import { loadAllTools } from "nouploads/load-all-tools"` registers every tool at once. v0.4.2's `package.json` only exposed the root export, so library consumers couldn't register tools at all and `convertFile` would throw "No tool found for converting jpg to png" on every input.
+
+### Fixed
+
+- The CLI now exits non-zero when a tool fails. Previously, errors like `compress-jpg /missing.jpg` (ENOENT) or `compress-jpg package.json` (unsupported format) printed an error message but exited 0, silently breaking shell pipelines and CI scripts.
+- Tool-specific flags reach the tool. `nouploads json-formatter input.json --mode minify` now works — v0.4.2 rejected `--mode` as an "unknown option" even though `--info json-formatter` listed it.
+- `nouploads qr-code-generate --text "https://example.com" -o qr.png` now works without a positional file argument.
+- `nouploads resize-image input.jpg --width 400 -o out.jpg` now writes JPEG. v0.4.2 wrote PNG bytes into the `.jpg`-named output regardless of input format, contradicting `--info`'s "defaults to same as input" line. The tool sniffs JPEG/PNG/GIF/BMP/TIFF/WebP/AVIF magic bytes when `--format` isn't supplied.
+- Mistyped tool IDs get a clearer error. `nouploads compress-image foo.jpg` (the tool is `compress-jpg`) now says "Unknown tool 'compress-image'. Run `nouploads --list` for available tools" instead of misrouting through the format-pair branch with a confusing "No converter found for compress-image → foo.jpg".
+
 ## [0.4.2] - 2026-04-28
 
 ### Fixed
